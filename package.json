@@ -1,0 +1,29 @@
+{
+  "name": "prettier-plugin-jsdoc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jsdoc_parser.js",
+  "scripts": {
+    "test": "jest",
+    "prettier": "prettier --write \"**/*.js\""
+  },
+  "keywords": [
+    "prettier",
+    "plugin"
+  ],
+  "author": "gumen",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  },
+  "jest": {
+    "verbose": true,
+    "testMatch": [
+      "**/tests/**/*.js"
+    ]
+  },
+  "dependencies": {
+    "doctrine": "git+https://gitlab.com/gumen/doctrine.git",
+    "prettier": "^1.18.2"
+  }
+}
