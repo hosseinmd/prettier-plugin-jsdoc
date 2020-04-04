@@ -23,7 +23,7 @@ const tagSynonyms = {
   constructor: 'class',
   const: 'constant',
   defaultvalue: 'default',
-  desc: 'description',
+  desc: TAG_DESCRIPTION,
   host: 'external',
   fileoverview: 'file',
   overview: 'file',
@@ -102,8 +102,8 @@ function jsdocParser(text, parsers, options) {
 
     comment.value = '*\n'
 
-    if (parsed.description && !parsed.tags.find(t => t.tag.toLowerCase() === 'description'))
-      parsed.tags.push({ tag: 'description', description: parsed.description })
+    if (parsed.description && !parsed.tags.find(t => t.tag.toLowerCase() === TAG_DESCRIPTION))
+      parsed.tags.push({ tag: TAG_DESCRIPTION, description: parsed.description })
 
     let maxTagTitleLength = 0
     let maxTagTypeNameLength = 0
@@ -113,10 +113,6 @@ function jsdocParser(text, parsers, options) {
 
       // Prepare tags data
       .map(({ name, description, type, ...tag }) => {
-        if (tag.tag === TAG_DESCRIPTION) {
-          console.log({ name, description, type, ...tag })
-        }
-
         if (type) {
           type = convertToModernArray(type)
         }
@@ -152,9 +148,17 @@ function jsdocParser(text, parsers, options) {
         }
 
         if (
-          ['description', 'param', 'property', TAG_RETURNS, TAG_YIELDS, TAG_THROWS, 'todo', 'type', 'typedef'].includes(
-            tag.tag
-          )
+          [
+            TAG_DESCRIPTION,
+            'param',
+            'property',
+            TAG_RETURNS,
+            TAG_YIELDS,
+            TAG_THROWS,
+            'todo',
+            'type',
+            'typedef',
+          ].includes(tag.tag)
         ) {
           description = formatDescription(description, options.jsdocDescriptionWithDot)
         }
@@ -188,7 +192,7 @@ function jsdocParser(text, parsers, options) {
           else if (maxTagNameLength) descGapAdj = maxTagNameLength + gap.length
         }
 
-        let useTagTitle = tag.tag !== 'description' || options.jsdocDescriptionTag
+        let useTagTitle = tag.tag !== TAG_DESCRIPTION || options.jsdocDescriptionTag
         let tagString = ` * `
 
         if (useTagTitle) tagString += `@${tag.tag}` + ' '.repeat(tagTitleGapAdj)
@@ -205,19 +209,21 @@ function jsdocParser(text, parsers, options) {
             // Wrap tag description
             const marginLength = tagString.length
             let maxWidth = printWidth
-            if (marginLength >= maxWidth) maxWidth = marginLength + 40
-            let description = tagString + tag.description
-            tagString = ''
+            let isMultiLine = false
 
+            if (marginLength >= maxWidth) maxWidth = marginLength + 40
+            let description = `${tagString}${tag.description}`
+            tagString = ''
             while (description.length > maxWidth) {
               let sliceIndex = description.lastIndexOf(' ', maxWidth)
               if (sliceIndex === -1 || sliceIndex <= marginLength + 2) sliceIndex = maxWidth
-              tagString += description.slice(0, sliceIndex)
-              description = description.slice(sliceIndex + 1, description.length)
-              description = '\n *' + ' '.repeat(marginLength - 2) + description
+              tagString += description.substring(0, sliceIndex)
+              description = description.substring(sliceIndex + 1)
+              description = `\n * ${description}`
+              isMultiLine = true
             }
 
-            if (description.length > marginLength) tagString += description
+            if (description.length > 0) tagString = `${tagString}${description}${isMultiLine ? '\n *' : ''}`
           }
         }
 
@@ -239,7 +245,7 @@ function jsdocParser(text, parsers, options) {
         tagString += '\n'
 
         // Add empty line after some tags if there is something below
-        if (['description', TAG_EXAMPLE, 'todo'].includes(tag.tag) && tagIndex !== parsed.tags.length - 1)
+        if ([TAG_DESCRIPTION, TAG_EXAMPLE, 'todo'].includes(tag.tag) && tagIndex !== parsed.tags.length - 1)
           tagString += ' *\n'
 
         comment.value += tagString
@@ -285,15 +291,16 @@ module.exports = {
         {
           value: [
             'typedef',
-            'async',
-            'private',
+            TAG_DEPRECATED,
+            TAG_ASYNC,
+            TAG_PRIVATE,
             'global',
             'class',
             'type',
             'memberof',
             'namespace',
             'callback',
-            'description',
+            TAG_DESCRIPTION,
             'see',
             'todo',
             'examples',

@@ -65,34 +65,8 @@ test('Should format regular jsDoc', () => {
 const testFunction = (text, defaultValue, optionalNumber) => true
 `)
 
-  const expected = `/**
- * @async
- * @private
- * @memberof test
- * @description Function example description that was wrapped by hand so it have
- *              more then one line and don't end with a dot REPEATED TWO TIMES
- *              BECAUSE IT WAS EASIER to copy function example description that
- *              was wrapped by hand so it have more then one line.
- *
- * @example
- *   var one = 5;
- *   var two = 10;
- *
- *   if (one > 2) {
- *     two += one;
- *   }
- *
- * @param {String|Number} text Some text description that is very long and needs
- *                             to be wrapped
- * @param {String} [defaultValue="defaultTest"] TODO
- * @param {Number|Null} [optionalNumber]
- * @returns {Boolean} Description for @returns with s
- */
-const testFunction = (text, defaultValue, optionalNumber) => true;
-`
-
-  expect(result).toEqual(expected)
-  expect(subject(result)).toEqual(expected)
+  expect(result).toMatchSnapshot()
+  expect(subject(result)).toMatchSnapshot()
 })
 
 test('Should add empty line after @description and @example description if necessary', () => {
@@ -335,14 +309,6 @@ test('Should align vertically param|property|returns|yields|throws if option set
  * @returns {undefined}
  */`
   const Result1 = subject(unformattedJsdoc, options1)
-  const Expected1 = `/**
- * @property  {Object}          unalginedProp   Unaligned property descriptin
- * @param     {String}          unalginedParam  Unaligned param description
- * @throws    {CustomExceptio}                  Unaligned throws description
- * @yields    {Number}                          Yields description
- * @returns   {undefined}
- */
-`
 
   const options2 = {
     jsdocVerticalAlignment: true,
@@ -358,21 +324,9 @@ test('Should align vertically param|property|returns|yields|throws if option set
  */`,
     options2
   )
-  const Expected2 = `/**
- * @property    {Object}            unalginedProp     Unaligned property
- *                                                    descriptin
- * @param       {String}            unalginedParam    Unaligned param
- *                                                    description
- * @throws      {CustomExceptio}                      Unaligned throws
- *                                                    description
- * @yields      {Number}                              Yields description
- * @returns     {String}                              Unaligned returns
- *                                                    description
- */
-`
 
-  expect(Result1).toEqual(Expected1)
-  expect(Result2).toEqual(Expected2)
+  expect(Result1).toMatchSnapshot()
+  expect(Result2).toMatchSnapshot()
 })
 
 test('Should insert proper amount of spaces based on option', () => {
@@ -386,12 +340,6 @@ test('Should insert proper amount of spaces based on option', () => {
  */`,
     options1
   )
-  const Expected1 = `/**
- * @param  {Object}  paramName  Param description that goes on and on and on
- *                              utill it will need to be wrapped
- * @returns  {Number}  Return description
- */
-`
 
   const options2 = {
     jsdocSpaces: 3,
@@ -403,15 +351,9 @@ test('Should insert proper amount of spaces based on option', () => {
  */`,
     options2
   )
-  const Expected2 = `/**
- * @param   {Object}   paramName   Param description that goes on and on and on
- *                                 utill it will need to be wrapped
- * @returns   {Number}   Return description
- */
-`
 
-  expect(Result1).toEqual(Expected1)
-  expect(Result2).toEqual(Expected2)
+  expect(Result1).toMatchSnapshot()
+  expect(Result2).toMatchSnapshot()
 })
 
 test('yields should work like returns tag', () => {

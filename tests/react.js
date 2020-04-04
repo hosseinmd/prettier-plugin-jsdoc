@@ -29,7 +29,8 @@ test('JS code should be formatted as usuall', () => {
   
   /**
    * @typedef {object} XAxisProps
-   * @property {number} [spacingOuter] Spacing between the labels. Only applicable if
+   * @property {number} [spacingOuter] 
+   * Spacing between the labels. Only applicable if
    * \`scale=d3Scale.scaleBand\` and should then be equal to \`spacingOuter\` prop on the
    * actual BarChart
    *
