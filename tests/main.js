@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const prettier = require('prettier')
 const cwd = process.cwd()
 const path = require('path')
@@ -84,7 +85,7 @@ const testFunction = (text, defaultValue, optionalNumber) => true
  * @param {String|Number} text Some text description that is very long and needs
  *                             to be wrapped
  * @param {String} [defaultValue="defaultTest"] TODO
- * @param {Number|Null} [optionalNumber] TODO
+ * @param {Number|Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
@@ -107,7 +108,6 @@ test('Should add empty line after @description and @example description if neces
   const Expected2 = `/**
  * @description Single line description
  *
- * @example
  */
 `
 
@@ -119,8 +119,6 @@ test('Should add empty line after @description and @example description if neces
   const Expected3 = `/**
  * @description Single line description
  *
- * @example
- *
  * @returns {Boolean} Always true
  */
 `
@@ -130,7 +128,7 @@ test('Should add empty line after @description and @example description if neces
   expect(Result3).toEqual(Expected3)
 })
 
-test('Should not add TODO for return desc if it has undefined|null|void type', () => {
+test(' undefined|null|void type', () => {
   const Result1 = subject(`/**
  * @return {undefined}
  */`)
@@ -162,42 +160,42 @@ test('Should not add TODO for return desc if it has undefined|null|void type', (
 
 test('Should keep defined inner types', () => {
   const Result1 = subject(`/**
- * @param {String[]} test test param
+ * @param {Array.<String>} test test param
  */`)
   const Expected1 = `/**
- * @param {Array.<String>} test Test param
+ * @param {String[]} test Test param
  */
 `
 
   const Result2 = subject(`/**
- * @param {Array.<String>} test Test param
+ * @param {String[]} test Test param
  */`)
   const Expected2 = `/**
- * @param {Array.<String>} test Test param
+ * @param {String[]} test Test param
  */
 `
 
   const Result3 = subject(`/**
- * @param {Array.<String|Object>} test Test param
+ * @param {(String|Object)[]} test Test param
  */`)
   const Expected3 = `/**
- * @param {Array.<String|Object>} test Test param
+ * @param {(String|Object)[]} test Test param
  */
 `
 
   const Result4 = subject(`/**
- * @returns {Promise.<Number|String|undefined>} test promise
+ * @returns {Promise<Number|String|undefined>} test promise
  */`)
   const Expected4 = `/**
- * @returns {Promise.<Number|String|undefined>} Test promise
+ * @returns {Promise<Number|String|undefined>} Test promise
  */
 `
 
   const Result5 = subject(`/**
- * @returns {Object.<Number|String|undefined>} test object
+ * @returns {Object<Number|String|undefined>} test object
  */`)
   const Expected5 = `/**
- * @returns {Object.<Number|String|undefined>} Test object
+ * @returns {Object<Number|String|undefined>} Test object
  */
 `
 
@@ -238,7 +236,7 @@ test('Sould keep params ordering when more than 10 tags are present', () => {
  * @param {!Number} test9 Test param
  * @param {String} test10 Test param
  * @param {Array} test11 Test param
- * @returns {Promise.<Object.<string, number|undefined>>} Test return
+ * @returns {Promise<Object<string, number|undefined>>} Test return
  */
 `
 
@@ -247,8 +245,8 @@ test('Sould keep params ordering when more than 10 tags are present', () => {
 
 test('Sould keep complex inner types', () => {
   const Result1 = subject(`/**
- * @param {(String|Number)[]} test test param
- * @param {Object.<String, Number>[]} test test param
+ * @param {Array<(String|Number)>} test test param
+ * @param {Array<Object.<String, Number>>} test test param
  * @param {...Number} test Test param
  * @param {?Number} test Test param
  * @param {?undefined} test Test param
@@ -259,8 +257,8 @@ test('Sould keep complex inner types', () => {
  * @param {*} test Test param
  */`)
   const Expected1 = `/**
- * @param {Array.<String|Number>} test Test param
- * @param {Array.<Object.<String, Number>>} test Test param
+ * @param {(String|Number)[]} test Test param
+ * @param {Object<String, Number>[]} test Test param
  * @param {...Number} test Test param
  * @param {?Number} test Test param
  * @param {?undefined} test Test param
@@ -276,30 +274,12 @@ test('Sould keep complex inner types', () => {
  * @returns {Promise<Object<string, number|undefined>>} test return
  */`)
   const Expected2 = `/**
- * @returns {Promise.<Object.<string, number|undefined>>} Test return
+ * @returns {Promise<Object<string, number|undefined>>} Test return
  */
 `
 
   expect(Result1).toEqual(Expected1)
   expect(Result2).toEqual(Expected2)
-})
-
-test('Should add parentheses to union type if option set to true', () => {
-  const options = {
-    jsdocUnionTypeParentheses: true,
-  }
-  const Result1 = subject(
-    `/**
- * @param {Number|String} test Test param
- */`,
-    options
-  )
-  const Expected1 = `/**
- * @param {(Number|String)} test Test param
- */
-`
-
-  expect(Result1).toEqual(Expected1)
 })
 
 test('Should align vertically param|property|returns|yields|throws if option set to true', () => {
@@ -466,7 +446,7 @@ test('yields should work like returns tag', () => {
     options
   )
   const Expected3 = `/**
- * @yields   {Number}   TODO
+ * @yields   {Number}
  */
 `
 
@@ -498,137 +478,37 @@ test('yields should work like returns tag', () => {
   expect(Result5).toEqual(Expected5)
 })
 
-test('should trim whitespace on unparseable examples - default options', () => {
-  const Result1 = subject(`/**
- * @example
- * {
- *   testArr: [
- *     1,
- *     2,
- *     ...
- *   ]
- * }
- */`)
-  const Expected1 = `/**
- * @example
- *   {
- *   testArr: [
- *   1,
- *   2,
- *   ...
- *   ]
- *   }
- */
-`
-
-  const Result2 = subject(`/**
- * @example
- * // sample call:
- * foo(bar)
- *
- * // result
- * [{
- *   foo: 1,
- *   foo: 2,
- *   ...,
- *   foo: 9,
- * }, {
- *   bar: 1,
- *   ...,
- *   bar: 5
- * }]
- */`)
-  const Expected2 = `/**
- * @example
- *   // sample call:
- *   foo(bar)
- *
- *   // result
- *   [{
- *   foo: 1,
- *   foo: 2,
- *   ...,
- *   foo: 9,
- *   }, {
- *   bar: 1,
- *   ...,
- *   bar: 5
- *   }]
- */
-`
-
-  expect(Result1).toEqual(Expected1)
-  expect(Result2).toEqual(Expected2)
-})
-
-test('should keep indent on unparseable examples - if flag set to true', () => {
+test('examples', () => {
   const options = {
     jsdocKeepUnparseableExampleIndent: true,
   }
   const Result1 = subject(
     `/**
- * @example
- * {
- *   testArr: [
+ * @example 
+ * {testArr: [
  *     1,
  *     2,
- *     ...
  *   ]
- * }
+ *  }
  */`,
     options
   )
-  const Expected1 = `/**
- * @example
- *   {
- *     testArr: [
- *       1,
- *       2,
- *       ...
- *     ]
- *   }
- */
-`
 
   const Result2 = subject(
     `/**
  * @example
- * // sample call:
- * foo(bar)
- *
- * // result
+ * 
  * [{
  *   foo: 1,
  *   foo: 2,
- *   ...,
  *   foo: 9,
  * }, {
  *   bar: 1,
- *   ...,
  *   bar: 5
  * }]
  */`,
     options
   )
-  const Expected2 = `/**
- * @example
- *   // sample call:
- *   foo(bar)
- *
- *   // result
- *   [{
- *     foo: 1,
- *     foo: 2,
- *     ...,
- *     foo: 9,
- *   }, {
- *     bar: 1,
- *     ...,
- *     bar: 5
- *   }]
- */
-`
-
-  expect(Result1).toEqual(Expected1)
-  expect(Result2).toEqual(Expected2)
+  expect(Result1).toMatchSnapshot()
+  expect(Result2).toMatchSnapshot()
 })

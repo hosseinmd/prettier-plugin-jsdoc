@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`examples 1`] = `
+"/**
+ * @example
+ *   {
+ *     testArr: [1, 2];
+ *   }
+ */
+"
+`;
+
+exports[`examples 2`] = `
+"/**
+ * @example
+ *   [
+ *     {
+ *       foo: 1,
+ *       foo: 2,
+ *       foo: 9
+ *     },
+ *     {
+ *       bar: 1,
+ *       bar: 5
+ *     }
+ *   ];
+ */
+"
+`;
