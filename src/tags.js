@@ -1,0 +1,8 @@
+exports.TAG_YIELDS = 'yields'
+exports.TAG_RETURNS = 'returns'
+exports.TAG_THROWS = 'throws'
+exports.TAG_EXAMPLE = 'example'
+exports.TAG_ASYNC = 'async'
+exports.TAG_PRIVATE = 'private'
+exports.TAG_DEPRECATED = 'deprecated'
+exports.TAG_DESCRIPTION = 'description'
