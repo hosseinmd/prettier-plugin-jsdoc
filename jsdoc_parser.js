@@ -23,7 +23,7 @@ const tagSynonyms = {
   arg: 'param',
   argument: 'param',
   prop: 'property',
-  returns: 'return',
+  return: 'returns',
   exception: 'throws',
   yield: 'yields',
 
@@ -38,7 +38,7 @@ const tagSynonyms = {
   params: 'param',
 }
 
-const vertiacallyAlignableTags = ['param', 'property', 'return', 'throws', 'yields']
+const vertiacallyAlignableTags = ['param', 'property', 'returns', 'throws', 'yields']
 
 const typePrefixMap = {
   NullableType: '?',
@@ -175,12 +175,12 @@ function jsdocParser(text, parsers, options) {
           }
         }
 
-        if (['description', 'param', 'property', 'return', 'yields', 'throws', 'todo'].includes(tag.title))
+        if (['description', 'param', 'property', 'returns', 'yields', 'throws', 'todo'].includes(tag.title))
           tag.description = formatDescription(tag.description, options.jsdocDescriptionWithDot)
 
         if (
           !tag.description &&
-          ['description', 'param', 'property', 'return', 'yields', 'throws', 'todo', 'memberof'].includes(tag.title) &&
+          ['description', 'param', 'property', 'returns', 'yields', 'throws', 'todo', 'memberof'].includes(tag.title) &&
           (!tag.type || !['Undefined', 'undefined', 'Null', 'null', 'Void', 'void'].includes(tag.type.name))
         )
           tag.description = formatDescription('TODO', options.jsdocDescriptionWithDot)
@@ -320,7 +320,7 @@ module.exports = {
             'param',
             'throws',
             'yields',
-            'return',
+            'returns',
           ],
         },
       ],

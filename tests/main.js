@@ -20,7 +20,7 @@ const stringVar = "text"        // Wrong quotes
   const indented = 2            // Wrong indentation
 
 // Longer then 80 characters
-const someLongList = ['private', 'memberof', 'description', 'example', 'param', 'return', 'link']`)
+const someLongList = ['private', 'memberof', 'description', 'example', 'param', 'returns', 'link']`)
 
   const expected = `const variable1 = 1; // No semicolon
 const stringVar = "text"; // Wrong quotes
@@ -33,7 +33,7 @@ const someLongList = [
   "description",
   "example",
   "param",
-  "return",
+  "returns",
   "link"
 ];
 `
@@ -48,7 +48,7 @@ test('Should format regular jsDoc', () => {
 * REPEATED TWO TIMES BECAUSE IT WAS EASIER to copy
 * function example description that was wrapped by hand
 * so it have more then one line.
-* @returns {Boolean} Description for @return with s
+* @return {Boolean} Description for @returns with s
 * @param {String|Number} text - some text description that is very long and needs to be wrapped
 * @param {String} [defaultValue="defaultTest"] TODO
 * @arg {Number|Null} [optionalNumber]
@@ -85,7 +85,7 @@ const testFunction = (text, defaultValue, optionalNumber) => true
  *                             to be wrapped
  * @param {String} [defaultValue="defaultTest"] TODO
  * @param {Number|Null} [optionalNumber] TODO
- * @return {Boolean} Description for @return with s
+ * @returns {Boolean} Description for @returns with s
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
 `
@@ -113,7 +113,7 @@ test('Should add empty line after @description and @example description if neces
 
   const Result3 = subject(`/**
  * single line description
- * @returns {Boolean} Always true
+ * @return {Boolean} Always true
  * @example
  */`)
   const Expected3 = `/**
@@ -121,7 +121,7 @@ test('Should add empty line after @description and @example description if neces
  *
  * @example
  *
- * @return {Boolean} Always true
+ * @returns {Boolean} Always true
  */
 `
 
@@ -132,18 +132,18 @@ test('Should add empty line after @description and @example description if neces
 
 test('Should not add TODO for return desc if it has undefined|null|void type', () => {
   const Result1 = subject(`/**
- * @returns {undefined}
+ * @return {undefined}
  */`)
   const Expected1 = `/**
- * @return {undefined}
+ * @returns {undefined}
  */
 `
 
   const Result2 = subject(`/**
- * @returns {null}
+ * @return {null}
  */`)
   const Expected2 = `/**
- * @return {null}
+ * @returns {null}
  */
 `
 
@@ -151,7 +151,7 @@ test('Should not add TODO for return desc if it has undefined|null|void type', (
  * @returns {void}
  */`)
   const Expected3 = `/**
- * @return {void}
+ * @returns {void}
  */
 `
 
@@ -186,18 +186,18 @@ test('Should keep defined inner types', () => {
 `
 
   const Result4 = subject(`/**
- * @return {Promise.<Number|String|undefined>} test promise
+ * @returns {Promise.<Number|String|undefined>} test promise
  */`)
   const Expected4 = `/**
- * @return {Promise.<Number|String|undefined>} Test promise
+ * @returns {Promise.<Number|String|undefined>} Test promise
  */
 `
 
   const Result5 = subject(`/**
- * @return {Object.<Number|String|undefined>} test object
+ * @returns {Object.<Number|String|undefined>} test object
  */`)
   const Expected5 = `/**
- * @return {Object.<Number|String|undefined>} Test object
+ * @returns {Object.<Number|String|undefined>} Test object
  */
 `
 
@@ -222,7 +222,7 @@ test('Sould keep params ordering when more than 10 tags are present', () => {
  * @param {!Number} test9 Test param
  * @param {String} test10 Test param
  * @param {Array} test11 Test param
- * @return {Promise<Object<string, number|undefined>>} test return
+ * @returns {Promise<Object<string, number|undefined>>} test return
  */`)
   const Expected1 = `/**
  * @description Description
@@ -238,7 +238,7 @@ test('Sould keep params ordering when more than 10 tags are present', () => {
  * @param {!Number} test9 Test param
  * @param {String} test10 Test param
  * @param {Array} test11 Test param
- * @return {Promise.<Object.<string, number|undefined>>} Test return
+ * @returns {Promise.<Object.<string, number|undefined>>} Test return
  */
 `
 
@@ -273,10 +273,10 @@ test('Sould keep complex inner types', () => {
 `
 
   const Result2 = subject(`/**
- * @return {Promise<Object<string, number|undefined>>} test return
+ * @returns {Promise<Object<string, number|undefined>>} test return
  */`)
   const Expected2 = `/**
- * @return {Promise.<Object.<string, number|undefined>>} Test return
+ * @returns {Promise.<Object.<string, number|undefined>>} Test return
  */
 `
 
@@ -302,7 +302,7 @@ test('Should add parentheses to union type if option set to true', () => {
   expect(Result1).toEqual(Expected1)
 })
 
-test('Should align vertically param|property|return|yields|throws if option set to true', () => {
+test('Should align vertically param|property|returns|yields|throws if option set to true', () => {
   const options = {
     jsdocVerticalAlignment: true,
   }
@@ -319,7 +319,7 @@ test('Should align vertically param|property|return|yields|throws if option set 
  * @property {Object}    unalginedProp  Unaligned property descriptin
  * @param    {String}    unalginedParam Unaligned param description
  * @yields   {Number}                   Yields description
- * @return   {undefined}
+ * @returns  {undefined}
  */
 `
 
@@ -327,14 +327,14 @@ test('Should align vertically param|property|return|yields|throws if option set 
     `/**
  * @throws {CustomExceptio} unaligned throws description
  * @yields {Number} yields description
- * @returns {String} unaligned returns description
+ * @return {String} unaligned returns description
  */`,
     options
   )
   const Expected2 = `/**
- * @throws {CustomExceptio} Unaligned throws description
- * @yields {Number}         Yields description
- * @return {String}         Unaligned returns description
+ * @throws  {CustomExceptio} Unaligned throws description
+ * @yields  {Number}         Yields description
+ * @returns {String}         Unaligned returns description
  */
 `
 
@@ -342,7 +342,7 @@ test('Should align vertically param|property|return|yields|throws if option set 
   expect(Result2).toEqual(Expected2)
 })
 
-test('Should align vertically param|property|return|yields|throws if option set to true, and amount of spaces is different than default', () => {
+test('Should align vertically param|property|returns|yields|throws if option set to true, and amount of spaces is different than default', () => {
   const options1 = {
     jsdocVerticalAlignment: true,
     jsdocSpaces: 2,
@@ -360,7 +360,7 @@ test('Should align vertically param|property|return|yields|throws if option set 
  * @param     {String}          unalginedParam  Unaligned param description
  * @throws    {CustomExceptio}                  Unaligned throws description
  * @yields    {Number}                          Yields description
- * @return    {undefined}
+ * @returns   {undefined}
  */
 `
 
@@ -386,7 +386,7 @@ test('Should align vertically param|property|return|yields|throws if option set 
  * @throws      {CustomExceptio}                      Unaligned throws
  *                                                    description
  * @yields      {Number}                              Yields description
- * @return      {String}                              Unaligned returns
+ * @returns     {String}                              Unaligned returns
  *                                                    description
  */
 `
@@ -409,7 +409,7 @@ test('Should insert proper amount of spaces based on option', () => {
   const Expected1 = `/**
  * @param  {Object}  paramName  Param description that goes on and on and on
  *                              utill it will need to be wrapped
- * @return  {Number}  Return description
+ * @returns  {Number}  Return description
  */
 `
 
@@ -426,7 +426,7 @@ test('Should insert proper amount of spaces based on option', () => {
   const Expected2 = `/**
  * @param   {Object}   paramName   Param description that goes on and on and on
  *                                 utill it will need to be wrapped
- * @return   {Number}   Return description
+ * @returns   {Number}   Return description
  */
 `
 
@@ -434,7 +434,7 @@ test('Should insert proper amount of spaces based on option', () => {
   expect(Result2).toEqual(Expected2)
 })
 
-test('yields should work like return tag', () => {
+test('yields should work like returns tag', () => {
   const options = {
     jsdocSpaces: 3,
   }
