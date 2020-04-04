@@ -112,38 +112,37 @@ function jsdocParser(text, parsers, options) {
     parsed.tags
 
       // Prepare tags data
-      .map(({ name, description, type, ...tag }) => {
+      .map(({ name, description, type, tag, source, optional, ...restInfo }) => {
         if (type) {
           type = convertToModernArray(type)
         }
 
-        tag.tag = tag.tag && tag.tag.trim().toLowerCase()
-        tag.tag = tagSynonyms[tag.tag] || tag.tag
+        tag = tag && tag.trim().toLowerCase()
+        tag = tagSynonyms[tag] || tag
 
-        if (namelessTags.includes(tag.tag) && name) {
+        if (namelessTags.includes(tag) && name) {
           description = `${name} ${description}`
           name = ''
         }
 
-        if (vertiacallyAlignableTags.includes(tag.tag)) {
-          maxTagTitleLength = Math.max(maxTagTitleLength, tag.tag.length)
+        if (vertiacallyAlignableTags.includes(tag)) {
+          maxTagTitleLength = Math.max(maxTagTitleLength, tag.length)
         }
 
         if (type) {
           // Figure out tag.type
 
-          if (vertiacallyAlignableTags.includes(tag.tag))
-            maxTagTypeNameLength = Math.max(maxTagTypeNameLength, type.length)
+          if (vertiacallyAlignableTags.includes(tag)) maxTagTypeNameLength = Math.max(maxTagTypeNameLength, type.length)
 
           // Additional operations on name
           if (name) {
             // Figure out if tag type have default value
-            const part = tag.source.split(new RegExp(`@.+{.+}.+${name}\s?=\s?`))[1]
+            const part = source.split(new RegExp(`@.+{.+}.+${name}\s?=\s?`))[1]
             if (part) name = name + '=' + part.split(/\s/)[0].replace(']', '')
 
             // Optional tag name
-            if (tag.optional) name = `[${name}]`
-            if (vertiacallyAlignableTags.includes(tag.tag)) maxTagNameLength = Math.max(maxTagNameLength, name.length)
+            if (optional) name = `[${name}]`
+            if (vertiacallyAlignableTags.includes(tag)) maxTagNameLength = Math.max(maxTagNameLength, name.length)
           }
         }
 
@@ -158,21 +157,19 @@ function jsdocParser(text, parsers, options) {
             'todo',
             'type',
             'typedef',
-          ].includes(tag.tag)
+          ].includes(tag)
         ) {
           description = formatDescription(description, options.jsdocDescriptionWithDot)
         }
-        return { ...tag, name, description, type }
+        return { ...restInfo, name, description, type, tag, source, optional }
       })
 
       // Sort tags
       .sort((a, b) => getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag))
 
       // Create final jsDoc string
-      .forEach((tag, tagIndex) => {
-        const { name, description, type } = tag
-
-        if (!name && !description && !type && !statusTags.includes(tag.tag)) {
+      .forEach(({ name, description, type, tag }, tagIndex) => {
+        if (!name && !description && !type && !statusTags.includes(tag)) {
           return
         }
 
@@ -181,38 +178,40 @@ function jsdocParser(text, parsers, options) {
         let tagNameGapAdj = 0
         let descGapAdj = 0
 
-        if (options.jsdocVerticalAlignment && vertiacallyAlignableTags.includes(tag.tag)) {
-          if (tag.tag) tagTitleGapAdj += maxTagTitleLength - tag.tag.length
+        if (options.jsdocVerticalAlignment && vertiacallyAlignableTags.includes(tag)) {
+          if (tag) tagTitleGapAdj += maxTagTitleLength - tag.length
           else if (maxTagTitleLength) descGapAdj += maxTagTitleLength + gap.length
 
-          if (tag.type) tagTypeGapAdj += maxTagTypeNameLength - tag.type.length
+          if (type) tagTypeGapAdj += maxTagTypeNameLength - type.length
           else if (maxTagTypeNameLength) descGapAdj += maxTagTypeNameLength + gap.length
 
-          if (tag.name) tagNameGapAdj += maxTagNameLength - tag.name.length
+          if (name) tagNameGapAdj += maxTagNameLength - name.length
           else if (maxTagNameLength) descGapAdj = maxTagNameLength + gap.length
         }
 
-        let useTagTitle = tag.tag !== TAG_DESCRIPTION || options.jsdocDescriptionTag
+        let useTagTitle = tag !== TAG_DESCRIPTION || options.jsdocDescriptionTag
         let tagString = ` * `
 
-        if (useTagTitle) tagString += `@${tag.tag}` + ' '.repeat(tagTitleGapAdj)
-        if (tag.type) tagString += gap + `{${tag.type}}` + ' '.repeat(tagTypeGapAdj)
-        if (tag.name) tagString += `${gap}${tag.name}${' '.repeat(tagNameGapAdj)}`
+        if (useTagTitle) tagString += `@${tag}` + ' '.repeat(tagTitleGapAdj)
+        if (type) tagString += gap + `{${type}}` + ' '.repeat(tagTypeGapAdj)
+        if (name) tagString += `${gap}${name}${' '.repeat(tagNameGapAdj)}`
 
         // Add description (complicated because of text wrap)
-        if (tag.description && tag.tag !== TAG_EXAMPLE) {
+        if (description && tag !== TAG_EXAMPLE) {
           if (useTagTitle) tagString += gap + ' '.repeat(descGapAdj)
-          if (['memberof', 'see'].includes(tag.tag)) {
+          if (['memberof', 'see'].includes(tag)) {
             // Avoid wrapping
-            tagString += tag.description
+            tagString += description
           } else {
             // Wrap tag description
             const marginLength = tagString.length
             let maxWidth = printWidth
             let isMultiLine = false
 
-            if (marginLength >= maxWidth) maxWidth = marginLength + 40
-            let description = `${tagString}${tag.description}`
+            if (marginLength >= maxWidth) {
+              maxWidth = marginLength + 20
+            }
+            description = `${tagString}${description}`
             tagString = ''
             while (description.length > maxWidth) {
               let sliceIndex = description.lastIndexOf(' ', maxWidth)
@@ -228,14 +227,14 @@ function jsdocParser(text, parsers, options) {
         }
 
         // Try to use prettier on @example tag description
-        if (tag.tag === TAG_EXAMPLE) {
+        if (tag === TAG_EXAMPLE) {
           try {
-            const formatedDescription = prettier.format(tag.description || '', options)
+            const formatedDescription = prettier.format(description || '', options)
             tagString += formatedDescription.replace(/(^|\n)/g, '\n *   ')
             tagString = tagString.slice(0, tagString.length - 6)
           } catch (err) {
             tagString += '\n'
-            tagString += tag.description
+            tagString += description
               .split('\n')
               .map(l => ` *   ${options.jsdocKeepUnparseableExampleIndent ? l : l.trim()}`)
               .join('\n')
@@ -245,7 +244,7 @@ function jsdocParser(text, parsers, options) {
         tagString += '\n'
 
         // Add empty line after some tags if there is something below
-        if ([TAG_DESCRIPTION, TAG_EXAMPLE, 'todo'].includes(tag.tag) && tagIndex !== parsed.tags.length - 1)
+        if ([TAG_DESCRIPTION, TAG_EXAMPLE, 'todo'].includes(tag) && tagIndex !== parsed.tags.length - 1)
           tagString += ' *\n'
 
         comment.value += tagString
