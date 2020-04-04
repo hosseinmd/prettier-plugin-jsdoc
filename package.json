@@ -4,6 +4,7 @@
   "description": "",
   "main": "jsdoc_parser.js",
   "scripts": {
+    "lint": "eslint --ext '.js' .",
     "test": "jest",
     "prettier": "prettier --write \"**/*.js\""
   },
@@ -23,7 +24,11 @@
     ]
   },
   "dependencies": {
-    "doctrine": "git+https://gitlab.com/gumen/doctrine.git",
-    "prettier": "^1.18.2"
+    "@react-native-community/eslint-config": "^0.0.7",
+    "@typescript-eslint/parser": "^2.20.0",
+    "comment-parser": "^0.7.2",
+    "prettier": "^1.18.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-prettier": "^3.1.2"
   }
 }
