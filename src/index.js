@@ -2,14 +2,31 @@ const commentParser = require('comment-parser')
 const prettier = require('prettier')
 const { convertToModernArray, formatType } = require('./type')
 const {
-  TAG_YIELDS,
-  TAG_RETURNS,
-  TAG_THROWS,
-  TAG_EXAMPLE,
-  TAG_ASYNC,
-  TAG_PRIVATE,
-  TAG_DEPRECATED,
-  TAG_DESCRIPTION,
+  YIELDS,
+  RETURNS,
+  THROWS,
+  EXAMPLE,
+  ASYNC,
+  PRIVATE,
+  DEPRECATED,
+  DESCRIPTION,
+  ABSTRACT,
+  AUGMENTS,
+  CLASS,
+  CONSTANT,
+  DEFAULT,
+  EXTERNAL,
+  FILE,
+  FIRES,
+  FUNCTION,
+  MEMBER,
+  PARAM,
+  PROPERTY,
+  TYPE,
+  TYPEDEF,
+  TODO,
+  MEMBEROF,
+  SEE,
 } = require('./tags')
 
 const tagSynonyms = {
@@ -17,33 +34,33 @@ const tagSynonyms = {
   // to avoid different titles in the same tag so here is map with
   // synonyms as keys and tag type as value that we want to have in
   // final jsDoc.
-  virtual: 'abstract',
-  extends: 'augments',
-  constructor: 'class',
-  const: 'constant',
-  defaultvalue: 'default',
-  desc: TAG_DESCRIPTION,
-  host: 'external',
-  fileoverview: 'file',
-  overview: 'file',
-  emits: 'fires',
-  func: 'function',
-  method: 'function',
-  var: 'member',
-  arg: 'param',
-  argument: 'param',
-  prop: 'property',
-  return: TAG_RETURNS,
-  exception: TAG_THROWS,
-  yield: TAG_YIELDS,
-  examples: TAG_EXAMPLE,
-  params: 'param',
+  virtual: ABSTRACT,
+  extends: AUGMENTS,
+  constructor: CLASS,
+  const: CONSTANT,
+  defaultvalue: DEFAULT,
+  desc: DESCRIPTION,
+  host: EXTERNAL,
+  fileoverview: FILE,
+  overview: FILE,
+  emits: FIRES,
+  func: FUNCTION,
+  method: FUNCTION,
+  var: MEMBER,
+  arg: PARAM,
+  argument: PARAM,
+  prop: PROPERTY,
+  return: RETURNS,
+  exception: THROWS,
+  yield: YIELDS,
+  examples: EXAMPLE,
+  params: PARAM,
 }
 
-const namelessTags = [TAG_YIELDS, TAG_RETURNS, TAG_THROWS, TAG_EXAMPLE, TAG_DESCRIPTION]
-const statusTags = [TAG_ASYNC, TAG_DEPRECATED, TAG_PRIVATE]
+const namelessTags = [YIELDS, RETURNS, THROWS, EXAMPLE, DESCRIPTION]
+const statusTags = [ASYNC, DEPRECATED, PRIVATE]
 
-const verticallyAlignAbleTags = ['param', 'property', TAG_RETURNS, TAG_THROWS, TAG_YIELDS, 'type', 'typedef']
+const verticallyAlignAbleTags = [PARAM, PROPERTY, RETURNS, THROWS, YIELDS, TYPE, TYPEDEF]
 
 /**
  * Trim, make single line with capitalized text. Insert dot if flag for it is
@@ -101,8 +118,8 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
 
     comment.value = '*\n'
 
-    if (parsed.description && !parsed.tags.find(t => t.tag.toLowerCase() === TAG_DESCRIPTION))
-      parsed.tags.push({ tag: TAG_DESCRIPTION, description: parsed.description })
+    if (parsed.description && !parsed.tags.find(t => t.tag.toLowerCase() === DESCRIPTION))
+      parsed.tags.push({ tag: DESCRIPTION, description: parsed.description })
 
     let maxTagTitleLength = 0
     let maxTagTypeNameLength = 0
@@ -112,14 +129,9 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
 
       // Prepare tags data
       .map(({ name, description, type, tag, source, optional, default: _default, ...restInfo }) => {
-        const isVerticallyAlignAbleTags = verticallyAlignAbleTags.includes(tag)
-        if (type) {
-          type = convertToModernArray(type)
-          type = formatType(type, options)
-        }
-
         tag = tag && tag.trim().toLowerCase()
         tag = tagSynonyms[tag] || tag
+        const isVerticallyAlignAbleTags = verticallyAlignAbleTags.includes(tag)
 
         if (namelessTags.includes(tag) && name) {
           description = `${name} ${description}`
@@ -131,7 +143,8 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
         }
 
         if (type) {
-          // Figure out tag.type
+          type = convertToModernArray(type)
+          type = formatType(type, options)
 
           if (isVerticallyAlignAbleTags) maxTagTypeNameLength = Math.max(maxTagTypeNameLength, type.length)
 
@@ -141,7 +154,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
             if (optional) {
               // Figure out if tag type have default value
               if (_default) {
-                name = `${name} = ${_default}`
+                description += ` Default is \`${_default}\``
               }
               name = `[${name}]`
             }
@@ -150,19 +163,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
           }
         }
 
-        if (
-          [
-            TAG_DESCRIPTION,
-            'param',
-            'property',
-            TAG_RETURNS,
-            TAG_YIELDS,
-            TAG_THROWS,
-            'todo',
-            'type',
-            'typedef',
-          ].includes(tag)
-        ) {
+        if ([DESCRIPTION, PARAM, PROPERTY, RETURNS, YIELDS, THROWS, TODO, TYPE, TYPEDEF].includes(tag)) {
           description = formatDescription(description, options.jsdocDescriptionWithDot)
         }
         return { ...restInfo, name, description, type, tag, source, default: _default, optional }
@@ -193,17 +194,25 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
           else if (maxTagNameLength) descGapAdj = maxTagNameLength + gap.length
         }
 
-        let useTagTitle = tag !== TAG_DESCRIPTION || options.jsdocDescriptionTag
+        let useTagTitle = tag !== DESCRIPTION || options.jsdocDescriptionTag
         let tagString = ` * `
 
-        if (useTagTitle) tagString += `@${tag}` + ' '.repeat(tagTitleGapAdj)
+        if (useTagTitle) {
+          try {
+            tagString += `@${tag}${' '.repeat(tagTitleGapAdj)}`
+          } catch (error) {
+            const isVerticallyAlignAbleTags = verticallyAlignAbleTags.includes(tag)
+            console.log({ maxTagTitleLength, tag: tag.length, isVerticallyAlignAbleTags })
+            console.log(error)
+          }
+        }
         if (type) tagString += gap + `{${type}}` + ' '.repeat(tagTypeGapAdj)
         if (name) tagString += `${gap}${name}${' '.repeat(tagNameGapAdj)}`
 
         // Add description (complicated because of text wrap)
-        if (description && tag !== TAG_EXAMPLE) {
+        if (description && tag !== EXAMPLE) {
           if (useTagTitle) tagString += gap + ' '.repeat(descGapAdj)
-          if (['memberof', 'see'].includes(tag)) {
+          if ([MEMBEROF, SEE].includes(tag)) {
             // Avoid wrapping
             tagString += description
           } else {
@@ -231,7 +240,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
         }
 
         // Try to use prettier on @example tag description
-        if (tag === TAG_EXAMPLE) {
+        if (tag === EXAMPLE) {
           try {
             const formatedDescription = prettier.format(description || '', options)
             tagString += formatedDescription.replace(/(^|\n)/g, '\n *   ')
@@ -248,8 +257,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
         tagString += '\n'
 
         // Add empty line after some tags if there is something below
-        if ([TAG_DESCRIPTION, TAG_EXAMPLE, 'todo'].includes(tag) && tagIndex !== parsed.tags.length - 1)
-          tagString += ' *\n'
+        if ([DESCRIPTION, EXAMPLE, TODO].includes(tag) && tagIndex !== parsed.tags.length - 1) tagString += ' *\n'
 
         comment.value += tagString
       })

@@ -52,7 +52,7 @@ exports[`Should format regular jsDoc 1`] = `
  * @param {String | Number} text Some text description that is very long and
  * needs to be wrapped
  *
- * @param {String} [defaultValue=\\"defaultTest\\"] TODO
+ * @param {String} [defaultValue] TODO Default is \`defaultTest\`
  * @param {Number | Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  */
@@ -82,7 +82,7 @@ exports[`Should format regular jsDoc 2`] = `
  * @param {String | Number} text Some text description that is very long and
  * needs to be wrapped
  *
- * @param {String} [defaultValue=\\"defaultTest\\"] TODO
+ * @param {String} [defaultValue] TODO Default is \`defaultTest\`
  * @param {Number | Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  */
