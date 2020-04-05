@@ -27,7 +27,7 @@ export let User;
  * @typedef {{
   \\"domainId\\": 0,
   \\"persianName\\": string,
-  \\"englishName\\": string,
+  \\"englishName\\": string, // comment
   \\"resellerUserId\\": string,
   \\"isActive\\": true,
   \\"logoFileUniqueId\\": string,

@@ -48,8 +48,8 @@ test('JS code should be formatted as usuall', () => {
      @typedef {
       {
         "domainId": 0,
-        "persianName": string,
-        "englishName": string,
+        persianName: string,
+        "englishName": string, // comment
         "resellerUserId": string,
         "isActive": true,
         "logoFileUniqueId": string,
@@ -79,14 +79,14 @@ test('hoisted object', () => {
  @typedef {
     {
         "userId": {
-        "title": string,
+        title: string,
         "profileImageLink": *,
         "identityStatus": "None",
         "isBusinessUser": "isResellerUser"|"isBoolean"|  "isSubUser" |    "isNot",
         "shareCode": number,
         "referredBy": any,
         },
-        "id":number
+        id:number
       }
      } User
      */
