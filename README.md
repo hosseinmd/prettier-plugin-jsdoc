@@ -29,6 +29,7 @@
 
 ## Links
 
-        [Prettier](https://prettier.io)
-        [JSDoc](https://jsdoc.app)
+[Prettier](https://prettier.io)
+
+[JSDoc](https://jsdoc.app)
         
