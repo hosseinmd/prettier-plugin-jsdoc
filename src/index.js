@@ -71,10 +71,12 @@ function formatDescription(text, insertDot) {
  * {@link https://prettier.io/docs/en/api.html#custom-parser-api}
  */
 exports.jsdocParser = function jsdocParser(text, parsers, options) {
+  console.log({ ...options })
+
   const ast = parsers['babel-flow'](text)
   // Options
   const gap = ' '.repeat(options.jsdocSpaces)
-  const printWidth = options.jsdocPrintWidth
+  const { printWidth } = options
 
   /**
    * Control order of tags by weights. Smaller value brings tag higher.

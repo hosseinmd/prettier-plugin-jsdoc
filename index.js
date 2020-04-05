@@ -31,12 +31,6 @@ module.exports = {
       default: 1,
       description: 'How many spaces will be used to separate tag elements.',
     },
-    jsdocPrintWidth: {
-      type: 'int',
-      category: 'jsdoc',
-      default: 80,
-      description: 'After how many characters description text should be wrapped.',
-    },
     jsdocTagsOrder: {
       type: 'path',
       category: 'jsdoc',
@@ -86,12 +80,6 @@ module.exports = {
       default: false,
       description: 'Should tags, types, names and description be aligned',
     },
-    jsdocUnionTypeParentheses: {
-      type: 'boolean',
-      category: 'jsdoc',
-      default: false,
-      description: 'Should union type be enclosed in parentheses',
-    },
     jsdocKeepUnparseableExampleIndent: {
       type: 'boolean',
       category: 'jsdoc',
@@ -101,11 +89,9 @@ module.exports = {
   },
   defaultOptions: {
     jsdocSpaces: 1,
-    jsdocPrintWidth: 80,
     jsdocDescriptionWithDot: false,
     jsdocDescriptionTag: true,
     jsdocVerticalAlignment: false,
-    jsdocUnionTypeParentheses: false,
     jsdocKeepUnparseableExampleIndent: false,
   },
 }

@@ -2,7 +2,7 @@
   "name": "prettier-plugin-jsdoc",
   "version": "1.0.0",
   "description": "",
-  "main": "jsdoc_parser.js",
+  "main": "index.js",
   "scripts": {
     "lint": "eslint --ext '.js' .",
     "test": "jest",

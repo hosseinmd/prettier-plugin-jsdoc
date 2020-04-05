@@ -10,7 +10,6 @@ function subject(code, options = {}) {
       parser: 'jsdoc-parser',
       plugins: ['.'],
       jsdocSpaces: 1,
-      jsdocPrintWidth: 80,
       ...options,
     })
   } catch (error) {
