@@ -21,7 +21,7 @@ import { useLayout, useInlineStyle } from \\"./hooks\\";
  * @property {d3Scale.scaleLinear} [scale] Should be the same as passed into the
  * charts \`xScale\` Default is \`d3Scale.scaleLinear\`
  *
- * @property {()=>any} [xAccessor] Default is \`({index}) => index\`
+ * @property {() => any} [xAccessor] Default is \`({index}) => index\`
  * @property {number} [max]
  * @property {number} [min]
  */

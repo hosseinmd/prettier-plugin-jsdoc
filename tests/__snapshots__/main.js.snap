@@ -49,11 +49,11 @@ exports[`Should format regular jsDoc 1`] = `
  *     two += one;
  *   }
  *
- * @param {String|Number} text Some text description that is very long and needs
- * to be wrapped
+ * @param {String | Number} text Some text description that is very long and
+ * needs to be wrapped
  *
  * @param {String} [defaultValue=\\"defaultTest\\"] TODO
- * @param {Number|Null} [optionalNumber]
+ * @param {Number | Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
@@ -79,11 +79,11 @@ exports[`Should format regular jsDoc 2`] = `
  *     two += one;
  *   }
  *
- * @param {String|Number} text Some text description that is very long and needs
- * to be wrapped
+ * @param {String | Number} text Some text description that is very long and
+ * needs to be wrapped
  *
  * @param {String} [defaultValue=\\"defaultTest\\"] TODO
- * @param {Number|Null} [optionalNumber]
+ * @param {Number | Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
@@ -106,6 +106,49 @@ exports[`Should insert proper amount of spaces based on option 2`] = `
  * utill it will need to be wrapped
  *
  * @returns   {Number}   Return description
+ */
+"
+`;
+
+exports[`Sould keep complex inner types 1`] = `
+"/**
+ * @param {(String|Number)[]} test Test param
+ * @param {(Object<String, Number>[])} test Test param
+ * @param {...Number} test Test param
+ * @param {?Number} test Test param
+ * @param {?undefined} test Test param
+ * @param {!Number} test Test param
+ * @param {Number} test Test param
+ * @param {Number | String} test Test param
+ * @param {undefined} test Test param
+ * @param {any} test Test param
+ */
+"
+`;
+
+exports[`Sould keep complex inner types 2`] = `
+"/**
+ * @returns {Promise<Object<string, number|undefined>>} Test return
+ */
+"
+`;
+
+exports[`Sould keep params ordering when more than 10 tags are present 1`] = `
+"/**
+ * @description Description
+ *
+ * @param {Number} test1 Test param
+ * @param {Number} test2 Test param
+ * @param {Number | String} test3 Test param
+ * @param {?undefined} test4 Test param
+ * @param {!undefined} test5 Test param
+ * @param {any} test6 Test param
+ * @param {?Number} test7 Test param
+ * @param {...Number} test8 Test param
+ * @param {!Number} test9 Test param
+ * @param {String} test10 Test param
+ * @param {Array} test11 Test param
+ * @returns {Promise<Object<string, number|undefined>>} Test return
  */
 "
 `;

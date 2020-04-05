@@ -1,6 +1,6 @@
 const commentParser = require('comment-parser')
 const prettier = require('prettier')
-const { convertToModernArray } = require('./type')
+const { convertToModernArray, formatType } = require('./type')
 const {
   TAG_YIELDS,
   TAG_RETURNS,
@@ -114,6 +114,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
       .map(({ name, description, type, tag, source, optional, ...restInfo }) => {
         if (type) {
           type = convertToModernArray(type)
+          type = formatType(type, options)
         }
 
         tag = tag && tag.trim().toLowerCase()

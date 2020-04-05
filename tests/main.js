@@ -196,25 +196,8 @@ test('Sould keep params ordering when more than 10 tags are present', () => {
  * @param {Array} test11 Test param
  * @returns {Promise<Object<string, number|undefined>>} test return
  */`)
-  const Expected1 = `/**
- * @description Description
- *
- * @param {Number} test1 Test param
- * @param {Number} test2 Test param
- * @param {Number|String} test3 Test param
- * @param {?undefined} test4 Test param
- * @param {!undefined} test5 Test param
- * @param {*} test6 Test param
- * @param {?Number} test7 Test param
- * @param {...Number} test8 Test param
- * @param {!Number} test9 Test param
- * @param {String} test10 Test param
- * @param {Array} test11 Test param
- * @returns {Promise<Object<string, number|undefined>>} Test return
- */
-`
 
-  expect(Result1).toEqual(Expected1)
+  expect(Result1).toMatchSnapshot()
 })
 
 test('Sould keep complex inner types', () => {
@@ -230,30 +213,13 @@ test('Sould keep complex inner types', () => {
  * @param {undefined} test Test param
  * @param {*} test Test param
  */`)
-  const Expected1 = `/**
- * @param {(String|Number)[]} test Test param
- * @param {Object<String, Number>[]} test Test param
- * @param {...Number} test Test param
- * @param {?Number} test Test param
- * @param {?undefined} test Test param
- * @param {!Number} test Test param
- * @param {Number} test Test param
- * @param {Number|String} test Test param
- * @param {undefined} test Test param
- * @param {*} test Test param
- */
-`
 
   const Result2 = subject(`/**
  * @returns {Promise<Object<string, number|undefined>>} test return
  */`)
-  const Expected2 = `/**
- * @returns {Promise<Object<string, number|undefined>>} Test return
- */
-`
 
-  expect(Result1).toEqual(Expected1)
-  expect(Result2).toEqual(Expected2)
+  expect(Result1).toMatchSnapshot()
+  expect(Result2).toMatchSnapshot()
 })
 
 test('Should align vertically param|property|returns|yields|throws if option set to true', () => {

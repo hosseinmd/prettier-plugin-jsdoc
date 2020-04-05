@@ -1,3 +1,5 @@
+const prettier = require('prettier')
+
 exports.convertToModernArray = function convertToModernArray(type) {
   if (!type) {
     return type
@@ -26,4 +28,22 @@ exports.convertToModernArray = function convertToModernArray(type) {
   }
 
   return replaceArray(type)
+}
+
+exports.formatType = function formatType(type, options) {
+  try {
+    let pretty = type.replace('*', 'any')
+
+    pretty = prettier.format(pretty, { ...options, parser: 'json' })
+
+    if (pretty.endsWith('\n')) {
+      pretty = pretty.slice(0, -1)
+    }
+    pretty = pretty.replace(' > ', '>')
+    pretty = pretty.replace(' < ', '<')
+
+    return pretty
+  } catch (error) {
+    return type
+  }
 }
