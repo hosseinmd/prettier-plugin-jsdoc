@@ -1,0 +1,11 @@
+.vscode/
+node_modules/
+tests/
+
+.eslintignore
+.eslintrc.js
+.gitattributes
+.gitignore
+.prettierrc
+
+

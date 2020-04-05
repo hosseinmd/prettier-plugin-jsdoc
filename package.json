@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-jsdoc",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,9 +12,21 @@
     "prettier",
     "plugin"
   ],
-  "author": "gumen",
+  "author": "Hossein mohammadi (hosseinm.developer@gmail.com)",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hosseinmd/prettier-plugin-jsdoc/issues"
+  },
+  "homepage": "https://github.com/hosseinmd/prettier-plugin-jsdoc#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hosseinmd/prettier-plugin-jsdoc.git"
+  },
   "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "@react-native-community/eslint-config": "^0.0.7",
+    "@typescript-eslint/parser": "^2.20.0",
     "jest": "^24.9.0"
   },
   "jest": {
@@ -24,12 +36,8 @@
     ]
   },
   "dependencies": {
-    "@react-native-community/eslint-config": "^0.0.7",
-    "@typescript-eslint/parser": "^2.20.0",
     "babel-flow": "^2.0.2",
     "comment-parser": "^0.7.2",
-    "prettier": "^1.18.2",
-    "eslint": "^6.8.0",
-    "eslint-plugin-prettier": "^3.1.2"
+    "prettier": "^1.18.2"
   }
 }
