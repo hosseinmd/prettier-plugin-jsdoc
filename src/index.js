@@ -43,7 +43,7 @@ const tagSynonyms = {
 const namelessTags = [TAG_YIELDS, TAG_RETURNS, TAG_THROWS, TAG_EXAMPLE, TAG_DESCRIPTION]
 const statusTags = [TAG_ASYNC, TAG_DEPRECATED, TAG_PRIVATE]
 
-const vertiacallyAlignableTags = ['param', 'property', TAG_RETURNS, TAG_THROWS, TAG_YIELDS, 'type', 'typedef']
+const verticallyAlignAbleTags = ['param', 'property', TAG_RETURNS, TAG_THROWS, TAG_YIELDS, 'type', 'typedef']
 
 /**
  * Trim, make single line with capitalized text. Insert dot if flag for it is
@@ -111,7 +111,8 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
     parsed.tags
 
       // Prepare tags data
-      .map(({ name, description, type, tag, source, optional, ...restInfo }) => {
+      .map(({ name, description, type, tag, source, optional, default: _default, ...restInfo }) => {
+        const isVerticallyAlignAbleTags = verticallyAlignAbleTags.includes(tag)
         if (type) {
           type = convertToModernArray(type)
           type = formatType(type, options)
@@ -125,24 +126,27 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
           name = ''
         }
 
-        if (vertiacallyAlignableTags.includes(tag)) {
+        if (isVerticallyAlignAbleTags) {
           maxTagTitleLength = Math.max(maxTagTitleLength, tag.length)
         }
 
         if (type) {
           // Figure out tag.type
 
-          if (vertiacallyAlignableTags.includes(tag)) maxTagTypeNameLength = Math.max(maxTagTypeNameLength, type.length)
+          if (isVerticallyAlignAbleTags) maxTagTypeNameLength = Math.max(maxTagTypeNameLength, type.length)
 
           // Additional operations on name
           if (name) {
-            // Figure out if tag type have default value
-            const part = source.split(new RegExp(`@.+{.+}.+${name}\s?=\s?`))[1]
-            if (part) name = name + '=' + part.split(/\s/)[0].replace(']', '')
-
             // Optional tag name
-            if (optional) name = `[${name}]`
-            if (vertiacallyAlignableTags.includes(tag)) maxTagNameLength = Math.max(maxTagNameLength, name.length)
+            if (optional) {
+              // Figure out if tag type have default value
+              if (_default) {
+                name = `${name} = ${_default}`
+              }
+              name = `[${name}]`
+            }
+
+            if (isVerticallyAlignAbleTags) maxTagNameLength = Math.max(maxTagNameLength, name.length)
           }
         }
 
@@ -161,7 +165,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
         ) {
           description = formatDescription(description, options.jsdocDescriptionWithDot)
         }
-        return { ...restInfo, name, description, type, tag, source, optional }
+        return { ...restInfo, name, description, type, tag, source, default: _default, optional }
       })
 
       // Sort tags
@@ -178,7 +182,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
         let tagNameGapAdj = 0
         let descGapAdj = 0
 
-        if (options.jsdocVerticalAlignment && vertiacallyAlignableTags.includes(tag)) {
+        if (options.jsdocVerticalAlignment && verticallyAlignAbleTags.includes(tag)) {
           if (tag) tagTitleGapAdj += maxTagTitleLength - tag.length
           else if (maxTagTitleLength) descGapAdj += maxTagTitleLength + gap.length
 
