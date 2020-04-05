@@ -1,8 +1,5 @@
 /* eslint-disable no-undef */
 const prettier = require('prettier')
-const cwd = process.cwd()
-const path = require('path')
-const jsdocParser = require(path.join(cwd, 'jsdoc_parser'))
 
 function subject(code, options = {}) {
   return prettier.format(code, {
@@ -119,7 +116,7 @@ test(' undefined|null|void type', () => {
 `
 
   const Result3 = subject(`/**
- * @returns {void}
+ * @returns { void } 
  */`)
   const Expected3 = `/**
  * @returns {void}
@@ -135,48 +132,28 @@ test('Should keep defined inner types', () => {
   const Result1 = subject(`/**
  * @param {Array.<String>} test test param
  */`)
-  const Expected1 = `/**
- * @param {String[]} test Test param
- */
-`
 
   const Result2 = subject(`/**
  * @param {String[]} test Test param
  */`)
-  const Expected2 = `/**
- * @param {String[]} test Test param
- */
-`
 
   const Result3 = subject(`/**
  * @param {(String|Object)[]} test Test param
  */`)
-  const Expected3 = `/**
- * @param {(String|Object)[]} test Test param
- */
-`
 
   const Result4 = subject(`/**
  * @returns {Promise<Number|String|undefined>} test promise
  */`)
-  const Expected4 = `/**
- * @returns {Promise<Number|String|undefined>} Test promise
- */
-`
 
   const Result5 = subject(`/**
  * @returns {Object<Number|String|undefined>} test object
  */`)
-  const Expected5 = `/**
- * @returns {Object<Number|String|undefined>} Test object
- */
-`
 
-  expect(Result1).toEqual(Expected1)
-  expect(Result2).toEqual(Expected2)
-  expect(Result3).toEqual(Expected3)
-  expect(Result4).toEqual(Expected4)
-  expect(Result5).toEqual(Expected5)
+  expect(Result1).toMatchSnapshot()
+  expect(Result2).toMatchSnapshot()
+  expect(Result3).toMatchSnapshot()
+  expect(Result4).toMatchSnapshot()
+  expect(Result5).toMatchSnapshot()
 })
 
 test('Sould keep params ordering when more than 10 tags are present', () => {

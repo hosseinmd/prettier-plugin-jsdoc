@@ -1,8 +1,5 @@
 /* eslint-disable no-undef */
 const prettier = require('prettier')
-const cwd = process.cwd()
-const path = require('path')
-const jsdocParser = require(path.join(cwd, 'jsdoc_parser'))
 
 function subject(code, options = {}) {
   try {

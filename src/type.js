@@ -33,14 +33,12 @@ exports.convertToModernArray = function convertToModernArray(type) {
 exports.formatType = function formatType(type, options) {
   try {
     let pretty = type.replace('*', 'any')
+    const TYPE_START = 'type name = '
 
-    pretty = prettier.format(pretty, { ...options, parser: 'json' })
+    pretty = prettier.format(`${TYPE_START}${pretty}`, { ...options, parser: 'typescript' })
+    pretty = pretty.slice(TYPE_START.length)
 
-    if (pretty.endsWith('\n')) {
-      pretty = pretty.slice(0, -1)
-    }
-    pretty = pretty.replace(' > ', '>')
-    pretty = pretty.replace(' < ', '<')
+    pretty = pretty.replace(/[(;\n);\n]*$/g, '')
 
     return pretty
   } catch (error) {
