@@ -5,8 +5,8 @@ exports.convertToModernArray = function convertToModernArray(type) {
     return type
   }
 
-  const maxWrapper = /(Array<([^<>]+)>)/g
-  const minWrapper = /(Array<([^.]+)>)/g
+  const maxWrapper = /^(?!<>\]\[\{\}:;,\s)(Array<([^<>]+)>)/g
+  const minWrapper = /^(?!<>\]\[\{\}:;,\s)(Array<([^.]+)>)/g
   type = type.replace('.<', '<')
 
   function replaceArray(value) {
