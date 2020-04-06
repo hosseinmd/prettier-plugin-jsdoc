@@ -334,7 +334,7 @@ test("yields should work like returns tag", () => {
 
 test("examples", () => {
   const options = {
-    jsdocKeepUnparseableExampleIndent: true,
+    jsdocKeepUnParseAbleExampleIndent: true,
   };
   const Result1 = subject(
     `/**

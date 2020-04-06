@@ -108,7 +108,7 @@ module.exports = {
       default: false,
       description: "Should tags, types, names and description be aligned",
     },
-    jsdocKeepUnparseableExampleIndent: {
+    jsdocKeepUnParseAbleExampleIndent: {
       type: "boolean",
       category: "jsdoc",
       default: false,
@@ -121,6 +121,6 @@ module.exports = {
     jsdocDescriptionWithDot: false,
     jsdocDescriptionTag: false,
     jsdocVerticalAlignment: false,
-    jsdocKeepUnparseableExampleIndent: false,
+    jsdocKeepUnParseAbleExampleIndent: false,
   },
 };

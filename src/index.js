@@ -155,7 +155,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
       : index;
   }
 
-  ast.comments.forEach(comment => {
+  ast.comments.forEach((comment) => {
     // Parse only comment blocks
     if (comment.type !== "CommentBlock") return;
 
@@ -359,7 +359,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
             tagString += description
               .split("\n")
               .map(
-                l =>
+                (l) =>
                   ` *   ${
                     options.jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
                   }`
