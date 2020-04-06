@@ -103,6 +103,20 @@ function convertCommentDescToDescTag(parsed) {
   }
 }
 
+function descriptionEndLine({ description, tag, isEndTag }) {
+  if (description.length < 0 || isEndTag) {
+    return ''
+  }
+
+  if ([DESCRIPTION, EXAMPLE, TODO].includes(tag)) {
+    return '\n *'
+  }
+
+  const isDescriptionMultiLine = description.includes('\n')
+
+  return isDescriptionMultiLine ? '\n *' : ''
+}
+
 /**
  * {@link https://prettier.io/docs/en/api.html#custom-parser-api}
  */
@@ -244,7 +258,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
             // Wrap tag description
             const marginLength = tagString.length
             let maxWidth = printWidth
-            let isMultiLine = false
+            let isDescriptionMultiLine = false
 
             if (marginLength >= maxWidth) {
               maxWidth = marginLength + 20
@@ -257,10 +271,10 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
               tagString += description.substring(0, sliceIndex)
               description = description.substring(sliceIndex + 1)
               description = `\n * ${description}`
-              isMultiLine = true
+              isDescriptionMultiLine = true
             }
 
-            if (description.length > 0) tagString = `${tagString}${description}${isMultiLine ? '\n *' : ''}`
+            tagString += description
           }
         }
 
@@ -279,10 +293,14 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
           }
         }
 
-        tagString += '\n'
-
         // Add empty line after some tags if there is something below
-        if ([DESCRIPTION, EXAMPLE, TODO].includes(tag) && tagIndex !== parsed.tags.length - 1) tagString += ' *\n'
+        tagString += descriptionEndLine({
+          description,
+          tag,
+          isEndTag: tagIndex === parsed.tags.length - 1,
+        })
+
+        tagString += '\n'
 
         comment.value += tagString
       })
