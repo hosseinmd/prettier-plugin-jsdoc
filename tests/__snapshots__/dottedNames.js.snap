@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dotted names function param 1`] = `
+"/**
+ * @typedef {object} LoginResponse
+ * @property {string} token
+ * @property {number} expires
+ * @property {boolean} mustChangePassword
+ * @param {object} data
+ * @param {string} data.userName
+ * @param {string} data.password
+ * @returns {import(\\"axios\\").AxiosResponse<LoginResponse>}
+ */
+function a() {}
+"
+`;

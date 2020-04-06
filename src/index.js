@@ -136,7 +136,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
     // https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
     if (!commentString.match(/\/\*\*[\s\S]+?\*\//g)) return
 
-    const parsed = commentParser(commentString, { dotted_names: true })[0]
+    const parsed = commentParser(commentString, { dotted_names: false })[0]
 
     comment.value = '*\n'
 
