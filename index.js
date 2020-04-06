@@ -95,7 +95,7 @@ module.exports = {
     jsdocDescriptionTag: {
       type: 'boolean',
       category: 'jsdoc',
-      default: true,
+      default: false,
       description: 'Should description tag be used',
     },
     jsdocVerticalAlignment: {
@@ -114,7 +114,7 @@ module.exports = {
   defaultOptions: {
     jsdocSpaces: 1,
     jsdocDescriptionWithDot: false,
-    jsdocDescriptionTag: true,
+    jsdocDescriptionTag: false,
     jsdocVerticalAlignment: false,
     jsdocKeepUnparseableExampleIndent: false,
   },

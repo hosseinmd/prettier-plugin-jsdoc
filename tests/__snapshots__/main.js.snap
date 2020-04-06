@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Should add empty line after @description and @example description if necessary 1`] = `
+"/**
+ * Single line description
+ */
+"
+`;
+
+exports[`Should add empty line after @description and @example description if necessary 2`] = `
+"/**
+ * Single line description
+ *
+ */
+"
+`;
+
+exports[`Should add empty line after @description and @example description if necessary 3`] = `
+"/**
+ * Single line description
+ *
+ * @returns {Boolean} Always true
+ */
+"
+`;
+
 exports[`Should align vertically param|property|returns|yields|throws if option set to true, and amount of spaces is different than default 1`] = `
 "/**
  * @property  {Object}          unalginedProp   Unaligned property descriptin
@@ -32,15 +56,15 @@ exports[`Should align vertically param|property|returns|yields|throws if option 
 
 exports[`Should format regular jsDoc 1`] = `
 "/**
+ * Function example description that was wrapped by hand so it have more then
+ * one line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER
+ * to copy function example description that was wrapped by hand so it have
+ * more then one line.
+ *
+ *
  * @async
  * @private
  * @memberof test
- * @description Function example description that was wrapped by hand so it have
- * more then one line and don't end with a dot REPEATED TWO TIMES BECAUSE IT
- * WAS EASIER to copy function example description that was wrapped by hand so
- * it have more then one line.
- *
- *
  * @example
  *   var one = 5;
  *   var two = 10;
@@ -62,15 +86,15 @@ const testFunction = (text, defaultValue, optionalNumber) => true;
 
 exports[`Should format regular jsDoc 2`] = `
 "/**
+ * Function example description that was wrapped by hand so it have more then
+ * one line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER
+ * to copy function example description that was wrapped by hand so it have
+ * more then one line.
+ *
+ *
  * @async
  * @private
  * @memberof test
- * @description Function example description that was wrapped by hand so it have
- * more then one line and don't end with a dot REPEATED TWO TIMES BECAUSE IT
- * WAS EASIER to copy function example description that was wrapped by hand so
- * it have more then one line.
- *
- *
  * @example
  *   var one = 5;
  *   var two = 10;
@@ -170,7 +194,7 @@ exports[`Sould keep complex inner types 2`] = `
 
 exports[`Sould keep params ordering when more than 10 tags are present 1`] = `
 "/**
- * @description Description
+ * Description
  *
  * @param {Number} test1 Test param
  * @param {Number} test2 Test param

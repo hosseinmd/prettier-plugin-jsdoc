@@ -67,35 +67,21 @@ const testFunction = (text, defaultValue, optionalNumber) => true
 
 test('Should add empty line after @description and @example description if necessary', () => {
   const Result1 = subject(`/** single line description*/`)
-  const Expected1 = `/**
- * @description Single line description
- */
-`
+
   const Result2 = subject(`/**
  * single line description
  * @example
  */`)
-  const Expected2 = `/**
- * @description Single line description
- *
- */
-`
 
   const Result3 = subject(`/**
  * single line description
  * @return {Boolean} Always true
  * @example
  */`)
-  const Expected3 = `/**
- * @description Single line description
- *
- * @returns {Boolean} Always true
- */
-`
 
-  expect(Result1).toEqual(Expected1)
-  expect(Result2).toEqual(Expected2)
-  expect(Result3).toEqual(Expected3)
+  expect(Result1).toMatchSnapshot()
+  expect(Result2).toMatchSnapshot()
+  expect(Result3).toMatchSnapshot()
 })
 
 test(' undefined|null|void type', () => {

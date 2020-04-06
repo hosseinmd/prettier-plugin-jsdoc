@@ -84,6 +84,23 @@ function formatDescription(text, insertDot) {
   return text || ''
 }
 
+function convertCommentDescToDescTag(parsed) {
+  if (!parsed.description) {
+    return
+  }
+
+  const Tag = parsed.tags.find(({ tag }) => tag.toLowerCase() === DESCRIPTION)
+  let { tag: description = '' } = Tag || {}
+
+  description += parsed.description
+
+  if (Tag) {
+    Tag.description = description
+  } else {
+    parsed.tags.push({ tag: DESCRIPTION, description })
+  }
+}
+
 /**
  * {@link https://prettier.io/docs/en/api.html#custom-parser-api}
  */
@@ -100,8 +117,11 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
    * @return {Number}          Tag weight
    */
   function getTagOrderWeight(tagTitle) {
+    if (tagTitle === DESCRIPTION && !options.jsdocDescriptionTag) {
+      return -1
+    }
     const index = options.jsdocTagsOrder.indexOf(tagTitle)
-    return index === -1 ? options.jsdocTagsOrder.indexOf('other') || 0 : index
+    return index === -1 ? options.jsdocTagsOrder.indexOf('other') || options.jsdocTagsOrder.length : index
   }
 
   ast.comments.forEach(comment => {
@@ -118,8 +138,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
 
     comment.value = '*\n'
 
-    if (parsed.description && !parsed.tags.find(t => t.tag.toLowerCase() === DESCRIPTION))
-      parsed.tags.push({ tag: DESCRIPTION, description: parsed.description })
+    convertCommentDescToDescTag(parsed)
 
     let maxTagTitleLength = 0
     let maxTagTypeNameLength = 0
