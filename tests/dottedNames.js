@@ -1,16 +1,16 @@
 /* eslint-disable no-undef */
-const prettier = require('prettier')
+const prettier = require("prettier");
 
 function subject(code, options = {}) {
   return prettier.format(code, {
-    parser: 'jsdoc-parser',
-    plugins: ['.'],
+    parser: "jsdoc-parser",
+    plugins: ["."],
     jsdocSpaces: 1,
     ...options,
-  })
+  });
 }
 
-test('dotted names function param', () => {
+test("dotted names function param", () => {
   const result = subject(`
   /**
    * @param {object} data
@@ -25,7 +25,7 @@ test('dotted names function param', () => {
    * @returns {import('axios').AxiosResponse<LoginResponse>}
    */
     function a(){}
-`)
+`);
 
-  expect(result).toMatchSnapshot()
-})
+  expect(result).toMatchSnapshot();
+});

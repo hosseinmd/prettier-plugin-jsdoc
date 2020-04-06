@@ -1,16 +1,16 @@
 /* eslint-disable no-undef */
-const prettier = require('prettier')
+const prettier = require("prettier");
 
 function subject(code, options = {}) {
   return prettier.format(code, {
-    parser: 'jsdoc-parser',
-    plugins: ['.'],
+    parser: "jsdoc-parser",
+    plugins: ["."],
     jsdocSpaces: 1,
     ...options,
-  })
+  });
 }
 
-test('template for callback', () => {
+test("template for callback", () => {
   const result = subject(`
 /**
  * @template T
@@ -18,7 +18,7 @@ test('template for callback', () => {
  * @param {GetStyles<T>} getStyles
  * @returns {UseStyle<T>}
  */
-`)
+`);
 
-  expect(result).toMatchSnapshot()
-})
+  expect(result).toMatchSnapshot();
+});

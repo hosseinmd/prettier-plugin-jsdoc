@@ -1,20 +1,20 @@
 /* eslint-disable no-undef */
-const prettier = require('prettier')
+const prettier = require("prettier");
 
 function subject(code, options = {}) {
   try {
     return prettier.format(code, {
-      parser: 'jsdoc-parser',
-      plugins: ['.'],
+      parser: "jsdoc-parser",
+      plugins: ["."],
       jsdocSpaces: 1,
       ...options,
-    })
+    });
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
-test('JS code should be formatted as usuall', () => {
+test("JS code should be formatted as usuall", () => {
   const result = subject(`
   import React, { memo } from "react";
   import { Text, View, StyleSheet } from "react-native";
@@ -63,6 +63,6 @@ test('JS code should be formatted as usuall', () => {
       formatLabel = value => value,
       ...svg
     })=>{})
-`)
-  expect(result).toMatchSnapshot()
-})
+`);
+  expect(result).toMatchSnapshot();
+});

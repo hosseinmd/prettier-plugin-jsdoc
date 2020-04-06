@@ -1,16 +1,16 @@
 /* eslint-disable no-undef */
-const prettier = require('prettier')
+const prettier = require("prettier");
 
 function subject(code, options = {}) {
   return prettier.format(code, {
-    parser: 'jsdoc-parser',
-    plugins: ['.'],
+    parser: "jsdoc-parser",
+    plugins: ["."],
     jsdocSpaces: 1,
     ...options,
-  })
+  });
 }
 
-test('convert array to modern type', () => {
+test("convert array to modern type", () => {
   const result = subject(`
   /**
    * @typedef {import("react-native-reanimated").default.Adaptable<number>} Adaptable
@@ -22,7 +22,7 @@ test('convert array to modern type', () => {
    *
    */
   function a(){}
-`)
+`);
 
-  expect(result).toMatchSnapshot()
-})
+  expect(result).toMatchSnapshot();
+});

@@ -1,20 +1,20 @@
 /* eslint-disable no-undef */
-const prettier = require('prettier')
+const prettier = require("prettier");
 
 function subject(code, options = {}) {
   try {
     return prettier.format(code, {
-      parser: 'jsdoc-parser',
-      plugins: ['.'],
+      parser: "jsdoc-parser",
+      plugins: ["."],
       jsdocSpaces: 1,
       ...options,
-    })
+    });
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
-test('JS code should be formatted as usuall', () => {
+test("JS code should be formatted as usuall", () => {
   const result = subject(`
   /**
  @typedef {
@@ -64,12 +64,12 @@ test('JS code should be formatted as usuall', () => {
       () => a.b
      } SubDomain
      */
-    `)
+    `);
 
-  expect(result).toMatchSnapshot()
-})
+  expect(result).toMatchSnapshot();
+});
 
-test('hoisted object', () => {
+test("hoisted object", () => {
   const result = subject(`
   /**
  @typedef {
@@ -87,7 +87,7 @@ test('hoisted object', () => {
      } User
      */
  
-    `)
+    `);
 
-  expect(result).toMatchSnapshot()
-})
+  expect(result).toMatchSnapshot();
+});
