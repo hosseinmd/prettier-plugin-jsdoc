@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`template for callback 1`] = `
+"/**
+ * @template T
+ * @callback CallbackName
+ * @param {GetStyles<T>} getStyles
+ * @returns {UseStyle<T>}
+ */
+"
+`;
