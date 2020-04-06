@@ -1,35 +1,50 @@
-# jsdoc-parser
+[![NPM](https://nodei.co/npm/prettier-plugin-jsdoc.png)](https://nodei.co/npm/prettier-plugin-jsdoc/)
 
-## Prettier plugin jsdoc
+[![install size](https://packagephobia.now.sh/badge?p=prettier-plugin-jsdoc)](https://packagephobia.now.sh/result?p=prettier-plugin-jsdoc)
+[![dependencies](https://david-dm.org/hosseinmd/prettier-plugin-jsdoc.svg)](https://david-dm.org/hosseinmd/prettier-plugin-jsdoc.svg)
 
-        Prettier plugin for convert ugly jsdoc to pretty and standard
+# prettier-plugin-jsdoc
+
+Prettier plugin for format jsdoc and convert to standard
+Match with Visual studio and other IDE which support jsdoc
+
+## TOC
+
+- [Installation](#Installation)
+- [Links](#Links)
+- [Options](#Options)
+
 
 ## Installation
 
-        1. Install and configure Prettier as usual
-        2. Run `$ yarn add prettier-plugin-jsdoc`
-        3. Set "parser" value in Prettier options to "jsdoc-parser"
+1. Install and configure Prettier as usual
+2. 
+```npm
+npm i prettier-plugin-jsdoc --save
+```
+```yarn
+yarn add prettier-plugin-jsdoc
+```
+3. Set "parser" value in Prettier options to "jsdoc-parser"
 
 ## Options
 
-        KEY                                 TYPE     DEFAULT
+| Key          | type           | Default       |
+| :---         | :---           | :---          |
+| jsdocSpaces  | Number         | 1             |
+| jsdocDescriptionWithDot    | Boolean       | false      |
+| jsdocDescriptionTag        | Boolean       | false      |
+| jsdocVerticalAlignment     | Boolean       | false      |
+| jsdocKeepUnParseAbleExampleIndent     | Boolean       | true      |
 
-        jsdocSpaces                         Number   1
-        jsdocDescriptionWithDot             Boolean  false
-        jsdocDescriptionTag                 Boolean  false
-        jsdocVerticalAlignment              Boolean  false
-        jsdocKeepUnparseableExampleIndent   Boolean  true
+Full up to date list and description of options can be found in Prettier help.  First install plugin then run Prettier with "--help" option.
 
-        Full up to date list and description of options can be found
-        in Prettier help.  First install plugin then run Prettier with
-        "--help" option.
+`$ prettier --help`                     # global installation
 
-        $ prettier --help                      # global installation
-        $ ./node_modules/.bin/prettier --help  # local installation
+`$ ./node_modules/.bin/prettier --help` # local installation
 
 ## Links
 
 [Prettier](https://prettier.io)
 
 [JSDoc](https://jsdoc.app)
-        
