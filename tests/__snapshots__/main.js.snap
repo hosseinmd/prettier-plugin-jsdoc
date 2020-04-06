@@ -78,6 +78,8 @@ exports[`Should format regular jsDoc 1`] = `
  *
  * @param {String} [defaultValue] TODO Default is \`defaultTest\`
  * @param {Number | Null} [optionalNumber]
+ * @undefiendtag
+ * @undefiendtag {number} name des
  * @returns {Boolean} Description for @returns with s
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
@@ -108,6 +110,8 @@ exports[`Should format regular jsDoc 2`] = `
  *
  * @param {String} [defaultValue] TODO Default is \`defaultTest\`
  * @param {Number | Null} [optionalNumber]
+ * @undefiendtag
+ * @undefiendtag {number} name des
  * @returns {Boolean} Description for @returns with s
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
@@ -236,6 +240,41 @@ exports[`examples 2`] = `
  *       bar: 5
  *     }
  *   ];
+ */
+"
+`;
+
+exports[`yields should work like returns tag 1`] = `
+"/**
+ * @yields   {Number}   Yields description
+ */
+"
+`;
+
+exports[`yields should work like returns tag 2`] = `
+"/**
+ * @yields   {Number}   Yields description
+ */
+"
+`;
+
+exports[`yields should work like returns tag 3`] = `
+"/**
+ * @yields   {Number}
+ */
+"
+`;
+
+exports[`yields should work like returns tag 4`] = `
+"/**
+ * @yields   {any}   Yelds description
+ */
+"
+`;
+
+exports[`yields should work like returns tag 5`] = `
+"/**
+ * @yields   {any}
  */
 "
 `;

@@ -58,7 +58,8 @@ const tagSynonyms = {
 }
 
 const namelessTags = [YIELDS, RETURNS, THROWS, EXAMPLE, DESCRIPTION]
-const statusTags = [ASYNC, DEPRECATED, PRIVATE]
+const descriptionNeededTags = [DESCRIPTION, EXAMPLE, TODO]
+const typeNeededTags = [RETURNS, YIELDS, THROWS, PARAM, PROPERTY, TYPE, TYPEDEF]
 
 const verticallyAlignAbleTags = [PARAM, PROPERTY, RETURNS, THROWS, YIELDS, TYPE, TYPEDEF]
 
@@ -69,6 +70,7 @@ const verticallyAlignAbleTags = [PARAM, PROPERTY, RETURNS, THROWS, YIELDS, TYPE,
  * @param  {String}  text      TODO
  * @param  {Boolean} insertDot Flag for dot at the end of text
  * @return {String}            TODO
+ * @example
  */
 function formatDescription(text, insertDot) {
   text = text || ''
@@ -157,6 +159,10 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
           name = ''
         }
 
+        if (!type && typeNeededTags.includes(tag)) {
+          type = 'any'
+        }
+
         if (isVerticallyAlignAbleTags) {
           maxTagTitleLength = Math.max(maxTagTitleLength, tag.length)
         }
@@ -193,7 +199,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
 
       // Create final jsDoc string
       .forEach(({ name, description, type, tag }, tagIndex) => {
-        if (!name && !description && !type && !statusTags.includes(tag)) {
+        if (!description && descriptionNeededTags.includes(tag)) {
           return
         }
 

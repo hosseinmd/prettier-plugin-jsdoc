@@ -57,6 +57,8 @@ test('Should format regular jsDoc', () => {
 *   var two = 10
 *
 *   if(one > 2) { two += one }
+* @undefiendTag 
+* @undefiendTag {number} name des
 */
 const testFunction = (text, defaultValue, optionalNumber) => true
 `)
@@ -294,20 +296,13 @@ test('yields should work like returns tag', () => {
  */`,
     options
   )
-  const Expected1 = `/**
- * @yields   {Number}   Yields description
- */
-`
+
   const Result2 = subject(
     `/**
  * @yield {Number} yields description
  */`,
     options
   )
-  const Expected2 = `/**
- * @yields   {Number}   Yields description
- */
-`
 
   const Result3 = subject(
     `/**
@@ -315,10 +310,6 @@ test('yields should work like returns tag', () => {
  */`,
     options
   )
-  const Expected3 = `/**
- * @yields   {Number}
- */
-`
 
   const Result4 = subject(
     `/**
@@ -326,10 +317,6 @@ test('yields should work like returns tag', () => {
  */`,
     options
   )
-  const Expected4 = `/**
- * @yields   Yelds description
- */
-`
 
   const Result5 = subject(
     `/**
@@ -337,15 +324,12 @@ test('yields should work like returns tag', () => {
  */`,
     options
   )
-  const Expected5 = `/**
- */
-`
 
-  expect(Result1).toEqual(Expected1)
-  expect(Result2).toEqual(Expected2)
-  expect(Result3).toEqual(Expected3)
-  expect(Result4).toEqual(Expected4)
-  expect(Result5).toEqual(Expected5)
+  expect(Result1).toMatchSnapshot()
+  expect(Result2).toMatchSnapshot()
+  expect(Result3).toMatchSnapshot()
+  expect(Result4).toMatchSnapshot()
+  expect(Result5).toMatchSnapshot()
 })
 
 test('examples', () => {
