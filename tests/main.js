@@ -19,22 +19,7 @@ const stringVar = "text"        // Wrong quotes
 // Longer then 80 characters
 const someLongList = ['private', 'memberof', 'description', 'example', 'param', 'returns', 'link']`);
 
-  const expected = `const variable1 = 1; // No semicolon
-const stringVar = "text"; // Wrong quotes
-const indented = 2; // Wrong indentation
-
-// Longer then 80 characters
-const someLongList = [
-  "private",
-  "memberof",
-  "description",
-  "example",
-  "param",
-  "returns",
-  "link"
-];
-`;
-  expect(result).toEqual(expected);
+  expect(result).toMatchSnapshot()
 });
 
 test("Should format regular jsDoc", () => {

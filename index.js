@@ -28,7 +28,8 @@ const {
   SEE,
 } = require("./src/tags");
 const { jsdocParser } = require("./src");
-const babelFlow = require("prettier/parser-babylon").parsers["babel-flow"];
+const { parsers } = require('prettier/parser-babel') || require('prettier/parser-babylon')
+const babelFlow = parsers["babel-flow"];
 
 // jsdoc-parser
 module.exports = {
@@ -39,7 +40,7 @@ module.exports = {
     },
   ],
   parsers: {
-    "jsdoc-parser": Object.assign({}, babelFlow, { parse: jsdocParser }),
+    "jsdoc-parser": {...babelFlow, parse: jsdocParser },
   },
   // How to define options: https://github.com/prettier/prettier/blob/master/src/cli/constant.js#L16
   // Issue with string type: https://github.com/prettier/prettier/issues/6151

@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`JS code should be formatted as usuall 1`] = `
+"const variable1 = 1; // No semicolon
+const stringVar = \\"text\\"; // Wrong quotes
+const indented = 2; // Wrong indentation
+
+// Longer then 80 characters
+const someLongList = [
+  \\"private\\",
+  \\"memberof\\",
+  \\"description\\",
+  \\"example\\",
+  \\"param\\",
+  \\"returns\\",
+  \\"link\\",
+];
+"
+`;
+
 exports[`Should add empty line after @description and @example description if necessary 1`] = `
 "/**
  * Single line description
@@ -230,12 +248,12 @@ exports[`examples 2`] = `
  *     {
  *       foo: 1,
  *       foo: 2,
- *       foo: 9
+ *       foo: 9,
  *     },
  *     {
  *       bar: 1,
- *       bar: 5
- *     }
+ *       bar: 5,
+ *     },
  *   ];
  */
 "

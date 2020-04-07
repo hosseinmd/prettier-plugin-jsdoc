@@ -42,7 +42,7 @@ const XAxis = memo(
     spacingOuter = 0.05,
     xAccessor = ({ index }) => index,
     scale = d3Scale.scaleLinear,
-    formatLabel = value => value,
+    formatLabel = (value) => value,
     ...svg
   }) => {}
 );
