@@ -2,6 +2,7 @@ exports.YIELDS = "yields";
 exports.RETURNS = "returns";
 exports.THROWS = "throws";
 exports.EXAMPLE = "example";
+exports.EXTENDS = "extends";
 exports.ASYNC = "async";
 exports.PRIVATE = "private";
 exports.DEPRECATED = "deprecated";

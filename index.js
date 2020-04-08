@@ -3,6 +3,7 @@ const {
   RETURNS,
   THROWS,
   EXAMPLE,
+  EXTENDS,
   ASYNC,
   PRIVATE,
   DEPRECATED,
@@ -28,7 +29,8 @@ const {
   SEE,
 } = require("./src/tags");
 const { jsdocParser } = require("./src");
-const { parsers } = require('prettier/parser-babel') || require('prettier/parser-babylon')
+const { parsers } =
+  require("prettier/parser-babel") || require("prettier/parser-babylon");
 const babelFlow = parsers["babel-flow"];
 
 // jsdoc-parser
@@ -40,7 +42,7 @@ module.exports = {
     },
   ],
   parsers: {
-    "jsdoc-parser": {...babelFlow, parse: jsdocParser },
+    "jsdoc-parser": { ...babelFlow, parse: jsdocParser },
   },
   // How to define options: https://github.com/prettier/prettier/blob/master/src/cli/constant.js#L16
   // Issue with string type: https://github.com/prettier/prettier/issues/6151
@@ -79,6 +81,7 @@ module.exports = {
             CALLBACK,
             PROPERTY,
             PARAM,
+            EXTENDS,
             MEMBER,
             SEE,
             "other",

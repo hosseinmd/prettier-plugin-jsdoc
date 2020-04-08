@@ -8,7 +8,7 @@ const {
   EXAMPLE,
   DESCRIPTION,
   ABSTRACT,
-  AUGMENTS,
+  EXTENDS,
   CLASS,
   CONSTANT,
   DEFAULT,
@@ -32,7 +32,6 @@ const tagSynonyms = {
   // synonyms as keys and tag type as value that we want to have in
   // final jsDoc.
   virtual: ABSTRACT,
-  extends: AUGMENTS,
   constructor: CLASS,
   const: CONSTANT,
   defaultvalue: DEFAULT,
@@ -54,9 +53,10 @@ const tagSynonyms = {
   params: PARAM,
 };
 
-const namelessTags = [YIELDS, RETURNS, THROWS, EXAMPLE, DESCRIPTION];
+const namelessTags = [YIELDS, RETURNS, THROWS, EXAMPLE, EXTENDS, DESCRIPTION];
 const descriptionNeededTags = [DESCRIPTION, EXAMPLE, TODO];
 const typeNeededTags = [
+  EXTENDS,
   RETURNS,
   YIELDS,
   THROWS,
@@ -70,6 +70,7 @@ const verticallyAlignAbleTags = [
   PARAM,
   PROPERTY,
   RETURNS,
+  EXTENDS,
   THROWS,
   YIELDS,
   TYPE,
