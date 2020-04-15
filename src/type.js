@@ -45,6 +45,7 @@ exports.formatType = function formatType(type, options) {
 
     return pretty;
   } catch (error) {
+    console.log("jsdoc-parser", error);
     return type;
   }
 };
