@@ -19,7 +19,7 @@ const stringVar = "text"        // Wrong quotes
 // Longer then 80 characters
 const someLongList = ['private', 'memberof', 'description', 'example', 'param', 'returns', 'link']`);
 
-  expect(result).toMatchSnapshot()
+  expect(result).toMatchSnapshot();
 });
 
 test("Should format regular jsDoc", () => {
@@ -154,6 +154,7 @@ test("Sould keep complex inner types", () => {
  * @param {Array<(String|Number)>} test test param
  * @param {Array<Object.<String, Number>>} test test param
  * @param {...Number} test Test param
+ * @todo  todo is no param
  * @param {?Number} test Test param
  * @param {?undefined} test Test param
  * @param {!Number} test Test param

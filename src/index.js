@@ -53,7 +53,15 @@ const tagSynonyms = {
   params: PARAM,
 };
 
-const namelessTags = [YIELDS, RETURNS, THROWS, EXAMPLE, EXTENDS, DESCRIPTION];
+const namelessTags = [
+  YIELDS,
+  RETURNS,
+  THROWS,
+  EXAMPLE,
+  EXTENDS,
+  DESCRIPTION,
+  TODO,
+];
 const descriptionNeededTags = [DESCRIPTION, EXAMPLE, TODO];
 const typeNeededTags = [
   EXTENDS,

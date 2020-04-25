@@ -200,6 +200,7 @@ exports[`Sould keep complex inner types 1`] = `
  * @param {Number | String} test Test param
  * @param {undefined} test Test param
  * @param {any} test Test param
+ * @todo Todo is no param
  */
 "
 `;
