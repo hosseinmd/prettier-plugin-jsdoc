@@ -22,6 +22,8 @@ const {
   TYPE,
   TYPEDEF,
   TODO,
+  SINCE,
+  CATEGORY,
   MEMBEROF,
   SEE,
 } = require("./tags");
@@ -62,7 +64,7 @@ const namelessTags = [
   DESCRIPTION,
   TODO,
 ];
-const descriptionNeededTags = [DESCRIPTION, EXAMPLE, TODO];
+const descriptionNeededTags = [DESCRIPTION, EXAMPLE, TODO, SINCE, CATEGORY];
 const typeNeededTags = [
   EXTENDS,
   RETURNS,
