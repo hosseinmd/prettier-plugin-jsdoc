@@ -6,7 +6,10 @@
 # prettier-plugin-jsdoc
 
 Prettier plugin for format jsdoc and convert to standard
-Match with Visual studio and other IDE which support jsdoc
+Match with Visual studio and other IDE which support jsdoc.
+
+Many good examples of how this plugin work, are in tests directory.
+Compare tests and their snapshot
 
 ## TOC
 
