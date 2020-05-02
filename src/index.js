@@ -313,18 +313,13 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
           try {
             tagString += `@${tag}${" ".repeat(tagTitleGapAdj)}`;
           } catch (error) {
-            const isVerticallyAlignAbleTags = verticallyAlignAbleTags.includes(
-              tag
-            );
-            console.log({
-              maxTagTitleLength,
-              tag: tag.length,
-              isVerticallyAlignAbleTags,
-            });
             console.log(error);
           }
         }
-        if (type) tagString += gap + `{${type}}` + " ".repeat(tagTypeGapAdj);
+        if (type) {
+          type = type.replace(/(\n)/g, "\n * ");
+          tagString += gap + `{${type}}` + " ".repeat(tagTypeGapAdj);
+        }
         if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
 
         // Add description (complicated because of text wrap)
