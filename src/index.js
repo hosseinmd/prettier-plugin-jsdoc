@@ -277,6 +277,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
             tagString += description;
           } else {
             // Wrap tag description
+            const beginningSpace = tag === DESCRIPTION ? "" : "    "; // google style guide space
             const marginLength = tagString.length;
             let maxWidth = printWidth;
 
@@ -291,7 +292,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
                 sliceIndex = maxWidth;
               tagString += resolveDescription.substring(0, sliceIndex);
               resolveDescription = resolveDescription.substring(sliceIndex + 1);
-              resolveDescription = `\n    ${resolveDescription}`; // google style guide space
+              resolveDescription = `\n${beginningSpace}${resolveDescription}`;
             }
 
             tagString += resolveDescription;

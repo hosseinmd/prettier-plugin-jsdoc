@@ -79,9 +79,9 @@ exports[`Should convert to single line if necessary 3`] = `
 exports[`Should format regular jsDoc 1`] = `
 "/**
  * Function example description that was wrapped by hand so it have more then one
- *     line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to
- *     copy function example description that was wrapped by hand so it have more
- *     then one line.
+ * line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to copy
+ * function example description that was wrapped by hand so it have more then one
+ * line.
  *
  * @async
  * @private
@@ -109,9 +109,9 @@ const testFunction = (text, defaultValue, optionalNumber) => true;
 exports[`Should format regular jsDoc 2`] = `
 "/**
  * Function example description that was wrapped by hand so it have more then one
- *     line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to
- *     copy function example description that was wrapped by hand so it have more
- *     then one line.
+ * line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to copy
+ * function example description that was wrapped by hand so it have more then one
+ * line.
  *
  * @async
  * @private
