@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-jsdoc",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,8 @@
     "@typescript-eslint/parser": "^2.20.0",
     "eslint": "^6.8.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "prettier": "^2.0.5",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "prettier": "^2.0.5"
   },
   "peerDependencies": {
     "prettier": ">=2"
