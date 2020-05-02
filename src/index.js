@@ -385,15 +385,19 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
         comment.value += tagString;
       });
 
-    if (numberOfAStringInString(comment.value, "\n") <= 1) {
-      comment.value = `* ${comment.value.replace(/(\n)/g, "")} `;
-    } else {
-      comment.value = `*${comment.value.replace(/((?!\n$)\n)/g, "\n * ")}\n `;
-    }
+    comment.value = addStarsToTheBeginningOfTheLines(comment.value);
   });
 
   return ast;
 };
+
+function addStarsToTheBeginningOfTheLines(comment) {
+  if (numberOfAStringInString(comment, "\n") <= 1) {
+    return `* ${comment.replace(/(\n)/g, "")} `;
+  }
+
+  return `*${comment.replace(/((?!\n$)\n)/g, "\n * ")}\n `;
+}
 
 function numberOfAStringInString(string, search) {
   return (string.match(new RegExp(search, "g")) || []).length;
