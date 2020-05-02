@@ -88,58 +88,6 @@ const verticallyAlignAbleTags = [
 ];
 
 /**
- * Trim, make single line with capitalized text. Insert dot if flag for it is
- * set to true and last character is a word character
- *
- * @private
- * @param {String} text TODO
- * @param {Boolean} insertDot Flag for dot at the end of text
- * @returns {String} TODO
- */
-function formatDescription(text, insertDot) {
-  text = text || "";
-  text = text.replace(/^[\W]/g, "");
-  text = text.trim();
-
-  if (!text) return text;
-
-  text = text = text.replace(/\s\s+/g, " "); // Avoid multiple spaces
-  text = text.replace(/\n/g, " "); // Make single line
-  if (insertDot) text = text.replace(/(\w)(?=$)/g, "$1."); // Insert dot if needed
-  text = text[0].toUpperCase() + text.slice(1); // Capitalize
-  return text || "";
-}
-
-function convertCommentDescToDescTag(parsed) {
-  if (!parsed.description) {
-    return;
-  }
-
-  const Tag = parsed.tags.find(({ tag }) => tag.toLowerCase() === DESCRIPTION);
-  let { description = "" } = Tag || {};
-
-  description += parsed.description;
-
-  if (Tag) {
-    Tag.description = description;
-  } else {
-    parsed.tags.push({ tag: DESCRIPTION, description });
-  }
-}
-
-function descriptionEndLine({ description, tag, isEndTag }) {
-  if (description.length < 0 || isEndTag) {
-    return "";
-  }
-
-  if ([DESCRIPTION, EXAMPLE, TODO].includes(tag)) {
-    return "\n";
-  }
-
-  return "";
-}
-
-/**
  * @link https://prettier.io/docs/en/api.html#custom-parser-api}
  */
 exports.jsdocParser = function jsdocParser(text, parsers, options) {
@@ -388,6 +336,58 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
 
   return ast;
 };
+
+/**
+ * Trim, make single line with capitalized text. Insert dot if flag for it is
+ * set to true and last character is a word character
+ *
+ * @private
+ * @param {String} text TODO
+ * @param {Boolean} insertDot Flag for dot at the end of text
+ * @returns {String} TODO
+ */
+function formatDescription(text, insertDot) {
+  text = text || "";
+  text = text.replace(/^[\W]/g, "");
+  text = text.trim();
+
+  if (!text) return text;
+
+  text = text = text.replace(/\s\s+/g, " "); // Avoid multiple spaces
+  text = text.replace(/\n/g, " "); // Make single line
+  if (insertDot) text = text.replace(/(\w)(?=$)/g, "$1."); // Insert dot if needed
+  text = text[0].toUpperCase() + text.slice(1); // Capitalize
+  return text || "";
+}
+
+function convertCommentDescToDescTag(parsed) {
+  if (!parsed.description) {
+    return;
+  }
+
+  const Tag = parsed.tags.find(({ tag }) => tag.toLowerCase() === DESCRIPTION);
+  let { description = "" } = Tag || {};
+
+  description += parsed.description;
+
+  if (Tag) {
+    Tag.description = description;
+  } else {
+    parsed.tags.push({ tag: DESCRIPTION, description });
+  }
+}
+
+function descriptionEndLine({ description, tag, isEndTag }) {
+  if (description.length < 0 || isEndTag) {
+    return "";
+  }
+
+  if ([DESCRIPTION, EXAMPLE, TODO].includes(tag)) {
+    return "\n";
+  }
+
+  return "";
+}
 
 function addStarsToTheBeginningOfTheLines(comment) {
   if (numberOfAStringInString(comment, "\n") <= 1) {
