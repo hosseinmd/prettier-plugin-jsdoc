@@ -33,28 +33,6 @@ const someLongList = [
 "
 `;
 
-exports[`Should add empty line after @description and @example description if necessary 1`] = `
-"/** Single line description */
-"
-`;
-
-exports[`Should add empty line after @description and @example description if necessary 2`] = `
-"/**
- * Single line description
-
- */
-"
-`;
-
-exports[`Should add empty line after @description and @example description if necessary 3`] = `
-"/**
- * Single line description
- *
- * @returns {Boolean} Always true
- */
-"
-`;
-
 exports[`Should align vertically param|property|returns|yields|throws if option set to true, and amount of spaces is different than default 1`] = `
 "/**
  * @property  {Object}          unalginedProp   Unaligned property descriptin
@@ -69,13 +47,12 @@ exports[`Should align vertically param|property|returns|yields|throws if option 
 exports[`Should align vertically param|property|returns|yields|throws if option set to true, and amount of spaces is different than default 2`] = `
 "/**
  * @property    {Object}            unalginedProp     Unaligned property
- * descriptin
- *
+ *     descriptin
  * @param       {String}            unalginedParam    Unaligned param description
  * @throws      {CustomExceptio}                      Unaligned throws description
  * @yields      {Number}                              Yields description
  * @returns     {String}                              Unaligned returns
- * description
+ *     description
  */
 "
 `;
@@ -102,9 +79,9 @@ exports[`Should convert to single line if necessary 3`] = `
 exports[`Should format regular jsDoc 1`] = `
 "/**
  * Function example description that was wrapped by hand so it have more then one
- * line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to copy
- * function example description that was wrapped by hand so it have more then one
- * line.
+ *     line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to
+ *     copy function example description that was wrapped by hand so it have more
+ *     then one line.
  *
  * @async
  * @private
@@ -118,8 +95,7 @@ exports[`Should format regular jsDoc 1`] = `
  *   }
  *
  * @param {String | Number} text Some text description that is very long and needs
- * to be wrapped
- *
+ *     to be wrapped
  * @param {String} [defaultValue] TODO Default is \`defaultTest\`
  * @param {Number | Null} [optionalNumber]
  * @undefiendtag
@@ -133,9 +109,9 @@ const testFunction = (text, defaultValue, optionalNumber) => true;
 exports[`Should format regular jsDoc 2`] = `
 "/**
  * Function example description that was wrapped by hand so it have more then one
- * line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to copy
- * function example description that was wrapped by hand so it have more then one
- * line.
+ *     line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to
+ *     copy function example description that was wrapped by hand so it have more
+ *     then one line.
  *
  * @async
  * @private
@@ -149,8 +125,7 @@ exports[`Should format regular jsDoc 2`] = `
  *   }
  *
  * @param {String | Number} text Some text description that is very long and needs
- * to be wrapped
- *
+ *     to be wrapped
  * @param {String} [defaultValue] TODO Default is \`defaultTest\`
  * @param {Number | Null} [optionalNumber]
  * @undefiendtag
@@ -164,8 +139,7 @@ const testFunction = (text, defaultValue, optionalNumber) => true;
 exports[`Should insert proper amount of spaces based on option 1`] = `
 "/**
  * @param  {Object}  paramName  Param description that goes on and on and on utill
- * it will need to be wrapped
- *
+ *     it will need to be wrapped
  * @returns  {Number}  Return description
  */
 "
@@ -174,8 +148,7 @@ exports[`Should insert proper amount of spaces based on option 1`] = `
 exports[`Should insert proper amount of spaces based on option 2`] = `
 "/**
  * @param   {Object}   paramName   Param description that goes on and on and on
- * utill it will need to be wrapped
- *
+ *     utill it will need to be wrapped
  * @returns   {Number}   Return description
  */
 "
