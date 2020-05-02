@@ -136,9 +136,7 @@ function descriptionEndLine({ description, tag, isEndTag }) {
     return "\n";
   }
 
-  const isDescriptionMultiLine = numberOfAStringInString(description, "\n") > 1;
-
-  return isDescriptionMultiLine ? "\n" : "";
+  return "";
 }
 
 /**
@@ -345,7 +343,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
                 sliceIndex = maxWidth;
               tagString += resolveDescription.substring(0, sliceIndex);
               resolveDescription = resolveDescription.substring(sliceIndex + 1);
-              resolveDescription = `\n${resolveDescription}`;
+              resolveDescription = `\n    ${resolveDescription}`; // google style guide space
             }
 
             tagString += resolveDescription;
