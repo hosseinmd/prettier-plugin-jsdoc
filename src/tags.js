@@ -1,30 +1,67 @@
-exports.YIELDS = "yields";
-exports.RETURNS = "returns";
-exports.THROWS = "throws";
-exports.EXAMPLE = "example";
-exports.EXTENDS = "extends";
-exports.ASYNC = "async";
-exports.PRIVATE = "private";
-exports.DEPRECATED = "deprecated";
-exports.DESCRIPTION = "description";
-exports.ABSTRACT = "abstract";
-exports.AUGMENTS = "augments";
-exports.CATEGORY = "category";
-exports.CLASS = "class";
-exports.CONSTANT = "constant";
-exports.DEFAULT = "default";
-exports.EXTERNAL = "external";
-exports.FILE = "file";
-exports.FIRES = "fires";
-exports.FUNCTION = "function";
-exports.MEMBER = "member";
-exports.SINCE = "since";
-exports.PARAM = "param";
-exports.PROPERTY = "property";
-exports.TEMPLATE = "template";
-exports.TYPE = "type";
-exports.TYPEDEF = "typedef";
-exports.CALLBACK = "callback";
-exports.TODO = "todo";
-exports.MEMBEROF = "memberof";
-exports.SEE = "see";
+const ABSTRACT = "abstract";
+const AUTHOR = "author";
+const AUGMENTS = "augments";
+const ASYNC = "async";
+const CALLBACK = "callback";
+const CATEGORY = "category";
+const CLASS = "class";
+const CONSTANT = "constant";
+const DEFAULT = "default";
+const DEPRECATED = "deprecated";
+const DESCRIPTION = "description";
+const EXAMPLE = "example";
+const EXTENDS = "extends";
+const EXTERNAL = "external";
+const FILE = "file";
+const FIRES = "fires";
+const FUNCTION = "function";
+const MEMBER = "member";
+const MEMBEROF = "memberof";
+const PARAM = "param";
+const PROPERTY = "property";
+const PRIVATE = "private";
+const RETURNS = "returns";
+const SINCE = "since";
+const SEE = "see";
+const THROWS = "throws";
+const TEMPLATE = "template";
+const TYPE = "type";
+const TYPEDEF = "typedef";
+const TODO = "todo";
+const VERSION = "version";
+const YIELDS = "yields";
+
+module.exports = {
+  ABSTRACT,
+  AUTHOR,
+  AUGMENTS,
+  ASYNC,
+  CALLBACK,
+  CATEGORY,
+  CLASS,
+  CONSTANT,
+  DEFAULT,
+  DEPRECATED,
+  DESCRIPTION,
+  EXAMPLE,
+  EXTENDS,
+  EXTERNAL,
+  FILE,
+  FIRES,
+  FUNCTION,
+  MEMBER,
+  MEMBEROF,
+  PARAM,
+  PROPERTY,
+  PRIVATE,
+  RETURNS,
+  SINCE,
+  SEE,
+  THROWS,
+  TEMPLATE,
+  TYPE,
+  TYPEDEF,
+  TODO,
+  VERSION,
+  YIELDS,
+};
