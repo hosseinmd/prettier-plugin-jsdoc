@@ -11,6 +11,8 @@ Match with Visual studio and other IDE which support jsdoc.
 Many good examples of how this plugin work, are in tests directory.
 Compare tests and their snapshot
 
+configured with best practices of jsDoc style guides
+
 ## TOC
 
 - [Installation](#Installation)
