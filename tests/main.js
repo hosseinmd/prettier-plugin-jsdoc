@@ -52,9 +52,9 @@ const testFunction = (text, defaultValue, optionalNumber) => true
   expect(subject(result)).toMatchSnapshot();
 });
 
-test("Should add empty line after @description and @example description if necessary", () => {
+test("Should convert to single line if necessary", () => {
   const Result1 = subject(`/** single line description*/`);
-
+  /** @todo this is a bug */
   const Result2 = subject(`/**
  * single line description
  * @example
@@ -75,30 +75,18 @@ test(" undefined|null|void type", () => {
   const Result1 = subject(`/**
  * @return {undefined}
  */`);
-  const Expected1 = `/**
- * @returns {undefined}
- */
-`;
 
   const Result2 = subject(`/**
  * @return {null}
  */`);
-  const Expected2 = `/**
- * @returns {null}
- */
-`;
 
   const Result3 = subject(`/**
  * @returns { void } 
  */`);
-  const Expected3 = `/**
- * @returns {void}
- */
-`;
 
-  expect(Result1).toEqual(Expected1);
-  expect(Result2).toEqual(Expected2);
-  expect(Result3).toEqual(Expected3);
+  expect(Result1).toMatchSnapshot();
+  expect(Result2).toMatchSnapshot();
+  expect(Result3).toMatchSnapshot();
 });
 
 test("Should keep defined inner types", () => {

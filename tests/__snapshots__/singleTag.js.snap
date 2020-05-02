@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`single tag 1`] = `
+"/** @param {string} subDomainAddress */
+const SUB_DOMAIN = \\"SubDomain\\";
+
+export const SubDomain = {
+  /** @returns {import(\\"axios\\").AxiosResponse<import(\\"../types\\").SubDomain>} */
+  async subDomain(subDomainAddress) {},
+};
+"
+`;

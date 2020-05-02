@@ -40,9 +40,7 @@ export let User;
  * }} SubDomain
  */
 
-/**
- * @typedef {() => a.b} SubDomain
- */
+/** @typedef {() => a.b} SubDomain */
 "
 `;
 

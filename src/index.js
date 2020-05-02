@@ -116,7 +116,7 @@ function convertCommentDescToDescTag(parsed) {
   }
 
   const Tag = parsed.tags.find(({ tag }) => tag.toLowerCase() === DESCRIPTION);
-  let { tag: description = "" } = Tag || {};
+  let { description = "" } = Tag || {};
 
   description += parsed.description;
 
@@ -133,12 +133,12 @@ function descriptionEndLine({ description, tag, isEndTag }) {
   }
 
   if ([DESCRIPTION, EXAMPLE, TODO].includes(tag)) {
-    return "\n *";
+    return "\n";
   }
 
-  const isDescriptionMultiLine = description.includes("\n");
+  const isDescriptionMultiLine = numberOfAStringInString(description, "\n") > 1;
 
-  return isDescriptionMultiLine ? "\n *" : "";
+  return isDescriptionMultiLine ? "\n" : "";
 }
 
 /**
@@ -178,7 +178,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
 
     const parsed = commentParser(commentString, { dotted_names: false })[0];
 
-    comment.value = "*\n";
+    comment.value = "";
 
     convertCommentDescToDescTag(parsed);
 
@@ -278,13 +278,14 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
 
       // Sort tags
       .sort((a, b) => getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag))
-
-      // Create final jsDoc string
-      .forEach(({ name, description, type, tag }, tagIndex) => {
+      .filter(({ description, tag }) => {
         if (!description && descriptionNeededTags.includes(tag)) {
-          return;
+          return false;
         }
-
+        return true;
+      })
+      // Create final jsDoc string
+      .forEach(({ name, description, type, tag }, tagIndex, finalTagsArray) => {
         let tagTitleGapAdj = 0;
         let tagTypeGapAdj = 0;
         let tagNameGapAdj = 0;
@@ -307,7 +308,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
         }
 
         let useTagTitle = tag !== DESCRIPTION || options.jsdocDescriptionTag;
-        let tagString = ` * `;
+        let tagString = "\n";
 
         if (useTagTitle) {
           try {
@@ -317,7 +318,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
           }
         }
         if (type) {
-          type = type.replace(/(\n)/g, "\n * ");
+          type = type.replace(/(\n)/g, "\n");
           tagString += gap + `{${type}}` + " ".repeat(tagTypeGapAdj);
         }
         if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
@@ -336,18 +337,18 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
             if (marginLength >= maxWidth) {
               maxWidth = marginLength + 20;
             }
-            description = `${tagString}${description}`;
+            let resolveDescription = `${tagString}${description}`;
             tagString = "";
-            while (description.length > maxWidth) {
-              let sliceIndex = description.lastIndexOf(" ", maxWidth);
+            while (resolveDescription.length > maxWidth) {
+              let sliceIndex = resolveDescription.lastIndexOf(" ", maxWidth);
               if (sliceIndex === -1 || sliceIndex <= marginLength + 2)
                 sliceIndex = maxWidth;
-              tagString += description.substring(0, sliceIndex);
-              description = description.substring(sliceIndex + 1);
-              description = `\n * ${description}`;
+              tagString += resolveDescription.substring(0, sliceIndex);
+              resolveDescription = resolveDescription.substring(sliceIndex + 1);
+              resolveDescription = `\n${resolveDescription}`;
             }
 
-            tagString += description;
+            tagString += resolveDescription;
           }
         }
 
@@ -358,15 +359,15 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
               description || "",
               options
             );
-            tagString += formattedDescription.replace(/(^|\n)/g, "\n *   ");
-            tagString = tagString.slice(0, tagString.length - 6);
+            tagString += formattedDescription.replace(/(^|\n)/g, "\n  ");
+            tagString = tagString.slice(0, tagString.length - 3);
           } catch (err) {
             tagString += "\n";
             tagString += description
               .split("\n")
               .map(
                 (l) =>
-                  ` *   ${
+                  `  ${
                     options.jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
                   }`
               )
@@ -376,18 +377,24 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
 
         // Add empty line after some tags if there is something below
         tagString += descriptionEndLine({
-          description,
+          description: tagString,
           tag,
-          isEndTag: tagIndex === parsed.tags.length - 1,
+          isEndTag: tagIndex === finalTagsArray.length - 1,
         });
-
-        tagString += "\n";
 
         comment.value += tagString;
       });
 
-    comment.value += " ";
+    if (numberOfAStringInString(comment.value, "\n") <= 1) {
+      comment.value = `* ${comment.value.replace(/(\n)/g, "")} `;
+    } else {
+      comment.value = `*${comment.value.replace(/((?!\n$)\n)/g, "\n * ")}\n `;
+    }
   });
 
   return ast;
 };
+
+function numberOfAStringInString(string, search) {
+  return (string.match(new RegExp(search, "g")) || []).length;
+}

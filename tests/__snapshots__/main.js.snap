@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[` undefined|null|void type 1`] = `
+"/** @returns {undefined} */
+"
+`;
+
+exports[` undefined|null|void type 2`] = `
+"/** @returns {null} */
+"
+`;
+
+exports[` undefined|null|void type 3`] = `
+"/** @returns {void} */
+"
+`;
+
 exports[`JS code should be formatted as usuall 1`] = `
 "const variable1 = 1; // No semicolon
 const stringVar = \\"text\\"; // Wrong quotes
@@ -19,16 +34,14 @@ const someLongList = [
 `;
 
 exports[`Should add empty line after @description and @example description if necessary 1`] = `
-"/**
- * Single line description
- */
+"/** Single line description */
 "
 `;
 
 exports[`Should add empty line after @description and @example description if necessary 2`] = `
 "/**
  * Single line description
- *
+
  */
 "
 `;
@@ -58,12 +71,8 @@ exports[`Should align vertically param|property|returns|yields|throws if option 
  * @property    {Object}            unalginedProp     Unaligned property
  * descriptin
  *
- * @param       {String}            unalginedParam    Unaligned param
- * description
- *
- * @throws      {CustomExceptio}                      Unaligned throws
- * description
- *
+ * @param       {String}            unalginedParam    Unaligned param description
+ * @throws      {CustomExceptio}                      Unaligned throws description
  * @yields      {Number}                              Yields description
  * @returns     {String}                              Unaligned returns
  * description
@@ -71,12 +80,31 @@ exports[`Should align vertically param|property|returns|yields|throws if option 
 "
 `;
 
+exports[`Should convert to single line if necessary 1`] = `
+"/** Single line description */
+"
+`;
+
+exports[`Should convert to single line if necessary 2`] = `
+"/** Single line description */
+"
+`;
+
+exports[`Should convert to single line if necessary 3`] = `
+"/**
+ * Single line description
+ *
+ * @returns {Boolean} Always true
+ */
+"
+`;
+
 exports[`Should format regular jsDoc 1`] = `
 "/**
- * Function example description that was wrapped by hand so it have more then
- * one line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER
- * to copy function example description that was wrapped by hand so it have
- * more then one line.
+ * Function example description that was wrapped by hand so it have more then one
+ * line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to copy
+ * function example description that was wrapped by hand so it have more then one
+ * line.
  *
  * @async
  * @private
@@ -89,8 +117,8 @@ exports[`Should format regular jsDoc 1`] = `
  *     two += one;
  *   }
  *
- * @param {String | Number} text Some text description that is very long and
- * needs to be wrapped
+ * @param {String | Number} text Some text description that is very long and needs
+ * to be wrapped
  *
  * @param {String} [defaultValue] TODO Default is \`defaultTest\`
  * @param {Number | Null} [optionalNumber]
@@ -104,10 +132,10 @@ const testFunction = (text, defaultValue, optionalNumber) => true;
 
 exports[`Should format regular jsDoc 2`] = `
 "/**
- * Function example description that was wrapped by hand so it have more then
- * one line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER
- * to copy function example description that was wrapped by hand so it have
- * more then one line.
+ * Function example description that was wrapped by hand so it have more then one
+ * line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to copy
+ * function example description that was wrapped by hand so it have more then one
+ * line.
  *
  * @async
  * @private
@@ -120,8 +148,8 @@ exports[`Should format regular jsDoc 2`] = `
  *     two += one;
  *   }
  *
- * @param {String | Number} text Some text description that is very long and
- * needs to be wrapped
+ * @param {String | Number} text Some text description that is very long and needs
+ * to be wrapped
  *
  * @param {String} [defaultValue] TODO Default is \`defaultTest\`
  * @param {Number | Null} [optionalNumber]
@@ -135,8 +163,8 @@ const testFunction = (text, defaultValue, optionalNumber) => true;
 
 exports[`Should insert proper amount of spaces based on option 1`] = `
 "/**
- * @param  {Object}  paramName  Param description that goes on and on and on
- * utill it will need to be wrapped
+ * @param  {Object}  paramName  Param description that goes on and on and on utill
+ * it will need to be wrapped
  *
  * @returns  {Number}  Return description
  */
@@ -154,37 +182,27 @@ exports[`Should insert proper amount of spaces based on option 2`] = `
 `;
 
 exports[`Should keep defined inner types 1`] = `
-"/**
- * @param {String[]} test Test param
- */
+"/** @param {String[]} test Test param */
 "
 `;
 
 exports[`Should keep defined inner types 2`] = `
-"/**
- * @param {String[]} test Test param
- */
+"/** @param {String[]} test Test param */
 "
 `;
 
 exports[`Should keep defined inner types 3`] = `
-"/**
- * @param {(String | Object)[]} test Test param
- */
+"/** @param {(String | Object)[]} test Test param */
 "
 `;
 
 exports[`Should keep defined inner types 4`] = `
-"/**
- * @returns {Promise<Number | String | undefined>} Test promise
- */
+"/** @returns {Promise<Number | String | undefined>} Test promise */
 "
 `;
 
 exports[`Should keep defined inner types 5`] = `
-"/**
- * @returns {Object<Number | String | undefined>} Test object
- */
+"/** @returns {Object<Number | String | undefined>} Test object */
 "
 `;
 
@@ -206,9 +224,7 @@ exports[`Sould keep complex inner types 1`] = `
 `;
 
 exports[`Sould keep complex inner types 2`] = `
-"/**
- * @returns {Promise<Object<string, number | undefined>>} Test return
- */
+"/** @returns {Promise<Object<string, number | undefined>>} Test return */
 "
 `;
 
@@ -261,36 +277,26 @@ exports[`examples 2`] = `
 `;
 
 exports[`yields should work like returns tag 1`] = `
-"/**
- * @yields   {Number}   Yields description
- */
+"/** @yields   {Number}   Yields description */
 "
 `;
 
 exports[`yields should work like returns tag 2`] = `
-"/**
- * @yields   {Number}   Yields description
- */
+"/** @yields   {Number}   Yields description */
 "
 `;
 
 exports[`yields should work like returns tag 3`] = `
-"/**
- * @yields   {Number}
- */
+"/** @yields   {Number} */
 "
 `;
 
 exports[`yields should work like returns tag 4`] = `
-"/**
- * @yields   {any}   Yelds description
- */
+"/** @yields   {any}   Yelds description */
 "
 `;
 
 exports[`yields should work like returns tag 5`] = `
-"/**
- * @yields   {any}
- */
+"/** @yields   {any} */
 "
 `;
