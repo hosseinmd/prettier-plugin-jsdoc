@@ -16,6 +16,7 @@ configured with best practices of jsDoc style guides
 ## TOC
 
 - [Installation](#Installation)
+- [Examples](#Examples)
 - [Links](#Links)
 - [Options](#Options)
 
@@ -33,6 +34,74 @@ yarn add prettier-plugin-jsdoc
 ```
 
 3. Set "parser" value in Prettier options (.prettierrc etc) to "jsdoc-parser"
+
+## Examples
+
+#### Single line
+
+```js
+/**
+ * @param {  string   }    param0 description
+ */
+function fun(param0) {}
+
+/**
+ * @type {React.FC<{   message:string}   >}
+ */
+const Component = memo(({ message }) => {
+  return <p>{message}</p>;
+});
+```
+
+Format to
+
+```js
+/** @param {string} param0 Description */
+function fun(param0) {}
+
+/** @type {React.FC<{message: string}>} */
+const Component = memo(({ message }) => {
+  return <p>{message}</p>;
+});
+```
+
+#### Typescript Objects
+
+```js
+/**
+ @typedef {
+    {
+        "userId": {
+        title: string,
+        "profileImageLink": *,
+        "identityStatus": "None",
+        "isBusinessUser": "isResellerUser"|"isBoolean"|  "isSubUser" |    "isNot",
+        "shareCode": number,
+        "referredBy": any,
+        },
+        id:number
+      }
+     } User
+     */
+```
+
+Format to
+
+```js
+/**
+ * @typedef {{
+ *   userId: {
+ *     title: string;
+ *     profileImageLink: any;
+ *     identityStatus: "None";
+ *     isBusinessUser: "isResellerUser" | "isBoolean" | "isSubUser" | "isNot";
+ *     shareCode: number;
+ *     referredBy: any;
+ *   };
+ *   id: number;
+ * }} User
+ */
+```
 
 ## Options
 
