@@ -13,9 +13,9 @@ function subject(code, options = {}) {
 test("single tag", () => {
   const result = subject(`
   /**
-  * @param {string} subDomainAddress
-*/
-  const SUB_DOMAIN = "SubDomain";
+* @param {  string   }    param0 description
+   */
+function fun(param0){}
 
   export const SubDomain = {
     /**
