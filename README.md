@@ -33,7 +33,21 @@ npm i prettier-plugin-jsdoc --save
 yarn add prettier-plugin-jsdoc
 ```
 
-3. Set "parser" value in Prettier options (.prettierrc etc) to "jsdoc-parser"
+3. add a parser override to your prettier file for js files
+```.prettierrc.js
+module.exports = {
+  arrowParens: 'avoid', // or any other config you have
+  overrides: [
+    {
+      files: '*.js',
+      options: {
+        parser: 'jsdoc-parser',
+      },
+    },
+  ],
+};
+```
+**avoid setting the parser value on the root of your config file, it will disable prettier's default behavior and will not parse non-js files**
 
 ## Examples
 
