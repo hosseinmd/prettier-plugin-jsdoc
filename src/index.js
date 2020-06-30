@@ -1,91 +1,16 @@
 const commentParser = require("comment-parser");
 const prettier = require("prettier");
 const { convertToModernArray, formatType } = require("./type");
+const { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, TODO } = require("./tags");
+
 const {
-  ABSTRACT,
-  CATEGORY,
-  CLASS,
-  CONSTANT,
-  DEFAULT,
-  DESCRIPTION,
-  EXAMPLE,
-  EXTENDS,
-  EXTERNAL,
-  FILE,
-  FIRES,
-  FUNCTION,
-  MEMBER,
-  MEMBEROF,
-  PARAM,
-  PROPERTY,
-  RETURNS,
-  SINCE,
-  SEE,
-  THROWS,
-  TYPE,
-  TYPEDEF,
-  TODO,
-  YIELDS,
-} = require("./tags");
-
-const tagSynonyms = {
-  // One TAG TYPE can have different titles called SYNONYMS.  We want
-  // to avoid different titles in the same tag so here is map with
-  // synonyms as keys and tag type as value that we want to have in
-  // final jsDoc.
-  virtual: ABSTRACT,
-  constructor: CLASS,
-  const: CONSTANT,
-  defaultvalue: DEFAULT,
-  desc: DESCRIPTION,
-  host: EXTERNAL,
-  fileoverview: FILE,
-  overview: FILE,
-  emits: FIRES,
-  func: FUNCTION,
-  method: FUNCTION,
-  var: MEMBER,
-  arg: PARAM,
-  argument: PARAM,
-  prop: PROPERTY,
-  return: RETURNS,
-  exception: THROWS,
-  yield: YIELDS,
-  examples: EXAMPLE,
-  params: PARAM,
-};
-
-const namelessTags = [
-  YIELDS,
-  RETURNS,
-  THROWS,
-  EXAMPLE,
-  EXTENDS,
-  DESCRIPTION,
-  TODO,
-];
-const descriptionNeededTags = [DESCRIPTION, EXAMPLE, TODO, SINCE, CATEGORY];
-const typeNeededTags = [
-  EXTENDS,
-  RETURNS,
-  YIELDS,
-  THROWS,
-  PARAM,
-  PROPERTY,
-  TYPE,
-  TYPEDEF,
-];
-
-const verticallyAlignAbleTags = [
-  PARAM,
-  PROPERTY,
-  RETURNS,
-  EXTENDS,
-  THROWS,
-  YIELDS,
-  TYPE,
-  TYPEDEF,
-];
+  TAGS_DESCRIPTION_NEEDED,
+  TAGS_HAVE_DESCRIPTION,
+  TAGS_NAMELESS,
+  TAGS_SYNONYMS,
+  TAGS_TYPE_NEEDED,
+  TAGS_VERTICALLY_ALIGN_ABLE,
+} = require("./roles");
 
 /**
  * @link https://prettier.io/docs/en/api.html#custom-parser-api}
@@ -147,24 +72,20 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
           ...restInfo
         }) => {
           tag = tag && tag.trim().toLowerCase();
-          tag = tagSynonyms[tag] || tag;
-          const isVerticallyAlignAbleTags = verticallyAlignAbleTags.includes(
+          tag = TAGS_SYNONYMS[tag] || tag;
+          const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
             tag
           );
 
-          if (namelessTags.includes(tag) && name) {
+          if (TAGS_NAMELESS.includes(tag) && name) {
             description = `${name} ${description}`;
             name = "";
           }
 
-          if (!type && typeNeededTags.includes(tag)) {
+          const isTypeNeeded = TAGS_TYPE_NEEDED.includes(tag);
+          if (!type && isTypeNeeded) {
             type = "any";
           }
-
-          if (isVerticallyAlignAbleTags) {
-            maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
-          }
-
           if (type) {
             type = convertToModernArray(type);
             type = formatType(type, options);
@@ -191,19 +112,11 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
             }
           }
 
-          if (
-            [
-              DESCRIPTION,
-              PARAM,
-              PROPERTY,
-              RETURNS,
-              YIELDS,
-              THROWS,
-              TODO,
-              TYPE,
-              TYPEDEF,
-            ].includes(tag)
-          ) {
+          if (isVerticallyAlignAbleTags) {
+            maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
+          }
+
+          if (TAGS_HAVE_DESCRIPTION.includes(tag)) {
             description = formatDescription(
               description,
               options.jsdocDescriptionWithDot
@@ -225,7 +138,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
       // Sort tags
       .sort((a, b) => getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag))
       .filter(({ description, tag }) => {
-        if (!description && descriptionNeededTags.includes(tag)) {
+        if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
           return false;
         }
         return true;
@@ -239,7 +152,7 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
 
         if (
           options.jsdocVerticalAlignment &&
-          verticallyAlignAbleTags.includes(tag)
+          TAGS_VERTICALLY_ALIGN_ABLE.includes(tag)
         ) {
           if (tag) tagTitleGapAdj += maxTagTitleLength - tag.length;
           else if (maxTagTitleLength)
@@ -264,7 +177,6 @@ exports.jsdocParser = function jsdocParser(text, parsers, options) {
           }
         }
         if (type) {
-          type = type.replace(/(\n)/g, "\n");
           tagString += gap + `{${type}}` + " ".repeat(tagTypeGapAdj);
         }
         if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
