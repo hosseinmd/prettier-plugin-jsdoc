@@ -1,6 +1,7 @@
 .vscode/
 node_modules/
 tests/
+src/
 
 .eslintignore
 .eslintrc.js
