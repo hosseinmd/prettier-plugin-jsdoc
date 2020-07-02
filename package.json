@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "compile": "babel src --out-dir dist --minified --presets @babel/preset-env",
+    "prepublish": "yarn compile",
     "lint": "eslint --ext '.js' .",
     "test": "jest",
     "prettier": "prettier --write \"**/*.js\""
