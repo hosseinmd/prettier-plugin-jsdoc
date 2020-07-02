@@ -1,3 +1,4 @@
+//@ts-check
 import {
   ABSTRACT,
   AUTHOR,
@@ -35,7 +36,7 @@ import {
 import { jsdocParser } from "./parser";
 const {
   parsers: { "babel-flow": babelFlow },
-} = require("prettier/parser-babel") || require("prettier/parser-babylon");
+} = require("prettier/parser-babel");
 
 // jsdoc-parser
 export const languages = [
