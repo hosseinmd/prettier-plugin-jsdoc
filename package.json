@@ -7,7 +7,7 @@
     "compile": "babel src --out-dir dist --minified --presets @babel/preset-env",
     "prepublish": "yarn compile",
     "lint": "eslint --ext '.js' .",
-    "test": "jest",
+    "test": "yarn compile && jest",
     "prettier": "prettier --write \"**/*.js\""
   },
   "keywords": [
