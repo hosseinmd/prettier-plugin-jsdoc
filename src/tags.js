@@ -31,7 +31,7 @@ const TODO = "todo";
 const VERSION = "version";
 const YIELDS = "yields";
 
-module.exports = {
+export {
   ABSTRACT,
   AUTHOR,
   AUGMENTS,

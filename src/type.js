@@ -1,6 +1,6 @@
-const prettier = require("prettier");
+import { format } from "prettier";
 
-exports.convertToModernArray = function convertToModernArray(type) {
+function convertToModernArray(type) {
   if (!type) {
     return type;
   }
@@ -28,14 +28,14 @@ exports.convertToModernArray = function convertToModernArray(type) {
   }
 
   return replaceArray(type);
-};
+}
 
-exports.formatType = function formatType(type, options) {
+function formatType(type, options) {
   try {
     let pretty = type.replace("*", "any");
     const TYPE_START = "type name = ";
 
-    pretty = prettier.format(`${TYPE_START}${pretty}`, {
+    pretty = format(`${TYPE_START}${pretty}`, {
       ...options,
       parser: "typescript",
     });
@@ -48,4 +48,6 @@ exports.formatType = function formatType(type, options) {
     console.log("jsdoc-parser", error);
     return type;
   }
-};
+}
+
+export { convertToModernArray, formatType };

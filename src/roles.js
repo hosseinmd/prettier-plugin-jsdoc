@@ -1,4 +1,4 @@
-const {
+import {
   ABSTRACT,
   CATEGORY,
   CLASS,
@@ -23,7 +23,7 @@ const {
   TYPEDEF,
   TODO,
   YIELDS,
-} = require("./tags");
+} from "./tags";
 
 const TAGS_SYNONYMS = {
   // One TAG TYPE can have different titles called SYNONYMS.  We want
@@ -95,7 +95,7 @@ const TAGS_VERTICALLY_ALIGN_ABLE = [
   TYPEDEF,
 ];
 
-module.exports = {
+export {
   TAGS_SYNONYMS,
   TAGS_DESCRIPTION_NEEDED,
   TAGS_HAVE_DESCRIPTION,
