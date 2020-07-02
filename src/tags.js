@@ -1,3 +1,4 @@
+//@ts-check
 const ABSTRACT = "abstract";
 const AUTHOR = "author";
 const AUGMENTS = "augments";

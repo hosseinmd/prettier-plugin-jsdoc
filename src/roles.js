@@ -1,3 +1,4 @@
+//@ts-check
 import {
   ABSTRACT,
   CATEGORY,
@@ -12,12 +13,10 @@ import {
   FIRES,
   FUNCTION,
   MEMBER,
-  MEMBEROF,
   PARAM,
   PROPERTY,
   RETURNS,
   SINCE,
-  SEE,
   THROWS,
   TYPE,
   TYPEDEF,

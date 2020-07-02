@@ -1,3 +1,4 @@
+//@ts-check
 import { format } from "prettier";
 
 function convertToModernArray(type) {

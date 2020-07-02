@@ -1,3 +1,4 @@
+//@ts-check
 import commentParser from "comment-parser";
 import { format } from "prettier";
 import { convertToModernArray, formatType } from "./type";
