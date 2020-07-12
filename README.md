@@ -61,7 +61,17 @@ module.exports = {
  * @param {  string   }    param0 description
  */
 function fun(param0) {}
+```
 
+Format to
+
+```js
+/** @param {string} param0 Description */
+function fun(param0) {}
+```
+
+#### React Component
+```js
 /**
  * @type {React.FC<{   message:string}   >}
  */
@@ -73,15 +83,11 @@ const Component = memo(({ message }) => {
 Format to
 
 ```js
-/** @param {string} param0 Description */
-function fun(param0) {}
-
 /** @type {React.FC<{message: string}>} */
 const Component = memo(({ message }) => {
   return <p>{message}</p>;
 });
 ```
-
 #### Typescript Objects
 
 ```js
