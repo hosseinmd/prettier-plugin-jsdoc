@@ -13,6 +13,9 @@ Compare tests and their snapshot
 
 configured with best practices of jsDoc style guides
 
+initial source code (https://gitlab.com/gumen/prettier-plugin-jsdoc)
+
+
 ## TOC
 
 - [Installation](#Installation)
