@@ -18,9 +18,9 @@ import {
   RETURNS,
   SINCE,
   THROWS,
+  TODO,
   TYPE,
   TYPEDEF,
-  TODO,
   YIELDS,
 } from "./tags";
 
@@ -29,76 +29,76 @@ const TAGS_SYNONYMS = {
   // to avoid different titles in the same tag so here is map with
   // synonyms as keys and tag type as value that we want to have in
   // final jsDoc.
-  virtual: ABSTRACT,
-  constructor: CLASS,
-  const: CONSTANT,
-  defaultvalue: DEFAULT,
-  desc: DESCRIPTION,
-  host: EXTERNAL,
-  fileoverview: FILE,
-  overview: FILE,
-  emits: FIRES,
-  func: FUNCTION,
-  method: FUNCTION,
-  var: MEMBER,
   arg: PARAM,
   argument: PARAM,
+  const: CONSTANT,
+  constructor: CLASS,
+  defaultvalue: DEFAULT,
+  desc: DESCRIPTION,
+  emits: FIRES,
+  examples: EXAMPLE,
+  exception: THROWS,
+  fileoverview: FILE,
+  func: FUNCTION,
+  host: EXTERNAL,
+  method: FUNCTION,
+  overview: FILE,
+  params: PARAM,
   prop: PROPERTY,
   return: RETURNS,
-  exception: THROWS,
+  var: MEMBER,
+  virtual: ABSTRACT,
   yield: YIELDS,
-  examples: EXAMPLE,
-  params: PARAM,
 };
 
 const TAGS_NAMELESS = [
-  YIELDS,
-  RETURNS,
-  THROWS,
+  DESCRIPTION,
   EXAMPLE,
   EXTENDS,
-  DESCRIPTION,
+  RETURNS,
+  THROWS,
   TODO,
+  YIELDS,
 ];
-const TAGS_DESCRIPTION_NEEDED = [DESCRIPTION, EXAMPLE, TODO, SINCE, CATEGORY];
+const TAGS_DESCRIPTION_NEEDED = [CATEGORY, DESCRIPTION, EXAMPLE, SINCE, TODO];
 const TAGS_HAVE_DESCRIPTION = [
   DESCRIPTION,
   PARAM,
   PROPERTY,
   RETURNS,
-  YIELDS,
   THROWS,
   TODO,
   TYPE,
   TYPEDEF,
+  YIELDS,
 ];
 const TAGS_TYPE_NEEDED = [
   EXTENDS,
-  RETURNS,
-  YIELDS,
-  THROWS,
   PARAM,
   PROPERTY,
+  RETURNS,
+  THROWS,
   TYPE,
   TYPEDEF,
+  YIELDS,
 ];
 
 const TAGS_VERTICALLY_ALIGN_ABLE = [
+  EXTENDS,
   PARAM,
   PROPERTY,
   RETURNS,
-  EXTENDS,
   THROWS,
-  YIELDS,
   TYPE,
   TYPEDEF,
+  YIELDS,
 ];
 
 export {
-  TAGS_SYNONYMS,
   TAGS_DESCRIPTION_NEEDED,
   TAGS_HAVE_DESCRIPTION,
   TAGS_NAMELESS,
+  TAGS_SYNONYMS,
   TAGS_TYPE_NEEDED,
   TAGS_VERTICALLY_ALIGN_ABLE,
 };

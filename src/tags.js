@@ -1,8 +1,8 @@
 //@ts-check
 const ABSTRACT = "abstract";
-const AUTHOR = "author";
-const AUGMENTS = "augments";
 const ASYNC = "async";
+const AUGMENTS = "augments";
+const AUTHOR = "author";
 const CALLBACK = "callback";
 const CATEGORY = "category";
 const CLASS = "class";
@@ -19,24 +19,24 @@ const FUNCTION = "function";
 const MEMBER = "member";
 const MEMBEROF = "memberof";
 const PARAM = "param";
-const PROPERTY = "property";
 const PRIVATE = "private";
+const PROPERTY = "property";
 const RETURNS = "returns";
-const SINCE = "since";
 const SEE = "see";
-const THROWS = "throws";
+const SINCE = "since";
 const TEMPLATE = "template";
+const THROWS = "throws";
+const TODO = "todo";
 const TYPE = "type";
 const TYPEDEF = "typedef";
-const TODO = "todo";
 const VERSION = "version";
 const YIELDS = "yields";
 
 export {
   ABSTRACT,
-  AUTHOR,
-  AUGMENTS,
   ASYNC,
+  AUGMENTS,
+  AUTHOR,
   CALLBACK,
   CATEGORY,
   CLASS,
@@ -53,16 +53,16 @@ export {
   MEMBER,
   MEMBEROF,
   PARAM,
-  PROPERTY,
   PRIVATE,
+  PROPERTY,
   RETURNS,
-  SINCE,
   SEE,
-  THROWS,
+  SINCE,
   TEMPLATE,
+  THROWS,
+  TODO,
   TYPE,
   TYPEDEF,
-  TODO,
   VERSION,
   YIELDS,
 };

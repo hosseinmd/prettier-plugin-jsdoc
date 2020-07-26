@@ -3,7 +3,6 @@ import commentParser from "comment-parser";
 import { format } from "prettier";
 import { convertToModernArray, formatType } from "./type";
 import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, TODO } from "./tags";
-
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_HAVE_DESCRIPTION,
