@@ -35,7 +35,7 @@ import {
 } from "./tags";
 import { jsdocParser } from "./parser";
 const {
-  parsers: { "babel-flow": babelFlow },
+  parsers: { "babel-ts": babelTs },
 } = require("prettier/parser-babel");
 
 // jsdoc-parser
@@ -47,7 +47,7 @@ export const languages = [
 ];
 
 export const parsers = {
-  "jsdoc-parser": { ...babelFlow, parse: jsdocParser },
+  "jsdoc-parser": { ...babelTs, parse: jsdocParser },
 };
 
 export const options = {

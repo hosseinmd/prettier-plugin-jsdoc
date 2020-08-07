@@ -16,7 +16,7 @@ import {
  * @link https://prettier.io/docs/en/api.html#custom-parser-api}
  */
 export function jsdocParser(text, parsers, options) {
-  const ast = parsers["babel-flow"](text);
+  const ast = parsers["babel-ts"](text);
   // Options
   const gap = " ".repeat(options.jsdocSpaces);
   const { printWidth } = options;
