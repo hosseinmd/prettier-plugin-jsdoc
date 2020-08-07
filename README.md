@@ -13,6 +13,9 @@ Compare tests and their snapshot
 
 configured with best practices of jsDoc style guides
 
+initial source code (https://gitlab.com/gumen/prettier-plugin-jsdoc)
+
+
 ## TOC
 
 - [Installation](#Installation)
@@ -58,7 +61,17 @@ module.exports = {
  * @param {  string   }    param0 description
  */
 function fun(param0) {}
+```
 
+Format to
+
+```js
+/** @param {string} param0 Description */
+function fun(param0) {}
+```
+
+#### React Component
+```js
 /**
  * @type {React.FC<{   message:string}   >}
  */
@@ -70,15 +83,11 @@ const Component = memo(({ message }) => {
 Format to
 
 ```js
-/** @param {string} param0 Description */
-function fun(param0) {}
-
 /** @type {React.FC<{message: string}>} */
 const Component = memo(({ message }) => {
   return <p>{message}</p>;
 });
 ```
-
 #### Typescript Objects
 
 ```js
