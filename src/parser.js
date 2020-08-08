@@ -37,9 +37,9 @@ export function jsdocParser(text, parsers, options) {
       : index;
   }
 
-  ast.comments.forEach((comment) => {
+  ast.comments = ast.comments.filter((comment) => {
     // Parse only comment blocks
-    if (comment.type !== "CommentBlock") return;
+    if (comment.type !== "CommentBlock") return true;
 
     const commentString = `/*${comment.value}*/`;
 
@@ -82,10 +82,6 @@ export function jsdocParser(text, parsers, options) {
             name = "";
           }
 
-          const isTypeNeeded = TAGS_TYPE_NEEDED.includes(tag);
-          if (!type && isTypeNeeded) {
-            type = "any";
-          }
           if (type) {
             type = convertToModernArray(type);
             type = formatType(type, options);
@@ -137,8 +133,11 @@ export function jsdocParser(text, parsers, options) {
 
       // Sort tags
       .sort((a, b) => getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag))
-      .filter(({ description, tag }) => {
+      .filter(({ description, tag, type }) => {
         if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
+          return false;
+        }
+        if (!description && !type && TAGS_TYPE_NEEDED.includes(tag)) {
           return false;
         }
         return true;
@@ -240,7 +239,13 @@ export function jsdocParser(text, parsers, options) {
         comment.value += tagString;
       });
 
+    if (!comment.value) {
+      return false;
+    }
+
     comment.value = addStarsToTheBeginningOfTheLines(comment.value);
+
+    return true;
   });
 
   return ast;
