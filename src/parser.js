@@ -200,8 +200,7 @@ export function jsdocParser(text, parsers, options) {
             tagString = "";
             while (resolveDescription.length > maxWidth) {
               let sliceIndex = resolveDescription.lastIndexOf(" ", maxWidth);
-              if (sliceIndex === -1 || sliceIndex <= marginLength + 2)
-                sliceIndex = maxWidth;
+              if (sliceIndex === -1) sliceIndex = maxWidth;
               tagString += resolveDescription.substring(0, sliceIndex);
               resolveDescription = resolveDescription.substring(sliceIndex + 1);
               resolveDescription = `\n${beginningSpace}${resolveDescription}`;
