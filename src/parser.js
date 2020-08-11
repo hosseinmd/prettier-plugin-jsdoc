@@ -8,7 +8,6 @@ import {
   TAGS_HAVE_DESCRIPTION,
   TAGS_NAMELESS,
   TAGS_SYNONYMS,
-  TAGS_TYPE_NEEDED,
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
 
@@ -37,9 +36,9 @@ export function jsdocParser(text, parsers, options) {
       : index;
   }
 
-  ast.comments = ast.comments.filter((comment) => {
+  ast.comments.forEach((comment) => {
     // Parse only comment blocks
-    if (comment.type !== "CommentBlock") return true;
+    if (comment.type !== "CommentBlock") return;
 
     const commentString = `/*${comment.value}*/`;
 
@@ -133,11 +132,8 @@ export function jsdocParser(text, parsers, options) {
 
       // Sort tags
       .sort((a, b) => getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag))
-      .filter(({ description, tag, type }) => {
+      .filter(({ description, tag }) => {
         if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
-          return false;
-        }
-        if (!description && !type && TAGS_TYPE_NEEDED.includes(tag)) {
           return false;
         }
         return true;
@@ -239,13 +235,7 @@ export function jsdocParser(text, parsers, options) {
         comment.value += tagString;
       });
 
-    if (!comment.value) {
-      return false;
-    }
-
     comment.value = addStarsToTheBeginningOfTheLines(comment.value);
-
-    return true;
   });
 
   return ast;
