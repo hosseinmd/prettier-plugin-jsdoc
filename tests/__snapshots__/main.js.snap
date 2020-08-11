@@ -265,11 +265,11 @@ exports[`yields should work like returns tag 3`] = `
 `;
 
 exports[`yields should work like returns tag 4`] = `
-"/** @yields   {any}   Yelds description */
+"/** @yields   Yelds description */
 "
 `;
 
 exports[`yields should work like returns tag 5`] = `
-"/** @yields   {any} */
+"/** @yields */
 "
 `;
