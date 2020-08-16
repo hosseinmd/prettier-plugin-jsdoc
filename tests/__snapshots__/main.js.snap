@@ -48,8 +48,10 @@ exports[`Should align vertically param|property|returns|yields|throws if option 
 "/**
  * @property    {Object}            unalginedProp     Unaligned property
  *     descriptin
- * @param       {String}            unalginedParam    Unaligned param description
- * @throws      {CustomExceptio}                      Unaligned throws description
+ * @param       {String}            unalginedParam    Unaligned param
+ *     description
+ * @throws      {CustomExceptio}                      Unaligned throws
+ *     description
  * @yields      {Number}                              Yields description
  * @returns     {String}                              Unaligned returns
  *     description
@@ -78,10 +80,10 @@ exports[`Should convert to single line if necessary 3`] = `
 
 exports[`Should format regular jsDoc 1`] = `
 "/**
- * Function example description that was wrapped by hand so it have more then one
- * line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to copy
- * function example description that was wrapped by hand so it have more then one
- * line.
+ * Function example description that was wrapped by hand so it have more then
+ * one line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER
+ * to copy function example description that was wrapped by hand so it have
+ * more then one line.
  *
  * @async
  * @private
@@ -94,8 +96,8 @@ exports[`Should format regular jsDoc 1`] = `
  *     two += one;
  *   }
  *
- * @param {String | Number} text Some text description that is very long and needs
- *     to be wrapped
+ * @param {String | Number} text Some text description that is very long and
+ *     needs to be wrapped
  * @param {String} [defaultValue] TODO Default is \`\\"defaultTest\\"\`
  * @param {Number | Null} [optionalNumber]
  * @undefiendtag
@@ -108,10 +110,10 @@ const testFunction = (text, defaultValue, optionalNumber) => true;
 
 exports[`Should format regular jsDoc 2`] = `
 "/**
- * Function example description that was wrapped by hand so it have more then one
- * line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to copy
- * function example description that was wrapped by hand so it have more then one
- * line.
+ * Function example description that was wrapped by hand so it have more then
+ * one line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER
+ * to copy function example description that was wrapped by hand so it have
+ * more then one line.
  *
  * @async
  * @private
@@ -124,8 +126,8 @@ exports[`Should format regular jsDoc 2`] = `
  *     two += one;
  *   }
  *
- * @param {String | Number} text Some text description that is very long and needs
- *     to be wrapped
+ * @param {String | Number} text Some text description that is very long and
+ *     needs to be wrapped
  * @param {String} [defaultValue] TODO Default is \`\\"defaultTest\\"\`
  * @param {Number | Null} [optionalNumber]
  * @undefiendtag
@@ -138,8 +140,8 @@ const testFunction = (text, defaultValue, optionalNumber) => true;
 
 exports[`Should insert proper amount of spaces based on option 1`] = `
 "/**
- * @param  {Object}  paramName  Param description that goes on and on and on utill
- *     it will need to be wrapped
+ * @param  {Object}  paramName  Param description that goes on and on and on
+ *     utill it will need to be wrapped
  * @returns  {Number}  Return description
  */
 "

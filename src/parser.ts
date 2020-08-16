@@ -1,5 +1,5 @@
 import commentParser from "comment-parser";
-import { format, Options, BuiltInParser } from "prettier";
+import { format, Options } from "prettier";
 import { convertToModernArray, formatType } from "./type";
 import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, TODO } from "./tags";
 import {
@@ -50,12 +50,12 @@ type AST = {
  * @link https://prettier.io/docs/en/api.html#custom-parser-api}
  */
 export function jsdocParser(
-  text: any,
-  parsers: { [x: string]: (arg0: any) => any },
+  text: string,
+  parsers: { [x: string]: (arg0: string) => AST },
   options: JsdocOptions
 ) {
-  const babelTs = parsers["babel-ts"] as BuiltInParser;
-  const ast = babelTs(text) as AST;
+  const babelTs = parsers["babel-ts"];
+  const ast = babelTs(text);
   // Options
   const gap = " ".repeat(options.jsdocSpaces);
   const { printWidth = 80 } = options;
@@ -236,7 +236,7 @@ export function jsdocParser(
             let maxWidth = printWidth - column - 3; // column is location of comment, 3 is ` * `
 
             if (marginLength >= maxWidth) {
-              maxWidth = marginLength + 20;
+              maxWidth = marginLength;
             }
             let resolveDescription = `${tagString}${description}`;
             tagString = "";
