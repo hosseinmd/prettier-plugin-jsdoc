@@ -1,6 +1,5 @@
-//@ts-check
 import commentParser from "comment-parser";
-import { format } from "prettier";
+import { format, Options, BuiltInParser } from "prettier";
 import { convertToModernArray, formatType } from "./type";
 import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, TODO } from "./tags";
 import {
@@ -11,14 +10,55 @@ import {
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
 
+type JsdocOptions = {
+  jsdocSpaces: number;
+  jsdocDescriptionWithDot: boolean;
+  jsdocDescriptionTag: boolean;
+  jsdocVerticalAlignment: boolean;
+  jsdocKeepUnParseAbleExampleIndent: boolean;
+  jsdocTagsOrder: string[];
+} & Options;
+type LocationDetails = { line: number; column: number };
+type Location = { start: LocationDetails; end: LocationDetails };
+
+type PrettierComment = {
+  type: "CommentBlock";
+  value: string;
+  start: number;
+  end: number;
+  loc: Location;
+};
+type AST = {
+  start: number;
+  end: number;
+  loc: Location;
+  errors: [];
+  program: {
+    type: "Program";
+    start: number;
+    end: number;
+    loc: [];
+    sourceType: "module";
+    interpreter: null;
+    body: [];
+    directives: [];
+  };
+  comments: PrettierComment[];
+};
+
 /**
  * @link https://prettier.io/docs/en/api.html#custom-parser-api}
  */
-export function jsdocParser(text, parsers, options) {
-  const ast = parsers["babel-ts"](text);
+export function jsdocParser(
+  text: any,
+  parsers: { [x: string]: (arg0: any) => any },
+  options: JsdocOptions
+) {
+  const babelTs = parsers["babel-ts"] as BuiltInParser;
+  const ast = babelTs(text) as AST;
   // Options
   const gap = " ".repeat(options.jsdocSpaces);
-  const { printWidth } = options;
+  const { printWidth = 80 } = options;
 
   /**
    * Control order of tags by weights. Smaller value brings tag higher.
@@ -26,7 +66,7 @@ export function jsdocParser(text, parsers, options) {
    * @param {String} tagTitle TODO
    * @returns {Number} Tag weight
    */
-  function getTagOrderWeight(tagTitle) {
+  function getTagOrderWeight(tagTitle: string): number {
     if (tagTitle === DESCRIPTION && !options.jsdocDescriptionTag) {
       return -1;
     }
@@ -37,6 +77,12 @@ export function jsdocParser(text, parsers, options) {
   }
 
   ast.comments.forEach((comment) => {
+    const {
+      loc: {
+        start: { column },
+      },
+    } = comment;
+
     // Parse only comment blocks
     if (comment.type !== "CommentBlock") return;
 
@@ -71,6 +117,7 @@ export function jsdocParser(text, parsers, options) {
           ...restInfo
         }) => {
           tag = tag && tag.trim().toLowerCase();
+          //@ts-ignore
           tag = TAGS_SYNONYMS[tag] || tag;
           const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
             tag
@@ -186,7 +233,7 @@ export function jsdocParser(text, parsers, options) {
             // Wrap tag description
             const beginningSpace = tag === DESCRIPTION ? "" : "    "; // google style guide space
             const marginLength = tagString.length;
-            let maxWidth = printWidth;
+            let maxWidth = printWidth - column - 3; // column is location of comment, 3 is ` * `
 
             if (marginLength >= maxWidth) {
               maxWidth = marginLength + 20;
@@ -246,11 +293,9 @@ export function jsdocParser(text, parsers, options) {
  * set to true and last character is a word character
  *
  * @private
- * @param {String} text TODO
  * @param {Boolean} insertDot Flag for dot at the end of text
- * @returns {String} TODO
  */
-function formatDescription(text, insertDot) {
+function formatDescription(text: string, insertDot: boolean): string {
   text = text || "";
   text = text.replace(/^[\W]/g, "");
   text = text.trim();
@@ -264,7 +309,7 @@ function formatDescription(text, insertDot) {
   return text || "";
 }
 
-function convertCommentDescToDescTag(parsed) {
+function convertCommentDescToDescTag(parsed: commentParser.Comment) {
   if (!parsed.description) {
     return;
   }
@@ -277,11 +322,11 @@ function convertCommentDescToDescTag(parsed) {
   if (Tag) {
     Tag.description = description;
   } else {
-    parsed.tags.push({ tag: DESCRIPTION, description });
+    parsed.tags.push({ tag: DESCRIPTION, description } as any);
   }
 }
 
-function descriptionEndLine({ description, tag, isEndTag }) {
+function descriptionEndLine({ description, tag, isEndTag }: any) {
   if (description.length < 0 || isEndTag) {
     return "";
   }
@@ -293,7 +338,7 @@ function descriptionEndLine({ description, tag, isEndTag }) {
   return "";
 }
 
-function addStarsToTheBeginningOfTheLines(comment) {
+function addStarsToTheBeginningOfTheLines(comment: string) {
   if (numberOfAStringInString(comment, "\n") <= 1) {
     return `* ${comment.replace(/(\n)/g, "")} `;
   }
@@ -301,6 +346,6 @@ function addStarsToTheBeginningOfTheLines(comment) {
   return `*${comment.replace(/((?!\n$)\n)/g, "\n * ")}\n `;
 }
 
-function numberOfAStringInString(string, search) {
+function numberOfAStringInString(string: string, search: string | RegExp) {
   return (string.match(new RegExp(search, "g")) || []).length;
 }

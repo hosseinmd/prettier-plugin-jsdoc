@@ -2,12 +2,11 @@
   "name": "prettier-plugin-jsdoc",
   "version": "0.0.23",
   "description": "",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "compile": "babel src --out-dir dist --minified --presets @babel/preset-env",
-    "prepublish": "yarn compile",
+    "prepare": "tsc",
     "lint": "eslint --ext '.js' .",
-    "test": "yarn compile && jest",
+    "test": "yarn prepare && jest",
     "prettier": "prettier --write \"**/*.js\""
   },
   "keywords": [
