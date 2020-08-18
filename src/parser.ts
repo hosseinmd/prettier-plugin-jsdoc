@@ -4,7 +4,7 @@ import { convertToModernArray, formatType } from "./type";
 import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, TODO } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
-  TAGS_HAVE_DESCRIPTION,
+  TAGS_NEED_FORMAT_DESCRIPTION,
   TAGS_NAMELESS,
   TAGS_SYNONYMS,
   TAGS_VERTICALLY_ALIGN_ABLE,
@@ -158,7 +158,7 @@ export function jsdocParser(
             maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
           }
 
-          if (TAGS_HAVE_DESCRIPTION.includes(tag)) {
+          if (TAGS_NEED_FORMAT_DESCRIPTION.includes(tag)) {
             description = formatDescription(
               description,
               options.jsdocDescriptionWithDot
