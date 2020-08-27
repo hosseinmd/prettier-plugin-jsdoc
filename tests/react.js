@@ -37,8 +37,8 @@ test("JS code should be formatted as usuall", () => {
    *
    * Default is \`0.05\`
    * @property {d3Scale.scaleLinear} [scale] Should be the same as passed into the charts \`xScale\`
-   *
    * Default is \`d3Scale.scaleLinear\`
+   * 
    * @property {()=>any} [xAccessor] Default is \`({index}) => index\`
    * @property {number} [max]
    * @property {number} [min]

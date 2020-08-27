@@ -12,10 +12,14 @@ import { useLayout, useInlineStyle } from \\"./hooks\\";
  * @typedef {object} XAxisProps
  * @property {number} [spacingOuter] Spacing between the labels. Only
  *     applicable if \`scale=d3Scale.scaleBand\` and should then be equal to
- *     \`spacingOuter\` prop on the actual BarChart Default is \`0.05\`
+ *     \`spacingOuter\` prop on the actual BarChart
+ *
+ * Default is \`0.05\`
  * @property {number} [spacingInner] Spacing between the labels. Only
  *     applicable if \`scale=d3Scale.scaleBand\` and should then be equal to
- *     \`spacingInner\` prop on the actual BarChart Default is \`0.05\`
+ *     \`spacingInner\` prop on the actual BarChart
+ *
+ * Default is \`0.05\`
  * @property {d3Scale.scaleLinear} [scale] Should be the same as passed into
  *     the charts \`xScale\` Default is \`d3Scale.scaleLinear\`
  * @property {() => any} [xAccessor] Default is \`({index}) => index\`

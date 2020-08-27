@@ -46,6 +46,8 @@ type AST = {
   comments: PrettierComment[];
 };
 
+const EMPTY_LINE_SIGNATURE = "#2@1093NmY^5!~#sdEKHuhPOK*&^%$";
+
 /**
  * @link https://prettier.io/docs/en/api.html#custom-parser-api}
  */
@@ -238,17 +240,25 @@ export function jsdocParser(
             if (marginLength >= maxWidth) {
               maxWidth = marginLength;
             }
-            let resolveDescription = `${tagString}${description}`;
-            tagString = "";
-            while (resolveDescription.length > maxWidth) {
-              let sliceIndex = resolveDescription.lastIndexOf(" ", maxWidth);
-              if (sliceIndex === -1) sliceIndex = maxWidth;
-              tagString += resolveDescription.substring(0, sliceIndex);
-              resolveDescription = resolveDescription.substring(sliceIndex + 1);
-              resolveDescription = `\n${beginningSpace}${resolveDescription}`;
-            }
 
-            tagString += resolveDescription;
+            let resolveDescription = `${tagString}${description}`;
+
+            tagString = resolveDescription
+              .split(EMPTY_LINE_SIGNATURE)
+              .map((paragraph) => {
+                let result = "";
+                while (paragraph.length > maxWidth) {
+                  let sliceIndex = paragraph.lastIndexOf(" ", maxWidth);
+                  if (sliceIndex === -1) sliceIndex = maxWidth;
+                  result += paragraph.substring(0, sliceIndex);
+                  paragraph = paragraph.substring(sliceIndex + 1);
+                  paragraph = `\n${beginningSpace}${paragraph}`;
+                }
+                result += paragraph;
+
+                return result;
+              })
+              .join("\n\n");
           }
         }
 
@@ -302,8 +312,10 @@ function formatDescription(text: string, insertDot: boolean): string {
 
   if (!text) return text;
 
-  text = text = text.replace(/\s\s+/g, " "); // Avoid multiple spaces
+  text = text.replace(/\n\n/g, EMPTY_LINE_SIGNATURE); // Add a signature for empty line and use that later
+  text = text.replace(/\s\s+/g, " "); // Avoid multiple spaces
   text = text.replace(/\n/g, " "); // Make single line
+
   if (insertDot) text = text.replace(/(\w)(?=$)/g, "$1."); // Insert dot if needed
   text = text[0].toUpperCase() + text.slice(1); // Capitalize
   return text || "";
