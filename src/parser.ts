@@ -255,8 +255,8 @@ export function jsdocParser(
         // Try to use prettier on @example tag description
         if (tag === EXAMPLE) {
           try {
-            const formattedDescription = format(description || "", options);
-            tagString += formattedDescription.replace(/(^|\n)/g, "\n  ");
+            const formattedExample = format(description || "", options);
+            tagString += formattedExample.replace(/(^|\n)/g, "\n  ");
             tagString = tagString.slice(0, tagString.length - 3);
           } catch (err) {
             tagString += "\n";

@@ -45,7 +45,6 @@
     ]
   },
   "dependencies": {
-    "babel-flow": "^2.0.2",
     "comment-parser": "^0.7.5"
   }
 }

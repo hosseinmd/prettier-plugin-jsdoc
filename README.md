@@ -15,7 +15,6 @@ configured with best practices of jsDoc style guides
 
 initial source code (https://gitlab.com/gumen/prettier-plugin-jsdoc)
 
-
 ## TOC
 
 - [Installation](#Installation)
@@ -37,6 +36,7 @@ yarn add prettier-plugin-jsdoc
 ```
 
 3. add a parser override to your prettier file for js files
+
 ```.prettierrc.js
 module.exports = {
   arrowParens: 'avoid', // or any other config you have
@@ -50,6 +50,7 @@ module.exports = {
   ],
 };
 ```
+
 **avoid setting the parser value on the root of your config file, it will disable prettier's default behavior and will not parse non-js files**
 
 ## Examples
@@ -71,6 +72,7 @@ function fun(param0) {}
 ```
 
 #### React Component
+
 ```js
 /**
  * @type {React.FC<{   message:string}   >}
@@ -88,6 +90,7 @@ const Component = memo(({ message }) => {
   return <p>{message}</p>;
 });
 ```
+
 #### Typescript Objects
 
 ```js
@@ -123,6 +126,34 @@ Format to
  *   };
  *   id: number;
  * }} User
+ */
+```
+
+#### Example
+
+Add code to example tag
+
+```js
+/**
+ * @examples
+ *   var one= 5
+ *   var two=10
+ *
+ *   if(one > 2) { two += one }
+ */
+```
+
+to
+
+```js
+/**
+ * @example
+ *   var one = 5;
+ *   var two = 10;
+ *
+ *   if (one > 2) {
+ *     two += one;
+ *   }
  */
 ```
 
