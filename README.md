@@ -98,9 +98,7 @@ const Component = memo(({ message }) => {
  @typedef {
     {
         "userId": {
-        title: string,
         "profileImageLink": *,
-        "identityStatus": "None",
         "isBusinessUser": "isResellerUser"|"isBoolean"|  "isSubUser" |    "isNot",
         "shareCode": number,
         "referredBy": any,
@@ -117,9 +115,7 @@ Format to
 /**
  * @typedef {{
  *   userId: {
- *     title: string;
  *     profileImageLink: any;
- *     identityStatus: "None";
  *     isBusinessUser: "isResellerUser" | "isBoolean" | "isSubUser" | "isNot";
  *     shareCode: number;
  *     referredBy: any;
@@ -156,6 +152,18 @@ to
  *   }
  */
 ```
+
+#### Description
+
+```js
+/**
+ * This format of the description is being supported now:
+ *
+ *    1. Thing 1
+ *    2. Thing 2
+ *    3. Thing 3
+ */
+ ```
 
 ## Options
 
