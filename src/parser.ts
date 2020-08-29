@@ -46,7 +46,11 @@ type AST = {
   comments: PrettierComment[];
 };
 
-const EMPTY_LINE_SIGNATURE = "#2@1093NmY^5!~#sdEKHuhPOK*&^%$";
+const EMPTY_LINE_SIGNATURE = "a2@1093NmY^5!~#sdEKHuhPOK*&baSIGNATURE1";
+const NEW_LINE_START_THREE_SPACE_SIGNATURE =
+  "l2@_0^3N)Y^5!~^sd*KHuh+O~*;vlSIGNATURE2";
+const NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE =
+  "l2@_0^s43fb64ds2Huh+O~*;vlSIGNATURE3";
 
 /**
  * @link https://prettier.io/docs/en/api.html#custom-parser-api}
@@ -94,7 +98,10 @@ export function jsdocParser(
     // https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
     if (!commentString.match(/\/\*\*[\s\S]+?\*\//g)) return;
 
-    const parsed = commentParser(commentString, { dotted_names: false })[0];
+    const parsed = commentParser(commentString, {
+      dotted_names: false,
+      trim: false,
+    })[0];
 
     comment.value = "";
 
@@ -160,12 +167,12 @@ export function jsdocParser(
             maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
           }
 
-          if (TAGS_NEED_FORMAT_DESCRIPTION.includes(tag)) {
-            description = formatDescription(
-              description,
-              options.jsdocDescriptionWithDot
-            );
-          }
+          description = formatDescription(
+            tag,
+            description,
+            options.jsdocDescriptionWithDot
+          );
+
           return {
             ...restInfo,
             name,
@@ -244,21 +251,45 @@ export function jsdocParser(
             let resolveDescription = `${tagString}${description}`;
 
             tagString = resolveDescription
-              .split(EMPTY_LINE_SIGNATURE)
-              .map((paragraph) => {
-                let result = "";
-                while (paragraph.length > maxWidth) {
-                  let sliceIndex = paragraph.lastIndexOf(" ", maxWidth);
-                  if (sliceIndex === -1) sliceIndex = maxWidth;
-                  result += paragraph.substring(0, sliceIndex);
-                  paragraph = paragraph.substring(sliceIndex + 1);
-                  paragraph = `\n${beginningSpace}${paragraph}`;
-                }
-                result += paragraph;
+              .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)
+              .map((newParagraph) => {
+                return newParagraph
+                  .split(EMPTY_LINE_SIGNATURE)
+                  .map((paragraph) => {
+                    paragraph = paragraph[0].toUpperCase() + paragraph.slice(1); // Capitalize
+                    return paragraph
+                      .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
+                      .map((desContent) => {
+                        desContent = desContent.trim();
 
-                return result;
+                        if (!desContent) {
+                          return desContent;
+                        }
+
+                        let result = "";
+                        while (desContent.length > maxWidth) {
+                          let sliceIndex = desContent.lastIndexOf(
+                            " ",
+                            maxWidth
+                          );
+                          if (sliceIndex === -1) sliceIndex = maxWidth;
+                          result += desContent.substring(0, sliceIndex);
+                          desContent = desContent.substring(sliceIndex + 1);
+                          desContent = `\n${beginningSpace}${desContent}`;
+                        }
+
+                        result += desContent;
+
+                        return result;
+                      })
+                      .join("\n    ");
+                  })
+                  .join("\n\n");
               })
-              .join("\n\n");
+              .join("\n\n    ");
+
+            // tagString = tagString.trim();
+            tagString = tagString ? `\n${tagString}` : tagString;
           }
         }
 
@@ -305,13 +336,26 @@ export function jsdocParser(
  * @private
  * @param {Boolean} insertDot Flag for dot at the end of text
  */
-function formatDescription(text: string, insertDot: boolean): string {
+function formatDescription(
+  tag: string,
+  text: string,
+  insertDot: boolean
+): string {
   text = text || "";
   text = text.replace(/^[\W]/g, "");
   text = text.trim();
 
+  if (!TAGS_NEED_FORMAT_DESCRIPTION.includes(tag)) {
+    return text;
+  }
+
   if (!text) return text;
 
+  text = text.replace(
+    /\n\n\s\s\s+/g,
+    NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE
+  ); // Add a signature for new paragraph start with three space
+  text = text.replace(/\n\s\s\s+/g, NEW_LINE_START_THREE_SPACE_SIGNATURE); // Add a signature for new line start with three space
   text = text.replace(/\n\n/g, EMPTY_LINE_SIGNATURE); // Add a signature for empty line and use that later
   text = text.replace(/\s\s+/g, " "); // Avoid multiple spaces
   text = text.replace(/\n/g, " "); // Make single line
@@ -338,8 +382,18 @@ function convertCommentDescToDescTag(parsed: commentParser.Comment) {
   }
 }
 
-function descriptionEndLine({ description, tag, isEndTag }: any) {
-  if (description.length < 0 || isEndTag) {
+interface DescriptionEndLineParams {
+  description: string;
+  tag: string;
+  isEndTag: boolean;
+}
+
+function descriptionEndLine({
+  description,
+  tag,
+  isEndTag,
+}: DescriptionEndLineParams) {
+  if (description.trim().length < 0 || isEndTag) {
     return "";
   }
 
@@ -351,8 +405,8 @@ function descriptionEndLine({ description, tag, isEndTag }: any) {
 }
 
 function addStarsToTheBeginningOfTheLines(comment: string) {
-  if (numberOfAStringInString(comment, "\n") <= 1) {
-    return `* ${comment.replace(/(\n)/g, "")} `;
+  if (numberOfAStringInString(comment.trim(), "\n") === 0) {
+    return `* ${comment.trim()} `;
   }
 
   return `*${comment.replace(/((?!\n$)\n)/g, "\n * ")}\n `;

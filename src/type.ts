@@ -46,7 +46,7 @@ function formatType(type: string, options?: Options) {
 
     return pretty;
   } catch (error) {
-    console.log("jsdoc-parser", error);
+    // console.log("jsdoc-parser", error);
     return type;
   }
 }
