@@ -18,6 +18,7 @@ const FIRES = "fires";
 const FUNCTION = "function";
 const MEMBER = "member";
 const MEMBEROF = "memberof";
+const OVERRIDE = "override";
 const PARAM = "param";
 const PRIVATE = "private";
 const PROPERTY = "property";
@@ -52,6 +53,7 @@ export {
   FUNCTION,
   MEMBER,
   MEMBEROF,
+  OVERRIDE,
   PARAM,
   PRIVATE,
   PROPERTY,

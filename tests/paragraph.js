@@ -55,4 +55,13 @@ test("description contain paragraph", () => {
   }
   `);
   expect(result3).toMatchSnapshot();
+
+  const result4 = subject(`
+  /**
+   * Transforms data
+   *
+   * @override
+   */`);
+
+  expect(result4).toMatchSnapshot();
 });

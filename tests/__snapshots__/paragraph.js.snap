@@ -55,3 +55,12 @@ exports[`description contain paragraph 3`] = `
 }
 "
 `;
+
+exports[`description contain paragraph 4`] = `
+"/**
+ * Transforms data
+ *
+ * @override
+ */
+"
+`;
