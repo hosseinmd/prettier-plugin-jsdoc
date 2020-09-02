@@ -288,7 +288,6 @@ export function jsdocParser(
               })
               .join("\n\n    ");
 
-            // tagString = tagString.trim();
             tagString = tagString ? `\n${tagString}` : tagString;
           }
         }
@@ -323,7 +322,7 @@ export function jsdocParser(
         comment.value += tagString;
       });
 
-    comment.value = addStarsToTheBeginningOfTheLines(comment.value);
+    comment.value = addStarsToTheBeginningOfTheLines(comment.value.trimEnd());
   });
 
   return ast;
