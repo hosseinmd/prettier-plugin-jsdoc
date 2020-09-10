@@ -159,3 +159,13 @@ export interface FetchCallbackResponseArray<T, V> {
 
   expect(subject(subject(result))).toMatchSnapshot();
 });
+
+test("Default export", () => {
+  const result = subject(`
+/**
+ * @typedef {import("Foo")} Foo
+ */
+`);
+
+  expect(result).toMatchSnapshot();
+});
