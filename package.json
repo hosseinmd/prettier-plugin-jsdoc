@@ -41,7 +41,7 @@
   "jest": {
     "verbose": true,
     "testMatch": [
-      "**/tests/**/*.js"
+      "**/tests/**/*.test.js"
     ]
   },
   "dependencies": {
