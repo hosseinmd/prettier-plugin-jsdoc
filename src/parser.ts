@@ -79,8 +79,6 @@ export const getParser = (parser: any) =>
         : index;
     }
 
-    console.log(ast.comments);
-
     ast.comments.forEach((comment) => {
       const {
         loc: {
@@ -223,11 +221,7 @@ export const getParser = (parser: any) =>
             let tagString = "\n";
 
             if (useTagTitle) {
-              try {
-                tagString += `@${tag}${" ".repeat(tagTitleGapAdj)}`;
-              } catch (error) {
-                console.log(error);
-              }
+              tagString += `@${tag}${" ".repeat(tagTitleGapAdj || 0)}`;
             }
             if (type) {
               tagString += gap + `{${type}}` + " ".repeat(tagTypeGapAdj);

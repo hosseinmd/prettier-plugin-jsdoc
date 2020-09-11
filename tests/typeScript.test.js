@@ -1,10 +1,9 @@
-/* eslint-disable no-undef */
 const prettier = require("prettier");
 
 function subject(code, options = {}) {
   try {
     return prettier.format(code, {
-      parser: "jsdoc-parser",
+      parser: "typescript",
       plugins: ["."],
       jsdocSpaces: 1,
       ...options,

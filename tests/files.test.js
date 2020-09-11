@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const prettier = require("prettier");
 const { readFileSync } = require("fs");
 const { resolve } = require("path");
