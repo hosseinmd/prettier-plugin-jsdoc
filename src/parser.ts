@@ -17,6 +17,7 @@ type JsdocOptions = {
   jsdocVerticalAlignment: boolean;
   jsdocKeepUnParseAbleExampleIndent: boolean;
   jsdocTagsOrder: string[];
+  jsdocParser: boolean;
 } & Options;
 type LocationDetails = { line: number; column: number };
 type Location = { start: LocationDetails; end: LocationDetails };
@@ -59,7 +60,7 @@ export const getParser = (parser: any) =>
   function jsdocParser(text: string, parsers: any, options: JsdocOptions) {
     const ast = parser(text, parsers, options) as AST;
 
-    if (!options.plugins?.includes("jsdoc-parser")) {
+    if (!options.jsdocParser) {
       return ast;
     }
 

@@ -35,19 +35,13 @@ import {
 import { getParser } from "./parser";
 import createLanguage from "./create-language";
 
-// jsdoc-parser
-// const languages = [
-//   {
-//     name: "JavaScript",
-//     parsers: ["jsdoc-parser"],
-//   },
-// ];
-
-// export const parsers = {
-//   "jsdoc-parser": { ...babelTs, parse: jsdocParser },
-// };
-
 export const options = {
+  jsdocParser: {
+    type: "boolean",
+    category: "jsdoc",
+    default: true,
+    description: "Format with jsdoc if is true",
+  },
   jsdocSpaces: {
     type: "int",
     category: "jsdoc",
@@ -127,17 +121,13 @@ export const options = {
 };
 
 const defaultOptions = {
+  jsdocParser: true,
   jsdocSpaces: 1,
   jsdocDescriptionWithDot: false,
   jsdocDescriptionTag: false,
   jsdocVerticalAlignment: false,
   jsdocKeepUnParseAbleExampleIndent: false,
 };
-
-// const createLanguage = require("../utils/create-language");
-// const estreePrinter = require("./printer-estree");
-// const estreeJsonPrinter = require("./printer-estree-json");
-// const options = require("./options");
 
 const languages = [
   createLanguage(
@@ -287,7 +277,6 @@ const parsers = {
 module.exports = {
   languages,
   options,
-  // printers,
   parsers,
   defaultOptions,
 };

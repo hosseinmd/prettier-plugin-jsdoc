@@ -3,6 +3,8 @@
 [![install size](https://packagephobia.now.sh/badge?p=prettier-plugin-jsdoc)](https://packagephobia.now.sh/result?p=prettier-plugin-jsdoc)
 [![dependencies](https://david-dm.org/hosseinmd/prettier-plugin-jsdoc.svg)](https://david-dm.org/hosseinmd/prettier-plugin-jsdoc.svg)
 
+![Prettier Banner](https://raw.githubusercontent.com/prettier/prettier-logo/master/images/prettier-banner-light.png)
+
 # prettier-plugin-jsdoc
 
 Prettier plugin for format jsdoc and convert to standard
@@ -35,25 +37,23 @@ npm i prettier-plugin-jsdoc --save
 yarn add prettier-plugin-jsdoc
 ```
 
-3. add a parser override to your prettier file for js files
-
 ```json
 {
   //any other config you have
-  "plugins": ["jsdoc-parser"], // format all javascript and typescript files
+  "jsdocParser": true, // default is true, format all javascript and typescript files
 };
 ```
 
-or add plugins override to your prettier file for js files
+If you want ignore some type of files set jsdocParser to false
 
 ```.prettierrc.js
 module.exports = {
   // any other config you have
   overrides: [
     {
-      files: '*.js',
+      files: '*.tsx',
       options: {
-        plugins: ['jsdoc-parser'],
+        jsdocParser: false
       },
     },
   ],
