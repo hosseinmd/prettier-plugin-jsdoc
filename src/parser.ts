@@ -58,6 +58,11 @@ const NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE =
 export const getParser = (parser: any) =>
   function jsdocParser(text: string, parsers: any, options: JsdocOptions) {
     const ast = parser(text, parsers, options) as AST;
+
+    if (!options.plugins?.includes("jsdoc-parser")) {
+      return ast;
+    }
+
     // Options
     const gap = " ".repeat(options.jsdocSpaces);
     const { printWidth = 80 } = options;

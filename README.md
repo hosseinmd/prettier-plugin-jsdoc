@@ -37,14 +37,23 @@ yarn add prettier-plugin-jsdoc
 
 3. add a parser override to your prettier file for js files
 
+```json
+{
+  //any other config you have
+  "plugins": ["jsdoc-parser"], // format all javascript and typescript files
+};
+```
+
+or add plugins override to your prettier file for js files
+
 ```.prettierrc.js
 module.exports = {
-  arrowParens: 'avoid', // or any other config you have
+  // any other config you have
   overrides: [
     {
       files: '*.js',
       options: {
-        parser: 'jsdoc-parser',
+        plugins: ['jsdoc-parser'],
       },
     },
   ],
@@ -163,7 +172,7 @@ to
  *    2. Thing 2
  *    3. Thing 3
  */
- ```
+```
 
 ## Options
 
