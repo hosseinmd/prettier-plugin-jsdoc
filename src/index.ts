@@ -277,6 +277,11 @@ const parsers = {
     const parser = require("prettier/parser-angular").parsers.__ng_directive;
     return { ...parser, parse: getParser(parser.parse) };
   },
+  get "jsdoc-parser"() {
+    // Backward compatible, don't use this in new version since 1.0.0
+    const parser = require("prettier/parser-babel").parsers["babel-ts"];
+    return { ...parser, parse: getParser(parser.parse) };
+  },
 };
 
 module.exports = {
