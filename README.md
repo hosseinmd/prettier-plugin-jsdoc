@@ -178,6 +178,7 @@ to
 
 | Key                               | type    | Default |
 | :-------------------------------- | :------ | :------ |
+| jsdocParser                       | Boolean | true    |
 | jsdocSpaces                       | Number  | 1       |
 | jsdocDescriptionWithDot           | Boolean | false   |
 | jsdocDescriptionTag               | Boolean | false   |
