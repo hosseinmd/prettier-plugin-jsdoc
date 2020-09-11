@@ -55,279 +55,283 @@ const NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE =
 /**
  * @link https://prettier.io/docs/en/api.html#custom-parser-api}
  */
-export function jsdocParser(
-  text: string,
-  parsers: { [x: string]: (arg0: string) => AST },
-  options: JsdocOptions
-) {
-  const babelTs = parsers["babel-ts"];
-  const ast = babelTs(text);
-  // Options
-  const gap = " ".repeat(options.jsdocSpaces);
-  const { printWidth = 80 } = options;
+export const getParser = (parser: any) =>
+  function jsdocParser(text: string, parsers: any, options: JsdocOptions) {
+    const ast = parser(text, parsers, options) as AST;
+    // Options
+    const gap = " ".repeat(options.jsdocSpaces);
+    const { printWidth = 80 } = options;
 
-  /**
-   * Control order of tags by weights. Smaller value brings tag higher.
-   *
-   * @param {String} tagTitle TODO
-   * @returns {Number} Tag weight
-   */
-  function getTagOrderWeight(tagTitle: string): number {
-    if (tagTitle === DESCRIPTION && !options.jsdocDescriptionTag) {
-      return -1;
+    /**
+     * Control order of tags by weights. Smaller value brings tag higher.
+     *
+     * @param {String} tagTitle TODO
+     * @returns {Number} Tag weight
+     */
+    function getTagOrderWeight(tagTitle: string): number {
+      if (tagTitle === DESCRIPTION && !options.jsdocDescriptionTag) {
+        return -1;
+      }
+      const index = options.jsdocTagsOrder.indexOf(tagTitle);
+      return index === -1
+        ? options.jsdocTagsOrder.indexOf("other") ||
+            options.jsdocTagsOrder.length
+        : index;
     }
-    const index = options.jsdocTagsOrder.indexOf(tagTitle);
-    return index === -1
-      ? options.jsdocTagsOrder.indexOf("other") || options.jsdocTagsOrder.length
-      : index;
-  }
 
-  ast.comments.forEach((comment) => {
-    const {
-      loc: {
-        start: { column },
-      },
-    } = comment;
+    console.log(ast.comments);
 
-    // Parse only comment blocks
-    if (comment.type !== "CommentBlock") return;
+    ast.comments.forEach((comment) => {
+      const {
+        loc: {
+          start: { column },
+        },
+      } = comment;
 
-    const commentString = `/*${comment.value}*/`;
+      // Parse only comment blocks
+      if (comment.type !== "CommentBlock" && comment.type !== "Block") return;
 
-    // Check if this comment block is a JSDoc.  Based on:
-    // https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
-    if (!commentString.match(/\/\*\*[\s\S]+?\*\//g)) return;
+      const commentString = `/*${comment.value}*/`;
 
-    const parsed = commentParser(commentString, {
-      dotted_names: false,
-      trim: false,
-    })[0];
+      // Check if this comment block is a JSDoc.  Based on:
+      // https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
+      if (!commentString.match(/\/\*\*[\s\S]+?\*\//g)) return;
 
-    comment.value = "";
+      const parsed = commentParser(commentString, {
+        dotted_names: false,
+        trim: false,
+      })[0];
 
-    convertCommentDescToDescTag(parsed);
+      comment.value = "";
 
-    let maxTagTitleLength = 0;
-    let maxTagTypeNameLength = 0;
-    let maxTagNameLength = 0;
+      convertCommentDescToDescTag(parsed);
 
-    parsed.tags
+      let maxTagTitleLength = 0;
+      let maxTagTypeNameLength = 0;
+      let maxTagNameLength = 0;
 
-      // Prepare tags data
-      .map(
-        ({
-          name,
-          description,
-          type,
-          tag,
-          source,
-          optional,
-          default: _default,
-          ...restInfo
-        }) => {
-          tag = tag && tag.trim().toLowerCase();
-          //@ts-ignore
-          tag = TAGS_SYNONYMS[tag] || tag;
-          const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
-            tag
-          );
+      parsed.tags
 
-          if (TAGS_NAMELESS.includes(tag) && name) {
-            description = `${name} ${description}`;
-            name = "";
-          }
-
-          if (type) {
-            type = convertToModernArray(type);
-            type = formatType(type, options);
-
-            if (isVerticallyAlignAbleTags)
-              maxTagTypeNameLength = Math.max(
-                maxTagTypeNameLength,
-                type.length
-              );
-
-            // Additional operations on name
-            if (name) {
-              // Optional tag name
-              if (optional) {
-                // Figure out if tag type have default value
-                if (_default) {
-                  description += ` Default is \`${_default}\``;
-                }
-                name = `[${name}]`;
-              }
-
-              if (isVerticallyAlignAbleTags)
-                maxTagNameLength = Math.max(maxTagNameLength, name.length);
-            }
-          }
-
-          if (isVerticallyAlignAbleTags) {
-            maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
-          }
-
-          description = formatDescription(
-            tag,
-            description,
-            options.jsdocDescriptionWithDot
-          );
-
-          return {
-            ...restInfo,
+        // Prepare tags data
+        .map(
+          ({
             name,
             description,
             type,
             tag,
             source,
-            default: _default,
             optional,
-          };
-        }
-      )
+            default: _default,
+            ...restInfo
+          }) => {
+            tag = tag && tag.trim().toLowerCase();
+            //@ts-ignore
+            tag = TAGS_SYNONYMS[tag] || tag;
+            const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
+              tag
+            );
 
-      // Sort tags
-      .sort((a, b) => getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag))
-      .filter(({ description, tag }) => {
-        if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
-          return false;
-        }
-        return true;
-      })
-      // Create final jsDoc string
-      .forEach(({ name, description, type, tag }, tagIndex, finalTagsArray) => {
-        let tagTitleGapAdj = 0;
-        let tagTypeGapAdj = 0;
-        let tagNameGapAdj = 0;
-        let descGapAdj = 0;
-
-        if (
-          options.jsdocVerticalAlignment &&
-          TAGS_VERTICALLY_ALIGN_ABLE.includes(tag)
-        ) {
-          if (tag) tagTitleGapAdj += maxTagTitleLength - tag.length;
-          else if (maxTagTitleLength)
-            descGapAdj += maxTagTitleLength + gap.length;
-
-          if (type) tagTypeGapAdj += maxTagTypeNameLength - type.length;
-          else if (maxTagTypeNameLength)
-            descGapAdj += maxTagTypeNameLength + gap.length;
-
-          if (name) tagNameGapAdj += maxTagNameLength - name.length;
-          else if (maxTagNameLength) descGapAdj = maxTagNameLength + gap.length;
-        }
-
-        let useTagTitle = tag !== DESCRIPTION || options.jsdocDescriptionTag;
-        let tagString = "\n";
-
-        if (useTagTitle) {
-          try {
-            tagString += `@${tag}${" ".repeat(tagTitleGapAdj)}`;
-          } catch (error) {
-            console.log(error);
-          }
-        }
-        if (type) {
-          tagString += gap + `{${type}}` + " ".repeat(tagTypeGapAdj);
-        }
-        if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
-
-        // Add description (complicated because of text wrap)
-        if (description && tag !== EXAMPLE) {
-          if (useTagTitle) tagString += gap + " ".repeat(descGapAdj);
-          if ([MEMBEROF, SEE].includes(tag)) {
-            // Avoid wrapping
-            tagString += description;
-          } else {
-            // Wrap tag description
-            const beginningSpace = tag === DESCRIPTION ? "" : "    "; // google style guide space
-            const marginLength = tagString.length;
-            let maxWidth = printWidth - column - 3; // column is location of comment, 3 is ` * `
-
-            if (marginLength >= maxWidth) {
-              maxWidth = marginLength;
+            if (TAGS_NAMELESS.includes(tag) && name) {
+              description = `${name} ${description}`;
+              name = "";
             }
 
-            let resolveDescription = `${tagString}${description}`;
+            if (type) {
+              type = convertToModernArray(type);
+              type = formatType(type, options);
 
-            tagString = resolveDescription
-              .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)
-              .map((newParagraph) => {
-                return newParagraph
-                  .split(EMPTY_LINE_SIGNATURE)
-                  .map((paragraph) => {
-                    paragraph = paragraph[0].toUpperCase() + paragraph.slice(1); // Capitalize
-                    return paragraph
-                      .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
-                      .map((desContent) => {
-                        desContent = desContent.trim();
+              if (isVerticallyAlignAbleTags)
+                maxTagTypeNameLength = Math.max(
+                  maxTagTypeNameLength,
+                  type.length
+                );
 
-                        if (!desContent) {
-                          return desContent;
-                        }
+              // Additional operations on name
+              if (name) {
+                // Optional tag name
+                if (optional) {
+                  // Figure out if tag type have default value
+                  if (_default) {
+                    description += ` Default is \`${_default}\``;
+                  }
+                  name = `[${name}]`;
+                }
 
-                        let result = "";
-                        while (desContent.length > maxWidth) {
-                          let sliceIndex = desContent.lastIndexOf(
-                            " ",
-                            maxWidth
-                          );
-                          if (sliceIndex === -1) sliceIndex = maxWidth;
-                          result += desContent.substring(0, sliceIndex);
-                          desContent = desContent.substring(sliceIndex + 1);
-                          desContent = `\n${beginningSpace}${desContent}`;
-                        }
+                if (isVerticallyAlignAbleTags)
+                  maxTagNameLength = Math.max(maxTagNameLength, name.length);
+              }
+            }
 
-                        result += desContent;
+            if (isVerticallyAlignAbleTags) {
+              maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
+            }
 
-                        return result;
+            description = formatDescription(
+              tag,
+              description,
+              options.jsdocDescriptionWithDot
+            );
+
+            return {
+              ...restInfo,
+              name,
+              description,
+              type,
+              tag,
+              source,
+              default: _default,
+              optional,
+            };
+          }
+        )
+
+        // Sort tags
+        .sort((a, b) => getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag))
+        .filter(({ description, tag }) => {
+          if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
+            return false;
+          }
+          return true;
+        })
+        // Create final jsDoc string
+        .forEach(
+          ({ name, description, type, tag }, tagIndex, finalTagsArray) => {
+            let tagTitleGapAdj = 0;
+            let tagTypeGapAdj = 0;
+            let tagNameGapAdj = 0;
+            let descGapAdj = 0;
+
+            if (
+              options.jsdocVerticalAlignment &&
+              TAGS_VERTICALLY_ALIGN_ABLE.includes(tag)
+            ) {
+              if (tag) tagTitleGapAdj += maxTagTitleLength - tag.length;
+              else if (maxTagTitleLength)
+                descGapAdj += maxTagTitleLength + gap.length;
+
+              if (type) tagTypeGapAdj += maxTagTypeNameLength - type.length;
+              else if (maxTagTypeNameLength)
+                descGapAdj += maxTagTypeNameLength + gap.length;
+
+              if (name) tagNameGapAdj += maxTagNameLength - name.length;
+              else if (maxTagNameLength)
+                descGapAdj = maxTagNameLength + gap.length;
+            }
+
+            let useTagTitle =
+              tag !== DESCRIPTION || options.jsdocDescriptionTag;
+            let tagString = "\n";
+
+            if (useTagTitle) {
+              try {
+                tagString += `@${tag}${" ".repeat(tagTitleGapAdj)}`;
+              } catch (error) {
+                console.log(error);
+              }
+            }
+            if (type) {
+              tagString += gap + `{${type}}` + " ".repeat(tagTypeGapAdj);
+            }
+            if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
+
+            // Add description (complicated because of text wrap)
+            if (description && tag !== EXAMPLE) {
+              if (useTagTitle) tagString += gap + " ".repeat(descGapAdj);
+              if ([MEMBEROF, SEE].includes(tag)) {
+                // Avoid wrapping
+                tagString += description;
+              } else {
+                // Wrap tag description
+                const beginningSpace = tag === DESCRIPTION ? "" : "    "; // google style guide space
+                const marginLength = tagString.length;
+                let maxWidth = printWidth - column - 3; // column is location of comment, 3 is ` * `
+
+                if (marginLength >= maxWidth) {
+                  maxWidth = marginLength;
+                }
+
+                let resolveDescription = `${tagString}${description}`;
+
+                tagString = resolveDescription
+                  .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)
+                  .map((newParagraph) => {
+                    return newParagraph
+                      .split(EMPTY_LINE_SIGNATURE)
+                      .map((paragraph) => {
+                        paragraph =
+                          paragraph[0].toUpperCase() + paragraph.slice(1); // Capitalize
+                        return paragraph
+                          .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
+                          .map((desContent) => {
+                            desContent = desContent.trim();
+
+                            if (!desContent) {
+                              return desContent;
+                            }
+
+                            let result = "";
+                            while (desContent.length > maxWidth) {
+                              let sliceIndex = desContent.lastIndexOf(
+                                " ",
+                                maxWidth
+                              );
+                              if (sliceIndex === -1) sliceIndex = maxWidth;
+                              result += desContent.substring(0, sliceIndex);
+                              desContent = desContent.substring(sliceIndex + 1);
+                              desContent = `\n${beginningSpace}${desContent}`;
+                            }
+
+                            result += desContent;
+
+                            return result;
+                          })
+                          .join("\n    ");
                       })
-                      .join("\n    ");
+                      .join("\n\n");
                   })
-                  .join("\n\n");
-              })
-              .join("\n\n    ");
+                  .join("\n\n    ");
 
-            // tagString = tagString.trim();
-            tagString = tagString ? `\n${tagString}` : tagString;
+                // tagString = tagString.trim();
+                tagString = tagString ? `\n${tagString}` : tagString;
+              }
+            }
+
+            // Try to use prettier on @example tag description
+            if (tag === EXAMPLE) {
+              try {
+                const formattedExample = format(description || "", options);
+                tagString += formattedExample.replace(/(^|\n)/g, "\n  ");
+                tagString = tagString.slice(0, tagString.length - 3);
+              } catch (err) {
+                tagString += "\n";
+                tagString += description
+                  .split("\n")
+                  .map(
+                    (l) =>
+                      `  ${
+                        options.jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
+                      }`
+                  )
+                  .join("\n");
+              }
+            }
+
+            // Add empty line after some tags if there is something below
+            tagString += descriptionEndLine({
+              description: tagString,
+              tag,
+              isEndTag: tagIndex === finalTagsArray.length - 1,
+            });
+
+            comment.value += tagString;
           }
-        }
+        );
 
-        // Try to use prettier on @example tag description
-        if (tag === EXAMPLE) {
-          try {
-            const formattedExample = format(description || "", options);
-            tagString += formattedExample.replace(/(^|\n)/g, "\n  ");
-            tagString = tagString.slice(0, tagString.length - 3);
-          } catch (err) {
-            tagString += "\n";
-            tagString += description
-              .split("\n")
-              .map(
-                (l) =>
-                  `  ${
-                    options.jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
-                  }`
-              )
-              .join("\n");
-          }
-        }
+      comment.value = addStarsToTheBeginningOfTheLines(comment.value);
+    });
 
-        // Add empty line after some tags if there is something below
-        tagString += descriptionEndLine({
-          description: tagString,
-          tag,
-          isEndTag: tagIndex === finalTagsArray.length - 1,
-        });
-
-        comment.value += tagString;
-      });
-
-    comment.value = addStarsToTheBeginningOfTheLines(comment.value);
-  });
-
-  return ast;
-}
+    return ast;
+  };
 
 /**
  * Trim, make single line with capitalized text. Insert dot if flag for it is
