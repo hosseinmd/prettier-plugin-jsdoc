@@ -1,5 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Default export 1`] = `
+"/** @typedef {import(\\"Foo\\")} Foo */
+"
+`;
+
 exports[`JS code should be formatted as usuall 1`] = `
 "/**
  * @typedef {{

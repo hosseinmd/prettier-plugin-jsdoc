@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const prettier = require("prettier");
 
 function subject(code, options = {}) {

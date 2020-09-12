@@ -1,22 +1,4 @@
-/* eslint-disable no-undef */
-const prettier = require("prettier");
-
-function subject(code, options = {}) {
-  try {
-    return prettier.format(code, {
-      parser: "jsdoc-parser",
-      plugins: ["."],
-      jsdocSpaces: 1,
-      ...options,
-    });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-test("JS code should be formatted as usuall", () => {
-  const result = subject(`
-  /**
+/**
  @typedef {
     {
         "userId": string,
@@ -38,9 +20,9 @@ test("JS code should be formatted as usuall", () => {
       }
      } User
      */
-  export let User
+export let User;
 
-  /**
+/**
      @typedef {
       {
         "domainId": 0,
@@ -59,19 +41,12 @@ test("JS code should be formatted as usuall", () => {
      } SubDomain
      */
 
-    /**
+/**
      @typedef {
       () => a.b
      } SubDomain
      */
-    `);
-
-  expect(result).toMatchSnapshot();
-});
-
-test("hoisted object", () => {
-  const result = subject(`
-  /**
+/**
  @typedef {
     {
         "userId": {
@@ -86,16 +61,8 @@ test("hoisted object", () => {
       }
      } User
      */
- 
-    `);
 
-  expect(result).toMatchSnapshot();
-});
-
-test("max width challenge", () => {
-  const result = subject(
-    `
-class test {
+class test    {
   /**
    * Replaces text in a string, using a regular expression or search string.
    * @param {string | RegExp} searchValue A string to search for.
@@ -106,56 +73,28 @@ class test {
    * @returns {StarkStringType & NativeString}
    */
   replace(searchValue, replaceValue) {
-    class test{
+    class test    {
       /**
-     * Replaces text in a string, using a regular expression or search string.
-     *
-     * @param {string | RegExp} searchValue A string to search for.
-     * @param {string | (substring: string, ...args: any[]) => string} replaceValue
-     *     A string containing the text to replace for every successful match of
-     *     searchValue in this string.
-     * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test
-     *     A string containing the text to replace for every successful match of searchValue
-     *     in this string.
-     * @param {string | (substring: string, ...args: any[]) => string} replaceValue
-     *     A_big_string_for_test string containing the text to replace for every
-     *     successful match of searchValue in this string.
-     * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test
-     *     A_big_string_for_test string containing the text to replace for every successful
-     *     match of searchValue in this string.
-     * @returns {StarkStringType & NativeString}
-     */
-        testFunction(){
-  
-        }
-      }
-  
+       * Replaces text in a string, using a regular expression or search string.
+       * @param {string | RegExp} searchValue A string to search for.
+       * @param {string | (substring: string, ...args: any[]) => string} replaceValue A string containing the text to replace for every successful match of
+       *     searchValue in this string.
+       * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test
+A string containing the text to replace for every successful match of searchValue
+       *     in this string.
+       * @param {string | (substring: string, ...args: any[]) => string} replaceValue  A_big_string_for_test string containing the text to replace for every successful match of searchValue in this string.
+       * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test
+       *     A_big_string_for_test string containing the text to replace for every successful
+       *     match of searchValue in this string.
+       * @returns {StarkStringType & NativeString}
+       */
+      testFunction() {}
+    }
+
     this._value = this._value.replace(searchValue, replaceValue);
     return this;
   }
 }
-`
-  );
-
-  expect(result).toMatchSnapshot();
-});
-
-test("description in interface", () => {
-  const result = subject(
-    `
-export interface FetchCallbackResponseArray<T, V> {
-  resource: Resource<T>;
-      /**
-       * @deprecated Resolve clear with condition in your fetch api this function will be remove
-       */
-  refetch: (...arg: V[]) => void;
-  /**
-   * @deprecated Resolve clear with condition in your fetch api this function will be remove
-   */
-  clear: () => void;
-}
-`
-  );
-
-  expect(subject(subject(result))).toMatchSnapshot();
-});
+/**
+ * @typedef {import("Foo")} Foo
+ */

@@ -1,10 +1,9 @@
-/* eslint-disable no-undef */
 const prettier = require("prettier");
 
 function subject(code, options = {}) {
   return prettier.format(code, {
-    parser: "jsdoc-parser",
     plugins: ["."],
+    jsdocParser: false,
     jsdocSpaces: 1,
     ...options,
   });
@@ -14,9 +13,9 @@ test("template for callback", () => {
   const result = subject(`
 /**
  * @template T
- * @callback CallbackName
- * @param {GetStyles<T>} getStyles
- * @returns {UseStyle<T>}
+ *      @callback CallbackName
+ *  @param {GetStyles<T>} getStyles
+ * @returns       {UseStyle<T>}
  */
 `);
 
@@ -30,7 +29,7 @@ test("extends", () => {
   * @class
   * @typedef {object} props
   * @prop        {any} navigation
-  * @extends {PureComponent<props>} 
+  * @extends         {PureComponent<       props>} 
   */
  export class BreadCrumbs extends PureComponent {}
 `);

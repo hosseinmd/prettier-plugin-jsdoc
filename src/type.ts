@@ -42,7 +42,7 @@ function formatType(type: string, options?: Options) {
     });
     pretty = pretty.slice(TYPE_START.length);
 
-    pretty = pretty.replace(/[(;\n);\n]*$/g, "");
+    pretty = pretty.replace(/[;\n]*$/g, "");
 
     return pretty;
   } catch (error) {
