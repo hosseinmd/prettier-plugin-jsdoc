@@ -60,8 +60,6 @@ module.exports = {
 };
 ```
 
-**avoid setting the parser value on the root of your config file, it will disable prettier's default behavior and will not parse non-js files**
-
 ## Examples
 
 #### Single line
