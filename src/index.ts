@@ -34,6 +34,17 @@ import {
 } from "./tags";
 import { getParser } from "./parser";
 import createLanguage from "./create-language";
+import javascriptJson from "linguist-languages/data/JavaScript.json";
+import jsxJson from "linguist-languages/data/JSX.json";
+import typescriptJson from "linguist-languages/data/TypeScript.json";
+import tsxJson from "linguist-languages/data/TSX.json";
+import jsonJson from "linguist-languages/data/JSON.json";
+import jsonWithCommentJson from "linguist-languages/data/JSON with Comments.json";
+import json5Json from "linguist-languages/data/JSON5.json";
+import parserBabel from "prettier/parser-babel";
+import parserFlow from "prettier/parser-flow";
+import parserTypescript from "prettier/parser-typescript";
+import parserAngular from "prettier/parser-angular";
 
 export const options = {
   jsdocParser: {
@@ -130,21 +141,18 @@ const defaultOptions = {
 };
 
 const languages = [
-  createLanguage(
-    require("linguist-languages/data/JavaScript.json"),
-    (data: any) => ({
-      since: "0.0.0",
-      parsers: ["babel", "babel-flow", "babel-ts", "flow", "typescript"],
-      vscodeLanguageIds: ["javascript", "mongo"],
-      extensions: [
-        ...data.extensions,
-        // WeiXin Script (Weixin Mini Programs)
-        // https://developers.weixin.qq.com/miniprogram/en/dev/framework/view/wxs/
-        ".wxs",
-      ],
-    })
-  ),
-  createLanguage(require("linguist-languages/data/JavaScript.json"), () => ({
+  createLanguage(javascriptJson, (data: any) => ({
+    since: "0.0.0",
+    parsers: ["babel", "babel-flow", "babel-ts", "flow", "typescript"],
+    vscodeLanguageIds: ["javascript", "mongo"],
+    extensions: [
+      ...data.extensions,
+      // WeiXin Script (Weixin Mini Programs)
+      // https://developers.weixin.qq.com/miniprogram/en/dev/framework/view/wxs/
+      ".wxs",
+    ],
+  })),
+  createLanguage(javascriptJson, () => ({
     name: "Flow",
     since: "0.0.0",
     parsers: ["flow", "babel-flow"],
@@ -153,22 +161,22 @@ const languages = [
     filenames: [],
     extensions: [".js.flow"],
   })),
-  createLanguage(require("linguist-languages/data/JSX.json"), () => ({
+  createLanguage(jsxJson, () => ({
     since: "0.0.0",
     parsers: ["babel", "babel-flow", "babel-ts", "flow", "typescript"],
     vscodeLanguageIds: ["javascriptreact"],
   })),
-  createLanguage(require("linguist-languages/data/TypeScript.json"), () => ({
+  createLanguage(typescriptJson, () => ({
     since: "1.4.0",
     parsers: ["typescript", "babel-ts"],
     vscodeLanguageIds: ["typescript"],
   })),
-  createLanguage(require("linguist-languages/data/TSX.json"), () => ({
+  createLanguage(tsxJson, () => ({
     since: "1.4.0",
     parsers: ["typescript", "babel-ts"],
     vscodeLanguageIds: ["typescriptreact"],
   })),
-  createLanguage(require("linguist-languages/data/JSON.json"), () => ({
+  createLanguage(jsonJson, () => ({
     name: "JSON.stringify",
     since: "1.13.0",
     parsers: ["json-stringify"],
@@ -176,22 +184,19 @@ const languages = [
     extensions: [], // .json file defaults to json instead of json-stringify
     filenames: ["package.json", "package-lock.json", "composer.json"],
   })),
-  createLanguage(require("linguist-languages/data/JSON.json"), (data: any) => ({
+  createLanguage(jsonJson, (data: any) => ({
     since: "1.5.0",
     parsers: ["json"],
     vscodeLanguageIds: ["json"],
     filenames: [...data.filenames, ".prettierrc"],
   })),
-  createLanguage(
-    require("linguist-languages/data/JSON with Comments.json"),
-    (data: any) => ({
-      since: "1.5.0",
-      parsers: ["json"],
-      vscodeLanguageIds: ["jsonc"],
-      filenames: [...data.filenames, ".eslintrc"],
-    })
-  ),
-  createLanguage(require("linguist-languages/data/JSON5.json"), () => ({
+  createLanguage(jsonWithCommentJson, (data: any) => ({
+    since: "1.5.0",
+    parsers: ["json"],
+    vscodeLanguageIds: ["jsonc"],
+    filenames: [...data.filenames, ".eslintrc"],
+  })),
+  createLanguage(json5Json, () => ({
     since: "1.13.0",
     parsers: ["json5"],
     vscodeLanguageIds: ["json5"],
@@ -206,70 +211,69 @@ const languages = [
 const parsers = {
   // JS - Babel
   get babel() {
-    const parser = require("prettier/parser-babel").parsers.babel;
+    const parser = parserBabel.parsers.babel;
     return { ...parser, parse: getParser(parser.parse) };
   },
   get "babel-flow"() {
-    const parser = require("prettier/parser-babel").parsers["babel-flow"];
+    const parser = parserBabel.parsers["babel-flow"];
     return { ...parser, parse: getParser(parser.parse) };
   },
   get "babel-ts"() {
-    const parser = require("prettier/parser-babel").parsers["babel-ts"];
+    const parser = parserBabel.parsers["babel-ts"];
     return { ...parser, parse: getParser(parser.parse) };
   },
   get json() {
-    return require("prettier/parser-babel").parsers.json;
+    return parserBabel.parsers.json;
   },
   get json5() {
-    return require("prettier/parser-babel").parsers.json5;
+    return parserBabel.parsers.json5;
   },
   get "json-stringify"() {
-    return require("prettier/parser-babel").parsers["json-stringify"];
+    return parserBabel.parsers["json-stringify"];
   },
   get __js_expression() {
-    return require("prettier/parser-babel").parsers.__js_expression;
+    return parserBabel.parsers.__js_expression;
   },
   get __vue_expression() {
-    return require("prettier/parser-babel").parsers.__vue_expression;
+    return parserBabel.parsers.__vue_expression;
   },
   get __vue_event_binding() {
-    return require("prettier/parser-babel").parsers.__vue_event_binding;
+    return parserBabel.parsers.__vue_event_binding;
   },
   // JS - Flow
   get flow() {
-    const parser = require("prettier/parser-flow").parsers.flow;
+    const parser = parserFlow.parsers.flow;
     return { ...parser, parse: getParser(parser.parse) };
   },
   // JS - TypeScript
   get typescript() {
-    const parser = require("prettier/parser-typescript").parsers.typescript;
+    const parser = parserTypescript.parsers.typescript;
     return { ...parser, parse: getParser(parser.parse) };
     // require("./parser-typescript").parsers.typescript;
   },
   // JS - Angular Action
   get __ng_action() {
-    const parser = require("prettier/parser-angular").parsers.__ng_action;
+    const parser = parserAngular.parsers.__ng_action;
     return { ...parser, parse: getParser(parser.parse) };
   },
   // JS - Angular Binding
   get __ng_binding() {
-    const parser = require("prettier/parser-angular").parsers.__ng_binding;
+    const parser = parserAngular.parsers.__ng_binding;
     return { ...parser, parse: getParser(parser.parse) };
   },
   // JS - Angular Interpolation
   get __ng_interpolation() {
-    const parser = require("prettier/parser-angular").parsers
-      .__ng_interpolation;
+    const parser = parserAngular.parsers.__ng_interpolation;
     return { ...parser, parse: getParser(parser.parse) };
   },
   // JS - Angular Directive
   get __ng_directive() {
-    const parser = require("prettier/parser-angular").parsers.__ng_directive;
+    const parser = parserAngular.parsers.__ng_directive;
     return { ...parser, parse: getParser(parser.parse) };
   },
   get "jsdoc-parser"() {
     // Backward compatible, don't use this in new version since 1.0.0
-    const parser = require("prettier/parser-babel").parsers["babel-ts"];
+    const parser = parserBabel.parsers["babel-ts"];
     return { ...parser, parse: getParser(parser.parse) };
   },
 };

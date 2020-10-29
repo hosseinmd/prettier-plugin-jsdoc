@@ -57,7 +57,7 @@ const NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE =
  * @link https://prettier.io/docs/en/api.html#custom-parser-api}
  */
 export const getParser = (parser: any) =>
-  function jsdocParser(text: string, parsers: any, options: JsdocOptions) {
+  function jsdocParser(text: string, parsers: any, options: JsdocOptions): AST {
     const ast = parser(text, parsers, options) as AST;
 
     if (!options.jsdocParser) {
@@ -129,8 +129,9 @@ export const getParser = (parser: any) =>
             ...restInfo
           }) => {
             tag = tag && tag.trim().toLowerCase();
-            //@ts-ignore
-            tag = TAGS_SYNONYMS[tag] || tag;
+            if (tag in TAGS_SYNONYMS) {
+              tag = TAGS_SYNONYMS[tag as keyof typeof TAGS_SYNONYMS];
+            }
             const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
               tag
             );
@@ -222,7 +223,7 @@ export const getParser = (parser: any) =>
                 descGapAdj = maxTagNameLength + gap.length;
             }
 
-            let useTagTitle =
+            const useTagTitle =
               tag !== DESCRIPTION || options.jsdocDescriptionTag;
             let tagString = "\n";
 
@@ -250,7 +251,7 @@ export const getParser = (parser: any) =>
                   maxWidth = marginLength;
                 }
 
-                let resolveDescription = `${tagString}${description}`;
+                const resolveDescription = `${tagString}${description}`;
 
                 tagString = resolveDescription
                   .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)

@@ -2,7 +2,7 @@ const prettier = require("prettier");
 
 function subject(code, options = {}) {
   return prettier.format(code, {
-    parser: "jsdoc-parser",
+    parser: "babel",
     plugins: ["."],
     jsdocSpaces: 1,
     ...options,

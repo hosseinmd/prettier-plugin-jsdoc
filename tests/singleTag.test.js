@@ -4,6 +4,7 @@ function subject(code, options = {}) {
   return prettier.format(code, {
     plugins: ["."],
     jsdocSpaces: 1,
+    parser: "babel",
     ...options,
   });
 }

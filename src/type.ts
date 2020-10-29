@@ -1,7 +1,6 @@
-//@ts-check
 import { format, Options } from "prettier";
 
-function convertToModernArray(type: string) {
+function convertToModernArray(type: string): string {
   if (!type) {
     return type;
   }
@@ -10,7 +9,7 @@ function convertToModernArray(type: string) {
   const minWrapper = /^(?!<>\]\[\{\}:;,\s)(Array<([^.]+)>)/g;
   type = type.replace(".<", "<");
 
-  function replaceArray(value: string): any {
+  function replaceArray(value: string): string {
     let regular = maxWrapper;
     let result = regular.exec(value);
 
@@ -31,7 +30,7 @@ function convertToModernArray(type: string) {
   return replaceArray(type);
 }
 
-function formatType(type: string, options?: Options) {
+function formatType(type: string, options?: Options): string {
   try {
     let pretty = type.replace("*", "any");
     const TYPE_START = "type name = ";

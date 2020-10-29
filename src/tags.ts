@@ -1,4 +1,3 @@
-//@ts-check
 const ABSTRACT = "abstract";
 const ASYNC = "async";
 const AUGMENTS = "augments";
