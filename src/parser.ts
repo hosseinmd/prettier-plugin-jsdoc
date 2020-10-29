@@ -269,9 +269,12 @@ export const getParser = (parser: any) =>
                             if (!desContent) {
                               return desContent;
                             }
-
+                            const extraLastLineWidth = 10;
                             let result = "";
-                            while (desContent.length > maxWidth) {
+                            while (
+                              desContent.length >
+                              maxWidth + extraLastLineWidth
+                            ) {
                               let sliceIndex = desContent.lastIndexOf(
                                 " ",
                                 maxWidth
