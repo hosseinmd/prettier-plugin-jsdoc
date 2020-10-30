@@ -53,7 +53,6 @@ const testFunction = (text, defaultValue, optionalNumber) => true
 
 test("Should convert to single line if necessary", () => {
   const Result1 = subject(`/** single line description*/`);
-  /** @todo this is a bug */
   const Result2 = subject(`/**
  * single line description
  * @example
@@ -338,4 +337,15 @@ test("examples", () => {
   );
   expect(Result1).toMatchSnapshot();
   expect(Result2).toMatchSnapshot();
+});
+
+test("Big single word", () => {
+  const result = subject(
+    `/**
+    * Simple Single Word
+    * https://github.com/babel/babel/pull/7934/files#diff-a739835084910b0ee3ea649df5a4d223R67
+   */`
+  );
+
+  expect(result).toMatchSnapshot();
 });

@@ -15,6 +15,14 @@ exports[` undefined|null|void type 3`] = `
 "
 `;
 
+exports[`Big single word 1`] = `
+"/**
+ * Simple Single Word
+ * https://github.com/babel/babel/pull/7934/files#diff-a739835084910b0ee3ea649df5a4d223R67
+ */
+"
+`;
+
 exports[`JS code should be formatted as usuall 1`] = `
 "const variable1 = 1; // No semicolon
 const stringVar = \\"text\\"; // Wrong quotes

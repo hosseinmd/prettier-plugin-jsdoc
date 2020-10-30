@@ -96,7 +96,7 @@ const stringify = (
                   let result = "";
                   while (desContent.length > maxWidth + extraLastLineWidth) {
                     let sliceIndex = desContent.lastIndexOf(" ", maxWidth);
-                    if (sliceIndex === -1) sliceIndex = maxWidth;
+                    if (sliceIndex === -1) sliceIndex = desContent.length;
                     result += desContent.substring(0, sliceIndex);
                     desContent = desContent.substring(sliceIndex + 1);
                     desContent = `\n${beginningSpace}${desContent}`;
