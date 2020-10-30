@@ -14,6 +14,7 @@ const EXTENDS = "extends";
 const EXTERNAL = "external";
 const FILE = "file";
 const FIRES = "fires";
+const FLOW = "flow";
 const FUNCTION = "function";
 const MEMBER = "member";
 const MEMBEROF = "memberof";
@@ -21,6 +22,7 @@ const OVERRIDE = "override";
 const PARAM = "param";
 const PRIVATE = "private";
 const PROPERTY = "property";
+const PROVIDES_MODULE = "providesModule";
 const RETURNS = "returns";
 const SEE = "see";
 const SINCE = "since";
@@ -49,6 +51,7 @@ export {
   EXTERNAL,
   FILE,
   FIRES,
+  FLOW,
   FUNCTION,
   MEMBER,
   MEMBEROF,
@@ -56,6 +59,7 @@ export {
   PARAM,
   PRIVATE,
   PROPERTY,
+  PROVIDES_MODULE,
   RETURNS,
   SEE,
   SINCE,

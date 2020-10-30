@@ -9,7 +9,9 @@ import {
 import { DESCRIPTION } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
+  TAGS_IS_CAMEL_CASE,
   TAGS_NAMELESS,
+  TAGS_ORDER,
   TAGS_SYNONYMS,
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
@@ -35,11 +37,8 @@ export const getParser = (parser: any) =>
       if (tagTitle === DESCRIPTION && !options.jsdocDescriptionTag) {
         return -1;
       }
-      const index = options.jsdocTagsOrder.indexOf(tagTitle);
-      return index === -1
-        ? options.jsdocTagsOrder.indexOf("other") ||
-            options.jsdocTagsOrder.length
-        : index;
+      const index = TAGS_ORDER.indexOf(tagTitle);
+      return index === -1 ? TAGS_ORDER.indexOf("other") : index;
     }
 
     ast.comments.forEach((comment) => {
@@ -66,7 +65,6 @@ export const getParser = (parser: any) =>
       let maxTagNameLength = 0;
 
       parsed.tags
-
         // Prepare tags data
         .map(
           ({
@@ -79,7 +77,9 @@ export const getParser = (parser: any) =>
             default: _default,
             ...restInfo
           }) => {
-            tag = tag && tag.trim().toLowerCase();
+            if (tag && !TAGS_IS_CAMEL_CASE.includes(tag)) {
+              tag = tag && tag.trim().toLowerCase();
+            }
             if (tag in TAGS_SYNONYMS) {
               tag = TAGS_SYNONYMS[tag as keyof typeof TAGS_SYNONYMS];
             }

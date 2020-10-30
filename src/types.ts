@@ -6,7 +6,6 @@ export type JsdocOptions = {
   jsdocDescriptionTag: boolean;
   jsdocVerticalAlignment: boolean;
   jsdocKeepUnParseAbleExampleIndent: boolean;
-  jsdocTagsOrder: string[];
   jsdocParser: boolean;
 } & Options;
 
