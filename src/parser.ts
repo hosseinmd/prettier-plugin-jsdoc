@@ -16,9 +16,7 @@ import {
 import { AST, JsdocOptions } from "./types";
 import { stringify } from "./stringify";
 
-/**
- * @link https://prettier.io/docs/en/api.html#custom-parser-api}
- */
+/** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
 export const getParser = (parser: any) =>
   function jsdocParser(text: string, parsers: any, options: JsdocOptions): AST {
     const ast = parser(text, parsers, options) as AST;
@@ -95,6 +93,12 @@ export const getParser = (parser: any) =>
             }
 
             if (type) {
+              /** Convert optional to standard */
+              if (/[?]$/g.test(type)) {
+                type = type.replace(/[?]$/g, "");
+                optional = true;
+              }
+
               type = convertToModernArray(type);
               type = formatType(type, options);
 
