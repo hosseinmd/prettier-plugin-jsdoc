@@ -7,11 +7,13 @@
     "prepare": "tsc",
     "lint": "eslint --ext '.js' .",
     "test": "yarn prepare && jest",
-    "prettier": "prettier --write \"**/*.js\""
+    "prettierAll": "prettier --write \"**/*.js\""
   },
   "keywords": [
     "prettier",
-    "plugin"
+    "plugin",
+    "jsdoc",
+    "comment"
   ],
   "author": "Hossein mohammadi (hosseinm.developer@gmail.com)",
   "license": "ISC",
