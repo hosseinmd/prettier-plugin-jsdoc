@@ -33,18 +33,10 @@ import {
   YIELDS,
 } from "./tags";
 import { getParser } from "./parser";
-import createLanguage from "./create-language";
-import javascriptJson from "linguist-languages/data/JavaScript.json";
-import jsxJson from "linguist-languages/data/JSX.json";
-import typescriptJson from "linguist-languages/data/TypeScript.json";
-import tsxJson from "linguist-languages/data/TSX.json";
-import jsonJson from "linguist-languages/data/JSON.json";
-import jsonWithCommentJson from "linguist-languages/data/JSON with Comments.json";
-import json5Json from "linguist-languages/data/JSON5.json";
 import parserBabel from "prettier/parser-babel";
 import parserFlow from "prettier/parser-flow";
 import parserTypescript from "prettier/parser-typescript";
-import parserAngular from "prettier/parser-angular";
+import prettier from "prettier";
 
 export const options = {
   jsdocParser: {
@@ -140,73 +132,19 @@ const defaultOptions = {
   jsdocKeepUnParseAbleExampleIndent: false,
 };
 
-const languages = [
-  createLanguage(javascriptJson, (data: any) => ({
-    since: "0.0.0",
-    parsers: ["babel", "babel-flow", "babel-ts", "flow", "typescript"],
-    vscodeLanguageIds: ["javascript", "mongo"],
-    extensions: [
-      ...data.extensions,
-      // WeiXin Script (Weixin Mini Programs)
-      // https://developers.weixin.qq.com/miniprogram/en/dev/framework/view/wxs/
-      ".wxs",
-    ],
-  })),
-  createLanguage(javascriptJson, () => ({
-    name: "Flow",
-    since: "0.0.0",
-    parsers: ["flow", "babel-flow"],
-    vscodeLanguageIds: ["javascript"],
-    aliases: [],
-    filenames: [],
-    extensions: [".js.flow"],
-  })),
-  createLanguage(jsxJson, () => ({
-    since: "0.0.0",
-    parsers: ["babel", "babel-flow", "babel-ts", "flow", "typescript"],
-    vscodeLanguageIds: ["javascriptreact"],
-  })),
-  createLanguage(typescriptJson, () => ({
-    since: "1.4.0",
-    parsers: ["typescript", "babel-ts"],
-    vscodeLanguageIds: ["typescript"],
-  })),
-  createLanguage(tsxJson, () => ({
-    since: "1.4.0",
-    parsers: ["typescript", "babel-ts"],
-    vscodeLanguageIds: ["typescriptreact"],
-  })),
-  createLanguage(jsonJson, () => ({
-    name: "JSON.stringify",
-    since: "1.13.0",
-    parsers: ["json-stringify"],
-    vscodeLanguageIds: ["json"],
-    extensions: [], // .json file defaults to json instead of json-stringify
-    filenames: ["package.json", "package-lock.json", "composer.json"],
-  })),
-  createLanguage(jsonJson, (data: any) => ({
-    since: "1.5.0",
-    parsers: ["json"],
-    vscodeLanguageIds: ["json"],
-    filenames: [...data.filenames, ".prettierrc"],
-  })),
-  createLanguage(jsonWithCommentJson, (data: any) => ({
-    since: "1.5.0",
-    parsers: ["json"],
-    vscodeLanguageIds: ["jsonc"],
-    filenames: [...data.filenames, ".eslintrc"],
-  })),
-  createLanguage(json5Json, () => ({
-    since: "1.13.0",
-    parsers: ["json5"],
-    vscodeLanguageIds: ["json5"],
-  })),
-];
-
-// const printers = {
-//   estree: estreePrinter,
-//   "estree-json": estreeJsonPrinter,
-// };
+const languages = prettier
+  .getSupportInfo()
+  .languages.filter(({ name }) =>
+    [
+      "JavaScript",
+      "Flow",
+      "JSX",
+      "TSX",
+      "TypeScript",
+      "Markdown",
+      "MDX",
+    ].includes(name)
+  );
 
 const parsers = {
   // JS - Babel
@@ -222,24 +160,6 @@ const parsers = {
     const parser = parserBabel.parsers["babel-ts"];
     return { ...parser, parse: getParser(parser.parse) };
   },
-  get json() {
-    return parserBabel.parsers.json;
-  },
-  get json5() {
-    return parserBabel.parsers.json5;
-  },
-  get "json-stringify"() {
-    return parserBabel.parsers["json-stringify"];
-  },
-  get __js_expression() {
-    return parserBabel.parsers.__js_expression;
-  },
-  get __vue_expression() {
-    return parserBabel.parsers.__vue_expression;
-  },
-  get __vue_event_binding() {
-    return parserBabel.parsers.__vue_event_binding;
-  },
   // JS - Flow
   get flow() {
     const parser = parserFlow.parsers.flow;
@@ -250,26 +170,6 @@ const parsers = {
     const parser = parserTypescript.parsers.typescript;
     return { ...parser, parse: getParser(parser.parse) };
     // require("./parser-typescript").parsers.typescript;
-  },
-  // JS - Angular Action
-  get __ng_action() {
-    const parser = parserAngular.parsers.__ng_action;
-    return { ...parser, parse: getParser(parser.parse) };
-  },
-  // JS - Angular Binding
-  get __ng_binding() {
-    const parser = parserAngular.parsers.__ng_binding;
-    return { ...parser, parse: getParser(parser.parse) };
-  },
-  // JS - Angular Interpolation
-  get __ng_interpolation() {
-    const parser = parserAngular.parsers.__ng_interpolation;
-    return { ...parser, parse: getParser(parser.parse) };
-  },
-  // JS - Angular Directive
-  get __ng_directive() {
-    const parser = parserAngular.parsers.__ng_directive;
-    return { ...parser, parse: getParser(parser.parse) };
   },
   get "jsdoc-parser"() {
     // Backward compatible, don't use this in new version since 1.0.0
