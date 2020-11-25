@@ -37,6 +37,8 @@ npm i prettier-plugin-jsdoc --save
 yarn add prettier-plugin-jsdoc
 ```
 
+## Config
+
 ```json
 {
   //any other config you have
