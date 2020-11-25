@@ -39,6 +39,8 @@ yarn add prettier-plugin-jsdoc
 
 ## Config
 
+.prettierrc
+
 ```json
 {
   //any other config you have
