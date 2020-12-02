@@ -15,6 +15,13 @@ exports[` undefined|null|void type 3`] = `
 "
 `;
 
+exports[`Bad defined name 1`] = `
+"/** @type {import(\\"@jest/types/build/Config\\").InitialOptions} */
+
+/** @typedef {import(\\"@jest/types/build/Config\\").InitialOptions} name A description */
+"
+`;
+
 exports[`Big single word 1`] = `
 "/**
  * Simple Single Word

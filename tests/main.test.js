@@ -374,3 +374,13 @@ test("Example start by xml tag", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("Bad defined name", () => {
+  const result = subject(`
+  /** @type{import('@jest/types/build/Config').InitialOptions} */
+
+  /** @typedef{import('@jest/types/build/Config').InitialOptions} name a description  */
+`);
+
+  expect(result).toMatchSnapshot();
+});

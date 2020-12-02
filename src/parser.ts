@@ -77,6 +77,13 @@ export const getParser = (parser: any) =>
             default: _default,
             ...restInfo
           }) => {
+            /** When space between tag and type missed */
+            const tagSticksToType = tag.indexOf("{");
+            if (tagSticksToType !== -1) {
+              type = tag.slice(tagSticksToType + 1, tag.indexOf("}"));
+              tag = tag.slice(0, tagSticksToType);
+            }
+
             if (tag && !TAGS_IS_CAMEL_CASE.includes(tag)) {
               tag = tag && tag.trim().toLowerCase();
             }
