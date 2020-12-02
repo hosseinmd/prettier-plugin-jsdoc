@@ -106,7 +106,6 @@ function formatDescription(
   insertDot: boolean
 ): string {
   text = text || "";
-  text = text.replace(/^[\W]/g, "");
   text = text.trim();
 
   if (!TAGS_NEED_FORMAT_DESCRIPTION.includes(tag)) {
@@ -125,7 +124,13 @@ function formatDescription(
   text = text.replace(/\n/g, " "); // Make single line
 
   if (insertDot) text = text.replace(/(\w)(?=$)/g, "$1."); // Insert dot if needed
-  text = text[0].toUpperCase() + text.slice(1); // Capitalize
+
+  //Capitalize
+  const capitalizeIndex = text.startsWith("- ") ? 2 : 0;
+  const textArray = text.split("");
+  textArray[capitalizeIndex] = textArray[capitalizeIndex].toUpperCase();
+  text = textArray.join("");
+
   return text || "";
 }
 

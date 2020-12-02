@@ -23,6 +23,26 @@ exports[`Big single word 1`] = `
 "
 `;
 
+exports[`Example start by xml tag 1`] = `
+"/**
+ * @example
+ *   <caption>TradingViewChart</caption>;
+ *   export default Something;
+ */
+"
+`;
+
+exports[`Hyphen at the start of description 1`] = `
+"/**
+ * Assign the project to an employee.
+ *
+ * @param {Object} employee - The employee who is responsible for the project.
+ * @param {string} employee.name - The name of the employee.
+ * @param {string} employee.department - The employee's department.
+ */
+"
+`;
+
 exports[`JS code should be formatted as usuall 1`] = `
 "const variable1 = 1; // No semicolon
 const stringVar = \\"text\\"; // Wrong quotes
@@ -100,7 +120,7 @@ exports[`Should format regular jsDoc 1`] = `
  *     two += one;
  *   }
  *
- * @param {String | Number} text Some text description that is very long and
+ * @param {String | Number} text - Some text description that is very long and
  *     needs to be wrapped
  * @param {String} [defaultValue] TODO Default is \`\\"defaultTest\\"\`
  * @param {Number | Null} [optionalNumber]
@@ -130,7 +150,7 @@ exports[`Should format regular jsDoc 2`] = `
  *     two += one;
  *   }
  *
- * @param {String | Number} text Some text description that is very long and
+ * @param {String | Number} text - Some text description that is very long and
  *     needs to be wrapped
  * @param {String} [defaultValue] TODO Default is \`\\"defaultTest\\"\`
  * @param {Number | Null} [optionalNumber]
