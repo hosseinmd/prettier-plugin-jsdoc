@@ -64,7 +64,7 @@ const languages = prettier
       "TypeScript",
       "Markdown",
       "MDX",
-    ].includes(name)
+    ].includes(name),
   );
 
 const parsers = {
