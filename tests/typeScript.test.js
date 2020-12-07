@@ -133,7 +133,7 @@ class test {
     return this;
   }
 }
-`
+`,
   );
 
   expect(result).toMatchSnapshot();
@@ -153,7 +153,7 @@ export interface FetchCallbackResponseArray<T, V> {
    */
   clear: () => void;
 }
-`
+`,
   );
 
   expect(subject(subject(result))).toMatchSnapshot();
