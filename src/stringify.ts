@@ -18,7 +18,7 @@ const stringify = (
   comment: PrettierComment,
   maxTagTitleLength: number,
   maxTagTypeNameLength: number,
-  maxTagNameLength: number
+  maxTagNameLength: number,
 ): string => {
   const {
     loc: {
@@ -86,26 +86,9 @@ const stringify = (
               paragraph = paragraph[0].toUpperCase() + paragraph.slice(1); // Capitalize
               return paragraph
                 .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
-                .map((desContent) => {
-                  desContent = desContent.trim();
-
-                  if (!desContent) {
-                    return desContent;
-                  }
-                  const extraLastLineWidth = 10;
-                  let result = "";
-                  while (desContent.length > maxWidth + extraLastLineWidth) {
-                    let sliceIndex = desContent.lastIndexOf(" ", maxWidth);
-                    if (sliceIndex === -1) sliceIndex = desContent.length;
-                    result += desContent.substring(0, sliceIndex);
-                    desContent = desContent.substring(sliceIndex + 1);
-                    desContent = `\n${beginningSpace}${desContent}`;
-                  }
-
-                  result += desContent;
-
-                  return result;
-                })
+                .map((value) =>
+                  breakDescriptionToLines(value, maxWidth, beginningSpace),
+                )
                 .join("\n    ");
             })
             .join("\n\n");
@@ -127,7 +110,8 @@ const stringify = (
       tagString += description
         .split("\n")
         .map(
-          (l) => `  ${options.jsdocKeepUnParseAbleExampleIndent ? l : l.trim()}`
+          (l) =>
+            `  ${options.jsdocKeepUnParseAbleExampleIndent ? l : l.trim()}`,
         )
         .join("\n");
     }
@@ -144,3 +128,38 @@ const stringify = (
 };
 
 export { stringify };
+
+function breakDescriptionToLines(
+  desContent: string,
+  maxWidth: number,
+  beginningSpace: string,
+) {
+  let str = desContent.trim();
+
+  if (!str) {
+    return str;
+  }
+  const extraLastLineWidth = 10;
+  let result = "";
+  while (str.length > maxWidth + extraLastLineWidth) {
+    let sliceIndex = str.lastIndexOf(" ", maxWidth);
+    /**
+     * When a str is a long word lastIndexOf will gives 4 every time loop
+     * running on limited time
+     */
+    if (sliceIndex <= beginningSpace.length)
+      sliceIndex = str.indexOf(" ", beginningSpace.length + 1);
+
+    if (sliceIndex === -1) sliceIndex = str.length;
+
+    result += str.substring(0, sliceIndex);
+    str = str.substring(sliceIndex + 1);
+
+    str = `${beginningSpace}${str}`;
+    str = `\n${str}`;
+  }
+
+  result += str;
+
+  return result;
+}
