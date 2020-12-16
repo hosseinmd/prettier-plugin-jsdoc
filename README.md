@@ -15,8 +15,6 @@ Compare tests and their snapshot
 
 configured with best practices of jsDoc style guides
 
-initial source code (https://gitlab.com/gumen/prettier-plugin-jsdoc)
-
 ## TOC
 
 - [Installation](#Installation)
@@ -194,6 +192,11 @@ Full up to date list and description of options can be found in Prettier help. F
 `$ ./node_modules/.bin/prettier --help` # local installation
 
 ## Links
+
+## Contribute
+
+Initial source code (https://gitlab.com/gumen/prettier-plugin-jsdoc)
+
 
 [Prettier](https://prettier.io)
 
