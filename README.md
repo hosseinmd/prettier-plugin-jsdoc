@@ -191,12 +191,11 @@ Full up to date list and description of options can be found in Prettier help. F
 
 `$ ./node_modules/.bin/prettier --help` # local installation
 
-## Links
-
 ## Contribute
 
 Initial source code (https://gitlab.com/gumen/prettier-plugin-jsdoc)
 
+## Links
 
 [Prettier](https://prettier.io)
 
