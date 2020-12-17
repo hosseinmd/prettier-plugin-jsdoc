@@ -168,9 +168,9 @@ to
 /**
  * This format of the description is being supported now:
  *
- *    1. Thing 1
- *    2. Thing 2
- *    3. Thing 3
+ *     1. Thing 1
+ *     2. Thing 2
+ *     3. Thing 3
  */
 ```
 
@@ -190,6 +190,25 @@ Full up to date list and description of options can be found in Prettier help. F
 `$ prettier --help` # global installation
 
 `$ ./node_modules/.bin/prettier --help` # local installation
+
+## ESLint
+
+Install [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier)
+
+```
+$ yarn add eslint eslint-plugin-prettier
+```
+
+Then, in your .eslintrc.json:
+
+```json
+{
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}
+```
 
 ## Contribute
 
