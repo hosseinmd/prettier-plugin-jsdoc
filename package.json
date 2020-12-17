@@ -1,12 +1,13 @@
 {
   "name": "prettier-plugin-jsdoc",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
     "prepare": "tsc",
     "lint": "eslint --ext '.ts' ./src",
     "test": "yarn prepare && jest",
+    "changeLog": "standard-version",
     "prettierAll": "prettier --write \"**/*.ts\""
   },
   "husky": {
