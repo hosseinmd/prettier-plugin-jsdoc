@@ -7,7 +7,7 @@
     "prepare": "tsc",
     "lint": "eslint --ext '.js' .",
     "test": "yarn prepare && jest",
-    "prettierAll": "prettier --write \"**/*.js\""
+    "prettierAll": "prettier --write \"**/*.ts\""
   },
   "keywords": [
     "prettier",
