@@ -32,8 +32,7 @@ exports[`Big single word 1`] = `
 
 exports[`Example start by xml tag 1`] = `
 "/**
- * @example
- *   <caption>TradingViewChart</caption>;
+ * @example <caption>TradingViewChart</caption>
  *   export default Something;
  */
 "
