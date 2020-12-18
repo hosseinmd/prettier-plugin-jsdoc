@@ -91,7 +91,7 @@ export const getParser = (parser: any) =>
               tag = TAGS_SYNONYMS[tag as keyof typeof TAGS_SYNONYMS];
             }
             const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
-              tag
+              tag,
             );
 
             if (TAGS_NAMELESS.includes(tag) && name) {
@@ -112,7 +112,7 @@ export const getParser = (parser: any) =>
               if (isVerticallyAlignAbleTags)
                 maxTagTypeNameLength = Math.max(
                   maxTagTypeNameLength,
-                  type.length
+                  type.length,
                 );
 
               // Additional operations on name
@@ -138,7 +138,7 @@ export const getParser = (parser: any) =>
             description = formatDescription(
               tag,
               description,
-              options.jsdocDescriptionWithDot
+              options.jsdocDescriptionWithDot,
             );
 
             return {
@@ -151,7 +151,7 @@ export const getParser = (parser: any) =>
               default: _default,
               optional,
             };
-          }
+          },
         )
 
         // Sort tags
@@ -172,7 +172,7 @@ export const getParser = (parser: any) =>
             comment,
             maxTagTitleLength,
             maxTagTypeNameLength,
-            maxTagNameLength
+            maxTagNameLength,
           );
         });
 

@@ -18,7 +18,7 @@ const stringify = (
   comment: PrettierComment,
   maxTagTitleLength: number,
   maxTagTypeNameLength: number,
-  maxTagNameLength: number
+  maxTagNameLength: number,
 ): string => {
   const {
     loc: {
@@ -127,7 +127,8 @@ const stringify = (
       tagString += description
         .split("\n")
         .map(
-          (l) => `  ${options.jsdocKeepUnParseAbleExampleIndent ? l : l.trim()}`
+          (l) =>
+            `  ${options.jsdocKeepUnParseAbleExampleIndent ? l : l.trim()}`,
         )
         .join("\n");
     }

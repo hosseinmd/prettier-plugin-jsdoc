@@ -103,7 +103,7 @@ function numberOfAStringInString(string: string, search: string | RegExp) {
 function formatDescription(
   tag: string,
   text: string,
-  insertDot: boolean
+  insertDot: boolean,
 ): string {
   text = text || "";
   text = text.trim();
@@ -116,7 +116,7 @@ function formatDescription(
 
   text = text.replace(
     /(\n\n\s\s\s+)|(\n\s+\n\s\s\s+)/g,
-    NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE
+    NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
   ); // Add a signature for new paragraph start with three space
   text = text.replace(/(\n\n)|(\n\s+\n)/g, EMPTY_LINE_SIGNATURE); // Add a signature for empty line and use that later
   text = text.replace(/\n\s\s\s+/g, NEW_LINE_START_THREE_SPACE_SIGNATURE); // Add a signature for new line start with three space
