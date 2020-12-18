@@ -212,7 +212,13 @@ Then, in your .eslintrc.json:
 
 ## Contribute
 
-Initial source code (https://gitlab.com/gumen/prettier-plugin-jsdoc)
+1- Get a clone/fork of repo
+2- Install yarn
+3- Add your changes
+4- Add a test to your change if needed
+5- Create PR
+
+This project initialized a from @gumen plugin in gitlab
 
 ## Links
 
