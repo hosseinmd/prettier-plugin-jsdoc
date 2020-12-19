@@ -367,12 +367,25 @@ test("Example start by xml tag", () => {
   const result = subject(`
   /**
    * @example <caption>TradingViewChart</caption>;
-   *
+   * 
    * export default Something
    */
 `);
 
   expect(result).toMatchSnapshot();
+
+  const result1 = subject(`
+  /**
+   * @example <caption>TradingViewChart</caption>
+   *
+   * function Something(){
+   *   return <caption>TradingViewChart</caption>
+   * }
+   * export default Something
+   */
+`);
+
+  expect(result1).toMatchSnapshot();
 });
 
 test("Bad defined name", () => {

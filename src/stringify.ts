@@ -101,6 +101,15 @@ const stringify = (
 
   // Try to use prettier on @example tag description
   if (tag === EXAMPLE) {
+    const exampleCaption = description.match(
+      /<caption>(((?!(<\/caption>))[\s\S])*)<\/caption>/i,
+    );
+
+    if (exampleCaption) {
+      description = description.replace(exampleCaption[0], "");
+      tagString = `${tagString} ${exampleCaption[0]}`;
+    }
+
     try {
       const formattedExample = format(description || "", options);
       tagString += formattedExample.replace(/(^|\n)/g, "\n  ");
