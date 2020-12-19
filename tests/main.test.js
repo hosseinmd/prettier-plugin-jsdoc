@@ -169,7 +169,7 @@ test("Should align vertically param|property|returns|yields|throws if option set
  * @yields {Number} yields description
  * @returns {undefined}
  */`,
-    options
+    options,
   );
   const Expected1 = `/**
  * @property {Object}    unalginedProp  Unaligned property descriptin
@@ -185,7 +185,7 @@ test("Should align vertically param|property|returns|yields|throws if option set
  * @yields {Number} yields description
  * @return {String} unaligned returns description
  */`,
-    options
+    options,
   );
   const Expected2 = `/**
  * @throws  {CustomExceptio} Unaligned throws description
@@ -224,7 +224,7 @@ test("Should align vertically param|property|returns|yields|throws if option set
  * @yields {Number} yields description
  * @returns {String} unaligned returns description
  */`,
-    options2
+    options2,
   );
 
   expect(Result1).toMatchSnapshot();
@@ -240,7 +240,7 @@ test("Should insert proper amount of spaces based on option", () => {
  * @param {Object} paramName param description that goes on and on and on utill it will need to be wrapped
  * @returns {Number} return description
  */`,
-    options1
+    options1,
   );
 
   const options2 = {
@@ -251,7 +251,7 @@ test("Should insert proper amount of spaces based on option", () => {
  * @param {Object} paramName param description that goes on and on and on utill it will need to be wrapped
  * @returns {Number} return description
  */`,
-    options2
+    options2,
   );
 
   expect(Result1).toMatchSnapshot();
@@ -266,35 +266,35 @@ test("yields should work like returns tag", () => {
     `/**
  * @yields {Number} yields description
  */`,
-    options
+    options,
   );
 
   const Result2 = subject(
     `/**
  * @yield {Number} yields description
  */`,
-    options
+    options,
   );
 
   const Result3 = subject(
     `/**
  * @yield {Number}
  */`,
-    options
+    options,
   );
 
   const Result4 = subject(
     `/**
  * @yield yelds description
  */`,
-    options
+    options,
   );
 
   const Result5 = subject(
     `/**
  * @yield
  */`,
-    options
+    options,
   );
 
   expect(Result1).toMatchSnapshot();
@@ -317,7 +317,7 @@ test("examples", () => {
  *   ]
  *  }
  */`,
-    options
+    options,
   );
 
   const Result2 = subject(
@@ -333,7 +333,7 @@ test("examples", () => {
  *   bar: 5
  * }]
  */`,
-    options
+    options,
   );
   expect(Result1).toMatchSnapshot();
   expect(Result2).toMatchSnapshot();
@@ -344,7 +344,7 @@ test("Big single word", () => {
     `/**
     * Simple Single Word
     * https://github.com/babel/babel/pull/7934/files#diff-a739835084910b0ee3ea649df5a4d223R67
-   */`
+   */`,
   );
 
   expect(result).toMatchSnapshot();
@@ -367,12 +367,25 @@ test("Example start by xml tag", () => {
   const result = subject(`
   /**
    * @example <caption>TradingViewChart</caption>;
-   *
+   * 
    * export default Something
    */
 `);
 
   expect(result).toMatchSnapshot();
+
+  const result1 = subject(`
+  /**
+   * @example <caption>TradingViewChart</caption>
+   *
+   * function Something(){
+   *   return <caption>TradingViewChart</caption>
+   * }
+   * export default Something
+   */
+`);
+
+  expect(result1).toMatchSnapshot();
 });
 
 test("Bad defined name", () => {

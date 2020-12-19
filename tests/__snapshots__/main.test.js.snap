@@ -38,6 +38,17 @@ exports[`Example start by xml tag 1`] = `
 "
 `;
 
+exports[`Example start by xml tag 2`] = `
+"/**
+ * @example <caption>TradingViewChart</caption>
+ *   function Something() {
+ *     return <caption>TradingViewChart</caption>;
+ *   }
+ *   export default Something;
+ */
+"
+`;
+
 exports[`Hyphen at the start of description 1`] = `
 "/**
  * Assign the project to an employee.
