@@ -168,3 +168,13 @@ test("Default export", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("Union types", () => {
+  const result = subject(`
+/**
+ * @typedef {{ foo: string } | { bar: string; manyMoreLongArguments: object } | { baz: string }} Foo
+ */
+`);
+
+  expect(result).toMatchSnapshot();
+});

@@ -49,6 +49,17 @@ export let User;
 "
 `;
 
+exports[`Union types 1`] = `
+"/**
+ * @typedef {
+ *   | { foo: string }
+ *   | { bar: string; manyMoreLongArguments: object }
+ *   | { baz: string }
+ * } Foo
+ */
+"
+`;
+
 exports[`description in interface 1`] = `
 "export interface FetchCallbackResponseArray<T, V> {
   resource: Resource<T>;
