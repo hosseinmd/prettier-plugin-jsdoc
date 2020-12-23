@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.9](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.2.8...v0.2.9) (2020-12-23)
+
+
+### Bug Fixes
+
+* not working for multi line union types ([#17](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/17)) ([fee81f6](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/fee81f6b05be7ddf340783feebd6cb2978283df0))
+
 ### [0.2.8](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.2.7...v0.2.8) (2020-12-19)
 
 
