@@ -303,42 +303,6 @@ test("yields should work like returns tag", () => {
   expect(Result4).toMatchSnapshot();
   expect(Result5).toMatchSnapshot();
 });
-
-test("examples", () => {
-  const options = {
-    jsdocKeepUnParseAbleExampleIndent: true,
-  };
-  const Result1 = subject(
-    `/**
- * @example 
- * {testArr: [
- *     1,
- *     2,
- *   ]
- *  }
- */`,
-    options,
-  );
-
-  const Result2 = subject(
-    `/**
- * @example
- * 
- * [{
- *   foo: 1,
- *   foo: 2,
- *   foo: 9,
- * }, {
- *   bar: 1,
- *   bar: 5
- * }]
- */`,
-    options,
-  );
-  expect(Result1).toMatchSnapshot();
-  expect(Result2).toMatchSnapshot();
-});
-
 test("Big single word", () => {
   const result = subject(
     `/**
@@ -361,31 +325,6 @@ test("Hyphen at the start of description", () => {
 `);
 
   expect(result).toMatchSnapshot();
-});
-
-test("Example start by xml tag", () => {
-  const result = subject(`
-  /**
-   * @example <caption>TradingViewChart</caption>;
-   * 
-   * export default Something
-   */
-`);
-
-  expect(result).toMatchSnapshot();
-
-  const result1 = subject(`
-  /**
-   * @example <caption>TradingViewChart</caption>
-   *
-   * function Something(){
-   *   return <caption>TradingViewChart</caption>
-   * }
-   * export default Something
-   */
-`);
-
-  expect(result1).toMatchSnapshot();
 });
 
 test("Bad defined name", () => {

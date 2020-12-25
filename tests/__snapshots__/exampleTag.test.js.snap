@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Example javascript code 1`] = `
+"/**
+ * @example
+ *   var one = 5;
+ *   var two = 10;
+ *
+ *   if (one > 2) {
+ *     two += one;
+ *   }
+ *
+ * @undefiendtag
+ * @undefiendtag {number} name des
+ */
+const testFunction = (text, defaultValue, optionalNumber) => true;
+"
+`;
+
+exports[`Example javascript code 2`] = `
+"/**
+ * @example
+ *   var one = 5;
+ *   var two = 10;
+ *
+ *   if (one > 2) {
+ *     two += one;
+ *   }
+ *
+ * @undefiendtag
+ * @undefiendtag {number} name des
+ */
+const testFunction = (text, defaultValue, optionalNumber) => true;
+"
+`;
+
+exports[`Example start by xml tag 1`] = `
+"/**
+ * @example <caption>TradingViewChart</caption>
+ *   export default Something;
+ */
+"
+`;
+
+exports[`Example start by xml tag 2`] = `
+"/**
+ * @example <caption>TradingViewChart</caption>
+ *   function Something() {
+ *     return <caption>TradingViewChart</caption>;
+ *   }
+ *   export default Something;
+ */
+"
+`;
+
+exports[`empty example 1`] = `
+"/** Single line description */
+"
+`;
+
+exports[`empty example 2`] = `
+"/**
+ * Single line description
+ *
+ * @returns {Boolean} Always true
+ */
+"
+`;
+
+exports[`examples 1`] = `
+"/**
+ * @example
+ *   { \\"testArr\\": [1, 2] }
+ */
+"
+`;
+
+exports[`examples 2`] = `
+"/**
+ * @example
+ *   [
+ *     {
+ *       foo: 1,
+ *       foo: 2,
+ *       foo: 9,
+ *     },
+ *     {
+ *       bar: 1,
+ *       bar: 5,
+ *     },
+ *   ];
+ */
+"
+`;
