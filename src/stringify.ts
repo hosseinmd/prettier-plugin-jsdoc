@@ -1,6 +1,7 @@
 import { Tag } from "comment-parser";
 import { format } from "prettier";
 import {
+  capitalizer,
   descriptionEndLine,
   EMPTY_LINE_SIGNATURE,
   NEW_LINE_START_THREE_SPACE_SIGNATURE,
@@ -83,7 +84,7 @@ const stringify = (
           return newParagraph
             .split(EMPTY_LINE_SIGNATURE)
             .map((paragraph) => {
-              paragraph = paragraph[0].toUpperCase() + paragraph.slice(1); // Capitalize
+              paragraph = capitalizer(paragraph);
               return paragraph
                 .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
                 .map((value) =>

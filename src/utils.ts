@@ -129,11 +129,7 @@ function formatDescription(
 
   if (insertDot) text = text.replace(/(\w)(?=$)/g, "$1."); // Insert dot if needed
 
-  //Capitalize
-  const capitalizeIndex = text.startsWith("- ") ? 2 : 0;
-  const textArray = text.split("");
-  textArray[capitalizeIndex] = textArray[capitalizeIndex].toUpperCase();
-  text = textArray.join("");
+  text = capitalizer(text);
 
   return text || "";
 }
@@ -155,6 +151,23 @@ function convertCommentDescToDescTag(parsed: Comment): void {
   }
 }
 
+// capitalize if needed
+function capitalizer(str: string): string {
+  if (!str) {
+    return str;
+  }
+
+  if (str.match(new RegExp("^(http|https)://", "i"))) {
+    return str;
+  }
+
+  if (str.startsWith("- ")) {
+    return str.slice(0, 2) + capitalizer(str.slice(2));
+  }
+
+  return str[0].toUpperCase() + str.slice(1);
+}
+
 export {
   EMPTY_LINE_SIGNATURE,
   NEW_LINE_START_THREE_SPACE_SIGNATURE,
@@ -165,4 +178,5 @@ export {
   addStarsToTheBeginningOfTheLines,
   convertCommentDescToDescTag,
   formatDescription,
+  capitalizer,
 };

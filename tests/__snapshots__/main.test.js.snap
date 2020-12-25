@@ -63,6 +63,8 @@ exports[`Long description memory leak 1`] = `
 "/**
  * Configures custom logging for the {@link @microsoft/signalr.HubConnection}.
  *
+ * https://example.com
+ *
  * @param {LogLevel | string | ILogger} logging A {@link
  *     @microsoft/signalr.LogLevel}, a string representing a LogLevel, or an
  *     object implementing the {@link @microsoft/signalr.ILogger} interface.
