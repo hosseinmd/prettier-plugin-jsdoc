@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.12](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.2.9...v0.2.12) (2020-12-25)
+
+
+### Bug Fixes
+
+* don't capitalize links ([9e5e10e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/9e5e10e10aab5bb2955991758b01186f1edc0c23))
+* format json example ([e5a7d59](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/e5a7d590687e14bb78b04522ce7a141a44a58304))
+* since tag ([da13c7c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/da13c7c93919d5ad55ee6b6c701e2d39f5959097))
+
 ### [0.2.11](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.2.10...v0.2.11) (2020-12-25)
 
 ### Bug Fixes
