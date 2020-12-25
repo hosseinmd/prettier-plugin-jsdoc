@@ -13,6 +13,7 @@ import {
   TAGS_NAMELESS,
   TAGS_ORDER,
   TAGS_SYNONYMS,
+  TAGS_TYPELESS,
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
 import { AST, JsdocOptions } from "./types";
@@ -97,6 +98,10 @@ export const getParser = (parser: any) =>
             if (TAGS_NAMELESS.includes(tag) && name) {
               description = `${name} ${description}`;
               name = "";
+            }
+            if (TAGS_TYPELESS.includes(tag) && type) {
+              description = `{${type}} ${description}`;
+              type = "";
             }
 
             if (type) {

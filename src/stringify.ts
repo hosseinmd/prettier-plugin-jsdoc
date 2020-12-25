@@ -111,7 +111,16 @@ const stringify = (
     }
 
     try {
-      const formattedExample = format(description || "", options);
+      let formattedExample = "";
+      // if example is a json
+      if (description.trim().startsWith("{")) {
+        formattedExample = format(description || "", {
+          ...options,
+          parser: "json",
+        });
+      } else {
+        formattedExample = format(description || "", options);
+      }
       tagString += formattedExample.replace(/(^|\n)/g, "\n  ");
       tagString = tagString.slice(0, tagString.length - 3);
     } catch (err) {
