@@ -307,6 +307,11 @@ exports[`examples 2`] = `
 "
 `;
 
+exports[`since  1`] = `
+"/** @since 3.16.0 */
+"
+`;
+
 exports[`yields should work like returns tag 1`] = `
 "/** @yields   {Number}   Yields description */
 "

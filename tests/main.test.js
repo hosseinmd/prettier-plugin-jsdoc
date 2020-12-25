@@ -410,3 +410,13 @@ test("Long description memory leak", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("since ", () => {
+  const result = subject(`
+  /**
+   * @since 3.16.0
+   */
+`);
+
+  expect(result).toMatchSnapshot();
+});
