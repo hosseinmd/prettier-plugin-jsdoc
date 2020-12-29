@@ -46,16 +46,26 @@ export const getParser = (parser: any) =>
       // Parse only comment blocks
       if (comment.type !== "CommentBlock" && comment.type !== "Block") return;
 
+      /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
+      comment.value = comment.value.replace(/^([*]+)/g, "*");
+
       const commentString = `/*${comment.value}*/`;
 
-      // Check if this comment block is a JSDoc.  Based on:
-      // https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
+      /**
+       * Check if this comment block is a JSDoc. Based on:
+       *     https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
+       */
       if (!commentString.match(/\/\*\*[\s\S]+?\*\//g)) return;
 
       const parsed = commentParser(commentString, {
         dotted_names: false,
         trim: false,
       })[0];
+
+      if (!parsed) {
+        // Error on commentParser
+        return;
+      }
 
       comment.value = "";
 

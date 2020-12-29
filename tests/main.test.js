@@ -360,3 +360,14 @@ test("since ", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("Incorrect comment", () => {
+  const result = subject(`
+  /***
+   * Some comment
+   */
+  export class Dummy {}
+  `);
+
+  expect(result).toMatchSnapshot();
+});
