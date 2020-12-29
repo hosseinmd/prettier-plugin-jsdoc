@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.13](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.2.12...v0.2.13) (2020-12-29)
+
+
+### Bug Fixes
+
+* incorrect comment format ([1ac43d1](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/1ac43d16845d796c72c9cfac04da17ea739bdb03))
+
 ### [0.2.12](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.2.9...v0.2.12) (2020-12-25)
 
 
