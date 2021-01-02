@@ -191,8 +191,13 @@ export const getParser = (parser: any) =>
           );
         });
 
-      comment.value = addStarsToTheBeginningOfTheLines(comment.value.trimEnd());
+      comment.value = comment.value.trimEnd();
+      if (comment.value) {
+        comment.value = addStarsToTheBeginningOfTheLines(comment.value);
+      }
     });
+
+    ast.comments = ast.comments.filter(({ value }) => value);
 
     return ast;
   };

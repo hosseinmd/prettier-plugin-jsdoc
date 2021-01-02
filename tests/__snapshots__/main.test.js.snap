@@ -47,6 +47,11 @@ export class Dummy {}
 "
 `;
 
+exports[`Incorrect comment 2`] = `
+"export class Dummy {}
+"
+`;
+
 exports[`JS code should be formatted as usuall 1`] = `
 "const variable1 = 1; // No semicolon
 const stringVar = \\"text\\"; // Wrong quotes

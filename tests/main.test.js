@@ -369,5 +369,13 @@ test("Incorrect comment", () => {
   export class Dummy {}
   `);
 
+  const result2 = subject(`
+  /**
+   *
+   */
+  export class Dummy {}
+  `);
+
   expect(result).toMatchSnapshot();
+  expect(result2).toMatchSnapshot();
 });
