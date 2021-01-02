@@ -3,11 +3,14 @@ import { TAGS_NEED_FORMAT_DESCRIPTION } from "./roles";
 import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
 import { Comment } from "comment-parser";
 
-const EMPTY_LINE_SIGNATURE = "a2@1093NmY^5!~#sdEKHuhPOK*&baSIGNATURE1";
+const EMPTY_LINE_SIGNATURE = "a2@^5!~#sdE!_EMPTY_LINE_SIGNATURE";
 const NEW_LINE_START_THREE_SPACE_SIGNATURE =
-  "l2@_0^3N)Y^5!~^sd*KHuh+O~*;vlSIGNATURE2";
+  "a2@^5!~#sdE!_NEW_LINE_START_THREE_SPACE_SIGNATURE";
+const NEW_LINE_START_WITH_DASH = "a2@^5!~#sdE!_NEW_LINE_START_WITH_DASH";
+const NEW_PARAGRAPH_START_WITH_DASH =
+  "a2@^5!~#sdE!_NEW_PARAGRAPH_START_WITH_DASH";
 const NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE =
-  "l2@_0^s43fb64ds2Huh+O~*;vlSIGNATURE3";
+  "a2@^5!~#sdE!_NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE";
 
 function convertToModernArray(type: string): string {
   if (!type) {
@@ -122,6 +125,17 @@ function formatDescription(
     /(\n\n\s\s\s+)|(\n\s+\n\s\s\s+)/g,
     NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
   ); // Add a signature for new paragraph start with three space
+
+  text = text.replace(
+    /(\n\n+(\s+|)-(\s+|))/g, // `\n\n - ` | `\n\n-` | `\n\n -` | `\n\n- `
+    NEW_PARAGRAPH_START_WITH_DASH,
+  );
+
+  text = text.replace(
+    /(\n(\s+|)-(\s+|))/g, // `\n - ` | `\n-` | `\n -` | `\n- `
+    NEW_LINE_START_WITH_DASH,
+  );
+
   text = text.replace(/(\n\n)|(\n\s+\n)/g, EMPTY_LINE_SIGNATURE); // Add a signature for empty line and use that later
   text = text.replace(/\n\s\s\s+/g, NEW_LINE_START_THREE_SPACE_SIGNATURE); // Add a signature for new line start with three space
   text = text.replace(/\s\s+/g, " "); // Avoid multiple spaces
@@ -170,6 +184,8 @@ function capitalizer(str: string): string {
 
 export {
   EMPTY_LINE_SIGNATURE,
+  NEW_LINE_START_WITH_DASH,
+  NEW_PARAGRAPH_START_WITH_DASH,
   NEW_LINE_START_THREE_SPACE_SIGNATURE,
   NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
   convertToModernArray,

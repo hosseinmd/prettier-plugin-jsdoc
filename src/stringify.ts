@@ -5,6 +5,8 @@ import {
   descriptionEndLine,
   EMPTY_LINE_SIGNATURE,
   NEW_LINE_START_THREE_SPACE_SIGNATURE,
+  NEW_LINE_START_WITH_DASH,
+  NEW_PARAGRAPH_START_WITH_DASH,
   NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
 } from "./utils";
 import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE } from "./tags";
@@ -83,18 +85,34 @@ const stringify = (
         .map((newParagraph) => {
           return newParagraph
             .split(EMPTY_LINE_SIGNATURE)
-            .map((paragraph) => {
-              paragraph = capitalizer(paragraph);
-              return paragraph
-                .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
-                .map((value) =>
-                  breakDescriptionToLines(value, maxWidth, beginningSpace),
-                )
-                .join("\n    ");
-            })
-            .join("\n\n");
+            .map(
+              (newEmptyLineWithDash) =>
+                newEmptyLineWithDash
+                  .split(NEW_PARAGRAPH_START_WITH_DASH)
+                  .map(
+                    (newLineWithDash) =>
+                      newLineWithDash
+                        .split(NEW_LINE_START_WITH_DASH)
+                        .map((paragraph) => {
+                          paragraph = capitalizer(paragraph);
+                          return paragraph
+                            .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
+                            .map((value) =>
+                              breakDescriptionToLines(
+                                value,
+                                maxWidth,
+                                beginningSpace,
+                              ),
+                            )
+                            .join("\n    "); // NEW_LINE_START_THREE_SPACE_SIGNATURE
+                        })
+                        .join("\n- "), // NEW_LINE_START_WITH_DASH
+                  )
+                  .join("\n\n- "), // NEW_PARAGRAPH_START_WITH_DASH
+            )
+            .join("\n\n"); // EMPTY_LINE_SIGNATURE
         })
-        .join("\n\n    ");
+        .join("\n\n    "); // NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE;
 
       tagString = tagString ? `\n${tagString}` : tagString;
     }
