@@ -94,6 +94,8 @@ const stringify = (
                       newLineWithDash
                         .split(NEW_LINE_START_WITH_DASH)
                         .map((paragraph) => {
+                          paragraph = paragraph.replace(/(\s+|)\n(\s+|)/g, " "); // Make single line
+
                           paragraph = capitalizer(paragraph);
                           return paragraph
                             .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
