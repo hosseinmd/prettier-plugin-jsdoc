@@ -1,7 +1,6 @@
 import commentParser from "comment-parser";
 import {
   addStarsToTheBeginningOfTheLines,
-  convertCommentDescToDescTag,
   convertToModernArray,
   formatType,
 } from "./utils";
@@ -17,6 +16,7 @@ import {
 } from "./roles";
 import { AST, JsdocOptions } from "./types";
 import { stringify } from "./stringify";
+import { convertCommentDescToDescTag } from "./descriptionFormatter";
 
 /** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
 export const getParser = (parser: any) =>

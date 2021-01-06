@@ -1,6 +1,6 @@
 import { Tag } from "comment-parser";
 import { format } from "prettier";
-import { formatDescription, descriptionEndLine } from "./utils";
+import { formatDescription, descriptionEndLine } from "./descriptionFormatter";
 import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE } from "./tags";
 import { TAGS_VERTICALLY_ALIGN_ABLE } from "./roles";
 import { JsdocOptions, PrettierComment } from "./types";
