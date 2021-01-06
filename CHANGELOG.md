@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.2.13...v0.3.0) (2021-01-06)
+
+
+### Features
+
+* support markdown as desscription formatter ([2c14daf](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/2c14daf466fb18e8c133fe171cb961f8ea405225))
+
+
+### Bug Fixes
+
+* markdown # in description ([0f7e9eb](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/0f7e9eb0e8de5d3322af144948520668cc3a24f6))
+* remove empty comments ([3b7473e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/3b7473ef9c6937a8a99bb22c46edd805733ae6d6))
+* support desscription with dash ([87a27a6](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/87a27a61e89ff1b1de5e4a7a86ed5866cf033dfa))
+
+### [0.2.14](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.2.13...v0.2.14) (2021-01-06)
+
+
+### Features
+
+* support markdown as desscription formatter ([2c14daf](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/2c14daf466fb18e8c133fe171cb961f8ea405225))
+
+
+### Bug Fixes
+
+* markdown # in description ([0f7e9eb](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/0f7e9eb0e8de5d3322af144948520668cc3a24f6))
+* remove empty comments ([3b7473e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/3b7473ef9c6937a8a99bb22c46edd805733ae6d6))
+* support desscription with dash ([87a27a6](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/87a27a61e89ff1b1de5e4a7a86ed5866cf033dfa))
+
 ### [0.2.13](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.2.12...v0.2.13) (2020-12-29)
 
 
