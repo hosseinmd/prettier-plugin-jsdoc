@@ -1,14 +1,6 @@
 import { Tag } from "comment-parser";
 import { format } from "prettier";
-import {
-  capitalizer,
-  descriptionEndLine,
-  EMPTY_LINE_SIGNATURE,
-  NEW_LINE_START_THREE_SPACE_SIGNATURE,
-  NEW_LINE_START_WITH_DASH,
-  NEW_PARAGRAPH_START_WITH_DASH,
-  NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
-} from "./utils";
+import { formatDescription, descriptionEndLine } from "./utils";
 import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE } from "./tags";
 import { TAGS_VERTICALLY_ALIGN_ABLE } from "./roles";
 import { JsdocOptions, PrettierComment } from "./types";
@@ -29,7 +21,6 @@ const stringify = (
     },
   } = comment;
   const gap = " ".repeat(options.jsdocSpaces);
-  const { printWidth = 80 } = options;
 
   let tagTitleGapAdj = 0;
   let tagTypeGapAdj = 0;
@@ -69,54 +60,16 @@ const stringify = (
       // Avoid wrapping
       tagString += description;
     } else {
-      // Wrap tag description
-      const beginningSpace = tag === DESCRIPTION ? "" : "    "; // google style guide space
-      const marginLength = tagString.length;
-      let maxWidth = printWidth - column - 3; // column is location of comment, 3 is ` * `
+      const resolveDescription = formatDescription(
+        tag,
+        description,
+        tagString,
+        column,
+        options,
+      );
 
-      if (marginLength >= maxWidth) {
-        maxWidth = marginLength;
-      }
-
-      const resolveDescription = `${tagString}${description}`;
-
-      tagString = resolveDescription
-        .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)
-        .map((newParagraph) => {
-          return newParagraph
-            .split(EMPTY_LINE_SIGNATURE)
-            .map(
-              (newEmptyLineWithDash) =>
-                newEmptyLineWithDash
-                  .split(NEW_PARAGRAPH_START_WITH_DASH)
-                  .map(
-                    (newLineWithDash) =>
-                      newLineWithDash
-                        .split(NEW_LINE_START_WITH_DASH)
-                        .map((paragraph) => {
-                          paragraph = paragraph.replace(/(\s+|)\n(\s+|)/g, " "); // Make single line
-
-                          paragraph = capitalizer(paragraph);
-                          return paragraph
-                            .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
-                            .map((value) =>
-                              breakDescriptionToLines(
-                                value,
-                                maxWidth,
-                                beginningSpace,
-                              ),
-                            )
-                            .join("\n    "); // NEW_LINE_START_THREE_SPACE_SIGNATURE
-                        })
-                        .join("\n- "), // NEW_LINE_START_WITH_DASH
-                  )
-                  .join("\n\n- "), // NEW_PARAGRAPH_START_WITH_DASH
-            )
-            .join("\n\n"); // EMPTY_LINE_SIGNATURE
-        })
-        .join("\n\n    "); // NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE;
-
-      tagString = tagString ? `\n${tagString}` : tagString;
+      tagString = `${tagString}${resolveDescription}`;
+      // tagString = tagString ? `\n${tagString}` : tagString;
     }
   }
 
@@ -167,38 +120,3 @@ const stringify = (
 };
 
 export { stringify };
-
-function breakDescriptionToLines(
-  desContent: string,
-  maxWidth: number,
-  beginningSpace: string,
-) {
-  let str = desContent.trim();
-
-  if (!str) {
-    return str;
-  }
-  const extraLastLineWidth = 10;
-  let result = "";
-  while (str.length > maxWidth + extraLastLineWidth) {
-    let sliceIndex = str.lastIndexOf(" ", maxWidth);
-    /**
-     * When a str is a long word lastIndexOf will gives 4 every time loop
-     * running on limited time
-     */
-    if (sliceIndex <= beginningSpace.length)
-      sliceIndex = str.indexOf(" ", beginningSpace.length + 1);
-
-    if (sliceIndex === -1) sliceIndex = str.length;
-
-    result += str.substring(0, sliceIndex);
-    str = str.substring(sliceIndex + 1);
-
-    str = `${beginningSpace}${str}`;
-    str = `\n${str}`;
-  }
-
-  result += str;
-
-  return result;
-}

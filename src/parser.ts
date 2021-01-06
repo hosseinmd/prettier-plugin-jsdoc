@@ -3,7 +3,6 @@ import {
   addStarsToTheBeginningOfTheLines,
   convertCommentDescToDescTag,
   convertToModernArray,
-  formatDescription,
   formatType,
 } from "./utils";
 import { DESCRIPTION } from "./tags";
@@ -53,7 +52,7 @@ export const getParser = (parser: any) =>
 
       /**
        * Check if this comment block is a JSDoc. Based on:
-       *     https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
+       * https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
        */
       if (!commentString.match(/\/\*\*[\s\S]+?\*\//g)) return;
 
@@ -150,11 +149,8 @@ export const getParser = (parser: any) =>
               maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
             }
 
-            description = formatDescription(
-              tag,
-              description,
-              options.jsdocDescriptionWithDot,
-            );
+            description = description || "";
+            description = description.trim();
 
             return {
               ...restInfo,

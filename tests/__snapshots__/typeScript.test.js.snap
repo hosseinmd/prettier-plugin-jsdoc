@@ -64,13 +64,13 @@ exports[`description in interface 1`] = `
 "export interface FetchCallbackResponseArray<T, V> {
   resource: Resource<T>;
   /**
-   * @deprecated Resolve clear with condition in your fetch api this
-   *     function will be remove
+   * @deprecated Resolve clear with condition in your fetch api this function
+   *   will be remove
    */
   refetch: (...arg: V[]) => void;
   /**
    * @deprecated Resolve clear with condition in your fetch api this function
-   *     will be remove
+   *   will be remove
    */
   clear: () => void;
 }
@@ -101,17 +101,17 @@ exports[`max width challenge 1`] = `
    *
    * @param {string | RegExp} searchValue A string to search for.
    * @param {string | (substring: string, ...args: any[]) => string} replaceValue A
-   *     string containing the text to replace for every successful match of
-   *     searchValue in this string.
+   *   string containing the text to replace for every successful match of
+   *   searchValue in this string.
    * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test A
-   *     string containing the text to replace for every successful match of searchValue in
-   *     this string.
-   * @param {string | (substring: string, ...args: any[]) => string} replaceValue
-   *     A_big_string_for_test string containing the text to replace for every
-   *     successful match of searchValue in this string.
-   * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test
-   *     A_big_string_for_test string containing the text to replace for every successful
-   *     match of searchValue in this string.
+   *   string containing the text to replace for every successful match of searchValue in
+   *   this string.
+   * @param {string | (substring: string, ...args: any[]) => string} replaceValue A_big_string_for_test
+   *   string containing the text to replace for every successful match of
+   *   searchValue in this string.
+   * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test A_big_string_for_test
+   *   string containing the text to replace for every successful match of searchValue in
+   *   this string.
    * @returns {StarkStringType & NativeString}
    */
   replace(searchValue, replaceValue) {
@@ -121,17 +121,17 @@ exports[`max width challenge 1`] = `
        *
        * @param {string | RegExp} searchValue A string to search for.
        * @param {string | (substring: string, ...args: any[]) => string} replaceValue A
-       *     string containing the text to replace for every successful match of
-       *     searchValue in this string.
+       *   string containing the text to replace for every successful match of
+       *   searchValue in this string.
        * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test A
-       *     string containing the text to replace for every successful match of searchValue
-       *     in this string.
-       * @param {string | (substring: string, ...args: any[]) => string} replaceValue
-       *     A_big_string_for_test string containing the text to replace for every
-       *     successful match of searchValue in this string.
-       * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test
-       *     A_big_string_for_test string containing the text to replace for every successful
-       *     match of searchValue in this string.
+       *   string containing the text to replace for every successful match of searchValue
+       *   in this string.
+       * @param {string | (substring: string, ...args: any[]) => string} replaceValue A_big_string_for_test
+       *   string containing the text to replace for every
+       *   successful match of searchValue in this string.
+       * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test A_big_string_for_test
+       *   string containing the text to replace for every successful
+       *   match of searchValue in this string.
        * @returns {StarkStringType & NativeString}
        */
       testFunction() {}

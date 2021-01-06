@@ -2,6 +2,7 @@ import { format, Options } from "prettier";
 import { TAGS_NEED_FORMAT_DESCRIPTION } from "./roles";
 import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
 import { Comment } from "comment-parser";
+import { JsdocOptions } from "./types";
 
 const EMPTY_LINE_SIGNATURE = "a2@^5!~#sdE!_EMPTY_LINE_SIGNATURE";
 const NEW_LINE_START_THREE_SPACE_SIGNATURE =
@@ -110,11 +111,10 @@ function numberOfAStringInString(string: string, search: string | RegExp) {
 function formatDescription(
   tag: string,
   text: string,
-  insertDot: boolean,
+  tagString: string,
+  column: number,
+  options: JsdocOptions,
 ): string {
-  text = text || "";
-  text = text.trim();
-
   if (!TAGS_NEED_FORMAT_DESCRIPTION.includes(tag)) {
     return text;
   }
@@ -139,11 +139,114 @@ function formatDescription(
   text = text.replace(/(\n\n)|(\n\s+\n)/g, EMPTY_LINE_SIGNATURE); // Add a signature for empty line and use that later
   text = text.replace(/\n\s\s\s+/g, NEW_LINE_START_THREE_SPACE_SIGNATURE); // Add a signature for new line start with three space
 
-  if (insertDot) text = text.replace(/(\w)(?=$)/g, "$1."); // Insert dot if needed
-
   text = capitalizer(text);
 
+  text = `${"_".repeat(tagString.length)}${text}`;
+
+  const { printWidth = 80 } = options;
+
+  // Wrap tag description
+  const beginningSpace = tag === DESCRIPTION ? "" : "    "; // google style guide space
+  const marginLength = tagString.length;
+  let maxWidth = printWidth - column - 3; // column is location of comment, 3 is ` * `
+
+  if (marginLength >= maxWidth) {
+    maxWidth = marginLength;
+  }
+
+  text = text
+    .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)
+    .map((newParagraph) => {
+      return newParagraph
+        .split(EMPTY_LINE_SIGNATURE)
+        .map(
+          (newEmptyLineWithDash) =>
+            newEmptyLineWithDash
+              .split(NEW_PARAGRAPH_START_WITH_DASH)
+              .map(
+                (newLineWithDash) =>
+                  newLineWithDash
+                    .split(NEW_LINE_START_WITH_DASH)
+                    .map((paragraph) => {
+                      paragraph = paragraph.replace(/(\s+|)\n(\s+|)/g, " "); // Make single line
+
+                      paragraph = capitalizer(paragraph);
+                      if (options.jsdocDescriptionWithDot)
+                        paragraph = paragraph.replace(/(\w)(?=$)/g, "$1."); // Insert dot if needed
+
+                      return paragraph
+                        .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
+                        .map((value) =>
+                          breakDescriptionToLines(
+                            value,
+                            maxWidth,
+                            beginningSpace,
+                          ),
+                        )
+                        .join("\n    "); // NEW_LINE_START_THREE_SPACE_SIGNATURE
+                    })
+                    .join("\n- "), // NEW_LINE_START_WITH_DASH
+              )
+              .join("\n\n- "), // NEW_PARAGRAPH_START_WITH_DASH
+        )
+        .join("\n\n"); // EMPTY_LINE_SIGNATURE
+    })
+    .join("\n\n    "); // NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE;
+
+  text = text.replace(/^_+/g, "");
+
+  const isAddedFakeDash = !text.startsWith("- ") && tag !== DESCRIPTION;
+  if (isAddedFakeDash) {
+    text = `- ${text}`;
+  }
+
+  text = text.replace(/\n[\s|]+(\d+)[-.][\s+-.|]+/g, "\n$1. ");
+
+  text = format(text, {
+    ...options,
+    parser: "markdown",
+  }).trim();
+
+  if (isAddedFakeDash) {
+    text = text.replace("- ", "");
+  }
+
   return text || "";
+}
+
+function breakDescriptionToLines(
+  desContent: string,
+  maxWidth: number,
+  beginningSpace: string,
+) {
+  let str = desContent.trim();
+
+  if (!str) {
+    return str;
+  }
+  const extraLastLineWidth = 10;
+  let result = "";
+  while (str.length > maxWidth + extraLastLineWidth) {
+    let sliceIndex = str.lastIndexOf(" ", maxWidth);
+    /**
+     * When a str is a long word lastIndexOf will gives 4 every time loop
+     * running on limited time
+     */
+    if (sliceIndex <= beginningSpace.length)
+      sliceIndex = str.indexOf(" ", beginningSpace.length + 1);
+
+    if (sliceIndex === -1) sliceIndex = str.length;
+
+    result += str.substring(0, sliceIndex);
+    str = str.substring(sliceIndex + 1);
+
+    str = `${beginningSpace}${str}`;
+    str = `\n${str}`;
+  }
+
+  result += str;
+
+  return result;
 }
 
 function convertCommentDescToDescTag(parsed: Comment): void {
