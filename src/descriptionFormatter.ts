@@ -56,6 +56,8 @@ function formatDescription(
 
   if (!text) return text;
 
+  text = text.replace(/[\n\s]+([#]+)(.*)[\n\s]+/g, "\n\n$1 $2\n\n");
+
   text = text.replace(
     /(\n\n\s\s\s+)|(\n\s+\n\s\s\s+)/g,
     NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
@@ -89,7 +91,7 @@ function formatDescription(
     maxWidth = marginLength;
   }
 
-  text = text
+  text = text = text
     .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)
     .map((newParagraph) => {
       return newParagraph

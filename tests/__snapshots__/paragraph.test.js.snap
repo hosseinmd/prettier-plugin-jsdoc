@@ -156,9 +156,10 @@ exports[`numbers and code in description 1`] = `
  * \`PressResponder\` only assumes that there exists a \`HitRect\` node. The
  * \`PressRect\` is an abstract box that is extended beyond the \`HitRect\`.
  *
- * # Geometry When the press is released outside the \`HitRect\`, the responder is
+ * # Geometry
  *
- * NOT eligible for a \\"press\\".
+ * When the press is released outside the \`HitRect\`, the responder is NOT
+ * eligible for a \\"press\\".
  */
 "
 `;
