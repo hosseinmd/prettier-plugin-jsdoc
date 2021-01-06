@@ -164,15 +164,8 @@ to
 
 #### Description
 
-```js
-/**
- * This format of the description is being supported now:
- *
- *     1. Thing 1
- *     2. Thing 2
- *     3. Thing 3
- */
-```
+Description is formatting as Markdown, so you could use any features of Markdown on that.
+
 
 ## Options
 
