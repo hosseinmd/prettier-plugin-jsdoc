@@ -5,14 +5,15 @@ import { Comment } from "comment-parser";
 import { JsdocOptions } from "./types";
 import { capitalizer } from "./utils";
 
-const EMPTY_LINE_SIGNATURE = "a2@^5!~#sdE!_EMPTY_LINE_SIGNATURE";
+const EMPTY_LINE_SIGNATURE = "2@^5!~#sdE!_EMPTY_LINE_SIGNATURE";
 const NEW_LINE_START_THREE_SPACE_SIGNATURE =
-  "a2@^5!~#sdE!_NEW_LINE_START_THREE_SPACE_SIGNATURE";
-const NEW_LINE_START_WITH_DASH = "a2@^5!~#sdE!_NEW_LINE_START_WITH_DASH";
+  "2@^5!~#sdE!_NEW_LINE_START_THREE_SPACE_SIGNATURE";
+const NEW_LINE_START_WITH_DASH = "2@^5!~#sdE!_NEW_LINE_START_WITH_DASH";
+const NEW_LINE_START_WITH_NUMBER = "2@^5!~#sdE!_NEW_LINE_START_WITH_NUMBER";
 const NEW_PARAGRAPH_START_WITH_DASH =
-  "a2@^5!~#sdE!_NEW_PARAGRAPH_START_WITH_DASH";
+  "2@^5!~#sdE!_NEW_PARAGRAPH_START_WITH_DASH";
 const NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE =
-  "a2@^5!~#sdE!_NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE";
+  "2@^5!~#sdE!_NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE";
 
 interface DescriptionEndLineParams {
   description: string;
@@ -56,7 +57,25 @@ function formatDescription(
 
   if (!text) return text;
 
+  /**
+   * Description
+   *
+   * # Example
+   *
+   * Summry
+   */
   text = text.replace(/[\n\s]+([#]+)(.*)[\n\s]+/g, "\n\n$1 $2\n\n");
+
+  /**
+   * 1. a thing
+   *
+   * 2. another thing
+   */
+  text = text.replace(/^(\d+)[-.][\s-.|]+/g, "$1. "); // Start
+  text = text.replace(
+    /\n?[\n\s]+(\d+)[-.][\s-.|]+/g,
+    NEW_LINE_START_WITH_NUMBER + "$1. ",
+  );
 
   text = text.replace(
     /(\n\n\s\s\s+)|(\n\s+\n\s\s\s+)/g,
@@ -99,32 +118,44 @@ function formatDescription(
         .map(
           (newEmptyLineWithDash) =>
             newEmptyLineWithDash
-              .split(NEW_PARAGRAPH_START_WITH_DASH)
+              .split(NEW_LINE_START_WITH_NUMBER)
               .map(
-                (newLineWithDash) =>
-                  newLineWithDash
-                    .split(NEW_LINE_START_WITH_DASH)
-                    .map((paragraph) => {
-                      paragraph = paragraph.replace(/(\s+|)\n(\s+|)/g, " "); // Make single line
+                (newLineWithNumber) =>
+                  newLineWithNumber
+                    .split(NEW_PARAGRAPH_START_WITH_DASH)
+                    .map(
+                      (newLineWithDash) =>
+                        newLineWithDash
+                          .split(NEW_LINE_START_WITH_DASH)
+                          .map((paragraph) => {
+                            paragraph = paragraph.replace(
+                              /(\s+|)\n(\s+|)/g,
+                              " ",
+                            ); // Make single line
 
-                      paragraph = capitalizer(paragraph);
-                      if (options.jsdocDescriptionWithDot)
-                        paragraph = paragraph.replace(/(\w)(?=$)/g, "$1."); // Insert dot if needed
+                            paragraph = capitalizer(paragraph);
+                            if (options.jsdocDescriptionWithDot)
+                              paragraph = paragraph.replace(
+                                /(\w)(?=$)/g,
+                                "$1.",
+                              ); // Insert dot if needed
 
-                      return paragraph
-                        .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
-                        .map((value) =>
-                          breakDescriptionToLines(
-                            value,
-                            maxWidth,
-                            beginningSpace,
-                          ),
-                        )
-                        .join("\n    "); // NEW_LINE_START_THREE_SPACE_SIGNATURE
-                    })
-                    .join("\n- "), // NEW_LINE_START_WITH_DASH
+                            return paragraph
+                              .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
+                              .map((value) =>
+                                breakDescriptionToLines(
+                                  value,
+                                  maxWidth,
+                                  beginningSpace,
+                                ),
+                              )
+                              .join("\n    "); // NEW_LINE_START_THREE_SPACE_SIGNATURE
+                          })
+                          .join("\n- "), // NEW_LINE_START_WITH_DASH
+                    )
+                    .join("\n\n- "), // NEW_PARAGRAPH_START_WITH_DASH
               )
-              .join("\n\n- "), // NEW_PARAGRAPH_START_WITH_DASH
+              .join("\n"), // NEW_LINE_START_WITH_NUMBER
         )
         .join("\n\n"); // EMPTY_LINE_SIGNATURE
     })
@@ -136,8 +167,6 @@ function formatDescription(
   if (isAddedFakeDash) {
     text = `- ${text}`;
   }
-
-  text = text.replace(/\n[\s|]+(\d+)[-.][\s+-.|]+/g, "\n$1. ");
 
   text = format(text, {
     ...options,

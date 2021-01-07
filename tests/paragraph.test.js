@@ -154,7 +154,7 @@ test("numbers and code in description", () => {
  *
  *     const pressResponder = new PressResponder(config);
  *
- *     2. Choose the rendered component who should collect the press events. On that
+ *     2.   Choose the rendered component who should collect the press events. On that
  *   element, spread \`pressability.getEventHandlers()\` into its props.
  *
  *    return (
@@ -178,6 +178,29 @@ test("numbers and code in description", () => {
  *
  */
   `);
-
   expect(result1).toMatchSnapshot();
+
+  const result2 = subject(`
+  /**
+   * 1- a keydown event occurred immediately before a focus event
+   * 2- a focus event happened on an element which requires keyboard interaction (e.g., a text field);
+   */
+`);
+  expect(result2).toMatchSnapshot();
+
+  const result3 = subject(`
+/**
+* The script uses two heuristics to determine whether the keyboard is being used:
+*
+* 1. a keydown event occurred lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqimmediately before  a focus event;
+
+
+* 2.   a focus evenlorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqt happened on an element which requires keyboard interaction (e.g., a text field);
+*
+* lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliq
+* W3C Software Notice and License: https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
+*
+*/
+`);
+  expect(result3).toMatchSnapshot();
 });
