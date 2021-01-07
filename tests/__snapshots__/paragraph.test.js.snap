@@ -183,8 +183,8 @@ exports[`description contain paragraph 4`] = `
 exports[`description new line with dash 1`] = `
 "/**
  * We will allow the scroll view to give up its lock iff it acquired the lock
- * during an animation. This is a very useful default that happens to satisfy
- * many common user experiences.
+ * during an - animation. This is a very useful default that happens to
+ * satisfy many common user experiences.
  *
  * - Stop a scroll on the left edge, then turn that into an outer view's backswipe.
  * - Stop a scroll mid-bounce at the top, continue pulling to have the outer view dismiss.
@@ -212,6 +212,23 @@ function scrollResponderHandleTerminationRequest() {
 function scrollResponderHandleTerminationRequest() {
   return !this.state.observedScrollSinceBecomingResponder;
 }
+"
+`;
+
+exports[`description new line with dash 2`] = `
+"/**
+ * Measures the \`HitRect\` node on activation. The Bounding rectangle is with
+ * respect to viewport - not page, so adding the \`pageXOffset/pageYOffset\`
+ * should result in points that are in the same coordinate system as an
+ * event's \`globalX/globalY\` data values.
+ *
+ * - Consider caching this for the lifetime of the component, or possibly being
+ *   able to share this cache between any \`ScrollMap\` view.
+ *
+ * @private
+ *
+ * @sideeffects
+ */
 "
 `;
 

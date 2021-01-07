@@ -186,6 +186,7 @@ function formatDescription(
   text = format(text, {
     ...options,
     parser: "markdown",
+    printWidth: printWidth - column,
   }).trim();
 
   if (isAddedFakeDash) {

@@ -89,7 +89,7 @@ test("description new line with dash", () => {
   const result1 = subject(`
   /**
    * We will allow the scroll view to give up its lock iff it acquired the lock
-   * during an animation. This is a very useful default that happens to satisfy
+   * during an - animation. This is a very useful default that happens to satisfy
    * many common user experiences.
    *
    * - Stop a scroll on the left edge, then turn that into an outer view's
@@ -127,8 +127,25 @@ test("description new line with dash", () => {
     return !this.state.observedScrollSinceBecomingResponder;
   }
   `);
-
   expect(result1).toMatchSnapshot();
+
+  const result2 = subject(`
+  /**
+   * Measures the \`HitRect\` node on activation. The Bounding rectangle is with
+   * respect to viewport - not page, so adding the \`pageXOffset/pageYOffset\`
+   * should result in points that are in the same coordinate system as an
+   * event's \`globalX/globalY\` data values.
+   *
+   * - Consider caching this for the lifetime of the component, or possibly being able to share this
+   *   cache between any \`ScrollMap\` view.
+   *
+   * @private
+   *
+   * @sideeffects
+   */
+  `);
+
+  expect(result2).toMatchSnapshot();
 });
 
 test("numbers and code in description", () => {
@@ -298,3 +315,12 @@ test("code in description", () => {
 
   expect(result1).toMatchSnapshot();
 });
+
+/**
+ * If this is a vertical ScrollView scrolls to the bottom.
+ * If this is a horizontal ScrollView scrolls to the right.
+ *
+ * Use `scrollToEnd({ animated: true })` for smooth animated scrolling,
+ * `scrollToEnd({ animated: false })` for immediate scrolling.
+ * If no options are passed, `animated` defaults to true.
+ */
