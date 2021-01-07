@@ -14,6 +14,7 @@ const NEW_PARAGRAPH_START_WITH_DASH =
   "2@^5!~#sdE!_NEW_PARAGRAPH_START_WITH_DASH";
 const NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE =
   "2@^5!~#sdE!_NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE";
+const CODE = "2@^5!~#sdE!_CODE";
 
 interface DescriptionEndLineParams {
   description: string;
@@ -76,6 +77,14 @@ function formatDescription(
     /\n?[\n\s]+(\d+)[-.][\s-.|]+/g,
     NEW_LINE_START_WITH_NUMBER + "$1. ",
   );
+
+  const codes = text.match(/```((?!(```)).*\n)+```/g);
+
+  if (codes) {
+    codes.forEach((code) => {
+      text = text.replace(code, `\n\n${CODE}\n\n`);
+    });
+  }
 
   text = text.replace(
     /(\n\n\s\s\s+)|(\n\s+\n\s\s\s+)/g,
@@ -160,6 +169,12 @@ function formatDescription(
         .join("\n\n"); // EMPTY_LINE_SIGNATURE
     })
     .join("\n\n    "); // NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE;
+
+  if (codes) {
+    text = text.split(CODE).reduce((pre, cur, index) => {
+      return `${pre}${cur}${codes[index] ?? ""}`;
+    }, "");
+  }
 
   text = text.replace(/^_+/g, "");
 
