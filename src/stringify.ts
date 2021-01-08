@@ -86,7 +86,10 @@ const stringify = (
 
     try {
       let formattedExample = "";
-      // if example is a json
+
+      description = description.replace(/\n[^\S\r\n]{2}/g, "\n"); // Remove two space from lines, maybe added previous format
+
+      // If example is a json
       if (description.trim().startsWith("{")) {
         formattedExample = format(description || "", {
           ...options,
@@ -95,7 +98,8 @@ const stringify = (
       } else {
         formattedExample = format(description || "", options);
       }
-      tagString += formattedExample.replace(/(^|\n)/g, "\n  ");
+
+      tagString += formattedExample.replace(/(^|\n)/g, "\n  "); // Add tow space to start of lines
       tagString = tagString.slice(0, tagString.length - 3);
     } catch (err) {
       tagString += "\n";

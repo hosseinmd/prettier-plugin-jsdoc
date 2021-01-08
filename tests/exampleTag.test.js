@@ -124,3 +124,23 @@ test("example json ", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("example should be same after few time format ", () => {
+  const result = subject(`
+  /**
+   * @example <caption>with selector</caption>
+   *   const $ = ccashio.test(\`
+   *     <div id=test>
+   *       <p>Hello</p>
+   *       <b><p>World</p></b>
+   *     </div>
+   *   \`);
+  */
+`);
+
+  const result2 = subject(result);
+  const result3 = subject(result2);
+
+  expect(result).toEqual(result2);
+  expect(result).toEqual(result3);
+});
