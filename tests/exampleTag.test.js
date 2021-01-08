@@ -15,8 +15,13 @@ test("Example javascript code", () => {
 * @examples
 *   var one = 5
 *   var two = 10
+
+     const resolveDescription = formatDescription(tag, description, tagString, a);
 *
-*   if(one > 2) { two += one }
+*   if(one > 2) { two += one
+
+ }
+
 * @undefiendTag 
 * @undefiendTag {number} name des
 */
@@ -43,7 +48,7 @@ test("empty example", () => {
   expect(Result3).toMatchSnapshot();
 });
 
-test("examples", () => {
+test("examples Json", () => {
   const options = {
     jsdocKeepUnParseAbleExampleIndent: true,
   };

@@ -20,17 +20,21 @@ const stringify = (
       start: { column },
     },
   } = comment;
-  const gap = " ".repeat(options.jsdocSpaces);
+  const {
+    printWidth = 80,
+    jsdocSpaces,
+    jsdocVerticalAlignment,
+    jsdocDescriptionTag,
+    jsdocKeepUnParseAbleExampleIndent,
+  } = options;
+  const gap = " ".repeat(jsdocSpaces);
 
   let tagTitleGapAdj = 0;
   let tagTypeGapAdj = 0;
   let tagNameGapAdj = 0;
   let descGapAdj = 0;
 
-  if (
-    options.jsdocVerticalAlignment &&
-    TAGS_VERTICALLY_ALIGN_ABLE.includes(tag)
-  ) {
+  if (jsdocVerticalAlignment && TAGS_VERTICALLY_ALIGN_ABLE.includes(tag)) {
     if (tag) tagTitleGapAdj += maxTagTitleLength - tag.length;
     else if (maxTagTitleLength) descGapAdj += maxTagTitleLength + gap.length;
 
@@ -42,7 +46,7 @@ const stringify = (
     else if (maxTagNameLength) descGapAdj = maxTagNameLength + gap.length;
   }
 
-  const useTagTitle = tag !== DESCRIPTION || options.jsdocDescriptionTag;
+  const useTagTitle = tag !== DESCRIPTION || jsdocDescriptionTag;
   let tagString = "\n";
 
   if (useTagTitle) {
@@ -86,6 +90,7 @@ const stringify = (
 
     try {
       let formattedExample = "";
+      const examplePrintWith = printWidth - column - 5;
 
       description = description.replace(/\n[^\S\r\n]{2}/g, "\n"); // Remove two space from lines, maybe added previous format
 
@@ -94,9 +99,13 @@ const stringify = (
         formattedExample = format(description || "", {
           ...options,
           parser: "json",
+          printWidth: examplePrintWith,
         });
       } else {
-        formattedExample = format(description || "", options);
+        formattedExample = format(description || "", {
+          ...options,
+          printWidth: examplePrintWith,
+        });
       }
 
       tagString += formattedExample.replace(/(^|\n)/g, "\n  "); // Add tow space to start of lines
@@ -105,10 +114,7 @@ const stringify = (
       tagString += "\n";
       tagString += description
         .split("\n")
-        .map(
-          (l) =>
-            `  ${options.jsdocKeepUnParseAbleExampleIndent ? l : l.trim()}`,
-        )
+        .map((l) => `  ${jsdocKeepUnParseAbleExampleIndent ? l : l.trim()}`)
         .join("\n");
     }
   }

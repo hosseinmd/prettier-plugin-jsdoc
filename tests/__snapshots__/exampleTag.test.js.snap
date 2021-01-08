@@ -6,6 +6,13 @@ exports[`Example javascript code 1`] = `
  *   var one = 5;
  *   var two = 10;
  *
+ *   const resolveDescription = formatDescription(
+ *     tag,
+ *     description,
+ *     tagString,
+ *     a
+ *   );
+ *
  *   if (one > 2) {
  *     two += one;
  *   }
@@ -22,6 +29,13 @@ exports[`Example javascript code 2`] = `
  * @example
  *   var one = 5;
  *   var two = 10;
+ *
+ *   const resolveDescription = formatDescription(
+ *     tag,
+ *     description,
+ *     tagString,
+ *     a
+ *   );
  *
  *   if (one > 2) {
  *     two += one;
@@ -85,7 +99,7 @@ exports[`example json  1`] = `
 "
 `;
 
-exports[`examples 1`] = `
+exports[`examples Json 1`] = `
 "/**
  * @example
  *   { \\"testArr\\": [1, 2] }
@@ -93,7 +107,7 @@ exports[`examples 1`] = `
 "
 `;
 
-exports[`examples 2`] = `
+exports[`examples Json 2`] = `
 "/**
  * @example
  *   [
