@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.4](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.0...v0.3.4) (2021-01-08)
+
+
+### Bug Fixes
+
+* add category to  nameless tags ([c602823](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/c602823ad83c357110c93e410f6df7128cdab76f))
+* add printWidth to description markdown ([754031f](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/754031fad82c320e61d5dd8384d60dcc4f78f2e4))
+* add space to examples where accent symbol used ([fd10ff1](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/fd10ff163777e616386d3d23633ec855b2b34d55))
+* bug paraghrap with number in start of description ([23297b8](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/23297b83091a5715a818a24b40b2f26e77f138f2))
+* codes in description ([2aecefd](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/2aecefdd0b71dbc57d465619bf823e1523b54d74))
+* example print width ([a4d0d5e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/a4d0d5e4ca412d1703814e11b1afec3a4b997516))
+
 ## [0.3.0](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.2.13...v0.3.0) (2021-01-06)
 
 
