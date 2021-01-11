@@ -168,22 +168,22 @@ test("numbers and code in description", () => {
  * element's bounds should trigger reactivation.
  *
  * 1- In order to use \`PressResponder\`, do the following:
- *
+ *\`\`\`js
  *     const pressResponder = new PressResponder(config);
- *
+ *\`\`\`
  *     2.   Choose the rendered component who should collect the press events. On that
  *   element, spread \`pressability.getEventHandlers()\` into its props.
- *
+ *\`\`\`js
  *    return (
  *      <View {...this.state.pressResponder.getEventHandlers()} />
  *    );
- *
+ *\`\`\`
  * 3. Reset \`PressResponder\` when your component unmounts.
- *
+ *\`\`\`js
  *    componentWillUnmount() {
  *      this.state.pressResponder.reset();
  *    }
- *
+ *\`\`\`
  * ==================== Implementation Details ====================
  *
  * \`PressResponder\` only assumes that there exists a \`HitRect\` node. The \`PressRect\`
@@ -195,11 +195,14 @@ test("numbers and code in description", () => {
  *
  */
   `);
-  expect(result1).toMatchSnapshot();
+  expect(subject(subject(result1))).toEqual(result1);
+
+  expect(subject(subject(result1))).toMatchSnapshot();
 
   const result2 = subject(`
   /**
-   * 1- a keydown event occurred immediately before a focus event
+   * 1-    a keydown event occurred immediately before a focus event
+   * 2- a focus event happened on an element which requires keyboard interaction (e.g., a text field);
    * 2- a focus event happened on an element which requires keyboard interaction (e.g., a text field);
    */
 `);
@@ -231,8 +234,8 @@ test("code in description", () => {
  * will measure time/geometry and tells you when to give feedback to the user.
  *
  * ====================== Touchable Tutorial ===============================
- * The \`Touchable\` mixin helps you handle the "press" interaction. It analyzes
- * the geometry of elements, and observes when another responder (scroll view
+ * The \`Touchable\` mixin helps you handle the "press" interaction. It analyzes 
+ *  the geometry of elements, and observes when another responder (scroll view
  * etc) has stolen the touch lock. It notifies your component when it should
  * give feedback to the user. (bouncing/highlighting/unhighlighting).
  *
@@ -314,6 +317,31 @@ test("code in description", () => {
   `);
 
   expect(result1).toMatchSnapshot();
+
+  const result2 = subject(
+    subject(`
+    /**
+     * Utility type for getting the values for specific style keys.
+     * # test:
+     * The following is bad because position is more restrictive than 'string':
+     * \`\`\`
+     * type Props = {position: string};
+     * \`\`\`
+     *
+     * You should use the following instead:
+     *
+     * \`\`\`
+     * type Props = {position: TypeForStyleKey<'position'>};
+     * \`\`\`
+     *
+     * This will correctly give you the type 'absolute' | 'relative'
+     */
+`),
+  );
+
+  expect(subject(subject(result2))).toEqual(result2);
+
+  expect(result2).toMatchSnapshot();
 });
 
 /**

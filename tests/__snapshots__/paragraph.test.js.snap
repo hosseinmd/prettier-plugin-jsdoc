@@ -100,6 +100,29 @@ exports[`code in description 1`] = `
 "
 `;
 
+exports[`code in description 2`] = `
+"/**
+ * Utility type for getting the values for specific style keys.
+ *
+ * # test:
+ *
+ * The following is bad because position is more restrictive than 'string':
+ *
+ * \`\`\`
+ * type Props = {position: string};
+ * \`\`\`
+ *
+ * You should use the following instead:
+ *
+ * \`\`\`
+ * type Props = {position: TypeForStyleKey<'position'>};
+ * \`\`\`
+ *
+ * This will correctly give you the type 'absolute' | 'relative'
+ */
+"
+`;
+
 exports[`description contain paragraph 1`] = `
 "/**
  * Does the following things:
@@ -251,22 +274,26 @@ exports[`numbers and code in description 1`] = `
  * bounds should trigger deactivation, but moving the same finger back within
  * an element's bounds should trigger reactivation.
  *
- * 1.  In order to use \`PressResponder\`, do the following:
+ * 1. In order to use \`PressResponder\`, do the following:
  *
- *     Const pressResponder = new PressResponder(config);
+ * \`\`\`js
+ * const pressResponder = new PressResponder(config);
+ * \`\`\`
  *
- * 2.  Choose the rendered component who should collect the press events. On that
- *     element, spread \`pressability.getEventHandlers()\` into its props.
+ * 2. Choose the rendered component who should collect the press events. On that
+ *    element, spread \`pressability.getEventHandlers()\` into its props.
  *
- *         Return (
- *         <View {...this.state.pressResponder.getEventHandlers()} />
- *         );
+ * \`\`\`js
+ * return <View {...this.state.pressResponder.getEventHandlers()} />;
+ * \`\`\`
  *
- * 3.  Reset \`PressResponder\` when your component unmounts.
+ * 3. Reset \`PressResponder\` when your component unmounts.
  *
- *     ComponentWillUnmount() {
- *     this.state.pressResponder.reset();
- *     }
+ * \`\`\`js
+ *    componentWillUnmount() {
+ *      this.state.pressResponder.reset();
+ *    }
+ * \`\`\`
  *
  * ==================== Implementation Details ====================
  *
@@ -285,6 +312,8 @@ exports[`numbers and code in description 2`] = `
 "/**
  * 1. a keydown event occurred immediately before a focus event
  * 2. a focus event happened on an element which requires keyboard interaction
+ *    (e.g., a text field);
+ * 3. a focus event happened on an element which requires keyboard interaction
  *    (e.g., a text field);
  */
 "

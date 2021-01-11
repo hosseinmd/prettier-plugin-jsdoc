@@ -74,7 +74,7 @@ function formatDescription(
    */
   text = text.replace(/^(\d+)[-.][\s-.|]+/g, "$1. "); // Start
   text = text.replace(
-    /\n?[\n\s]+(\d+)[-.][\s-.|]+/g,
+    /[\n\s]+(\d+)[-.][\s-.|]+/g,
     NEW_LINE_START_WITH_NUMBER + "$1. ",
   );
 
@@ -137,10 +137,7 @@ function formatDescription(
                         newLineWithDash
                           .split(NEW_LINE_START_WITH_DASH)
                           .map((paragraph) => {
-                            paragraph = paragraph.replace(
-                              /(\s+|)\n(\s+|)/g,
-                              " ",
-                            ); // Make single line
+                            paragraph = paragraph.replace(/[\n\s]+/g, " "); // Make single line
 
                             paragraph = capitalizer(paragraph);
                             if (options.jsdocDescriptionWithDot)
@@ -183,11 +180,17 @@ function formatDescription(
     text = `- ${text}`;
   }
 
-  text = format(text, {
-    ...options,
-    parser: "markdown",
-    printWidth: printWidth - column,
-  }).trim();
+  try {
+    text = format(text, {
+      ...options,
+      parser: "markdown",
+      printWidth: printWidth - column,
+    }).trim();
+  } catch (e) {
+    if (process.env.NODE_ENV === "test") {
+      console.log(e);
+    }
+  }
 
   if (isAddedFakeDash) {
     text = text.replace("- ", "");
