@@ -193,7 +193,10 @@ export const getParser = (parser: any) =>
       }
     });
 
-    ast.comments = ast.comments.filter(({ value }) => value);
+    ast.comments = ast.comments.filter(
+      ({ type, value }) =>
+        (type !== "CommentBlock" && type !== "Block") || value,
+    );
 
     return ast;
   };
