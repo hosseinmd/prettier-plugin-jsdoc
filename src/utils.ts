@@ -42,10 +42,6 @@ function formatType(type: string, options?: Options): string {
 
     pretty = pretty.replace(/[;\n]*$/g, "");
 
-    if (pretty.startsWith("  |"))
-      // HACK if it is an union type, create a new line for more space
-      pretty = `\n${pretty}\n`;
-
     return pretty;
   } catch (error) {
     // console.log("jsdoc-parser", error);
