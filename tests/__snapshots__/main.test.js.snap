@@ -30,6 +30,12 @@ exports[`Big single word 1`] = `
 "
 `;
 
+exports[`Empty comment 1`] = `
+"// Line Comment
+//
+"
+`;
+
 exports[`Hyphen at the start of description 1`] = `
 "/**
  * Assign the project to an employee.

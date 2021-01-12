@@ -379,3 +379,12 @@ test("Incorrect comment", () => {
   expect(result).toMatchSnapshot();
   expect(result2).toMatchSnapshot();
 });
+
+test("Empty comment", () => {
+  const result = subject(`
+  // Line Comment
+  //
+  `);
+
+  expect(result).toMatchSnapshot();
+});
