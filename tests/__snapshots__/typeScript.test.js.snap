@@ -122,14 +122,14 @@ exports[`max width challenge 1`] = `
        *   string containing the text to replace for every successful match of
        *   searchValue in this string.
        * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test A
-       *   string containing the text to replace for every successful match of searchValue
-       *   in this string.
+       *   string containing the text to replace for every successful match of searchValue in
+       *   this string.
        * @param {string | (substring: string, ...args: any[]) => string} replaceValue A_big_string_for_test
-       *   string containing the text to replace for every
-       *   successful match of searchValue in this string.
+       *   string containing the text to replace for every successful match of
+       *   searchValue in this string.
        * @param {string | (substring: string, ...args: any[]) => string} A_big_string_for_test A_big_string_for_test
-       *   string containing the text to replace for every successful
-       *   match of searchValue in this string.
+       *   string containing the text to replace for every successful match of searchValue in
+       *   this string.
        * @returns {StarkStringType & NativeString}
        */
       testFunction() {}

@@ -126,7 +126,6 @@ exports[`code in description 2`] = `
 exports[`description contain paragraph 1`] = `
 "/**
  * Does the following things:
- *
  * 1. Thing 1
  * 2. Thing 2
  * 3. Thing 3
@@ -137,7 +136,6 @@ exports[`description contain paragraph 1`] = `
 exports[`description contain paragraph 2`] = `
 "/**
  * Does the following things:
- *
  * 1. Thing 1
  * 2. Thing 2
  * 3. Thing 3
@@ -163,14 +161,13 @@ exports[`description contain paragraph 3`] = `
    * commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
    * velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
    * occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-   * mollit anim id est laborum.
-   * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-   * tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-   * veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-   * commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-   * velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-   * occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-   * mollit anim id est laborum.
+   * mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+   * adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+   * magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+   * laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+   * in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+   * pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+   * qui officia deserunt mollit anim id est laborum.
    */
   a() {}
 }
@@ -273,7 +270,6 @@ exports[`numbers and code in description 1`] = `
  * be a slight delay before activation. Moving your finger beyond an element's
  * bounds should trigger deactivation, but moving the same finger back within
  * an element's bounds should trigger reactivation.
- *
  * 1. In order to use \`PressResponder\`, do the following:
  *
  * \`\`\`js
@@ -312,9 +308,9 @@ exports[`numbers and code in description 2`] = `
 "/**
  * 1. a keydown event occurred immediately before a focus event
  * 2. a focus event happened on an element which requires keyboard interaction
- *    (e.g., a text field);
- * 3. a focus event happened on an element which requires keyboard interaction
- *    (e.g., a text field);
+ *       (e.g., a text field);
+ * 2. a focus event happened on an element which requires keyboard interaction
+ * (e.g., a text field);
  */
 "
 `;
@@ -322,7 +318,6 @@ exports[`numbers and code in description 2`] = `
 exports[`numbers and code in description 3`] = `
 "/**
  * The script uses two heuristics to determine whether the keyboard is being used:
- *
  * 1. a keydown event occurred lorem ipsum dolor sit amet, consectetur
  *    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
  *    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris

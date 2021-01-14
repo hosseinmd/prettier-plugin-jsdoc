@@ -58,6 +58,8 @@ function formatDescription(
 
   if (!text) return text;
 
+  const { printWidth = 80 } = options;
+
   /**
    * Description
    *
@@ -78,7 +80,9 @@ function formatDescription(
     NEW_LINE_START_WITH_NUMBER + "$1. ",
   );
 
-  const codes = text.match(/```((?!(```)).*\n)+```/g);
+  const codes = text.match(
+    /(([\n\s|]+)?)```((?!(```)).*[\n]?)+```(([\n\s]+)?)/g,
+  );
 
   if (codes) {
     codes.forEach((code) => {
@@ -102,16 +106,14 @@ function formatDescription(
   );
 
   text = text.replace(/(\n\n)|(\n\s+\n)/g, EMPTY_LINE_SIGNATURE); // Add a signature for empty line and use that later
-  text = text.replace(/\n\s\s\s+/g, NEW_LINE_START_THREE_SPACE_SIGNATURE); // Add a signature for new line start with three space
+  // text = text.replace(/\n\s\s\s+/g, NEW_LINE_START_THREE_SPACE_SIGNATURE); // Add a signature for new line start with three space
 
   text = capitalizer(text);
 
   text = `${"_".repeat(tagString.length)}${text}`;
 
-  const { printWidth = 80 } = options;
-
   // Wrap tag description
-  const beginningSpace = tag === DESCRIPTION ? "" : "    "; // google style guide space
+  const beginningSpace = tag === DESCRIPTION ? "" : "  "; // google style guide space
   const marginLength = tagString.length;
   let maxWidth = printWidth - column - 3; // column is location of comment, 3 is ` * `
 
@@ -146,16 +148,11 @@ function formatDescription(
                                 "$1.",
                               ); // Insert dot if needed
 
-                            return paragraph
-                              .split(NEW_LINE_START_THREE_SPACE_SIGNATURE)
-                              .map((value) =>
-                                breakDescriptionToLines(
-                                  value,
-                                  maxWidth,
-                                  beginningSpace,
-                                ),
-                              )
-                              .join("\n    "); // NEW_LINE_START_THREE_SPACE_SIGNATURE
+                            return breakDescriptionToLines(
+                              paragraph,
+                              maxWidth,
+                              beginningSpace,
+                            );
                           })
                           .join("\n- "), // NEW_LINE_START_WITH_DASH
                     )
@@ -167,34 +164,37 @@ function formatDescription(
     })
     .join("\n\n    "); // NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE;
 
+  const dashContent = text.match(/(^|\n)-((?!(\n))(.*\n)(?!(-)))+/g);
+
+  if (dashContent) {
+    dashContent.forEach((content) => {
+      text = text.replace(content, content.replace(/((?!(^))\n)/g, "\n  "));
+    });
+  }
+
+  const numberContent = text.match(/(^|\n)\d+.((?!(\n))(.*\n)(?!(\d+.)))+/g);
+
+  if (numberContent) {
+    numberContent.forEach((content) => {
+      text = text.replace(content, content.replace(/((?!(^))\n)/g, "\n   "));
+    });
+  }
+
   if (codes) {
     text = text.split(CODE).reduce((pre, cur, index) => {
-      return `${pre}${cur}${codes[index] ?? ""}`;
+      return `${pre}${cur.trim()}${
+        codes[index]
+          ? `\n\n${format(codes[index], {
+              ...options,
+              parser: "markdown",
+              printWidth: printWidth - column,
+            }).trim()}\n\n`
+          : ""
+      }`;
     }, "");
   }
 
   text = text.replace(/^_+/g, "");
-
-  const isAddedFakeDash = !text.startsWith("- ") && tag !== DESCRIPTION;
-  if (isAddedFakeDash) {
-    text = `- ${text}`;
-  }
-
-  try {
-    text = format(text, {
-      ...options,
-      parser: "markdown",
-      printWidth: printWidth - column,
-    }).trim();
-  } catch (e) {
-    if (process.env.NODE_ENV === "test") {
-      console.log(e);
-    }
-  }
-
-  if (isAddedFakeDash) {
-    text = text.replace("- ", "");
-  }
 
   return text || "";
 }
