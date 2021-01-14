@@ -7,13 +7,13 @@
 
 # prettier-plugin-jsdoc
 
-Prettier plugin for format jsdoc and convert to standard
-Match with Visual studio and other IDE which support jsdoc.
+Prettier plugin for format comment blocks and convert to standard
+Match with Visual studio and other IDE which support jsdoc and comments as markdown.
 
 Many good examples of how this plugin work, are in tests directory.
 Compare tests and their snapshot
 
-configured with best practices of jsDoc style guides
+Configured with best practices of jsDoc style guides.
 
 ## TOC
 
@@ -164,9 +164,7 @@ to
 
 #### Description
 
-Description is formatting as Markdown, so you could use any features of Markdown on that.
-
-
+Description is formatting as Markdown, so you could use any features of Markdown on that. Like code tags ("```js"), header tags like "# AHeader" or other markdown features.
 ## Options
 
 | Key                               | type    | Default |
