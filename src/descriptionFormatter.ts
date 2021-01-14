@@ -6,8 +6,6 @@ import { JsdocOptions } from "./types";
 import { capitalizer } from "./utils";
 
 const EMPTY_LINE_SIGNATURE = "2@^5!~#sdE!_EMPTY_LINE_SIGNATURE";
-const NEW_LINE_START_THREE_SPACE_SIGNATURE =
-  "2@^5!~#sdE!_NEW_LINE_START_THREE_SPACE_SIGNATURE";
 const NEW_LINE_START_WITH_DASH = "2@^5!~#sdE!_NEW_LINE_START_WITH_DASH";
 const NEW_LINE_START_WITH_NUMBER = "2@^5!~#sdE!_NEW_LINE_START_WITH_NUMBER";
 const NEW_PARAGRAPH_START_WITH_DASH =
@@ -75,6 +73,12 @@ function formatDescription(
    * 2. another thing
    */
   text = text.replace(/^(\d+)[-.][\s-.|]+/g, "$1. "); // Start
+
+  text = text.replace(
+    /\n[\n\s]+[1][-.][\s-.|]+/g,
+    EMPTY_LINE_SIGNATURE + "1. ",
+  ); // add an empty line before of `1.`
+
   text = text.replace(
     /[\n\s]+(\d+)[-.][\s-.|]+/g,
     NEW_LINE_START_WITH_NUMBER + "$1. ",
@@ -255,7 +259,6 @@ export {
   EMPTY_LINE_SIGNATURE,
   NEW_LINE_START_WITH_DASH,
   NEW_PARAGRAPH_START_WITH_DASH,
-  NEW_LINE_START_THREE_SPACE_SIGNATURE,
   NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
   descriptionEndLine,
   convertCommentDescToDescTag,

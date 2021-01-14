@@ -126,6 +126,7 @@ exports[`code in description 2`] = `
 exports[`description contain paragraph 1`] = `
 "/**
  * Does the following things:
+ *
  * 1. Thing 1
  * 2. Thing 2
  * 3. Thing 3
@@ -136,6 +137,7 @@ exports[`description contain paragraph 1`] = `
 exports[`description contain paragraph 2`] = `
 "/**
  * Does the following things:
+ *
  * 1. Thing 1
  * 2. Thing 2
  * 3. Thing 3
@@ -270,6 +272,7 @@ exports[`numbers and code in description 1`] = `
  * be a slight delay before activation. Moving your finger beyond an element's
  * bounds should trigger deactivation, but moving the same finger back within
  * an element's bounds should trigger reactivation.
+ *
  * 1. In order to use \`PressResponder\`, do the following:
  *
  * \`\`\`js
@@ -318,6 +321,7 @@ exports[`numbers and code in description 2`] = `
 exports[`numbers and code in description 3`] = `
 "/**
  * The script uses two heuristics to determine whether the keyboard is being used:
+ *
  * 1. a keydown event occurred lorem ipsum dolor sit amet, consectetur
  *    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
  *    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
