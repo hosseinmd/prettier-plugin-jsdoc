@@ -94,7 +94,7 @@ export const getParser = (parser: any) =>
               tag = tag.slice(0, tagSticksToType);
             }
 
-            if (tag && !TAGS_IS_CAMEL_CASE.includes(tag)) {
+            if (TAGS_ORDER.includes(tag) && !TAGS_IS_CAMEL_CASE.includes(tag)) {
               tag = tag && tag.trim().toLowerCase();
             }
             if (tag in TAGS_SYNONYMS) {
