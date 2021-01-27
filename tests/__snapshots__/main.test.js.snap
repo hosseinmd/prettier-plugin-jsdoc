@@ -156,8 +156,8 @@ exports[`Should format regular jsDoc 1`] = `
  *   needs to be wrapped
  * @param {String} [defaultValue] TODO Default is \`\\"defaultTest\\"\`
  * @param {Number | Null} [optionalNumber]
- * @undefiendtag
- * @undefiendtag {number} name des
+ * @undefiendTag
+ * @undefiendTag {number} name des
  * @returns {Boolean} Description for @returns with s
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
@@ -186,8 +186,8 @@ exports[`Should format regular jsDoc 2`] = `
  *   needs to be wrapped
  * @param {String} [defaultValue] TODO Default is \`\\"defaultTest\\"\`
  * @param {Number | Null} [optionalNumber]
- * @undefiendtag
- * @undefiendtag {number} name des
+ * @undefiendTag
+ * @undefiendTag {number} name des
  * @returns {Boolean} Description for @returns with s
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
