@@ -17,8 +17,8 @@ exports[`Example javascript code 1`] = `
  *     two += one;
  *   }
  *
- * @undefiendtag
- * @undefiendtag {number} name des
+ * @undefiendTag
+ * @undefiendTag {number} name des
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
 "
@@ -41,8 +41,8 @@ exports[`Example javascript code 2`] = `
  *     two += one;
  *   }
  *
- * @undefiendtag
- * @undefiendtag {number} name des
+ * @undefiendTag
+ * @undefiendTag {number} name des
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
 "
