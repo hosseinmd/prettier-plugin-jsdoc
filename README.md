@@ -175,7 +175,7 @@ Description is formatting as Markdown, so you could use any features of Markdown
 | jsdocDescriptionWithDot           | Boolean | false   |
 | jsdocDescriptionTag               | Boolean | false   |
 | jsdocVerticalAlignment            | Boolean | false   |
-| jsdocKeepUnParseAbleExampleIndent | Boolean | true    |
+| jsdocKeepUnParseAbleExampleIndent | Boolean | false   |
 
 Full up to date list and description of options can be found in Prettier help. First install plugin then run Prettier with "--help" option.
 
