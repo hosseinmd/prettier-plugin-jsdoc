@@ -165,6 +165,7 @@ to
 #### Description
 
 Description is formatting as Markdown, so you could use any features of Markdown on that. Like code tags ("```js"), header tags like "# AHeader" or other markdown features.
+
 ## Options
 
 | Key                               | type    | Default |

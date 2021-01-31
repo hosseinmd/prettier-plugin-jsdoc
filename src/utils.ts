@@ -4,7 +4,7 @@ function convertToModernArray(type: string): string {
     return type;
   }
 
-  const maxWrapper = /^(?!<>\]\[\{\}:;,\s)(Array<([^<>]+)>)/g;
+  const maxWrapper = /^(?!<>\]\[\{\}:;,\s)(Array<(^[<>]+)>)/g;
   const minWrapper = /^(?!<>\]\[\{\}:;,\s)(Array<([^.]+)>)/g;
   type = type.replace(".<", "<");
 
@@ -22,7 +22,7 @@ function convertToModernArray(type: string): string {
     }
     const typeName = result[2];
 
-    value = value.replace(regular, `${typeName}[]`);
+    value = value.replace(regular, `(${typeName})[]`);
     return replaceArray(value);
   }
 

@@ -227,3 +227,9 @@ export interface FetchCallbackResponseArray<T, V> {
 /** @typedef {import(\\"Foo\\")} Foo */
 "
 `;
+
+exports[`types file 1`] = `
+"/** @type {((element: HTMLElement) => boolean)[]} */
+var filters = [];
+"
+`;

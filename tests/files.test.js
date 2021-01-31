@@ -28,3 +28,8 @@ test("ts file", () => {
   const result = subjectFiles("./files/typeScript.ts");
   expect(result).toMatchSnapshot();
 });
+
+test("types file", () => {
+  const result = subjectFiles("./files/types.ts");
+  expect(result).toMatchSnapshot();
+});
