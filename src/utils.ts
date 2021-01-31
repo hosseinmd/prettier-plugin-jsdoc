@@ -1,4 +1,5 @@
 import { format, Options } from "prettier";
+
 function convertToModernArray(type: string): string {
   if (!type) {
     return type;

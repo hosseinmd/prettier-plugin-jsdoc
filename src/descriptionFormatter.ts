@@ -7,6 +7,7 @@ import { capitalizer } from "./utils";
 
 const EMPTY_LINE_SIGNATURE = "2@^5!~#sdE!_EMPTY_LINE_SIGNATURE";
 const NEW_LINE_START_WITH_DASH = "2@^5!~#sdE!_NEW_LINE_START_WITH_DASH";
+const NEW_DASH_LINE = "2@^5!~#sdE!_NEW_LINE_WITH_DASH";
 const NEW_LINE_START_WITH_NUMBER = "2@^5!~#sdE!_NEW_LINE_START_WITH_NUMBER";
 const NEW_PARAGRAPH_START_WITH_DASH =
   "2@^5!~#sdE!_NEW_PARAGRAPH_START_WITH_DASH";
@@ -95,6 +96,11 @@ function formatDescription(
   }
 
   text = text.replace(
+    /(\n(\s+|)(---(\s|-)+)\n)/g, // `\n\n - ` | `\n\n-` | `\n\n -` | `\n\n- `
+    NEW_DASH_LINE,
+  );
+
+  text = text.replace(
     /(\n\n\s\s\s+)|(\n\s+\n\s\s\s+)/g,
     NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
   ); // Add a signature for new paragraph start with three space
@@ -137,30 +143,39 @@ function formatDescription(
               .map(
                 (newLineWithNumber) =>
                   newLineWithNumber
-                    .split(NEW_PARAGRAPH_START_WITH_DASH)
+                    .split(NEW_DASH_LINE)
                     .map(
-                      (newLineWithDash) =>
-                        newLineWithDash
-                          .split(NEW_LINE_START_WITH_DASH)
-                          .map((paragraph) => {
-                            paragraph = paragraph.replace(/[\n\s]+/g, " "); // Make single line
+                      (newDashLine) =>
+                        newDashLine
+                          .split(NEW_PARAGRAPH_START_WITH_DASH)
+                          .map(
+                            (newLineWithDash) =>
+                              newLineWithDash
+                                .split(NEW_LINE_START_WITH_DASH)
+                                .map((paragraph) => {
+                                  paragraph = paragraph.replace(
+                                    /[\n\s]+/g,
+                                    " ",
+                                  ); // Make single line
 
-                            paragraph = capitalizer(paragraph);
-                            if (options.jsdocDescriptionWithDot)
-                              paragraph = paragraph.replace(
-                                /(\w)(?=$)/g,
-                                "$1.",
-                              ); // Insert dot if needed
+                                  paragraph = capitalizer(paragraph);
+                                  if (options.jsdocDescriptionWithDot)
+                                    paragraph = paragraph.replace(
+                                      /(\w)(?=$)/g,
+                                      "$1.",
+                                    ); // Insert dot if needed
 
-                            return breakDescriptionToLines(
-                              paragraph,
-                              maxWidth,
-                              beginningSpace,
-                            );
-                          })
-                          .join("\n- "), // NEW_LINE_START_WITH_DASH
+                                  return breakDescriptionToLines(
+                                    paragraph,
+                                    maxWidth,
+                                    beginningSpace,
+                                  );
+                                })
+                                .join("\n- "), // NEW_LINE_START_WITH_DASH
+                          )
+                          .join("\n\n- "), // NEW_PARAGRAPH_START_WITH_DASH
                     )
-                    .join("\n\n- "), // NEW_PARAGRAPH_START_WITH_DASH
+                    .join(`\n    ${"-".repeat(printWidth / 2)}\n`), // NEW_DASH_LINE
               )
               .join("\n"), // NEW_LINE_START_WITH_NUMBER
         )
