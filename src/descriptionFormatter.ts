@@ -96,12 +96,12 @@ function formatDescription(
   }
 
   text = text.replace(
-    /(\n(\s+|)(---(\s|-)+)\n)/g, // `\n\n - ` | `\n\n-` | `\n\n -` | `\n\n- `
+    /(\n(\s+|)(---(\s|-)+)\n)/g, // `------- --- --- -` | `----`
     NEW_DASH_LINE,
   );
 
   text = text.replace(
-    /(\n\n\s\s\s+)|(\n\s+\n\s\s\s+)/g,
+    /(\n(\s+|)\n\s\s\s+)/g,
     NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
   ); // Add a signature for new paragraph start with three space
 
@@ -131,7 +131,7 @@ function formatDescription(
     maxWidth = marginLength;
   }
 
-  text = text = text
+  text = text
     .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)
     .map((newParagraph) => {
       return newParagraph
