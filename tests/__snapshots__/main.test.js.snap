@@ -93,6 +93,13 @@ exports[`Long description memory leak 1`] = `
 "
 `;
 
+exports[`Non-jsdoc comment 1`] = `
+"// @type   { something  }
+/* @type   { something  }  */
+/* /** @type   { something  }  */
+"
+`;
+
 exports[`Should align vertically param|property|returns|yields|throws if option set to true, and amount of spaces is different than default 1`] = `
 "/**
  * @property  {Object}          unalginedProp   Unaligned property descriptin
