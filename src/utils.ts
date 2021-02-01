@@ -2,10 +2,20 @@ import { format, Options } from "prettier";
 
 function convertToModernType(oldType: string): string {
   return withoutStrings(oldType, (type) => {
+    type = type.trim();
+
     // JSDoc supports generics of the form `Foo.<Arg1, Arg2>`
     type = type.replace(/\.</g, "<");
 
+    // JSDoc supports `*` to match any type
     type = type.replace(/\*/g, " any ");
+
+    // JSDoc supports `?` (prefix or suffix) to make a type nullable
+    // This is only a limited approximation because the full solution requires
+    // a full TS parser.
+    type = type
+      .replace(/^\?\s*(\w+)$/, "$1 | null")
+      .replace(/^(\w+)\s*\?$/, "$1 | null");
 
     // convert `Array<Foo>` to `Foo[]`
     let changed = true;
