@@ -93,6 +93,15 @@ exports[`Long description memory leak 1`] = `
 "
 `;
 
+exports[`Optional parameters 1`] = `
+"/**
+ * @param {number} [arg1]
+ * @param {number} [arg2]
+ * @param {number} [arg3] Default is \`4\`
+ */
+"
+`;
+
 exports[`Should align vertically param|property|returns|yields|throws if option set to true, and amount of spaces is different than default 1`] = `
 "/**
  * @property  {Object}          unalginedProp   Unaligned property descriptin

@@ -114,11 +114,14 @@ export const getParser = (parser: any) =>
             }
 
             if (type) {
-              /** Convert optional to standard */
-              if (/[?]$/g.test(type)) {
-                type = type.replace(/[?]$/g, "");
+              /**
+               * Convert optional to standard
+               * https://jsdoc.app/tags-type.html#:~:text=Optional%20parameter
+               */
+              type = type.replace(/[=]$/, () => {
                 optional = true;
-              }
+                return "";
+              });
 
               type = convertToModernArray(type);
               type = formatType(type, options);

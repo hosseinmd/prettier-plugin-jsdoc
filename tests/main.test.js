@@ -388,3 +388,15 @@ test("Empty comment", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("Optional parameters", () => {
+  const result = subject(`
+  /**
+   * @param {number=} arg1
+   * @param {number} [arg2]
+   * @param {number} [arg3=4]
+   */
+  `);
+
+  expect(result).toMatchSnapshot();
+});
