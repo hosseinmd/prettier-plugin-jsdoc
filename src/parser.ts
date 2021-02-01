@@ -166,7 +166,7 @@ export const getParser = (parser: Parser["parse"]) =>
               source,
               default: _default,
               optional,
-            };
+            } as commentParser.Tag;
           },
         )
 
