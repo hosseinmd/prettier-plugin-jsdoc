@@ -405,3 +405,13 @@ test("Empty comment", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("Non-jsdoc comment", () => {
+  const result = subject(`
+  // @type   { something  }
+  /* @type   { something  }  */
+  /* /** @type   { something  }  */
+  `);
+
+  expect(result).toMatchSnapshot();
+});
