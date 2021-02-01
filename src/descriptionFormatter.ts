@@ -66,7 +66,7 @@ function formatDescription(
    *
    * Summry
    */
-  text = text.replace(/[\n\s]+([#]+)(.*)[\n\s]+/g, "\n\n$1 $2\n\n");
+  text = text.replace(/\s+(#{1,6})(.*)$\s+/gm, "\n\n$1 $2\n\n");
 
   /**
    * 1. a thing
@@ -75,19 +75,14 @@ function formatDescription(
    */
   text = text.replace(/^(\d+)[-.][\s-.|]+/g, "$1. "); // Start
 
-  text = text.replace(
-    /\n[\n\s]+[1][-.][\s-.|]+/g,
-    EMPTY_LINE_SIGNATURE + "1. ",
-  ); // add an empty line before of `1.`
+  text = text.replace(/\n\s+[1][-.][\s-.|]+/g, EMPTY_LINE_SIGNATURE + "1. "); // add an empty line before of `1.`
 
   text = text.replace(
-    /[\n\s]+(\d+)[-.][\s-.|]+/g,
+    /\s+(\d+)[-.][\s-.|]+/g,
     NEW_LINE_START_WITH_NUMBER + "$1. ",
   );
 
-  const codes = text.match(
-    /(([\n\s|]+)?)```((?!(```)).*[\n]?)+```(([\n\s]+)?)/g,
-  );
+  const codes = text.match(/[\s|]*```[\s\S]*?^[ \t]*```\s*/gm);
 
   if (codes) {
     codes.forEach((code) => {
@@ -111,7 +106,7 @@ function formatDescription(
   );
 
   text = text.replace(
-    /(\n(\s+|)-(\s+|))/g, // `\n - ` | `\n-` | `\n -` | `\n- `
+    /\n\s*-\s*/g, // `\n - ` | `\n-` | `\n -` | `\n- `
     NEW_LINE_START_WITH_DASH,
   );
 
@@ -153,15 +148,12 @@ function formatDescription(
                               newLineWithDash
                                 .split(NEW_LINE_START_WITH_DASH)
                                 .map((paragraph) => {
-                                  paragraph = paragraph.replace(
-                                    /[\n\s]+/g,
-                                    " ",
-                                  ); // Make single line
+                                  paragraph = paragraph.replace(/\s+/g, " "); // Make single line
 
                                   paragraph = capitalizer(paragraph);
                                   if (options.jsdocDescriptionWithDot)
                                     paragraph = paragraph.replace(
-                                      /(\w)(?=$)/g,
+                                      /(\w)$/g,
                                       "$1.",
                                     ); // Insert dot if needed
 
@@ -183,7 +175,7 @@ function formatDescription(
     })
     .join("\n\n    "); // NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE;
 
-  const dashContent = text.match(/(^|\n)-((?!(\n))(.*\n)(?!(-)))+/g);
+  const dashContent = text.match(/(^|\n)-(.+\n(?!(-)))+/g);
 
   if (dashContent) {
     dashContent.forEach((content) => {
@@ -191,7 +183,7 @@ function formatDescription(
     });
   }
 
-  const numberContent = text.match(/(^|\n)\d+.((?!(\n))(.*\n)(?!(\d+.)))+/g);
+  const numberContent = text.match(/(^|\n)\d+.(.+\n(?!(\d+.)))+/g);
 
   if (numberContent) {
     numberContent.forEach((content) => {
