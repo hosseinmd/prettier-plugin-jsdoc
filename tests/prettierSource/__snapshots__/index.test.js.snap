@@ -8,8 +8,8 @@ const ignore = require(\\"ignore\\");
 const getFileContentOrNull = require(\\"../utils/get-file-content-or-null\\");
 
 /**
- * @param {string} [ignorePath]
- * @param {boolean} [withNodeModules]
+ * @param {string | null} ignorePath
+ * @param {boolean | null} withNodeModules
  */
 async function createIgnorer(ignorePath, withNodeModules) {
   const ignoreContent = ignorePath
@@ -20,8 +20,8 @@ async function createIgnorer(ignorePath, withNodeModules) {
 }
 
 /**
- * @param {string} [ignorePath]
- * @param {boolean} [withNodeModules]
+ * @param {string | null} ignorePath
+ * @param {boolean | null} withNodeModules
  */
 createIgnorer.sync = function (ignorePath, withNodeModules) {
   const ignoreContent = !ignorePath
@@ -32,7 +32,7 @@ createIgnorer.sync = function (ignorePath, withNodeModules) {
 
 /**
  * @param {null | string} ignoreContent
- * @param {boolean} [withNodeModules]
+ * @param {boolean | null} withNodeModules
  */
 function _createIgnorer(ignoreContent, withNodeModules) {
   const ignorer = ignore().add(ignoreContent || \\"\\");
