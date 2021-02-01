@@ -23,7 +23,7 @@
     "comment"
   ],
   "author": "Hossein mohammadi (hosseinm.developer@gmail.com)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/hosseinmd/prettier-plugin-jsdoc/issues"
   },

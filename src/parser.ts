@@ -1,7 +1,7 @@
 import commentParser from "comment-parser";
 import {
   addStarsToTheBeginningOfTheLines,
-  convertToModernArray,
+  convertToModernType,
   formatType,
 } from "./utils";
 import { DESCRIPTION } from "./tags";
@@ -17,10 +17,15 @@ import {
 import { AST, JsdocOptions } from "./types";
 import { stringify } from "./stringify";
 import { convertCommentDescToDescTag } from "./descriptionFormatter";
+import { Parser } from "prettier";
 
 /** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
-export const getParser = (parser: any) =>
-  function jsdocParser(text: string, parsers: any, options: JsdocOptions): AST {
+export const getParser = (parser: Parser["parse"]) =>
+  function jsdocParser(
+    text: string,
+    parsers: Parameters<Parser["parse"]>[1],
+    options: JsdocOptions,
+  ): AST {
     const ast = parser(text, parsers, options) as AST;
 
     if (!options.jsdocParser) {
@@ -54,7 +59,7 @@ export const getParser = (parser: any) =>
        * Check if this comment block is a JSDoc. Based on:
        * https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
        */
-      if (!commentString.match(/\/\*\*[\s\S]+?\*\//g)) return;
+      if (!/^\/\*\*[\s\S]+?\*\/$/.test(commentString)) return;
 
       const parsed = commentParser(commentString, {
         dotted_names: false,
@@ -89,8 +94,8 @@ export const getParser = (parser: any) =>
           }) => {
             /** When space between tag and type missed */
             const tagSticksToType = tag.indexOf("{");
-            if (tagSticksToType !== -1) {
-              type = tag.slice(tagSticksToType + 1, tag.indexOf("}"));
+            if (tagSticksToType !== -1 && tag[tag.length - 1] === "}") {
+              type = tag.slice(tagSticksToType + 1, -1);
               tag = tag.slice(0, tagSticksToType);
             }
 
@@ -123,7 +128,7 @@ export const getParser = (parser: any) =>
                 return "";
               });
 
-              type = convertToModernArray(type);
+              type = convertToModernType(type);
               type = formatType(type, options);
 
               if (isVerticallyAlignAbleTags)
@@ -137,10 +142,19 @@ export const getParser = (parser: any) =>
                 // Optional tag name
                 if (optional) {
                   // Figure out if tag type have default value
+                  _default = _default?.trim();
                   if (_default) {
+                    description = description
+                      .trim()
+                      .replace(/[ \t]*Default is `.*`\.?$/, "");
+                    if (description && !/[.\r\n]$/.test(description)) {
+                      description += ".";
+                    }
                     description += ` Default is \`${_default}\``;
+                    name = `[${name}=${_default}]`;
+                  } else {
+                    name = `[${name}]`;
                   }
-                  name = `[${name}]`;
                 }
 
                 if (isVerticallyAlignAbleTags)
@@ -164,7 +178,7 @@ export const getParser = (parser: any) =>
               source,
               default: _default,
               optional,
-            };
+            } as commentParser.Tag;
           },
         )
 

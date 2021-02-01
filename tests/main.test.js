@@ -41,10 +41,25 @@ test("Should format regular jsDoc", () => {
 *   var two = 10
 *
 *   if(one > 2) { two += one }
-* @undefiendTag 
+* @undefiendTag${" "}
 * @undefiendTag {number} name des
 */
 const testFunction = (text, defaultValue, optionalNumber) => true
+`);
+
+  expect(result).toMatchSnapshot();
+  expect(subject(result)).toMatchSnapshot();
+});
+
+test("Should format jsDoc default values", () => {
+  const result = subject(`
+/**
+* @param {String} [arg1="defaultTest"] foo
+* @param {number} [arg2=123] the width of the rectangle
+* @param {number} [arg3= 123 ]
+* @param {number} [arg4= Foo.bar.baz ]
+* @param {number|string} [arg5=123] Something. Default is \`"wrong"\`
+*/
 `);
 
   expect(result).toMatchSnapshot();
@@ -79,7 +94,7 @@ test(" undefined|null|void type", () => {
  */`);
 
   const Result3 = subject(`/**
- * @returns { void } 
+ * @returns { void }${" "}
  */`);
 
   expect(Result1).toMatchSnapshot();
@@ -124,6 +139,7 @@ test("Sould keep params ordering when more than 10 tags are present", () => {
  * @param {?undefined} test4 Test param
  * @param {!undefined} test5 Test param
  * @param {*} test6 Test param
+ * @param {"*"} test6 Test param
  * @param {?Number} test7 Test param
  * @param {...Number} test8 Test param
  * @param {!Number} test9 Test param
@@ -330,6 +346,7 @@ test("Hyphen at the start of description", () => {
 test("Bad defined name", () => {
   const result = subject(`
   /** @type{import('@jest/types/build/Config').InitialOptions} */
+  /** @type{{foo:string}} */
 
   /** @typedef{import('@jest/types/build/Config').InitialOptions} name a description  */
 `);
@@ -396,6 +413,16 @@ test("Optional parameters", () => {
    * @param {number} [arg2]
    * @param {number} [arg3=4]
    */
+  `);
+
+  expect(result).toMatchSnapshot();
+});
+
+test("Non-jsdoc comment", () => {
+  const result = subject(`
+  // @type   { something  }
+  /* @type   { something  }  */
+  /* /** @type   { something  }  */
   `);
 
   expect(result).toMatchSnapshot();
