@@ -1,7 +1,7 @@
 import commentParser from "comment-parser";
 import {
   addStarsToTheBeginningOfTheLines,
-  convertToModernArray,
+  convertToModernType,
   formatType,
 } from "./utils";
 import { DESCRIPTION } from "./tags";
@@ -120,7 +120,7 @@ export const getParser = (parser: any) =>
                 optional = true;
               }
 
-              type = convertToModernArray(type);
+              type = convertToModernType(type);
               type = formatType(type, options);
 
               if (isVerticallyAlignAbleTags)
