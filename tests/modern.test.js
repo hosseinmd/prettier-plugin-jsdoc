@@ -23,6 +23,7 @@ test("convert array to modern type", () => {
    * @param {Array.<(item: Foo.<Bar>) => Bar.<number>> | Array.<number> | Array.<'Foo.<>'>} arg3
    * @param {"Array.<(item: Foo.<Bar>) => Bar.<number>> | Array.<number> | Array.<'Foo.<>'>"} arg4
    * @param {Array<Array<Array<number>>>} arg5
+   * @param {{ foo: Array<number>; bar: Array<string> }} arg6
    *
    */
   function a(){}
