@@ -12,6 +12,7 @@ exports[`convert array to modern type 1`] = `
  * @param {((item: Foo<Bar>) => Bar<number>)[] | number[] | string[]} arg2
  * @param {((item: Foo<Bar>) => Bar<number>)[] | number[] | \\"Foo.<>\\"[]} arg3
  * @param {\\"Array.<(item: Foo.<Bar>) => Bar.<number>> | Array.<number> | Array.<'Foo.<>'>\\"} arg4
+ * @param {number[][][]} arg5
  */
 function a() {}
 "

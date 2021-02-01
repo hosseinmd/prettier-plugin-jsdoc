@@ -8,10 +8,17 @@ function convertToModernType(oldType: string): string {
     type = type.replace(/\*/g, " any ");
 
     // convert `Array<Foo>` to `Foo[]`
-    type = type.replace(
-      /(?:^|[^$\w\xA0-\uFFFF])Array\s*<((?:[^<>=]|=>|=(?!>)|<(?:[^<>=]|=>|=(?!>))+>)+)>/g,
-      "($1)[]",
-    );
+    let changed = true;
+    while (changed) {
+      changed = false;
+      type = type.replace(
+        /(^|[^$\w\xA0-\uFFFF])Array\s*<((?:[^<>=]|=>|=(?!>)|<(?:[^<>=]|=>|=(?!>))+>)+)>/g,
+        (_, prefix, inner) => {
+          changed = true;
+          return `${prefix}(${inner})[]`;
+        },
+      );
+    }
 
     return type;
   });
