@@ -17,10 +17,15 @@ import {
 import { AST, JsdocOptions } from "./types";
 import { stringify } from "./stringify";
 import { convertCommentDescToDescTag } from "./descriptionFormatter";
+import { Parser } from "prettier";
 
 /** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
-export const getParser = (parser: any) =>
-  function jsdocParser(text: string, parsers: any, options: JsdocOptions): AST {
+export const getParser = (parser: Parser["parse"]) =>
+  function jsdocParser(
+    text: string,
+    parsers: Parameters<Parser["parse"]>[1],
+    options: JsdocOptions,
+  ): AST {
     const ast = parser(text, parsers, options) as AST;
 
     if (!options.jsdocParser) {

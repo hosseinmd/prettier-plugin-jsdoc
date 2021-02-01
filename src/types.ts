@@ -1,4 +1,4 @@
-import { Options } from "prettier";
+import { ParserOptions } from "prettier";
 
 export type JsdocOptions = {
   jsdocSpaces: number;
@@ -7,7 +7,7 @@ export type JsdocOptions = {
   jsdocVerticalAlignment: boolean;
   jsdocKeepUnParseAbleExampleIndent: boolean;
   jsdocParser: boolean;
-} & Options;
+} & ParserOptions;
 
 type LocationDetails = { line: number; column: number };
 type Location = { start: LocationDetails; end: LocationDetails };
