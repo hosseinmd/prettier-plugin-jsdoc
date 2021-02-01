@@ -89,8 +89,8 @@ export const getParser = (parser: any) =>
           }) => {
             /** When space between tag and type missed */
             const tagSticksToType = tag.indexOf("{");
-            if (tagSticksToType !== -1) {
-              type = tag.slice(tagSticksToType + 1, tag.indexOf("}"));
+            if (tagSticksToType !== -1 && tag[tag.length - 1] === "}") {
+              type = tag.slice(tagSticksToType + 1, -1);
               tag = tag.slice(0, tagSticksToType);
             }
 
