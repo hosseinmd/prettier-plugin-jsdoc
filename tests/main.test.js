@@ -124,6 +124,7 @@ test("Sould keep params ordering when more than 10 tags are present", () => {
  * @param {?undefined} test4 Test param
  * @param {!undefined} test5 Test param
  * @param {*} test6 Test param
+ * @param {"*"} test6 Test param
  * @param {?Number} test7 Test param
  * @param {...Number} test8 Test param
  * @param {!Number} test9 Test param

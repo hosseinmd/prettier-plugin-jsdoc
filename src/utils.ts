@@ -5,6 +5,8 @@ function convertToModernType(oldType: string): string {
     // JSDoc supports generics of the form `Foo.<Arg1, Arg2>`
     type = type.replace(/\.</g, "<");
 
+    type = type.replace(/\*/g, " any ");
+
     // convert `Array<Foo>` to `Foo[]`
     type = type.replace(
       /(?:^|[^$\w\xA0-\uFFFF])Array\s*<((?:[^<>=]|=>|=(?!>)|<(?:[^<>=]|=>|=(?!>))+>)+)>/g,
@@ -51,10 +53,9 @@ function withoutStrings(type: string, mapFn: (type: string) => string): string {
 
 function formatType(type: string, options?: Options): string {
   try {
-    let pretty = type.replace("*", "any");
     const TYPE_START = "type name = ";
 
-    pretty = format(`${TYPE_START}${pretty}`, {
+    let pretty = format(`${TYPE_START}${type}`, {
       ...options,
       parser: "typescript",
     });
