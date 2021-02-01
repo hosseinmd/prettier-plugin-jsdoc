@@ -1,33 +1,52 @@
 import { format, Options } from "prettier";
 
-function convertToModernArray(type: string): string {
-  if (!type) {
+function convertToModernType(oldType: string): string {
+  return withoutStrings(oldType, (type) => {
+    // JSDoc supports generics of the form `Foo.<Arg1, Arg2>`
+    type = type.replace(/\.</g, "<");
+
+    // convert `Array<Foo>` to `Foo[]`
+    type = type.replace(
+      /(?:^|[^$\w\xA0-\uFFFF])Array\s*<((?:[^<>=]|=>|=(?!>)|<(?:[^<>=]|=>|=(?!>))+>)+)>/g,
+      "($1)[]",
+    );
+
+    return type;
+  });
+}
+
+/**
+ * Given a valid TS type expression, this will replace all string literals in
+ * the type with unique identifiers. The modified type expression will be passed
+ * to the given map function. The unique identifiers in the output if the map
+ * function will then be replaced with the original string literals.
+ *
+ * This allows the map function to do type transformations without worrying
+ * about string literals.
+ *
+ * @param type
+ * @param mapFn
+ */
+function withoutStrings(type: string, mapFn: (type: string) => string): string {
+  const strings: string[] = [];
+  let modifiedType = type.replace(
+    /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/g,
+    (m) => {
+      strings.push(m);
+      // the pattern of the unique identifiers
+      // let's hope that nobody uses an identifier like this in real code
+      return `String$${strings.length - 1}$`;
+    },
+  );
+
+  if (modifiedType.includes("`")) {
+    // We are current unable to correct handle template literal types.
     return type;
   }
 
-  const maxWrapper = /^(?!<>\]\[\{\}:;,\s)(Array<(^[<>]+)>)/g;
-  const minWrapper = /^(?!<>\]\[\{\}:;,\s)(Array<([^.]+)>)/g;
-  type = type.replace(".<", "<");
+  modifiedType = mapFn(modifiedType);
 
-  function replaceArray(value: string): string {
-    let regular = maxWrapper;
-    let result = regular.exec(value);
-
-    if (!result) {
-      regular = minWrapper;
-      result = regular.exec(value);
-    }
-
-    if (!result) {
-      return value;
-    }
-    const typeName = result[2];
-
-    value = value.replace(regular, `(${typeName})[]`);
-    return replaceArray(value);
-  }
-
-  return replaceArray(type);
+  return modifiedType.replace(/String\$(\d+)\$/g, (_, index) => strings[index]);
 }
 
 function formatType(type: string, options?: Options): string {
@@ -80,7 +99,7 @@ function capitalizer(str: string): string {
 }
 
 export {
-  convertToModernArray,
+  convertToModernType,
   formatType,
   addStarsToTheBeginningOfTheLines,
   capitalizer,
