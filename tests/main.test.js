@@ -79,7 +79,7 @@ test(" undefined|null|void type", () => {
  */`);
 
   const Result3 = subject(`/**
- * @returns { void } 
+ * @returns { void }
  */`);
 
   expect(Result1).toMatchSnapshot();
@@ -330,6 +330,7 @@ test("Hyphen at the start of description", () => {
 test("Bad defined name", () => {
   const result = subject(`
   /** @type{import('@jest/types/build/Config').InitialOptions} */
+  /** @type{{foo:string}} */
 
   /** @typedef{import('@jest/types/build/Config').InitialOptions} name a description  */
 `);
