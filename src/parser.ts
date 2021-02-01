@@ -59,7 +59,7 @@ export const getParser = (parser: Parser["parse"]) =>
        * Check if this comment block is a JSDoc. Based on:
        * https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
        */
-      if (!commentString.match(/\/\*\*[\s\S]+?\*\//g)) return;
+      if (!/^\/\*\*[\s\S]+?\*\/$/.test(commentString)) return;
 
       const parsed = commentParser(commentString, {
         dotted_names: false,
