@@ -41,7 +41,7 @@ test("Should format regular jsDoc", () => {
 *   var two = 10
 *
 *   if(one > 2) { two += one }
-* @undefiendTag 
+* @undefiendTag${" "}
 * @undefiendTag {number} name des
 */
 const testFunction = (text, defaultValue, optionalNumber) => true
@@ -79,7 +79,7 @@ test(" undefined|null|void type", () => {
  */`);
 
   const Result3 = subject(`/**
- * @returns { void }
+ * @returns { void }${" "}
  */`);
 
   expect(Result1).toMatchSnapshot();
