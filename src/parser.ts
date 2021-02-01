@@ -139,10 +139,19 @@ export const getParser = (parser: Parser["parse"]) =>
                 // Optional tag name
                 if (optional) {
                   // Figure out if tag type have default value
+                  _default = _default?.trim();
                   if (_default) {
+                    description = description
+                      .trim()
+                      .replace(/[ \t]*Default is `.*`\.?$/, "");
+                    if (description && !/[.\r\n]$/.test(description)) {
+                      description += ".";
+                    }
                     description += ` Default is \`${_default}\``;
+                    name = `[${name}=${_default}]`;
+                  } else {
+                    name = `[${name}]`;
                   }
-                  name = `[${name}]`;
                 }
 
                 if (isVerticallyAlignAbleTags)

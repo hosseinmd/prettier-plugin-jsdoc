@@ -51,6 +51,21 @@ const testFunction = (text, defaultValue, optionalNumber) => true
   expect(subject(result)).toMatchSnapshot();
 });
 
+test("Should format jsDoc default values", () => {
+  const result = subject(`
+/**
+* @param {String} [arg1="defaultTest"] foo
+* @param {number} [arg2=123] the width of the rectangle
+* @param {number} [arg3= 123 ]
+* @param {number} [arg4= Foo.bar.baz ]
+* @param {number|string} [arg5=123] Something. Default is \`"wrong"\`
+*/
+`);
+
+  expect(result).toMatchSnapshot();
+  expect(subject(result)).toMatchSnapshot();
+});
+
 test("Should convert to single line if necessary", () => {
   const Result1 = subject(`/** single line description*/`);
   const Result2 = subject(`/**
