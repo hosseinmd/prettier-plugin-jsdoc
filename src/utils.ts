@@ -32,6 +32,8 @@ function convertToModernType(oldType: string): string {
 function withoutStrings(type: string, mapFn: (type: string) => string): string {
   const strings: string[] = [];
   let modifiedType = type.replace(
+    // copied from Prism's C-like language that is used to tokenize JS strings
+    // https://github.com/PrismJS/prism/blob/266cc7002e54dae674817ab06a02c2c15ed64a6f/components/prism-clike.js#L15
     /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/g,
     (m) => {
       strings.push(m);
