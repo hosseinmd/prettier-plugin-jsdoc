@@ -84,7 +84,7 @@ function addStarsToTheBeginningOfTheLines(comment: string): string {
     return `* ${comment.trim()} `;
   }
 
-  return `*${comment.replace(/((?!\n$)\n)/g, "\n * ")}\n `;
+  return `*${comment.replace(/(\n(?!$))/g, "\n * ")}\n `;
 }
 
 function numberOfAStringInString(string: string, search: string | RegExp) {
@@ -97,7 +97,7 @@ function capitalizer(str: string): string {
     return str;
   }
 
-  if (str.match(new RegExp("^(http|https)://", "i"))) {
+  if (str.match(/^https?:\/\//i)) {
     return str;
   }
 

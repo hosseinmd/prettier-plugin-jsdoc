@@ -79,9 +79,7 @@ const stringify = (
 
   // Try to use prettier on @example tag description
   if (tag === EXAMPLE) {
-    const exampleCaption = description.match(
-      /<caption>(((?!(<\/caption>))[\s\S])*)<\/caption>/i,
-    );
+    const exampleCaption = description.match(/<caption>([\s\S]*?)<\/caption>/i);
 
     if (exampleCaption) {
       description = description.replace(exampleCaption[0], "");
