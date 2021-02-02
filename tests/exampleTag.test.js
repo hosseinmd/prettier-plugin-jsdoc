@@ -22,7 +22,7 @@ test("Example javascript code", () => {
 
  }
 
-* @undefiendTag 
+* @undefiendTag
 * @undefiendTag {number} name des
 */
 const testFunction = (text, defaultValue, optionalNumber) => true
@@ -54,7 +54,7 @@ test("examples Json", () => {
   };
   const Result1 = subject(
     `/**
- * @example 
+ * @example
  * {testArr: [
  *     1,
  *     2,
@@ -67,7 +67,7 @@ test("examples Json", () => {
   const Result2 = subject(
     `/**
  * @example
- * 
+ *
  * [{
  *   foo: 1,
  *   foo: 2,
@@ -87,7 +87,7 @@ test("Example start by xml tag", () => {
   const result = subject(`
   /**
    * @example <caption>TradingViewChart</caption>;
-   * 
+   *
    * export default Something
    */
 `);
@@ -145,6 +145,36 @@ test("example should be same after few time format ", () => {
 
   const result2 = subject(result);
   const result3 = subject(result2);
+
+  expect(result).toEqual(result2);
+  expect(result).toEqual(result3);
+});
+
+test("example with unknown language should be same after few time format ", () => {
+  const options = { jsdocKeepUnParseAbleExampleIndent: true };
+
+  // the `'comment': { ... }` line makes it invalid JS
+  const result = subject(
+    `
+  /**
+   * @example
+   *   Prism.languages['css-with-colors'] = Prism.languages.extend('css', {
+   *       // Prism.languages.css already has a 'comment' token, so this token will overwrite CSS' 'comment' token
+   *       // at its original position
+   *       'comment': { ... },
+   *       // CSS doesn't have a 'color' token, so this token will be appended
+   *       'color': /\\b(?:red|green|blue)\\b/
+   *   });
+   *
+  */
+`,
+    options,
+  );
+
+  expect(result).toMatchSnapshot();
+
+  const result2 = subject(result, options);
+  const result3 = subject(result2, options);
 
   expect(result).toEqual(result2);
   expect(result).toEqual(result3);

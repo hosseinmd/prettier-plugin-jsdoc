@@ -109,7 +109,9 @@ function trimIndentation(string: string): string {
 
   let kind = IndentationKind.UNKNOWN;
   let min = Infinity;
-  for (let i = 0; i < lines.length; i++) {
+
+  const skipFirst = !/^[ \t]/.test(lines[0]);
+  for (let i = skipFirst ? 1 : 0; i < lines.length; i++) {
     const line = lines[i];
     if (line) {
       const first = line[0];
@@ -147,7 +149,9 @@ function trimIndentation(string: string): string {
   if (min === 0 || min === Infinity) {
     return lines.join("\n");
   } else {
-    return lines.map((line) => line.slice(min)).join("\n");
+    return lines
+      .map((line, i) => (i === 0 && skipFirst ? line : line.slice(min)))
+      .join("\n");
   }
 }
 
