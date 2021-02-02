@@ -1,8 +1,10 @@
 import commentParser from "comment-parser";
 import {
-  addStarsToTheBeginningOfTheLines,
   convertToModernType,
+  countLines,
   formatType,
+  prefixLinesWith,
+  trimTrailingSpaces,
 } from "./utils";
 import { DESCRIPTION } from "./tags";
 import {
@@ -12,10 +14,9 @@ import {
   TAGS_ORDER,
   TAGS_SYNONYMS,
   TAGS_TYPELESS,
-  TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
-import { AST, JsdocOptions } from "./types";
-import { stringify } from "./stringify";
+import { AST, JsdocOptions, PrettierComment } from "./types";
+import { stringifyJSDoc } from "./stringify";
 import { convertCommentDescToDescTag } from "./descriptionFormatter";
 import { Parser } from "prettier";
 
@@ -35,7 +36,7 @@ export const getParser = (parser: Parser["parse"]) =>
     /**
      * Control order of tags by weights. Smaller value brings tag higher.
      *
-     * @param {String} tagTitle TODO
+     * @param {String} tagTitle
      * @returns {Number} Tag weight
      */
     function getTagOrderWeight(tagTitle: string): number {
@@ -47,8 +48,7 @@ export const getParser = (parser: Parser["parse"]) =>
     }
 
     ast.comments.forEach((comment) => {
-      // Parse only comment blocks
-      if (comment.type !== "CommentBlock" && comment.type !== "Block") return;
+      if (!isBlockComment(comment)) return;
 
       /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
       comment.value = comment.value.replace(/^([*]+)/g, "*");
@@ -71,15 +71,14 @@ export const getParser = (parser: Parser["parse"]) =>
         return;
       }
 
-      comment.value = "";
+      const commentIndentationWidth = getIndentationWidth(comment, options);
+      const CONTENT_PREFIX = " * ";
+      const commentContentPrintWidth =
+        options.printWidth - commentIndentationWidth - CONTENT_PREFIX.length;
 
       convertCommentDescToDescTag(parsed);
 
-      let maxTagTitleLength = 0;
-      let maxTagTypeNameLength = 0;
-      let maxTagNameLength = 0;
-
-      parsed.tags
+      const tags = parsed.tags
         // Prepare tags data
         .map(
           ({
@@ -92,6 +91,9 @@ export const getParser = (parser: Parser["parse"]) =>
             default: _default,
             ...restInfo
           }) => {
+            name = (name || "").trim();
+            description = trimTrailingSpaces((description || "").trim());
+
             /** When space between tag and type missed */
             const tagSticksToType = tag.indexOf("{");
             if (tagSticksToType !== -1 && tag[tag.length - 1] === "}") {
@@ -105,9 +107,6 @@ export const getParser = (parser: Parser["parse"]) =>
             if (tag in TAGS_SYNONYMS) {
               tag = TAGS_SYNONYMS[tag as keyof typeof TAGS_SYNONYMS];
             }
-            const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
-              tag,
-            );
 
             if (TAGS_NAMELESS.includes(tag) && name) {
               description = `${name} ${description}`;
@@ -129,13 +128,10 @@ export const getParser = (parser: Parser["parse"]) =>
               });
 
               type = convertToModernType(type);
-              type = formatType(type, options);
-
-              if (isVerticallyAlignAbleTags)
-                maxTagTypeNameLength = Math.max(
-                  maxTagTypeNameLength,
-                  type.length,
-                );
+              type = formatType(type, {
+                ...options,
+                printWidth: commentContentPrintWidth,
+              });
 
               // Additional operations on name
               if (name) {
@@ -156,17 +152,9 @@ export const getParser = (parser: Parser["parse"]) =>
                     name = `[${name}]`;
                   }
                 }
-
-                if (isVerticallyAlignAbleTags)
-                  maxTagNameLength = Math.max(maxTagNameLength, name.length);
               }
             }
 
-            if (isVerticallyAlignAbleTags) {
-              maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
-            }
-
-            description = description || "";
             description = description.trim();
 
             return {
@@ -181,7 +169,6 @@ export const getParser = (parser: Parser["parse"]) =>
             } as commentParser.Tag;
           },
         )
-
         // Sort tags
         .sort((a, b) => getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag))
         .filter(({ description, tag }) => {
@@ -189,31 +176,49 @@ export const getParser = (parser: Parser["parse"]) =>
             return false;
           }
           return true;
-        })
-        // Create final jsDoc string
-        .forEach((tagData, tagIndex, finalTagsArray) => {
-          comment.value += stringify(
-            tagData,
-            tagIndex,
-            finalTagsArray,
-            options,
-            comment,
-            maxTagTitleLength,
-            maxTagTypeNameLength,
-            maxTagNameLength,
-          );
         });
 
-      comment.value = comment.value.trimEnd();
-      if (comment.value) {
-        comment.value = addStarsToTheBeginningOfTheLines(comment.value);
+      const commentContent = stringifyJSDoc(tags, {
+        ...options,
+        printWidth: commentContentPrintWidth,
+      });
+
+      if (commentContent) {
+        if (
+          countLines(commentContent) === 1 &&
+          commentIndentationWidth + `/**  */`.length + commentContent.length <=
+            options.printWidth
+        ) {
+          comment.value = `* ${commentContent} `;
+        } else {
+          comment.value = `*\n${prefixLinesWith(
+            commentContent,
+            CONTENT_PREFIX,
+          )}\n `;
+        }
+      } else {
+        comment.value = "";
       }
     });
 
     ast.comments = ast.comments.filter(
-      ({ type, value }) =>
-        (type !== "CommentBlock" && type !== "Block") || value,
+      (comment) => !isBlockComment(comment) || comment.value,
     );
 
     return ast;
   };
+
+function isBlockComment(comment: PrettierComment): boolean {
+  return comment.type === "CommentBlock" || comment.type === "Block";
+}
+
+function getIndentationWidth(
+  comment: PrettierComment,
+  options: JsdocOptions,
+): number {
+  let width = comment.loc.start.column;
+  if (options.useTabs) {
+    width *= options.tabWidth;
+  }
+  return width;
+}

@@ -6,7 +6,8 @@ exports[`convert array to modern type 1`] = `
  * @param {Adaptable} animNode
  * @param {object} InterpolationConfig
  * @param {ReadonlyArray<Adaptable>} InterpolationConfig.inputRange Like [0,1]
- * @param {string[]} InterpolationConfig.outputRange Like [\\"#0000ff\\",\\"#ff0000\\"]
+ * @param {string[]} InterpolationConfig.outputRange Like
+ * [\\"#0000ff\\",\\"#ff0000\\"]
  * @param {import(\\"react-native-reanimated\\").default.Extrapolate} [InterpolationConfig.extrapolate]
  * @param {Foo<Bar>[]} arg1
  * @param {((item: Foo<Bar>) => Bar<number>)[] | number[] | string[]} arg2

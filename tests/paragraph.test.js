@@ -16,11 +16,11 @@ test("description contain paragraph", () => {
   const result = subject(`
 /**
  * Does the following things:
- * 
+ *
  *    1. Thing 1
- * 
+ *
  *    2. Thing 2
- * 
+ *
  *    3. Thing 3
  */
     `);
@@ -30,7 +30,7 @@ test("description contain paragraph", () => {
   const result2 = subject(`
   /**
    * Does the following things:
-   * 
+   *
    *    1. Thing 1
    *    2. Thing 2
    *    3. Thing 3
@@ -61,7 +61,7 @@ test("description contain paragraph", () => {
    *
    * @override
    */
-   
+
 
   /**
    * Bounce give a renderContent and show that around children when isVisible is
@@ -79,7 +79,7 @@ test("description contain paragraph", () => {
    *
    * @type {React.FC<BounceProps>}
    */
-  
+
    `);
 
   expect(result4).toMatchSnapshot();
@@ -184,7 +184,7 @@ test("description new line with dash", () => {
 test("numbers and code in description", () => {
   const result1 = subject(`
 /**
- * =========================== PressResponder Tutorial ===========================
+ * ======================= PressResponder Tutorial =======================
  *
  * The \`PressResponder\` class helps you create press interactions by analyzing the
  * geometry of elements and observing when another responder (e.g. ScrollView)
@@ -200,23 +200,23 @@ test("numbers and code in description", () => {
  * bounds should trigger deactivation, but moving the same finger back within an
  * element's bounds should trigger reactivation.
  *
- * 1- In order to use \`PressResponder\`, do the following:
- *\`\`\`js
+ * 1. In order to use \`PressResponder\`, do the following:
+ *     \`\`\`js
  *     const pressResponder = new PressResponder(config);
- *\`\`\`
- *     2.   Choose the rendered component who should collect the press events. On that
- *   element, spread \`pressability.getEventHandlers()\` into its props.
- *\`\`\`js
+ *     \`\`\`
+ * 2. Choose the rendered component who should collect the press events. On that
+ *    element, spread \`pressability.getEventHandlers()\` into its props.
+ *    \`\`\`js
  *    return (
  *      <View {...this.state.pressResponder.getEventHandlers()} />
  *    );
- *\`\`\`
+ *    \`\`\`
  * 3. Reset \`PressResponder\` when your component unmounts.
- *\`\`\`js
+ *    \`\`\`js
  *    componentWillUnmount() {
  *      this.state.pressResponder.reset();
  *    }
- *\`\`\`
+ *    \`\`\`
  * ==================== Implementation Details ====================
  *
  * \`PressResponder\` only assumes that there exists a \`HitRect\` node. The \`PressRect\`
@@ -267,7 +267,7 @@ test("code in description", () => {
  * will measure time/geometry and tells you when to give feedback to the user.
  *
  * ====================== Touchable Tutorial ===============================
- * The \`Touchable\` mixin helps you handle the "press" interaction. It analyzes 
+ * The \`Touchable\` mixin helps you handle the "press" interaction. It analyzes
  *  the geometry of elements, and observes when another responder (scroll view
  * etc) has stolen the touch lock. It notifies your component when it should
  * give feedback to the user. (bouncing/highlighting/unhighlighting).
@@ -304,7 +304,7 @@ test("code in description", () => {
  *   // In render function:
  *   return (
  *     <View
- * 
+ *
  *       onStartShouldSetResponder={this.touchableHandleStartShouldSetResponder}
  *       onResponderTerminationRequest={this.touchableHandleResponderTerminationRequest}
  *       onResponderGrant={this.touchableHandleResponderGrant}
@@ -375,6 +375,60 @@ test("code in description", () => {
   expect(subject(subject(result2))).toEqual(result2);
 
   expect(result2).toMatchSnapshot();
+});
+
+test("with indentation", () => {
+  const result1 = subject(
+    `
+/**
+ * lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+ *
+ */
+const foo = {
+        /**
+         * lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+         *
+         */
+        baz: {
+                /**
+                 * lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                 *
+                 */
+                bar() {},
+        }
+}
+  `,
+    { tabWidth: 8 },
+  );
+
+  expect(result1).toMatchSnapshot();
+});
+
+test("with tab indentation", () => {
+  const result1 = subject(
+    `
+/**
+ * lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+ *
+ */
+const foo = {
+	/**
+	 * lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+	 *
+	 */
+	baz: {
+		/**
+		 * lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		 *
+		 */
+		bar() {},
+	}
+}
+  `,
+    { useTabs: true, tabWidth: 8 },
+  );
+
+  expect(result1).toMatchSnapshot();
 });
 
 /**
