@@ -71,7 +71,11 @@ export const getParser = (parser: Parser["parse"]) =>
         return;
       }
 
-      const commentIndentationWidth = getIndentationWidth(comment, options);
+      const commentIndentationWidth = getIndentationWidth(
+        comment,
+        text,
+        options,
+      );
       const CONTENT_PREFIX = " * ";
       const commentContentPrintWidth =
         options.printWidth - commentIndentationWidth - CONTENT_PREFIX.length;
@@ -92,7 +96,7 @@ export const getParser = (parser: Parser["parse"]) =>
             ...restInfo
           }) => {
             name = (name || "").trim();
-            description = trimTrailingSpaces((description || "").trim());
+            description = (description || "").trim();
 
             /** When space between tag and type missed */
             const tagSticksToType = tag.indexOf("{");
@@ -214,11 +218,23 @@ function isBlockComment(comment: PrettierComment): boolean {
 
 function getIndentationWidth(
   comment: PrettierComment,
+  text: string,
   options: JsdocOptions,
 ): number {
-  let width = comment.loc.start.column;
-  if (options.useTabs) {
-    width *= options.tabWidth;
+  const line = text.split(/\r\n|\n/g)[comment.loc.start.line - 1];
+
+  let spaces = 0;
+  let tabs = 0;
+  for (let i = comment.loc.start.column - 1; i >= 0; i--) {
+    const c = line[i];
+    if (c === " ") {
+      spaces++;
+    } else if (c === "\t") {
+      tabs++;
+    } else {
+      break;
+    }
   }
-  return width;
+
+  return spaces + tabs * options.tabWidth;
 }
