@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.9](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.8...v0.3.9) (2021-02-03)
+
+
+### Features
+
+* **type-formatter:** support rest parameters ([9952ab8](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/9952ab86aa2db11381a2a312717165cbd580ef2d))
+* modernize nullable types ([cf31411](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/cf31411b4909525c9d874b966908fb5fb2ef4a59))
+* **parser:** do not remove default values ([36f500d](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/36f500d66a4c30ed6a0e2b621d457e0082181131))
+
+
+### Bug Fixes
+
+* **parser:** jsdoc check ([d9ce819](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/d9ce8193facb71a6db1721c1727059bc6573585c))
+* `*` to `any` work with strings now ([95bb610](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/95bb610d571398c0803b1dcfd5cd3faf7a6a63d2))
+* dash lines ([33df06d](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/33df06d2f5ae2f1d08c1612c3580751b8a98470b))
+* incorrect Array type transformation ([3aab697](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/3aab697d8a78cd72633d39a0b3403d773d0a7ece))
+* nested arrays + missing prefix ([7b4eec6](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/7b4eec61341619ca1b441648ab7426436799c455))
+* wrong license in package.json ([0db143b](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/0db143b1252ae8897e0f2a1e186ba99679ab420c))
+* **parser:** mordern array transformation ([43aa632](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/43aa63247a94fe21e2b73d5555b43baf55e8664d))
+* **parser:** optional parameter type ([01d442a](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/01d442abc257d1b7744c42851ca4ee1be4417260))
+* **parser:** tag type correction ([6dc67c7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6dc67c7555ee1b4d2c3ee6ff0a9e7c62497b38de))
+
 ### [0.3.8](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.7...v0.3.8) (2021-01-27)
 
 

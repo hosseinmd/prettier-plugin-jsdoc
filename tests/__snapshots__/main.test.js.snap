@@ -37,6 +37,17 @@ exports[`Empty comment 1`] = `
 "
 `;
 
+exports[`Format rest parameters properly 1`] = `
+"/**
+ * @param {...any} arg1
+ * @param {...number} arg2
+ * @param {...(string | number)} arg3
+ * @param {...(string | number)} arg4 This is equivalent to arg3
+ */
+function a() {}
+"
+`;
+
 exports[`Hyphen at the start of description 1`] = `
 "/**
  * Assign the project to an employee.
