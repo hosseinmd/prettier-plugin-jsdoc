@@ -427,3 +427,18 @@ test("Non-jsdoc comment", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("Format rest parameters properly", () => {
+  const result = subject(`
+  /**
+   * @param {... *} arg1
+   * @param {... number} arg2
+   * @param {... (string|number)} arg3
+   * @param {... string|number} arg4 This is equivalent to arg3
+   *
+   */
+  function a(){}
+  `);
+
+  expect(result).toMatchSnapshot();
+});

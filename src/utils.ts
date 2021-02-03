@@ -74,13 +74,40 @@ function formatType(type: string, options?: Options): string {
   try {
     const TYPE_START = "type name = ";
 
-    let pretty = format(`${TYPE_START}${type}`, {
+    let pretty = type;
+
+    // Rest parameter types start with "...". This is supported by TS and JSDoc
+    // but it's implemented in a weird way in TS. TS will only acknowledge the
+    // "..." if the function parameter is a rest parameter. In this case, TS
+    // will interpret `...T` as `T[]`. But we can't just convert "..." to arrays
+    // because of @callback types. In @callback types `...T` and `T[]` are not
+    // equivalent, so we have to support "..." as is.
+    //
+    // This formatting itself is rather simple. If `...T` is detected, it will
+    // be replaced with `T[]` and formatted. At the end, the outer array will
+    // be removed and "..." will be added again.
+    //
+    // As a consequence, union types will get an additional pair of parentheses
+    // (e.g. `...A|B` -> `...(A|B)`). This is technically unnecessary but it
+    // makes the operator precedence very clear.
+    //
+    // https://www.typescriptlang.org/docs/handbook/functions.html#rest-parameters
+    let rest = false;
+    if (pretty.startsWith("...")) {
+      rest = true;
+      pretty = `(${pretty.slice(3)})[]`;
+    }
+
+    pretty = format(`${TYPE_START}${pretty}`, {
       ...options,
       parser: "typescript",
     });
     pretty = pretty.slice(TYPE_START.length);
-
     pretty = pretty.replace(/[;\n]*$/g, "");
+
+    if (rest) {
+      pretty = "..." + pretty.replace(/\[\s*\]$/, "");
+    }
 
     return pretty;
   } catch (error) {
