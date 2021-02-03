@@ -33,3 +33,8 @@ test("types file", () => {
   const result = subjectFiles("./files/types.ts");
   expect(result).toMatchSnapshot();
 });
+
+test("order file", () => {
+  const result = subjectFiles("./files/order.jsx");
+  expect(result).toMatchSnapshot();
+});

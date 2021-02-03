@@ -34,6 +34,16 @@ const TYPEDEF = "typedef";
 const VERSION = "version";
 const YIELDS = "yields";
 
+const SPACE_TAG_DATA = {
+  tag: "this_is_for_space",
+  name: "",
+  optional: false,
+  type: "",
+  description: "",
+  line: 0,
+  source: "",
+};
+
 export {
   ABSTRACT,
   ASYNC,
@@ -70,4 +80,5 @@ export {
   TYPEDEF,
   VERSION,
   YIELDS,
+  SPACE_TAG_DATA,
 };

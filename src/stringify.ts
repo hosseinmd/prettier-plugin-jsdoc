@@ -1,7 +1,7 @@
 import { Tag } from "comment-parser";
 import { format } from "prettier";
 import { formatDescription, descriptionEndLine } from "./descriptionFormatter";
-import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE } from "./tags";
+import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, SPACE_TAG_DATA } from "./tags";
 import { TAGS_VERTICALLY_ALIGN_ABLE } from "./roles";
 import { JsdocOptions, PrettierComment } from "./types";
 
@@ -15,6 +15,12 @@ const stringify = (
   maxTagTypeNameLength: number,
   maxTagNameLength: number,
 ): string => {
+  let tagString = "\n";
+
+  if (tag === SPACE_TAG_DATA.tag) {
+    return tagString;
+  }
+
   const {
     loc: {
       start: { column },
@@ -47,7 +53,6 @@ const stringify = (
   }
 
   const useTagTitle = tag !== DESCRIPTION || jsdocDescriptionTag;
-  let tagString = "\n";
 
   if (useTagTitle) {
     tagString += `@${tag}${" ".repeat(tagTitleGapAdj || 0)}`;

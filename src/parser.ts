@@ -7,6 +7,7 @@ import {
 import { DESCRIPTION } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
+  TAGS_GROUP,
   TAGS_IS_CAMEL_CASE,
   TAGS_NAMELESS,
   TAGS_ORDER,
@@ -18,6 +19,7 @@ import { AST, JsdocOptions } from "./types";
 import { stringify } from "./stringify";
 import { convertCommentDescToDescTag } from "./descriptionFormatter";
 import { Parser } from "prettier";
+import { SPACE_TAG_DATA } from "./tags";
 
 /** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
 export const getParser = (parser: Parser["parse"]) =>
@@ -38,11 +40,11 @@ export const getParser = (parser: Parser["parse"]) =>
      * @param {String} tagTitle TODO
      * @returns {Number} Tag weight
      */
-    function getTagOrderWeight(tagTitle: string): number {
-      if (tagTitle === DESCRIPTION && !options.jsdocDescriptionTag) {
+    function getTagOrderWeight(tag: string): number {
+      if (tag === DESCRIPTION && !options.jsdocDescriptionTag) {
         return -1;
       }
-      const index = TAGS_ORDER.indexOf(tagTitle);
+      const index = TAGS_ORDER.indexOf(tag);
       return index === -1 ? TAGS_ORDER.indexOf("other") : index;
     }
 
@@ -102,9 +104,11 @@ export const getParser = (parser: Parser["parse"]) =>
             if (TAGS_ORDER.includes(tag) && !TAGS_IS_CAMEL_CASE.includes(tag)) {
               tag = tag && tag.trim().toLowerCase();
             }
+
             if (tag in TAGS_SYNONYMS) {
               tag = TAGS_SYNONYMS[tag as keyof typeof TAGS_SYNONYMS];
             }
+
             const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
               tag,
             );
@@ -113,6 +117,7 @@ export const getParser = (parser: Parser["parse"]) =>
               description = `${name} ${description}`;
               name = "";
             }
+
             if (TAGS_TYPELESS.includes(tag) && type) {
               description = `{${type}} ${description}`;
               type = "";
@@ -183,7 +188,23 @@ export const getParser = (parser: Parser["parse"]) =>
         )
 
         // Sort tags
-        .sort((a, b) => getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag))
+        .reduce<commentParser.Tag[][]>((pre, cur) => {
+          if (!pre[0] || TAGS_GROUP.includes(cur.tag)) {
+            pre.push([]);
+          }
+          pre[pre.length - 1].push(cur);
+
+          return pre;
+        }, [])
+        .flatMap((tagData, index, tags) => {
+          const sortedResult = tagData.sort((a, b) => {
+            return getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag);
+          });
+
+          return tags.length - 1 === index
+            ? sortedResult
+            : [...sortedResult, SPACE_TAG_DATA];
+        })
         .filter(({ description, tag }) => {
           if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
             return false;

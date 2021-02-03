@@ -2,9 +2,10 @@
 
 exports[`extends 1`] = `
 "/**
+ * @class
+ *
  * The bread crumbs indicate the navigate path and trigger the active page.
  *
- * @class
  * @typedef {object} props
  * @property {any} navigation
  * @extends {PureComponent<props>}
@@ -16,6 +17,7 @@ export class BreadCrumbs extends PureComponent {}
 exports[`template for callback 1`] = `
 "/**
  * @template T
+ *
  * @callback CallbackName
  * @param {GetStyles<T>} getStyles
  * @returns {UseStyle<T>}
