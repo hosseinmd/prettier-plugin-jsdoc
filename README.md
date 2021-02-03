@@ -62,6 +62,10 @@ module.exports = {
 };
 ```
 
+## Ignore
+
+To ignore prettier use `/* */` or `//` instead of /** */
+
 ## Examples
 
 #### Single line
