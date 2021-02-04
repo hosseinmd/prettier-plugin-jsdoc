@@ -17,7 +17,17 @@ function subject(code, filepath, options) {
   return prettier.format(code, {
     plugins: ["."],
     jsdocSpaces: 1,
-    trailingComma: "all",
+
+    arrowParens: "avoid",
+    printWidth: 120,
+    quoteProps: "preserve",
+    semi: true,
+    singleQuote: true,
+    tabWidth: 4,
+    trailingComma: "none",
+    useTabs: true,
+    jsdocKeepUnParseAbleExampleIndent: true,
+
     filepath,
     ...options,
   });
