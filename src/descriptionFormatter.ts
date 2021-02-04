@@ -258,7 +258,7 @@ function convertCommentDescToDescTag(parsed: Comment): void {
   if (Tag) {
     Tag.description = description;
   } else {
-    parsed.tags.push({ tag: DESCRIPTION, description } as any);
+    parsed.tags.unshift({ tag: DESCRIPTION, description } as any);
   }
 }
 
