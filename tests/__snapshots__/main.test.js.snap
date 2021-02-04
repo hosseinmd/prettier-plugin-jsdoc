@@ -125,9 +125,9 @@ exports[`Should align vertically param|property|returns|yields|throws if option 
 "/**
  * @property  {Object}          unalginedProp   Unaligned property descriptin
  * @param     {String}          unalginedParam  Unaligned param description
- * @throws    {CustomExceptio}                  Unaligned throws description
  * @yields    {Number}                          Yields description
  * @returns   {undefined}
+ * @throws    {CustomExceptio}                  Unaligned throws description
  */
 "
 `;
@@ -136,9 +136,9 @@ exports[`Should align vertically param|property|returns|yields|throws if option 
 "/**
  * @property    {Object}            unalginedProp     Unaligned property descriptin
  * @param       {String}            unalginedParam    Unaligned param description
- * @throws      {CustomExceptio}                      Unaligned throws description
  * @yields      {Number}                              Yields description
  * @returns     {String}                              Unaligned returns description
+ * @throws      {CustomExceptio}                      Unaligned throws description
  */
 "
 `;
@@ -206,9 +206,9 @@ exports[`Should format regular jsDoc 1`] = `
  *   needs to be wrapped
  * @param {String} [defaultValue=\\"defaultTest\\"] TODO. Default is \`\\"defaultTest\\"\`
  * @param {Number | Null} [optionalNumber]
+ * @returns {Boolean} Description for @returns with s
  * @undefiendTag
  * @undefiendTag {number} name des
- * @returns {Boolean} Description for @returns with s
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
 "
@@ -236,9 +236,9 @@ exports[`Should format regular jsDoc 2`] = `
  *   needs to be wrapped
  * @param {String} [defaultValue=\\"defaultTest\\"] TODO. Default is \`\\"defaultTest\\"\`
  * @param {Number | Null} [optionalNumber]
+ * @returns {Boolean} Description for @returns with s
  * @undefiendTag
  * @undefiendTag {number} name des
- * @returns {Boolean} Description for @returns with s
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
 "

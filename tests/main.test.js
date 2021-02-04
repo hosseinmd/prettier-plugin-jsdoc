@@ -204,9 +204,9 @@ test("Should align vertically param|property|returns|yields|throws if option set
     options,
   );
   const Expected2 = `/**
- * @throws  {CustomExceptio} Unaligned throws description
  * @yields  {Number}         Yields description
  * @returns {String}         Unaligned returns description
+ * @throws  {CustomExceptio} Unaligned throws description
  */
 `;
 

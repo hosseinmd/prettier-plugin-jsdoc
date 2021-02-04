@@ -6,9 +6,9 @@ exports[`extends 1`] = `
  *
  * The bread crumbs indicate the navigate path and trigger the active page.
  *
+ * @extends {PureComponent<props>}
  * @typedef {object} props
  * @property {any} navigation
- * @extends {PureComponent<props>}
  */
 export class BreadCrumbs extends PureComponent {}
 "
