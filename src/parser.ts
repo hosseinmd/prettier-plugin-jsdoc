@@ -16,7 +16,7 @@ import {
   TAGS_TYPELESS,
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
-import { AST, JsdocOptions } from "./types";
+import { AST, JsdocOptions, PrettierComment } from "./types";
 import { stringify } from "./stringify";
 import { convertCommentDescToDescTag } from "./descriptionFormatter";
 import { Parser } from "prettier";
@@ -54,8 +54,7 @@ export const getParser = (parser: Parser["parse"]) =>
     }
 
     ast.comments.forEach((comment) => {
-      // Parse only comment blocks
-      if (comment.type !== "CommentBlock" && comment.type !== "Block") return;
+      if (!isBlockComment(comment)) return;
 
       /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
       comment.value = comment.value.replace(/^([*]+)/g, "*");
@@ -195,23 +194,27 @@ export const getParser = (parser: Parser["parse"]) =>
           },
         )
 
-        // Sort tags
-        .reduce<commentParser.Tag[][]>((pre, cur) => {
-          if (!pre[0] || TAGS_GROUP.includes(cur.tag)) {
-            pre.push([]);
+        // Group tags
+        .reduce<commentParser.Tag[][]>((tagGroups, cur) => {
+          if (tagGroups.length === 0 || TAGS_GROUP.includes(cur.tag)) {
+            tagGroups.push([]);
           }
-          pre[pre.length - 1].push(cur);
+          tagGroups[tagGroups.length - 1].push(cur);
 
-          return pre;
+          return tagGroups;
         }, [])
-        .flatMap((tagData, index, tags) => {
-          const sortedResult = tagData.sort((a, b) => {
+        .flatMap((tagGroup, index, tags) => {
+          // sort tags within groups
+          tagGroup.sort((a, b) => {
             return getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag);
           });
 
-          return tags.length - 1 === index
-            ? sortedResult
-            : [...sortedResult, SPACE_TAG_DATA];
+          // add an empty line between groups
+          if (tags.length - 1 !== index) {
+            tagGroup.push(SPACE_TAG_DATA);
+          }
+
+          return tagGroup;
         })
         .filter(({ description, tag }) => {
           if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
@@ -246,9 +249,12 @@ export const getParser = (parser: Parser["parse"]) =>
     });
 
     ast.comments = ast.comments.filter(
-      ({ type, value }) =>
-        (type !== "CommentBlock" && type !== "Block") || value,
+      (comment) => !(isBlockComment(comment) && !comment.value),
     );
 
     return ast;
   };
+
+function isBlockComment(comment: PrettierComment): boolean {
+  return comment.type === "CommentBlock" || comment.type === "Block";
+}
