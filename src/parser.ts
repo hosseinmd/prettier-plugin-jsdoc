@@ -84,6 +84,11 @@ export const getParser = (parser: Parser["parse"]) =>
 
       convertCommentDescToDescTag(parsed);
 
+      const commentContentPrintWidth =
+        options.printWidth -
+        getIndentationWidth(comment, text, options) -
+        " * ".length;
+
       let maxTagTitleLength = 0;
       let maxTagTypeNameLength = 0;
       let maxTagNameLength = 0;
@@ -141,7 +146,10 @@ export const getParser = (parser: Parser["parse"]) =>
               });
 
               type = convertToModernType(type);
-              type = formatType(type, options);
+              type = formatType(type, {
+                ...options,
+                printWidth: commentContentPrintWidth,
+              });
 
               if (isVerticallyAlignAbleTags)
                 maxTagTypeNameLength = Math.max(
@@ -231,8 +239,7 @@ export const getParser = (parser: Parser["parse"]) =>
             tagData,
             tagIndex,
             finalTagsArray,
-            options,
-            comment,
+            { ...options, printWidth: commentContentPrintWidth },
             maxTagTitleLength,
             maxTagTypeNameLength,
             maxTagNameLength,
@@ -260,4 +267,27 @@ export const getParser = (parser: Parser["parse"]) =>
 
 function isBlockComment(comment: PrettierComment): boolean {
   return comment.type === "CommentBlock" || comment.type === "Block";
+}
+
+function getIndentationWidth(
+  comment: PrettierComment,
+  text: string,
+  options: JsdocOptions,
+): number {
+  const line = text.split(/\r\n?|\n/g)[comment.loc.start.line - 1];
+
+  let spaces = 0;
+  let tabs = 0;
+  for (let i = comment.loc.start.column - 1; i >= 0; i--) {
+    const c = line[i];
+    if (c === " ") {
+      spaces++;
+    } else if (c === "\t") {
+      tabs++;
+    } else {
+      break;
+    }
+  }
+
+  return spaces + tabs * options.tabWidth;
 }

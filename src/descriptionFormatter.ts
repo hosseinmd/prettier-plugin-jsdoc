@@ -37,19 +37,21 @@ function descriptionEndLine({
   return "";
 }
 
+interface FormatOptions {
+  firstLinePrintWidth?: number;
+}
+
 /**
  * Trim, make single line with capitalized text. Insert dot if flag for it is
  * set to true and last character is a word character
  *
  * @private
- * @param {Boolean} insertDot Flag for dot at the end of text
  */
 function formatDescription(
   tag: string,
   text: string,
-  tagString: string,
-  column: number,
   options: JsdocOptions,
+  formatOptions: FormatOptions = {},
 ): string {
   if (!TAGS_NEED_FORMAT_DESCRIPTION.includes(tag)) {
     return text;
@@ -57,7 +59,8 @@ function formatDescription(
 
   if (!text) return text;
 
-  const { printWidth = 80 } = options;
+  const { printWidth } = options;
+  const { firstLinePrintWidth = printWidth } = formatOptions;
 
   /**
    * Description
@@ -115,16 +118,10 @@ function formatDescription(
 
   text = capitalizer(text);
 
-  text = `${"_".repeat(tagString.length)}${text}`;
+  text = `${"_".repeat(Math.max(0, printWidth - firstLinePrintWidth))}${text}`;
 
   // Wrap tag description
   const beginningSpace = tag === DESCRIPTION ? "" : "  "; // google style guide space
-  const marginLength = tagString.length;
-  let maxWidth = printWidth - column - 3; // column is location of comment, 3 is ` * `
-
-  if (marginLength >= maxWidth) {
-    maxWidth = marginLength;
-  }
 
   text = text
     .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)
@@ -159,7 +156,7 @@ function formatDescription(
 
                                   return breakDescriptionToLines(
                                     paragraph,
-                                    maxWidth,
+                                    printWidth,
                                     beginningSpace,
                                   );
                                 })
@@ -198,7 +195,6 @@ function formatDescription(
           ? `\n\n${format(codes[index], {
               ...options,
               parser: "markdown",
-              printWidth: printWidth - column,
             }).trim()}\n\n`
           : ""
       }`;
@@ -269,5 +265,6 @@ export {
   NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
   descriptionEndLine,
   convertCommentDescToDescTag,
+  FormatOptions,
   formatDescription,
 };
