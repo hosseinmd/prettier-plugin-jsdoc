@@ -1,6 +1,7 @@
 const prettier = require("prettier");
 const { readFileSync } = require("fs");
 const { resolve } = require("path");
+require("jest-specific-snapshot");
 
 function subjectFiles(relativePath, options = {}) {
   const filepath = resolve(__dirname, relativePath);
@@ -24,18 +25,18 @@ function subjectFiles(relativePath, options = {}) {
  * @type {TestFile[]}
  *
  * @typedef TestFile
- * @property {string} path
+ * @property {string} name
  * @property {import("prettier").Options} [options]
  */
 const files = [
-  { path: "./files/typeScript.js" },
-  { path: "./files/typeScript.js" },
-  { path: "./files/typeScript.ts" },
-  { path: "./files/types.ts" },
-  { path: "./files/order.jsx" },
-  { path: "./files/create-ignorer.js" },
+  { name: "typeScript.js" },
+  { name: "typeScript.js" },
+  { name: "typeScript.ts" },
+  { name: "types.ts" },
+  { name: "order.jsx" },
+  { name: "create-ignorer.js" },
   {
-    path: "./files/prism-core.js",
+    name: "prism-core.js",
     options: {
       arrowParens: "avoid",
       printWidth: 120,
@@ -50,9 +51,12 @@ const files = [
   },
 ];
 
-for (const { path, options } of files) {
-  test(`File: ${path} Options: ${JSON.stringify(options || {})}`, () => {
-    const result = subjectFiles(path, options);
-    expect(result).toMatchSnapshot();
+for (let i = 0; i < files.length; i++) {
+  const { name, options } = files[i];
+  test(`File: ${name} Options: ${JSON.stringify(options || {})}`, () => {
+    const result = subjectFiles("./files/" + name, options);
+    expect(result).toMatchSpecificSnapshot(
+      `./__snapshots__/files/${name}.${i}.shot`,
+    );
   });
 }
