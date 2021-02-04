@@ -56,7 +56,7 @@ for (let i = 0; i < files.length; i++) {
   test(`File: ${name} Options: ${JSON.stringify(options || {})}`, () => {
     const result = subjectFiles("./files/" + name, options);
     expect(result).toMatchSpecificSnapshot(
-      `./__snapshots__/files/${name}.${i}.shot`,
+      `./__snapshots__/files/${name}.shot`,
     );
   });
 }
