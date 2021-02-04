@@ -352,8 +352,8 @@ var Prism = (function (_self) {
 			 *
 			 * @param {string} id The id of the language to extend. This has to be a key in \`Prism.languages\`.
 			 * @param {Grammar} redef The new tokens to append.
-			 * @public
 			 * @returns {Grammar} The new language created.
+			 * @public
 			 */
 			extend: function (id, redef) {
 				var lang = _.util.clone(_.languages[id]);
@@ -436,9 +436,8 @@ var Prism = (function (_self) {
 			 * @param {Object<string, any>} [root] The object containing \`inside\`, i.e. the object that contains the object to be modified.
 			 *
 			 * Defaults to \`Prism.languages\`.
-			 * @public
-			 *
 			 * @returns {Grammar} The new grammar object.
+			 * @public
 			 */
 			insertBefore: function (inside, before, insert, root) {
 				root = root || /** @type {any} */ (_.languages);
@@ -667,8 +666,8 @@ var Prism = (function (_self) {
 		 *
 		 * Usually a language definition like \`Prism.languages.markup\`.
 		 * @param {string} language The name of the language definition passed to \`grammar\`.
-		 * @public
 		 * @returns {string} The highlighted HTML.
+		 * @public
 		 */
 		highlight: function (text, grammar, language) {
 			var env = {
@@ -704,8 +703,8 @@ var Prism = (function (_self) {
 		 * @param {Grammar} grammar An object containing the tokens to use.
 		 *
 		 * Usually a language definition like \`Prism.languages.markup\`.
-		 * @public
 		 * @returns {TokenStream} An array of strings and tokens, a token stream.
+		 * @public
 		 */
 		tokenize: function (text, grammar) {
 			var rest = grammar.rest;
@@ -802,8 +801,9 @@ var Prism = (function (_self) {
 		 * This is usually the key of a pattern in a {@link Grammar}.
 		 *
 		 * @type {string}
-		 * @see GrammarToken
 		 * @public
+		 *
+		 * @see GrammarToken
 		 */
 		this.type = type;
 		/**
@@ -819,8 +819,9 @@ var Prism = (function (_self) {
 		 * The alias(es) of the token.
 		 *
 		 * @type {string | string[]}
-		 * @see GrammarToken
 		 * @public
+		 *
+		 * @see GrammarToken
 		 */
 		this.alias = alias;
 		// Copy of the full string this token was created from
@@ -851,9 +852,8 @@ var Prism = (function (_self) {
 	 * @memberof Token
 	 * @param {string | Token | TokenStream} o The token or token stream to be converted.
 	 * @param {string} language The name of current language.
-	 * @static
-	 *
 	 * @returns {string} The HTML representation of the token or token stream.
+	 * @static
 	 */
 	Token.stringify = function stringify(o, language) {
 		if (typeof o == 'string') {
@@ -1281,19 +1281,17 @@ if (typeof global !== 'undefined') {
  *
  * @callback HighlightCallback
  * @param {Element} element The element successfully highlighted.
+ * @returns {void}
  * @global
  * @public
- *
- * @returns {void}
  */
 
 /**
  * @callback HookCallback
  * @param {Object<string, any>} env The environment variables of the hook.
+ * @returns {void}
  * @global
  * @public
- *
- * @returns {void}
  */
 "
 `;
