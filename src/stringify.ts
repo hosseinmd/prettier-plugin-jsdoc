@@ -3,14 +3,13 @@ import { format } from "prettier";
 import { formatDescription, descriptionEndLine } from "./descriptionFormatter";
 import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, SPACE_TAG_DATA } from "./tags";
 import { TAGS_VERTICALLY_ALIGN_ABLE } from "./roles";
-import { JsdocOptions, PrettierComment } from "./types";
+import { JsdocOptions } from "./types";
 
 const stringify = (
   { name, description, type, tag }: Tag,
   tagIndex: number,
   finalTagsArray: Tag[],
   options: JsdocOptions,
-  comment: PrettierComment,
   maxTagTitleLength: number,
   maxTagTypeNameLength: number,
   maxTagNameLength: number,
@@ -22,12 +21,7 @@ const stringify = (
   }
 
   const {
-    loc: {
-      start: { column },
-    },
-  } = comment;
-  const {
-    printWidth = 80,
+    printWidth,
     jsdocSpaces,
     jsdocVerticalAlignment,
     jsdocDescriptionTag,
@@ -69,16 +63,16 @@ const stringify = (
       // Avoid wrapping
       tagString += description;
     } else {
-      const resolveDescription = formatDescription(
-        tag,
-        description,
-        tagString,
-        column,
-        options,
-      );
-
-      tagString = `${tagString}${resolveDescription}`;
-      // tagString = tagString ? `\n${tagString}` : tagString;
+      const [, firstWord] = /^\s*(\S+)/.exec(description) || ["", ""];
+      if (tagString.length + firstWord.length > printWidth) {
+        // the tag is already longer than we are allowed to, so let's start at a new line
+        tagString += "\n  " + formatDescription(tag, description, options);
+      } else {
+        // append the description to the tag
+        tagString += formatDescription(tag, description, options, {
+          firstLinePrintWidth: printWidth - tagString.length,
+        });
+      }
     }
   }
 
@@ -93,7 +87,7 @@ const stringify = (
 
     try {
       let formattedExample = "";
-      const examplePrintWith = printWidth - column - 5;
+      const examplePrintWith = printWidth - "  ".length;
 
       description = description.replace(/\n[^\S\r\n]{2}/g, "\n"); // Remove two space from lines, maybe added previous format
 

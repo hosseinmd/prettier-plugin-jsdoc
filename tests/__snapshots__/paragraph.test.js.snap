@@ -58,9 +58,9 @@ exports[`code in description 1`] = `
  *     onResponderTerminate={this.touchableHandleResponderTerminate}
  *   >
  *     <View>
- *       Even though the hit detection/interactions are triggered by the wrapping
- *       (typically larger) node, we usually end up implementing custom logic that
- *       highlights this inner one.
+ *       Even though the hit detection/interactions are triggered by the
+ *       wrapping (typically larger) node, we usually end up implementing custom
+ *       logic that highlights this inner one.
  *     </View>
  *   </View>
  * );
@@ -265,15 +265,15 @@ exports[`description new line with dash 3`] = `
  * The test case file can either consist of two parts:
  *
  *     {source code}
- *     ----------------------------------------
+ *     -------------------------------------
  * {expected token stream}
  *
  * or of three parts:
  *
  *     {source code}
- *     ----------------------------------------
+ *     -------------------------------------
  * {expected token stream}
- *     ----------------------------------------
+ *     -------------------------------------
  * {text comment explaining the test case}
  *
  * If the file contains more than three parts, the remaining parts are just
