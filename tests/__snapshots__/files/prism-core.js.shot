@@ -740,7 +740,6 @@ var Prism = (function (_self) {
 		 *
 		 * @type {string}
 		 * @public
-		 *
 		 * @see GrammarToken
 		 */
 		this.type = type;
@@ -758,7 +757,6 @@ var Prism = (function (_self) {
 		 *
 		 * @type {string | string[]}
 		 * @public
-		 *
 		 * @see GrammarToken
 		 */
 		this.alias = alias;
@@ -866,7 +864,6 @@ var Prism = (function (_self) {
 
 	/**
 	 * @private
-	 *
 	 * @param {string} text
 	 * @param {LinkedList<string | Token>} tokenList
 	 * @param {any} grammar
@@ -1027,7 +1024,6 @@ var Prism = (function (_self) {
 
 	/**
 	 * @private
-	 *
 	 * @template T
 	 * @typedef LinkedListNode
 	 * @property {T} value
@@ -1037,7 +1033,6 @@ var Prism = (function (_self) {
 
 	/**
 	 * @private
-	 *
 	 * @template T
 	 */
 	function LinkedList() {

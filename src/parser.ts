@@ -18,7 +18,6 @@ import {
 } from "./roles";
 import { AST, JsdocOptions, PrettierComment } from "./types";
 import { stringify } from "./stringify";
-import { convertCommentDescToDescTag } from "./descriptionFormatter";
 import { Parser } from "prettier";
 import { SPACE_TAG_DATA } from "./tags";
 
@@ -82,6 +81,7 @@ export const getParser = (parser: Parser["parse"]) =>
 
       comment.value = "";
 
+      normalizeTags(parsed);
       convertCommentDescToDescTag(parsed);
 
       const commentContentPrintWidth =
@@ -90,7 +90,7 @@ export const getParser = (parser: Parser["parse"]) =>
         " * ".length;
 
       let maxTagTitleLength = 0;
-      let maxTagTypeNameLength = 0;
+      let maxTagTypeLength = 0;
       let maxTagNameLength = 0;
 
       parsed.tags
@@ -106,34 +106,9 @@ export const getParser = (parser: Parser["parse"]) =>
             default: _default,
             ...restInfo
           }) => {
-            /** When space between tag and type missed */
-            const tagSticksToType = tag.indexOf("{");
-            if (tagSticksToType !== -1 && tag[tag.length - 1] === "}") {
-              type = tag.slice(tagSticksToType + 1, -1);
-              tag = tag.slice(0, tagSticksToType);
-            }
-
-            if (TAGS_ORDER.includes(tag) && !TAGS_IS_CAMEL_CASE.includes(tag)) {
-              tag = tag && tag.trim().toLowerCase();
-            }
-
-            if (tag in TAGS_SYNONYMS) {
-              tag = TAGS_SYNONYMS[tag as keyof typeof TAGS_SYNONYMS];
-            }
-
             const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
               tag,
             );
-
-            if (TAGS_NAMELESS.includes(tag) && name) {
-              description = `${name} ${description}`;
-              name = "";
-            }
-
-            if (TAGS_TYPELESS.includes(tag) && type) {
-              description = `{${type}} ${description}`;
-              type = "";
-            }
 
             if (type) {
               /**
@@ -151,22 +126,16 @@ export const getParser = (parser: Parser["parse"]) =>
                 printWidth: commentContentPrintWidth,
               });
 
-              if (isVerticallyAlignAbleTags)
-                maxTagTypeNameLength = Math.max(
-                  maxTagTypeNameLength,
-                  type.length,
-                );
-
               // Additional operations on name
               if (name) {
                 // Optional tag name
                 if (optional) {
                   // Figure out if tag type have default value
-                  _default = _default?.trim();
                   if (_default) {
-                    description = description
-                      .trim()
-                      .replace(/[ \t]*Default is `.*`\.?$/, "");
+                    description = description.replace(
+                      /[ \t]*Default is `.*`\.?$/,
+                      "",
+                    );
                     if (description && !/[.\n]$/.test(description)) {
                       description += ".";
                     }
@@ -176,17 +145,15 @@ export const getParser = (parser: Parser["parse"]) =>
                     name = `[${name}]`;
                   }
                 }
-
-                if (isVerticallyAlignAbleTags)
-                  maxTagNameLength = Math.max(maxTagNameLength, name.length);
               }
             }
 
             if (isVerticallyAlignAbleTags) {
               maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
+              maxTagTypeLength = Math.max(maxTagTypeLength, type.length);
+              maxTagNameLength = Math.max(maxTagNameLength, name.length);
             }
 
-            description = description || "";
             description = description.trim();
 
             return {
@@ -241,7 +208,7 @@ export const getParser = (parser: Parser["parse"]) =>
             finalTagsArray,
             { ...options, printWidth: commentContentPrintWidth },
             maxTagTitleLength,
-            maxTagTypeNameLength,
+            maxTagTypeLength,
             maxTagNameLength,
           );
         });
@@ -290,4 +257,93 @@ function getIndentationWidth(
   }
 
   return spaces + tabs * options.tabWidth;
+}
+
+/**
+ * This will adjust the casing of tag titles, resolve synonyms, fix
+ * incorrectly parsed tags, correct incorrectly assigned names and types, and
+ * trim spaces.
+ *
+ * @param parsed
+ */
+function normalizeTags(parsed: commentParser.Comment): void {
+  parsed.tags.forEach((t) => {
+    t.tag = t.tag || "";
+    t.type = t.type || "";
+    t.name = t.name || "";
+    t.description = t.description || "";
+    t.default = t.default?.trim();
+
+    /** When the space between tag and type is missing */
+    const tagSticksToType = t.tag.indexOf("{");
+    if (tagSticksToType !== -1 && t.tag[t.tag.length - 1] === "}") {
+      t.type = t.tag.slice(tagSticksToType + 1, -1) + " " + t.type;
+      t.tag = t.tag.slice(0, tagSticksToType);
+    }
+
+    t.tag = t.tag.trim();
+    const lower = t.tag.toLowerCase();
+    if (
+      !TAGS_IS_CAMEL_CASE.includes(t.tag) &&
+      (TAGS_ORDER.includes(lower) || lower in TAGS_SYNONYMS)
+    ) {
+      t.tag = lower;
+    }
+
+    // resolve synonyms
+    if (t.tag in TAGS_SYNONYMS) {
+      t.tag = TAGS_SYNONYMS[t.tag as keyof typeof TAGS_SYNONYMS];
+    }
+
+    t.type = t.type.trim();
+    t.name = t.name.trim();
+
+    if (t.name && TAGS_NAMELESS.includes(t.tag)) {
+      t.description = `${t.name} ${t.description}`;
+      t.name = "";
+    }
+    if (t.type && TAGS_TYPELESS.includes(t.tag)) {
+      t.description = `{${t.type}} ${t.description}`;
+      t.type = "";
+    }
+
+    t.description = t.description.trim();
+  });
+}
+
+/**
+ * This will merge the comment description and all `@description` tags into one
+ * `@description` tag.
+ *
+ * @param parsed
+ */
+function convertCommentDescToDescTag(parsed: commentParser.Comment): void {
+  let description = parsed.description || "";
+  parsed.description = "";
+
+  parsed.tags = parsed.tags.filter((t) => {
+    if (t.tag.toLowerCase() === DESCRIPTION) {
+      // get description from source as some words may be parsed as the type
+      // or name
+      const desc = t.source.replace(/^@\w+/, "").trim();
+      if (desc) {
+        description += "\n\n" + desc;
+      }
+      return false;
+    } else {
+      return true;
+    }
+  });
+
+  if (description) {
+    parsed.tags.unshift({
+      tag: DESCRIPTION,
+      description,
+      name: undefined as any,
+      type: undefined as any,
+      source: "<Unknown>",
+      line: NaN,
+      optional: false,
+    });
+  }
 }
