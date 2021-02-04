@@ -195,8 +195,11 @@ export const getParser = (parser: Parser["parse"]) =>
         )
 
         // Group tags
-        .reduce<commentParser.Tag[][]>((tagGroups, cur) => {
-          if (tagGroups.length === 0 || TAGS_GROUP.includes(cur.tag)) {
+        .reduce<commentParser.Tag[][]>((tagGroups, cur, index, array) => {
+          if (
+            (tagGroups.length === 0 || TAGS_GROUP.includes(cur.tag)) &&
+            array[index - 1]?.tag !== DESCRIPTION
+          ) {
             tagGroups.push([]);
           }
           tagGroups[tagGroups.length - 1].push(cur);
