@@ -145,9 +145,46 @@ function capitalizer(str: string): string {
   return str[0].toUpperCase() + str.slice(1);
 }
 
+/**
+ * Detects the line ends of the given text.
+ *
+ * If multiple line ends are used, the most common one will be returned.
+ *
+ * If the given text is a single line, "lf" will be returned.
+ *
+ * @param text
+ */
+function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
+  const counter = {
+    "\r": 0,
+    "\r\n": 0,
+    "\n": 0,
+  };
+
+  const lineEndPattern = /\r\n?|\n/g;
+  let m;
+  while ((m = lineEndPattern.exec(text))) {
+    counter[m[0] as keyof typeof counter]++;
+  }
+
+  const cr = counter["\r"];
+  const crlf = counter["\r\n"];
+  const lf = counter["\n"];
+  const max = Math.max(cr, crlf, lf);
+
+  if (lf === max) {
+    return "lf";
+  } else if (crlf === max) {
+    return "crlf";
+  } else {
+    return "cr";
+  }
+}
+
 export {
   convertToModernType,
   formatType,
   addStarsToTheBeginningOfTheLines,
   capitalizer,
+  detectEndOfLine,
 };

@@ -442,3 +442,36 @@ test("Format rest parameters properly", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("Line ends", () => {
+  const text = `
+  /**
+   * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+   * @param {Object} paramName param description that goes on and on and on until it will need to be wrapped
+   *
+   */
+  function a(){}`;
+  const formatted = `/**
+ * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+ * tempor incididunt ut labore et dolore magna aliqua.
+ *
+ * @param {Object} paramName Param description that goes on and on and on
+ *   until it will need to be wrapped
+ */
+function a() {}
+`;
+
+  const text_crlf = text.replace(/\n/g, "\r\n");
+  const text_lf = text;
+  const formatted_crlf = formatted.replace(/\n/g, "\r\n");
+  const formatted_lf = formatted;
+
+  expect(subject(text_lf, { endOfLine: "crlf" })).toEqual(formatted_crlf);
+  expect(subject(text_lf, { endOfLine: "lf" })).toEqual(formatted_lf);
+
+  expect(subject(text_crlf, { endOfLine: "crlf" })).toEqual(formatted_crlf);
+  expect(subject(text_crlf, { endOfLine: "lf" })).toEqual(formatted_lf);
+
+  expect(subject(text_lf, { endOfLine: "auto" })).toEqual(formatted_lf);
+  expect(subject(text_crlf, { endOfLine: "auto" })).toEqual(formatted_crlf);
+});

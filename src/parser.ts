@@ -3,6 +3,7 @@ import {
   addStarsToTheBeginningOfTheLines,
   convertToModernType,
   formatType,
+  detectEndOfLine,
 } from "./utils";
 import { DESCRIPTION } from "./tags";
 import {
@@ -34,6 +35,10 @@ export const getParser = (parser: Parser["parse"]) =>
       return ast;
     }
 
+    const eol =
+      options.endOfLine === "auto" ? detectEndOfLine(text) : options.endOfLine;
+    options = { ...options, endOfLine: "lf" };
+
     /**
      * Control order of tags by weights. Smaller value brings tag higher.
      *
@@ -55,7 +60,10 @@ export const getParser = (parser: Parser["parse"]) =>
       /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
       comment.value = comment.value.replace(/^([*]+)/g, "*");
 
-      const commentString = `/*${comment.value}*/`;
+      // Create the full comment string with line ends normalized to \n
+      // This means that all following code can assume \n and should only use
+      // \n.
+      const commentString = `/*${comment.value.replace(/\r\n?/g, "\n")}*/`;
 
       /**
        * Check if this comment block is a JSDoc. Based on:
@@ -152,7 +160,7 @@ export const getParser = (parser: Parser["parse"]) =>
                     description = description
                       .trim()
                       .replace(/[ \t]*Default is `.*`\.?$/, "");
-                    if (description && !/[.\r\n]$/.test(description)) {
+                    if (description && !/[.\n]$/.test(description)) {
                       description += ".";
                     }
                     description += ` Default is \`${_default}\``;
@@ -228,6 +236,12 @@ export const getParser = (parser: Parser["parse"]) =>
       comment.value = comment.value.trimEnd();
       if (comment.value) {
         comment.value = addStarsToTheBeginningOfTheLines(comment.value);
+      }
+
+      if (eol === "cr") {
+        comment.value = comment.value.replace(/\n/g, "\r");
+      } else if (eol === "crlf") {
+        comment.value = comment.value.replace(/\n/g, "\r\n");
       }
     });
 
