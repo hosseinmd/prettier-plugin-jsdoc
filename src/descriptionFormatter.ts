@@ -203,14 +203,14 @@ function formatDescription(
 
   text = text.replace(/^_+/g, "");
 
-  return text || "";
+  return text;
 }
 
 function breakDescriptionToLines(
   desContent: string,
   maxWidth: number,
   beginningSpace: string,
-) {
+): string {
   let str = desContent.trim();
 
   if (!str) {
@@ -241,30 +241,12 @@ function breakDescriptionToLines(
   return result;
 }
 
-function convertCommentDescToDescTag(parsed: Comment): void {
-  if (!parsed.description) {
-    return;
-  }
-
-  const Tag = parsed.tags.find(({ tag }) => tag.toLowerCase() === DESCRIPTION);
-  let { description = "" } = Tag || {};
-
-  description += parsed.description;
-
-  if (Tag) {
-    Tag.description = description;
-  } else {
-    parsed.tags.unshift({ tag: DESCRIPTION, description } as any);
-  }
-}
-
 export {
   EMPTY_LINE_SIGNATURE,
   NEW_LINE_START_WITH_DASH,
   NEW_PARAGRAPH_START_WITH_DASH,
   NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
   descriptionEndLine,
-  convertCommentDescToDescTag,
   FormatOptions,
   formatDescription,
 };

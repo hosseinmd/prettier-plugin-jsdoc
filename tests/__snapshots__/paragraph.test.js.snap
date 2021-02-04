@@ -248,7 +248,6 @@ exports[`description new line with dash 2`] = `
  *   able to share this cache between any \`ScrollMap\` view.
  *
  * @private
- *
  * @sideeffects
  */
 "
