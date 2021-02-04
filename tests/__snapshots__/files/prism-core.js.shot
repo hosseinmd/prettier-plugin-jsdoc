@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`prism-core file 1`] = `
+exports[`File: prism-core.js Options: {"arrowParens":"avoid","printWidth":120,"quoteProps":"preserve","semi":true,"singleQuote":true,"tabWidth":4,"trailingComma":"none","useTabs":true,"jsdocKeepUnParseAbleExampleIndent":true} 1`] = `
 "/// <reference lib=\\"WebWorker\\"/>
 
 var _self =
@@ -306,9 +306,9 @@ var Prism = (function (_self) {
 			 * ## Usage
 			 *
 			 * This helper method makes it easy to modify existing languages. For example, the CSS language definition not only
-			 * defines CSS highlighting for CSS documents, but also needs to define highlighting for CSS embedded in HTML
-			 * through \`<style>\` elements. To do this, it needs to modify \`Prism.languages.markup\` and add the appropriate
-			 * tokens. However, \`Prism.languages.markup\` is a regular JavaScript object literal, so if you do this:
+			 * defines CSS highlighting for CSS documents, but also needs to define highlighting for CSS embedded in HTML through
+			 * \`<style>\` elements. To do this, it needs to modify \`Prism.languages.markup\` and add the appropriate tokens.
+			 * However, \`Prism.languages.markup\` is a regular JavaScript object literal, so if you do this:
 			 *
 			 * \`\`\`js
 			 * Prism.languages.markup.style = {
@@ -368,8 +368,7 @@ var Prism = (function (_self) {
 			 *   to be modified.
 			 * @param {string} before The key to insert before.
 			 * @param {Grammar} insert An object containing the key-value pairs to be inserted.
-			 * @param {Object<string, any>} [root] The object containing \`inside\`, i.e. the object that contains the object to
-			 *   be modified.
+			 * @param {Object<string, any>} [root] The object containing \`inside\`, i.e. the object that contains the object to be modified.
 			 *
 			 * Defaults to \`Prism.languages\`.
 			 * @returns {Grammar} The new grammar object.
@@ -439,8 +438,8 @@ var Prism = (function (_self) {
 		plugins: {},
 
 		/**
-		 * This is the most high-level function in Prism’s API. It fetches all the elements that have a \`.language-xxxx\`
-		 * class and then calls {@link Prism.highlightElement} on each one of them.
+		 * This is the most high-level function in Prism’s API. It fetches all the elements that have a \`.language-xxxx\` class
+		 * and then calls {@link Prism.highlightElement} on each one of them.
 		 *
 		 * This is equivalent to \`Prism.highlightAllUnder(document, async, callback)\`.
 		 *
@@ -464,8 +463,7 @@ var Prism = (function (_self) {
 		 *
 		 * @memberof Prism
 		 * @param {ParentNode} container The root element, whose descendants that have a \`.language-xxxx\` class will be highlighted.
-		 * @param {boolean} [async=false] Whether each element is to be highlighted asynchronously using Web Workers. Default
-		 *   is \`false\`
+		 * @param {boolean} [async=false] Whether each element is to be highlighted asynchronously using Web Workers. Default is \`false\`
 		 * @param {HighlightCallback} [callback] An optional callback to be invoked on each element after its highlighting is done.
 		 * @public
 		 */
@@ -505,9 +503,9 @@ var Prism = (function (_self) {
 		 * @memberof Prism
 		 * @param {Element} element The element containing the code. It must have a class of \`language-xxxx\` to be processed,
 		 *   where \`xxxx\` is a valid language identifier.
-		 * @param {boolean} [async=false] Whether the element is to be highlighted asynchronously using Web Workers to
-		 *   improve performance and avoid blocking the UI when highlighting very large chunks of code. This option is
-		 *   [disabled by default](https://prismjs.com/faq.html#why-is-asynchronous-highlighting-disabled-by-default).
+		 * @param {boolean} [async=false] Whether the element is to be highlighted asynchronously using Web Workers to improve
+		 *   performance and avoid blocking the UI when highlighting very large chunks of code. This option is [disabled by
+		 *   default](https://prismjs.com/faq.html#why-is-asynchronous-highlighting-disabled-by-default).
 		 *
 		 * Note: All language definitions required to highlight the code must be included in the main \`prism.js\` file for
 		 *   asynchronous highlighting to work. You can build your own bundle on the [Download
@@ -1028,7 +1026,6 @@ var Prism = (function (_self) {
 	 * @private
 	 *
 	 * @template T
-	 *
 	 * @typedef LinkedListNode
 	 * @property {T} value
 	 * @property {LinkedListNode<T> | null} prev The previous node.

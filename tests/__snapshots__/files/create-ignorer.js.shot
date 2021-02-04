@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`prettier files create-ignorer.js 1`] = `
+exports[`File: create-ignorer.js Options: {} 1`] = `
 "\\"use strict\\";
 
 const path = require(\\"path\\");

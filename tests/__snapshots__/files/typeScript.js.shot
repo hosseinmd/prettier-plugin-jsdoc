@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`js file 1`] = `
+exports[`File: typeScript.js Options: {} 1`] = `
 "/**
  * @typedef {{
  *   userId: string;
@@ -105,28 +105,8 @@ class test {
 "
 `;
 
-exports[`order file 1`] = `
+exports[`File: typeScript.js Options: {} 2`] = `
 "/**
- * @callback ClassMapper
- * @param {string} className
- * @param {string} language
- * @returns {string}
- *
- * @callback ClassAdder
- * @param {ClassAdderEnvironment} env
- * @returns {undefined | string | string[]}
- *
- * @typedef ClassAdderEnvironment
- * @property {string} language
- * @property {string} type
- * @property {string} content
- */
-"
-`;
-
-exports[`ts file 1`] = `
-"//@ts-nocheck
-/**
  * @typedef {{
  *   userId: string;
  *   title: string;
@@ -146,11 +126,7 @@ exports[`ts file 1`] = `
  *   phoneNumber: string;
  * }} User
  */
-export let User: SSuppersassdssasdssadssasdsad<FetchCallbackResponseArray<
-  FetchCallbackResponseArray,
-  AAGUID,
-  AddEventListenerOptions
->>;
+export let User;
 
 /**
  * @typedef {{
@@ -203,7 +179,7 @@ class test {
    *   this string.
    * @returns {StarkStringType & NativeString}
    */
-  replace(searchValue: any, replaceValue: any) {
+  replace(searchValue, replaceValue) {
     class test {
       /**
        * Replaces text in a string, using a regular expression or search string.
@@ -227,28 +203,9 @@ class test {
     }
 
     this._value = this._value.replace(searchValue, replaceValue);
-    return test;
+    return this;
   }
 }
-export interface FetchCallbackResponseArray<T, V> {
-  resource: Resource<T>;
-  /**
-   * @deprecated Resolve clear with condition in your fetch api this function
-   *   will be remove
-   */
-  refetch: (...arg: V[]) => void;
-  /**
-   * @deprecated Resolve clear with condition in your fetch api this function
-   *   will be remove
-   */
-  clear: () => void;
-}
 /** @typedef {import(\\"Foo\\")} Foo */
-"
-`;
-
-exports[`types file 1`] = `
-"/** @type {((element: HTMLElement) => boolean)[]} */
-var filters = [];
 "
 `;
