@@ -1,7 +1,5 @@
 import { format } from "prettier";
-import { TAGS_NEED_FORMAT_DESCRIPTION } from "./roles";
 import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
-import { Comment } from "comment-parser";
 import { JsdocOptions } from "./types";
 import { capitalizer } from "./utils";
 
@@ -39,6 +37,7 @@ function descriptionEndLine({
 
 interface FormatOptions {
   firstLinePrintWidth?: number;
+  extraIndentation?: boolean;
 }
 
 /**
@@ -48,19 +47,17 @@ interface FormatOptions {
  * @private
  */
 function formatDescription(
-  tag: string,
   text: string,
   options: JsdocOptions,
   formatOptions: FormatOptions = {},
 ): string {
-  if (!TAGS_NEED_FORMAT_DESCRIPTION.includes(tag)) {
-    return text;
-  }
-
   if (!text) return text;
 
   const { printWidth } = options;
-  const { firstLinePrintWidth = printWidth } = formatOptions;
+  const {
+    firstLinePrintWidth = printWidth,
+    extraIndentation = false,
+  } = formatOptions;
 
   /**
    * Description
@@ -118,10 +115,11 @@ function formatDescription(
 
   text = capitalizer(text);
 
-  text = `${"_".repeat(Math.max(0, printWidth - firstLinePrintWidth))}${text}`;
+  text =
+    "Z".repeat(Math.max(0, printWidth - firstLinePrintWidth - 1)) + " " + text;
 
   // Wrap tag description
-  const beginningSpace = tag === DESCRIPTION ? "" : "  "; // google style guide space
+  const beginningSpace = extraIndentation ? " ".repeat(2) : ""; // google style guide space
 
   text = text
     .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)
@@ -201,7 +199,7 @@ function formatDescription(
     }, "");
   }
 
-  text = text.replace(/^_+/g, "");
+  text = text.replace(/^Z+\b\s*/g, "");
 
   return text;
 }

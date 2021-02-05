@@ -1,9 +1,10 @@
 import commentParser from "comment-parser";
 import {
-  addStarsToTheBeginningOfTheLines,
   convertToModernType,
   formatType,
   detectEndOfLine,
+  countLines,
+  prefixLinesWith,
 } from "./utils";
 import { DESCRIPTION } from "./tags";
 import {
@@ -14,12 +15,10 @@ import {
   TAGS_ORDER,
   TAGS_SYNONYMS,
   TAGS_TYPELESS,
-  TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
 import { AST, JsdocOptions, PrettierComment } from "./types";
-import { stringify } from "./stringify";
+import { stringifyCommentContent } from "./stringify";
 import { Parser } from "prettier";
-import { SPACE_TAG_DATA } from "./tags";
 
 /** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
 export const getParser = (parser: Parser["parse"]) =>
@@ -79,8 +78,6 @@ export const getParser = (parser: Parser["parse"]) =>
         return;
       }
 
-      comment.value = "";
-
       normalizeTags(parsed);
       convertCommentDescToDescTag(parsed);
 
@@ -88,12 +85,9 @@ export const getParser = (parser: Parser["parse"]) =>
         options.printWidth -
         getIndentationWidth(comment, text, options) -
         " * ".length;
+      const commentSingleLineMaxWidth = commentContentPrintWidth + " * ".length;
 
-      let maxTagTitleLength = 0;
-      let maxTagTypeLength = 0;
-      let maxTagNameLength = 0;
-
-      parsed.tags
+      const groups = parsed.tags
         // Prepare tags data
         .map(
           ({
@@ -106,10 +100,6 @@ export const getParser = (parser: Parser["parse"]) =>
             default: _default,
             ...restInfo
           }) => {
-            const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
-              tag,
-            );
-
             if (type) {
               /**
                * Convert optional to standard
@@ -148,12 +138,6 @@ export const getParser = (parser: Parser["parse"]) =>
               }
             }
 
-            if (isVerticallyAlignAbleTags) {
-              maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
-              maxTagTypeLength = Math.max(maxTagTypeLength, type.length);
-              maxTagNameLength = Math.max(maxTagNameLength, name.length);
-            }
-
             description = description.trim();
 
             return {
@@ -168,6 +152,12 @@ export const getParser = (parser: Parser["parse"]) =>
             } as commentParser.Tag;
           },
         )
+        .filter(({ description, tag }) => {
+          if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
+            return false;
+          }
+          return true;
+        })
 
         // Group tags
         .reduce<commentParser.Tag[][]>((tagGroups, cur, index, array) => {
@@ -181,41 +171,29 @@ export const getParser = (parser: Parser["parse"]) =>
 
           return tagGroups;
         }, [])
-        .flatMap((tagGroup, index, tags) => {
-          // sort tags within groups
+
+        // sort tags
+        .map((tagGroup) => {
           tagGroup.sort((a, b) => {
             return getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag);
           });
-
-          // add an empty line between groups
-          if (tags.length - 1 !== index) {
-            tagGroup.push(SPACE_TAG_DATA);
-          }
-
           return tagGroup;
-        })
-        .filter(({ description, tag }) => {
-          if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
-            return false;
-          }
-          return true;
-        })
-        // Create final jsDoc string
-        .forEach((tagData, tagIndex, finalTagsArray) => {
-          comment.value += stringify(
-            tagData,
-            tagIndex,
-            finalTagsArray,
-            { ...options, printWidth: commentContentPrintWidth },
-            maxTagTitleLength,
-            maxTagTypeLength,
-            maxTagNameLength,
-          );
         });
 
-      comment.value = comment.value.trimEnd();
-      if (comment.value) {
-        comment.value = addStarsToTheBeginningOfTheLines(comment.value);
+      const content = stringifyCommentContent(groups, {
+        ...options,
+        printWidth: commentContentPrintWidth,
+      });
+
+      if (!content) {
+        comment.value = "";
+      } else if (
+        countLines(content) === 1 &&
+        "/**  */".length + content.length <= commentSingleLineMaxWidth
+      ) {
+        comment.value = `* ${content} `;
+      } else {
+        comment.value = "*\n" + prefixLinesWith(content, " * ") + "\n ";
       }
 
       if (eol === "cr") {

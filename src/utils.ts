@@ -116,18 +116,6 @@ function formatType(type: string, options?: Options): string {
   }
 }
 
-function addStarsToTheBeginningOfTheLines(comment: string): string {
-  if (numberOfAStringInString(comment.trim(), "\n") === 0) {
-    return `* ${comment.trim()} `;
-  }
-
-  return `*${comment.replace(/(\n(?!$))/g, "\n * ")}\n `;
-}
-
-function numberOfAStringInString(string: string, search: string | RegExp) {
-  return (string.match(new RegExp(search, "g")) || []).length;
-}
-
 // capitalize if needed
 function capitalizer(str: string): string {
   if (!str) {
@@ -181,10 +169,105 @@ function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
   }
 }
 
+function trimEmptyLines(string: string): string {
+  return string.replace(/^[\r\n]+|[\r\n]+$/g, "");
+}
+function trimTrailingSpaces(string: string): string {
+  return string
+    .split(/\n/g)
+    .map((line) => line.trimEnd())
+    .join("\n");
+}
+function trimIndentation(string: string): string {
+  const lines = string.split(/\n/g);
+
+  const enum IndentationKind {
+    SPACES,
+    TABS,
+    UNKNOWN,
+  }
+
+  let kind = IndentationKind.UNKNOWN;
+  let min = Infinity;
+
+  const skipFirst = !/^[ \t]/.test(lines[0]);
+  for (let i = skipFirst ? 1 : 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line) {
+      const first = line[0];
+
+      if (first === " ") {
+        if (kind === IndentationKind.TABS) {
+          break;
+        } else {
+          kind = IndentationKind.SPACES;
+        }
+      } else if (first === "\t") {
+        if (kind === IndentationKind.SPACES) {
+          break;
+        } else {
+          kind = IndentationKind.TABS;
+        }
+      } else {
+        min = 0;
+        break;
+      }
+
+      let lineIndent = 1;
+      for (let j = 1; j < line.length; j++) {
+        if (line[j] === first) {
+          lineIndent++;
+        } else {
+          break;
+        }
+      }
+
+      min = Math.min(min, lineIndent);
+    }
+  }
+
+  if (min === 0 || min === Infinity) {
+    return lines.join("\n");
+  } else {
+    return lines
+      .map((line, i) => (i === 0 && skipFirst ? line : line.slice(min)))
+      .join("\n");
+  }
+}
+
+function countLines(string: string): number {
+  return string.split(/\n/g).length;
+}
+function getFirstLine(string: string): string {
+  const lines = string.split(/\n/g);
+  return lines[0];
+}
+function getLastLine(string: string): string {
+  const lines = string.split(/\n/g);
+  return lines[lines.length - 1];
+}
+
+function prefixLinesWith(
+  string: string,
+  prefix: string,
+  ignoreEmpty?: boolean,
+): string {
+  return string
+    .split(/\n/g)
+    .map((line) => (ignoreEmpty && line.length === 0 ? "" : prefix + line))
+    .join("\n");
+}
+
 export {
   convertToModernType,
   formatType,
-  addStarsToTheBeginningOfTheLines,
   capitalizer,
   detectEndOfLine,
+  trimEmptyLines,
+  trimTrailingSpaces,
+  trimIndentation,
+  countLines,
+  getFirstLine,
+  getLastLine,
+  prefixLinesWith,
 };

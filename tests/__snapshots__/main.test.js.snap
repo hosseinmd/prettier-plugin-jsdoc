@@ -19,7 +19,10 @@ exports[`Bad defined name 1`] = `
 "/** @type {import(\\"@jest/types/build/Config\\").InitialOptions} */
 /** @type {{ foo: string }} */
 
-/** @typedef {import(\\"@jest/types/build/Config\\").InitialOptions} name A description */
+/**
+ * @typedef {import(\\"@jest/types/build/Config\\").InitialOptions} name
+ *   A description
+ */
 "
 `;
 
@@ -100,7 +103,8 @@ exports[`Long description memory leak 1`] = `
  *   See {@link
  *   https://docs.microsoft.com/aspnet/core/signalr/configuration#configure-logging|the
  *   documentation for client logging configuration} for more details.
- * @returns The {@link @microsoft/signalr.HubConnectionBuilder} instance, for chaining.
+ * @returns
+ *   The {@link @microsoft/signalr.HubConnectionBuilder} instance, for chaining.
  */
 "
 `;
@@ -134,11 +138,15 @@ exports[`Should align vertically param|property|returns|yields|throws if option 
 
 exports[`Should align vertically param|property|returns|yields|throws if option set to true, and amount of spaces is different than default 2`] = `
 "/**
- * @property    {Object}            unalginedProp     Unaligned property descriptin
- * @param       {String}            unalginedParam    Unaligned param description
+ * @property    {Object}            unalginedProp
+ *   Unaligned property descriptin
+ * @param       {String}            unalginedParam
+ *   Unaligned param description
  * @yields      {Number}                              Yields description
- * @returns     {String}                              Unaligned returns description
- * @throws      {CustomExceptio}                      Unaligned throws description
+ * @returns     {String}
+ *   Unaligned returns description
+ * @throws      {CustomExceptio}
+ *   Unaligned throws description
  */
 "
 `;

@@ -1,25 +1,25 @@
 import { Tag } from "comment-parser";
-import { format } from "prettier";
-import { formatDescription, descriptionEndLine } from "./descriptionFormatter";
-import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, SPACE_TAG_DATA } from "./tags";
-import { TAGS_VERTICALLY_ALIGN_ABLE } from "./roles";
+import { format, Options } from "prettier";
+import { formatDescription } from "./descriptionFormatter";
+import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
+import {
+  TAGS_NEED_FORMAT_DESCRIPTION,
+  TAGS_VERTICALLY_ALIGN_ABLE,
+} from "./roles";
 import { JsdocOptions } from "./types";
+import {
+  getFirstLine,
+  getLastLine,
+  trimEmptyLines,
+  trimIndentation,
+  trimTrailingSpaces,
+  prefixLinesWith,
+} from "./utils";
 
-const stringify = (
-  { name, description, type, tag }: Tag,
-  tagIndex: number,
-  finalTagsArray: Tag[],
+function stringifyCommentContent(
+  groups: Tag[][],
   options: JsdocOptions,
-  maxTagTitleLength: number,
-  maxTagTypeNameLength: number,
-  maxTagNameLength: number,
-): string => {
-  let tagString = "\n";
-
-  if (tag === SPACE_TAG_DATA.tag) {
-    return tagString;
-  }
-
+): string {
   const {
     printWidth,
     jsdocSpaces,
@@ -27,103 +27,253 @@ const stringify = (
     jsdocDescriptionTag,
     jsdocKeepUnParseAbleExampleIndent,
   } = options;
-  const gap = " ".repeat(jsdocSpaces);
 
-  let tagTitleGapAdj = 0;
-  let tagTypeGapAdj = 0;
-  let tagNameGapAdj = 0;
-  let descGapAdj = 0;
+  const shouldAlign = (tag: string) =>
+    jsdocVerticalAlignment && TAGS_VERTICALLY_ALIGN_ABLE.includes(tag);
 
-  if (jsdocVerticalAlignment && TAGS_VERTICALLY_ALIGN_ABLE.includes(tag)) {
-    if (tag) tagTitleGapAdj += maxTagTitleLength - tag.length;
-    else if (maxTagTitleLength) descGapAdj += maxTagTitleLength + gap.length;
-
-    if (type) tagTypeGapAdj += maxTagTypeNameLength - type.length;
-    else if (maxTagTypeNameLength)
-      descGapAdj += maxTagTypeNameLength + gap.length;
-
-    if (name) tagNameGapAdj += maxTagNameLength - name.length;
-    else if (maxTagNameLength) descGapAdj = maxTagNameLength + gap.length;
+  interface TagStringifyResult {
+    value: string;
+    insertLineBefore?: boolean;
+    insertLineAfter?: boolean;
   }
+  function stringifyTag(t: Tag, alignment: AlignmentInfo): TagStringifyResult {
+    const { tag, description } = t;
 
-  const useTagTitle = tag !== DESCRIPTION || jsdocDescriptionTag;
-
-  if (useTagTitle) {
-    tagString += `@${tag}${" ".repeat(tagTitleGapAdj || 0)}`;
-  }
-  if (type) {
-    tagString += gap + `{${type}}` + " ".repeat(tagTypeGapAdj);
-  }
-  if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
-
-  // Add description (complicated because of text wrap)
-  if (description && tag !== EXAMPLE) {
-    if (useTagTitle) tagString += gap + " ".repeat(descGapAdj);
-    if ([MEMBEROF, SEE].includes(tag)) {
-      // Avoid wrapping
-      tagString += description;
+    if (tag === DESCRIPTION && !jsdocDescriptionTag) {
+      return stringifyCommentDescription(description);
+    } else if (tag === EXAMPLE) {
+      return stringifyExample(description);
     } else {
-      const [, firstWord] = /^\s*(\S+)/.exec(description) || ["", ""];
-      if (tagString.length + firstWord.length > printWidth) {
-        // the tag is already longer than we are allowed to, so let's start at a new line
-        tagString += "\n  " + formatDescription(tag, description, options);
-      } else {
-        // append the description to the tag
-        tagString += formatDescription(tag, description, options, {
-          firstLinePrintWidth: printWidth - tagString.length,
-        });
-      }
+      return stringifyOtherTag(t, alignment);
     }
   }
+  function stringifyCommentDescription(
+    description: string,
+  ): TagStringifyResult {
+    return {
+      value: formatDescription(description, options),
+      insertLineBefore: true,
+      insertLineAfter: true,
+    };
+  }
+  function stringifyExample(description: string): TagStringifyResult {
+    let tagString = "@example";
 
-  // Try to use prettier on @example tag description
-  if (tag === EXAMPLE) {
-    const exampleCaption = description.match(/<caption>([\s\S]*?)<\/caption>/i);
-
+    const captionRegex = /^\s*<caption>([\s\S]*?)<\/caption>/i;
+    const exampleCaption = captionRegex.exec(description);
     if (exampleCaption) {
-      description = description.replace(exampleCaption[0], "");
-      tagString = `${tagString} ${exampleCaption[0]}`;
+      description = description.slice(exampleCaption[0].length);
+      tagString += ` <caption>${exampleCaption[1].trim()}</caption>`;
     }
 
-    try {
-      let formattedExample = "";
-      const examplePrintWith = printWidth - "  ".length;
+    description = trimIndentation(trimTrailingSpaces(description));
 
-      description = description.replace(/\n[^\S\r\n]{2}/g, "\n"); // Remove two space from lines, maybe added previous format
+    const EXAMPLE_CODE_INDENT = " ".repeat(2);
 
-      // If example is a json
-      if (description.trim().startsWith("{")) {
-        formattedExample = format(description || "", {
-          ...options,
-          parser: "json",
-          printWidth: examplePrintWith,
-        });
+    const examplePrintWith = printWidth - EXAMPLE_CODE_INDENT.length;
+
+    let formattedExample: string | undefined;
+
+    // try JSON formatting
+    if (formattedExample === undefined && /^\s*\{/.test(description)) {
+      formattedExample = tryFormat(description, {
+        ...options,
+        parser: "json",
+        printWidth: examplePrintWith,
+      });
+    }
+
+    // try current language formatting
+    if (formattedExample === undefined) {
+      formattedExample = tryFormat(description, {
+        ...options,
+        printWidth: examplePrintWith,
+      });
+    }
+
+    // unformatted
+    if (formattedExample === undefined) {
+      if (jsdocKeepUnParseAbleExampleIndent) {
+        formattedExample = description;
       } else {
-        formattedExample = format(description || "", {
-          ...options,
-          printWidth: examplePrintWith,
-        });
+        formattedExample = description
+          .split(/\n/g)
+          .map((line) => line.trim())
+          .join("\n");
       }
-
-      tagString += formattedExample.replace(/(^|\n)/g, "\n  "); // Add tow space to start of lines
-      tagString = tagString.slice(0, tagString.length - 3);
-    } catch (err) {
-      tagString += "\n";
-      tagString += description
-        .split("\n")
-        .map((l) => `  ${jsdocKeepUnParseAbleExampleIndent ? l : l.trim()}`)
-        .join("\n");
     }
+
+    // some formatters add empty lines
+    formattedExample = trimEmptyLines(formattedExample);
+
+    // add indentation
+    formattedExample = prefixLinesWith(
+      formattedExample,
+      EXAMPLE_CODE_INDENT,
+      true,
+    );
+
+    tagString += "\n" + formattedExample;
+
+    return {
+      value: tagString,
+      insertLineAfter: true,
+    };
+  }
+  function stringifyOtherTag(
+    { tag, type, name, description }: Tag,
+    { maxTypeOffset, maxNameOffset, maxDescOffset }: AlignmentInfo,
+  ): TagStringifyResult {
+    let tagString = `@${tag}`;
+
+    const doAlign = shouldAlign(tag);
+    const withSpace = () => tagString.length + jsdocSpaces;
+    const getTypeOffset = () => (doAlign ? maxTypeOffset : withSpace());
+    const getNameOffset = () => (doAlign ? maxNameOffset : withSpace());
+    const getDescOffset = () => (doAlign ? maxDescOffset : withSpace());
+
+    const padLength = (length: number): void => {
+      tagString = tagString.padEnd(length, " ");
+    };
+
+    // add type
+    if (type) {
+      padLength(getTypeOffset());
+      tagString += `{${type}}`;
+    }
+
+    // add name
+    if (name) {
+      padLength(getNameOffset());
+      tagString += name;
+    }
+
+    // add description
+    if (description) {
+      if (!TAGS_NEED_FORMAT_DESCRIPTION.includes(tag)) {
+        padLength(getDescOffset());
+        tagString += description;
+      } else {
+        const extraIndentation = tag !== DESCRIPTION;
+        const extraIndentationStr = extraIndentation ? " ".repeat(2) : "";
+
+        const beforeDescWidth = doAlign
+          ? getDescOffset()
+          : getLastLine(tagString).length + jsdocSpaces;
+
+        if (beforeDescWidth >= printWidth) {
+          tagString +=
+            "\n" +
+            extraIndentationStr +
+            formatDescription(description, options, { extraIndentation });
+        } else {
+          const formatted = formatDescription(description, options, {
+            firstLinePrintWidth: printWidth - beforeDescWidth,
+            extraIndentation,
+          });
+
+          const firstLine = getFirstLine(formatted);
+          if (!firstLine) {
+            // empty first line
+            tagString += formatted;
+          } else if (beforeDescWidth + firstLine.length <= printWidth) {
+            // formatted description fits within print width
+            padLength(getDescOffset());
+            tagString += formatted;
+          } else {
+            // first line is too long
+            tagString += "\n" + extraIndentationStr + formatted;
+          }
+        }
+      }
+    }
+
+    return {
+      value: tagString,
+      insertLineAfter: tag === TODO,
+    };
   }
 
-  // Add empty line after some tags if there is something below
-  tagString += descriptionEndLine({
-    description: tagString,
-    tag,
-    isEndTag: tagIndex === finalTagsArray.length - 1,
+  let result = "";
+  let emptyLineAfter = false;
+  groups.forEach((tags) => {
+    const alignment = createAlignmentInfo(tags, options);
+    const stringifyResults = tags.map((tag) => stringifyTag(tag, alignment));
+
+    // empty lines between groups
+    stringifyResults[0].insertLineBefore = true;
+    stringifyResults[stringifyResults.length - 1].insertLineAfter = true;
+
+    for (const {
+      value,
+      insertLineBefore,
+      insertLineAfter,
+    } of stringifyResults) {
+      result += "\n";
+      if (insertLineBefore && !emptyLineAfter) {
+        result += "\n";
+      }
+      result += value;
+      if (insertLineAfter) {
+        result += "\n";
+        emptyLineAfter = true;
+      } else {
+        emptyLineAfter = false;
+      }
+    }
   });
 
-  return tagString;
-};
+  return trimEmptyLines(result);
+}
 
-export { stringify };
+function tryFormat(source: string, options?: Options): string | undefined {
+  try {
+    return format(source, options);
+  } catch (error) {
+    return undefined;
+  }
+}
+
+interface AlignmentInfo {
+  readonly maxTypeOffset: number;
+  readonly maxNameOffset: number;
+  readonly maxDescOffset: number;
+}
+const EMPTY_ALIGNMENT_INFO: AlignmentInfo = {
+  maxTypeOffset: 0,
+  maxNameOffset: 0,
+  maxDescOffset: 0,
+};
+function createAlignmentInfo(
+  tags: Tag[],
+  { jsdocVerticalAlignment, jsdocSpaces }: JsdocOptions,
+): AlignmentInfo {
+  if (!jsdocVerticalAlignment) {
+    return EMPTY_ALIGNMENT_INFO;
+  }
+
+  const shouldAlign = (tag: string) =>
+    jsdocVerticalAlignment && TAGS_VERTICALLY_ALIGN_ABLE.includes(tag);
+
+  tags = tags.filter(({ tag }) => shouldAlign(tag));
+
+  if (tags.length === 0) {
+    return EMPTY_ALIGNMENT_INFO;
+  }
+
+  const maxTag = Math.max(...tags.map((t) => (t.tag || "").length));
+  const maxType = Math.max(...tags.map((t) => (t.type || "").length));
+  const maxName = Math.max(...tags.map((t) => (t.name || "").length));
+
+  const typeOff = "@".length + maxTag + jsdocSpaces;
+  const nameOff = typeOff + (maxType ? maxType + "{}".length + jsdocSpaces : 0);
+  const descOff = nameOff + (maxName ? maxName + jsdocSpaces : 0);
+
+  return {
+    maxTypeOffset: typeOff,
+    maxNameOffset: nameOff,
+    maxDescOffset: descOff,
+  };
+}
+
+export { stringifyCommentContent };
