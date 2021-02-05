@@ -4,7 +4,7 @@ import parserFlow from "prettier/parser-flow";
 import parserTypescript from "prettier/parser-typescript";
 import prettier from "prettier";
 
-export const options = {
+const options = {
   jsdocParser: {
     type: "boolean",
     category: "jsdoc",
@@ -99,9 +99,4 @@ const parsers = {
   },
 };
 
-module.exports = {
-  languages,
-  options,
-  parsers,
-  defaultOptions,
-};
+export { languages, options, parsers, defaultOptions };
