@@ -258,6 +258,14 @@ function prefixLinesWith(
     .join("\n");
 }
 
+function tryFormat(source: string, options?: Options): string | undefined {
+  try {
+    return format(source, options);
+  } catch (error) {
+    return undefined;
+  }
+}
+
 export {
   convertToModernType,
   formatType,
@@ -270,4 +278,5 @@ export {
   getFirstLine,
   getLastLine,
   prefixLinesWith,
+  tryFormat,
 };
