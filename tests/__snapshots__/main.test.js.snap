@@ -330,6 +330,41 @@ exports[`Sould keep params ordering when more than 10 tags are present 1`] = `
 "
 `;
 
+exports[`param order 1`] = `
+"/**
+ * @param {string} param0 Description
+ * @param {object} param1 Description
+ * @param {number} param2 Description
+ */
+function fun(param0, param1, param2) {}
+
+export const SubDomain = {
+  /**
+   * @param subDomainAddress2
+   * @param {any} subDomainAddress
+   * @returns {import(\\"axios\\").AxiosResponse<import(\\"../types\\").SubDomain>}
+   */
+  async subDomain(subDomainAddress2, subDomainAddress) {},
+};
+
+/**
+ * @param {string} param0 Description
+ * @param {object} param1 Description
+ * @param {number} param2 Description
+ */
+function fun(param0: string, param1: {}, param2: () => {}) {}
+
+/**
+ * @param {string} param0 Description
+ * @param {number} param2 Description
+ * @param {object} param1 Description
+ */
+const fun = (param0, param1, param2) => {
+  console.log(\\"\\");
+};
+"
+`;
+
 exports[`since  1`] = `
 "/** @since 3.16.0 */
 "

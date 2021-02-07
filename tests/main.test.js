@@ -475,3 +475,44 @@ function a() {}
   expect(subject(text_lf, { endOfLine: "auto" })).toEqual(formatted_lf);
   expect(subject(text_crlf, { endOfLine: "auto" })).toEqual(formatted_crlf);
 });
+
+test("param order", () => {
+  const result = subject(`
+  /**
+* @param {  string   }    param0 description
+* @param {  number   }    param2 description
+* @param {  object   }    param1 description
+   */
+function fun(param0, param1, param2){}
+
+export const SubDomain = {
+/**
+ * @param {} subDomainAddress2
+ * @param {any} subDomainAddress
+* @returns {import('axios').AxiosResponse<import('../types').SubDomain>} 
+*/
+async subDomain(subDomainAddress2,subDomainAddress) {
+},
+};
+
+/**
+ * @param {  string   }    param0 description
+ * @param {  number   }    param2 description
+ * @param {  object   }    param1 description
+    */
+ function fun(param0:string, param1:{}, param2:()=>{}){}
+ 
+
+/**
+ * @param {  string   }    param0 description
+ * @param {  number   }    param2 description
+ * @param {  object   }    param1 description
+    */
+ const fun=(param0, param1, param2)=>{
+   console.log('')
+ }
+  
+`);
+
+  expect(result).toMatchSnapshot();
+});

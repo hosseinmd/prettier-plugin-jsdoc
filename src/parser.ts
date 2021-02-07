@@ -5,7 +5,7 @@ import {
   formatType,
   detectEndOfLine,
 } from "./utils";
-import { DESCRIPTION } from "./tags";
+import { DESCRIPTION, PARAM } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP,
@@ -54,6 +54,7 @@ export const getParser = (parser: Parser["parse"]) =>
 
     ast.comments.forEach((comment) => {
       if (!isBlockComment(comment)) return;
+      const tokenIndex = ast.tokens.findIndex(({ loc }) => loc === comment.loc);
 
       /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
       comment.value = comment.value.replace(/^([*]+)/g, "*");
@@ -95,37 +96,119 @@ export const getParser = (parser: Parser["parse"]) =>
 
       parsed.tags
         // Prepare tags data
+        .map(({ type, optional, ...rest }) => {
+          if (type) {
+            /**
+             * Convert optional to standard
+             * https://jsdoc.app/tags-type.html#:~:text=Optional%20parameter
+             */
+            type = type.replace(/[=]$/, () => {
+              optional = true;
+              return "";
+            });
+
+            type = convertToModernType(type);
+            type = formatType(type, {
+              ...options,
+              printWidth: commentContentPrintWidth,
+            });
+          }
+
+          return {
+            ...rest,
+            type,
+            optional,
+          } as commentParser.Tag;
+        })
+
+        // Group tags
+        .reduce<commentParser.Tag[][]>((tagGroups, cur, index, array) => {
+          if (
+            (tagGroups.length === 0 || TAGS_GROUP.includes(cur.tag)) &&
+            array[index - 1]?.tag !== DESCRIPTION
+          ) {
+            tagGroups.push([]);
+          }
+          tagGroups[tagGroups.length - 1].push(cur);
+
+          return tagGroups;
+        }, [])
+        .flatMap((tagGroup, index, tags) => {
+          let paramsOrder: string[] | undefined;
+          // next token
+          const nextTokenType = ast.tokens[tokenIndex + 1]?.type;
+          if (
+            typeof nextTokenType === "object" &&
+            nextTokenType.label === "function"
+          ) {
+            try {
+              let openedParenthesesCount = 1;
+              const endIndex = ast.tokens
+                .slice(tokenIndex + 4)
+                .findIndex(({ type }) => {
+                  if (typeof type === "string") {
+                    return false;
+                  } else if (type.label === "(") {
+                    openedParenthesesCount++;
+                  } else if (type.label === ")") {
+                    openedParenthesesCount--;
+                  }
+
+                  return openedParenthesesCount === 0;
+                });
+
+              const params = ast.tokens.slice(
+                tokenIndex + 4,
+                tokenIndex + 4 + endIndex + 1,
+              );
+
+              paramsOrder = params
+                .filter(
+                  ({ type }) =>
+                    typeof type === "object" && type.label === "name",
+                )
+                .map(({ value }) => value);
+            } catch {
+              //
+            }
+          }
+
+          // sort tags within groups
+          tagGroup.sort((a, b) => {
+            if (
+              paramsOrder &&
+              paramsOrder.length > 1 &&
+              a.tag === PARAM &&
+              b.tag === PARAM
+            ) {
+              //sort params
+              return paramsOrder.indexOf(a.name) - paramsOrder.indexOf(b.name);
+            }
+            return getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag);
+          });
+
+          // add an empty line between groups
+          if (tags.length - 1 !== index) {
+            tagGroup.push(SPACE_TAG_DATA);
+          }
+
+          return tagGroup;
+        })
         .map(
           ({
-            name,
-            description,
             type,
-            tag,
-            source,
+            name,
             optional,
             default: _default,
-            ...restInfo
+            description,
+            tag,
+            ...rest
           }) => {
             const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
               tag,
             );
 
             if (type) {
-              /**
-               * Convert optional to standard
-               * https://jsdoc.app/tags-type.html#:~:text=Optional%20parameter
-               */
-              type = type.replace(/[=]$/, () => {
-                optional = true;
-                return "";
-              });
-
-              type = convertToModernType(type);
-              type = formatType(type, {
-                ...options,
-                printWidth: commentContentPrintWidth,
-              });
-
               // Additional operations on name
               if (name) {
                 // Optional tag name
@@ -157,43 +240,16 @@ export const getParser = (parser: Parser["parse"]) =>
             description = description.trim();
 
             return {
-              ...restInfo,
-              name,
-              description,
               type,
-              tag,
-              source,
-              default: _default,
+              name,
               optional,
-            } as commentParser.Tag;
+              default: _default,
+              description,
+              tag,
+              ...rest,
+            };
           },
         )
-
-        // Group tags
-        .reduce<commentParser.Tag[][]>((tagGroups, cur, index, array) => {
-          if (
-            (tagGroups.length === 0 || TAGS_GROUP.includes(cur.tag)) &&
-            array[index - 1]?.tag !== DESCRIPTION
-          ) {
-            tagGroups.push([]);
-          }
-          tagGroups[tagGroups.length - 1].push(cur);
-
-          return tagGroups;
-        }, [])
-        .flatMap((tagGroup, index, tags) => {
-          // sort tags within groups
-          tagGroup.sort((a, b) => {
-            return getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag);
-          });
-
-          // add an empty line between groups
-          if (tags.length - 1 !== index) {
-            tagGroup.push(SPACE_TAG_DATA);
-          }
-
-          return tagGroup;
-        })
         .filter(({ description, tag }) => {
           if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
             return false;
