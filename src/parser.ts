@@ -457,7 +457,7 @@ function combineIntoName({
   return {
     ...rest,
     name: name,
-    optional: false,
-    default: undefined,
+    optional: optional,
+    default: default_,
   };
 }
