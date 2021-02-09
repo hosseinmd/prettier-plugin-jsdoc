@@ -1,4 +1,6 @@
 import { format, Options } from "prettier";
+import { Token } from "./types";
+import BSearch from "binary-search-bounds";
 
 function convertToModernType(oldType: string): string {
   return withoutStrings(oldType, (type) => {
@@ -181,10 +183,29 @@ function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
   }
 }
 
+/**
+ * Returns the index of a token within the given token array.
+ *
+ * This method uses binary search using the token location.
+ *
+ * @param tokens
+ * @param token
+ */
+function findTokenIndex(tokens: Token[], token: Token): number {
+  return BSearch.eq(tokens, token, (a, b) => {
+    if (a.loc.start.line === b.loc.start.line) {
+      return a.loc.start.column - b.loc.start.column;
+    } else {
+      return a.loc.start.line - b.loc.start.line;
+    }
+  });
+}
+
 export {
   convertToModernType,
   formatType,
   addStarsToTheBeginningOfTheLines,
   capitalizer,
   detectEndOfLine,
+  findTokenIndex,
 };
