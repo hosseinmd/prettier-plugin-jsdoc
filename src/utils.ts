@@ -1,4 +1,5 @@
 import { format, Options } from "prettier";
+import { Token } from "./types";
 
 function convertToModernType(oldType: string): string {
   return withoutStrings(oldType, (type) => {
@@ -181,10 +182,51 @@ function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
   }
 }
 
+function binaryIndexOf<T>(
+  array: readonly T[],
+  element: T,
+  compareFn: (a: T, b: T) => number,
+): number {
+  let m = 0;
+  let n = array.length - 1;
+  while (m <= n) {
+    // eslint-disable-next-line no-bitwise
+    const k = (n + m) >> 1;
+    const comp = compareFn(element, array[k]);
+    if (comp > 0) {
+      m = k + 1;
+    } else if (comp < 0) {
+      n = k - 1;
+    } else {
+      return k;
+    }
+  }
+  return -m - 1;
+}
+
+/**
+ * Returns the index of a token within the given token array.
+ *
+ * This method uses binary search using the token location.
+ *
+ * @param tokens
+ * @param token
+ */
+function findTokenIndex(tokens: Token[], token: Token): number {
+  return binaryIndexOf(tokens, token, (a, b) => {
+    if (a.loc.start.line === b.loc.start.line) {
+      return a.loc.start.column - b.loc.start.column;
+    } else {
+      return a.loc.start.line - b.loc.start.line;
+    }
+  });
+}
+
 export {
   convertToModernType,
   formatType,
   addStarsToTheBeginningOfTheLines,
   capitalizer,
   detectEndOfLine,
+  findTokenIndex,
 };

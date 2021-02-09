@@ -4,6 +4,7 @@ import {
   convertToModernType,
   formatType,
   detectEndOfLine,
+  findTokenIndex,
 } from "./utils";
 import { DESCRIPTION, PARAM } from "./tags";
 import {
@@ -54,7 +55,7 @@ export const getParser = (parser: Parser["parse"]) =>
 
     ast.comments.forEach((comment) => {
       if (!isBlockComment(comment)) return;
-      const tokenIndex = ast.tokens.findIndex(({ loc }) => loc === comment.loc);
+      const tokenIndex = findTokenIndex(ast.tokens, comment);
 
       /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
       comment.value = comment.value.replace(/^([*]+)/g, "*");
