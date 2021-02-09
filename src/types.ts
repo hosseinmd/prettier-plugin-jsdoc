@@ -20,6 +20,28 @@ export type PrettierComment = {
   loc: Location;
 };
 
+export type Token = {
+  type:
+    | "CommentBlock"
+    | "Block"
+    | {
+        label: string; // "function" | "name";
+        keyword?: string;
+        beforeExpr: boolean;
+        startsExpr: boolean;
+        rightAssociative: boolean;
+        isLoop: boolean;
+        isAssign: boolean;
+        prefix: boolean;
+        postfix: boolean;
+        binop: null;
+      };
+  value: string;
+  start: number;
+  end: number;
+  loc: Location;
+};
+
 export type AST = {
   start: number;
   end: number;
@@ -36,25 +58,5 @@ export type AST = {
     directives: [];
   };
   comments: PrettierComment[];
-  tokens: {
-    type:
-      | "CommentBlock"
-      | "Block"
-      | {
-          label: string; // "function" | "name";
-          keyword?: string;
-          beforeExpr: boolean;
-          startsExpr: boolean;
-          rightAssociative: boolean;
-          isLoop: boolean;
-          isAssign: boolean;
-          prefix: boolean;
-          postfix: boolean;
-          binop: null;
-        };
-    value: string;
-    start: number;
-    end: number;
-    loc: Location;
-  }[];
+  tokens: Token[];
 };

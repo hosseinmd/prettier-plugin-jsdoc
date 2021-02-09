@@ -356,10 +356,19 @@ function fun(param0: string, param1: {}, param2: () => {}) {}
 
 /**
  * @param {string} param0 Description
+ * @param {object} param1 Description
+ * @param {number} param2 Description
+ */
+const fun = (param0, param1, param2) => {
+  console.log(\\"\\");
+};
+
+/**
+ * @param {string} param0 Description
  * @param {number} param2 Description
  * @param {object} param1 Description
  */
-const fun = (param0, param1, param2) => {
+const fun = (param0: () => {}, param1: number, param2) => {
   console.log(\\"\\");
 };
 "

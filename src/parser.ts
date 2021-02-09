@@ -16,7 +16,7 @@ import {
   TAGS_TYPELESS,
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
-import { AST, JsdocOptions, PrettierComment } from "./types";
+import { AST, JsdocOptions, PrettierComment, Token } from "./types";
 import { stringify } from "./stringify";
 import { Parser } from "prettier";
 import { SPACE_TAG_DATA } from "./tags";
@@ -134,45 +134,7 @@ export const getParser = (parser: Parser["parse"]) =>
           return tagGroups;
         }, [])
         .flatMap((tagGroup, index, tags) => {
-          let paramsOrder: string[] | undefined;
-          // next token
-          const nextTokenType = ast.tokens[tokenIndex + 1]?.type;
-          if (
-            typeof nextTokenType === "object" &&
-            nextTokenType.label === "function"
-          ) {
-            try {
-              let openedParenthesesCount = 1;
-              const endIndex = ast.tokens
-                .slice(tokenIndex + 4)
-                .findIndex(({ type }) => {
-                  if (typeof type === "string") {
-                    return false;
-                  } else if (type.label === "(") {
-                    openedParenthesesCount++;
-                  } else if (type.label === ")") {
-                    openedParenthesesCount--;
-                  }
-
-                  return openedParenthesesCount === 0;
-                });
-
-              const params = ast.tokens.slice(
-                tokenIndex + 4,
-                tokenIndex + 4 + endIndex + 1,
-              );
-
-              paramsOrder = params
-                .filter(
-                  ({ type }) =>
-                    typeof type === "object" && type.label === "name",
-                )
-                .map(({ value }) => value);
-            } catch {
-              //
-            }
-          }
-
+          const paramsOrder = getParamsOrders(ast, tokenIndex);
           // sort tags within groups
           tagGroup.sort((a, b) => {
             if (
@@ -402,4 +364,79 @@ function convertCommentDescToDescTag(parsed: commentParser.Comment): void {
       optional: false,
     });
   }
+}
+
+/**
+ *  This is for find params of function name in code as strings of array
+ */
+function getParamsOrders(ast: AST, tokenIndex: number) {
+  let paramsOrder: string[] | undefined;
+  let params: Token[] | undefined;
+
+  try {
+    // next token
+    const nextTokenType = ast.tokens[tokenIndex + 1]?.type;
+    if (typeof nextTokenType !== "object") {
+      return undefined;
+    }
+    // Recognize function
+    if (nextTokenType.label === "function") {
+      let openedParenthesesCount = 1;
+      const tokensAfterComment = ast.tokens.slice(tokenIndex + 4);
+
+      const endIndex = tokensAfterComment.findIndex(({ type }) => {
+        if (typeof type === "string") {
+          return false;
+        } else if (type.label === "(") {
+          openedParenthesesCount++;
+        } else if (type.label === ")") {
+          openedParenthesesCount--;
+        }
+
+        return openedParenthesesCount === 0;
+      });
+
+      params = tokensAfterComment.slice(0, endIndex + 1);
+    }
+
+    // Recognize arrow function
+    if (nextTokenType.label === "const") {
+      let openedParenthesesCount = 1;
+      let tokensAfterComment = ast.tokens.slice(tokenIndex + 1);
+      const firstParenthesesIndex = tokensAfterComment.findIndex(
+        ({ type }) => typeof type === "object" && type.label === "(",
+      );
+
+      tokensAfterComment = tokensAfterComment.slice(firstParenthesesIndex + 1);
+
+      const endIndex = tokensAfterComment.findIndex(({ type }) => {
+        if (typeof type === "string") {
+          return false;
+        } else if (type.label === "(") {
+          openedParenthesesCount++;
+        } else if (type.label === ")") {
+          openedParenthesesCount--;
+        }
+
+        return openedParenthesesCount === 0;
+      });
+
+      const arrowItem: Token | undefined = tokensAfterComment[endIndex + 1];
+
+      if (
+        typeof arrowItem?.type === "object" &&
+        arrowItem.type.label === "=>"
+      ) {
+        params = tokensAfterComment.slice(0, endIndex + 1);
+      }
+    }
+
+    paramsOrder = params
+      ?.filter(({ type }) => typeof type === "object" && type.label === "name")
+      .map(({ value }) => value);
+  } catch {
+    //
+  }
+
+  return paramsOrder;
 }

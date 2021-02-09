@@ -511,6 +511,16 @@ async subDomain(subDomainAddress2,subDomainAddress) {
  const fun=(param0, param1, param2)=>{
    console.log('')
  }
+
+
+ /**
+ * @param {  string   }    param0 description
+ * @param {  number   }    param2 description
+ * @param {  object   }    param1 description
+    */
+ const fun=((param0: ()=>{}, param1:number, param2)=>{
+   console.log('')
+ })
   
 `);
 
