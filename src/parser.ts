@@ -162,10 +162,7 @@ export const getParser = (parser: Parser["parse"]) =>
 
       if (!content) {
         comment.value = "";
-      } else if (
-        countLines(content) === 1 &&
-        "/**  */".length + content.length <= commentSingleLineMaxWidth
-      ) {
+      } else if (countLines(content) === 1) {
         comment.value = `* ${content} `;
       } else {
         comment.value = "*\n" + prefixLinesWith(content, " * ") + "\n ";
