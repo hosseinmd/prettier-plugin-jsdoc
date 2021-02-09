@@ -40,9 +40,6 @@ export const getParser = (parser: Parser["parse"]) =>
 
     /**
      * Control order of tags by weights. Smaller value brings tag higher.
-     *
-     * @param {String} tagTitle TODO
-     * @returns {Number} Tag weight
      */
     function getTagOrderWeight(tag: string): number {
       if (tag === DESCRIPTION && !options.jsdocDescriptionTag) {
@@ -55,6 +52,7 @@ export const getParser = (parser: Parser["parse"]) =>
     ast.comments.forEach((comment) => {
       if (!isBlockComment(comment)) return;
       const tokenIndex = ast.tokens.findIndex(({ loc }) => loc === comment.loc);
+      const paramsOrder = getParamsOrders(ast, tokenIndex);
 
       /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
       comment.value = comment.value.replace(/^([*]+)/g, "*");
@@ -134,7 +132,6 @@ export const getParser = (parser: Parser["parse"]) =>
           return tagGroups;
         }, [])
         .flatMap((tagGroup, index, tags) => {
-          const paramsOrder = getParamsOrders(ast, tokenIndex);
           // sort tags within groups
           tagGroup.sort((a, b) => {
             if (
@@ -156,62 +153,27 @@ export const getParser = (parser: Parser["parse"]) =>
 
           return tagGroup;
         })
-        .map(
-          ({
+        .map(addDefaultValueToDescription)
+        .map(combineIntoName)
+        .map(({ type, name, description, tag, ...rest }) => {
+          const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
+            tag,
+          );
+
+          if (isVerticallyAlignAbleTags) {
+            maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
+            maxTagTypeLength = Math.max(maxTagTypeLength, type.length);
+            maxTagNameLength = Math.max(maxTagNameLength, name.length);
+          }
+
+          return {
             type,
             name,
-            optional,
-            default: _default,
-            description,
+            description: description.trim(),
             tag,
-            ...rest
-          }) => {
-            const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
-              tag,
-            );
-
-            if (type) {
-              // Additional operations on name
-              if (name) {
-                // Optional tag name
-                if (optional) {
-                  // Figure out if tag type have default value
-                  if (_default) {
-                    description = description.replace(
-                      /[ \t]*Default is `.*`\.?$/,
-                      "",
-                    );
-                    if (description && !/[.\n]$/.test(description)) {
-                      description += ".";
-                    }
-                    description += ` Default is \`${_default}\``;
-                    name = `[${name}=${_default}]`;
-                  } else {
-                    name = `[${name}]`;
-                  }
-                }
-              }
-            }
-
-            if (isVerticallyAlignAbleTags) {
-              maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
-              maxTagTypeLength = Math.max(maxTagTypeLength, type.length);
-              maxTagNameLength = Math.max(maxTagNameLength, name.length);
-            }
-
-            description = description.trim();
-
-            return {
-              type,
-              name,
-              optional,
-              default: _default,
-              description,
-              tag,
-              ...rest,
-            };
-          },
-        )
+            ...rest,
+          };
+        })
         .filter(({ description, tag }) => {
           if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
             return false;
@@ -367,9 +329,9 @@ function convertCommentDescToDescTag(parsed: commentParser.Comment): void {
 }
 
 /**
- *  This is for find params of function name in code as strings of array
+ * This is for find params of function name in code as strings of array
  */
-function getParamsOrders(ast: AST, tokenIndex: number) {
+function getParamsOrders(ast: AST, tokenIndex: number): string[] | undefined {
   let paramsOrder: string[] | undefined;
   let params: Token[] | undefined;
 
@@ -439,4 +401,63 @@ function getParamsOrders(ast: AST, tokenIndex: number) {
   }
 
   return paramsOrder;
+}
+
+/**
+ * If the given tag has a default value, then this will add a note to the
+ * description with that default value. This is done because TypeScript does
+ * not display the documented JSDoc default value (e.g. `@param [name="John"]`).
+ *
+ * If the description already contains such a note, it will be updated.
+ */
+function addDefaultValueToDescription(
+  tag: commentParser.Tag,
+): commentParser.Tag {
+  if (tag.optional && tag.default) {
+    let { description } = tag;
+
+    // remove old note
+    description = description.replace(/[ \t]*Default is `.*`\.?$/, "");
+
+    // add a `.` at the end of previous sentences
+    if (description && !/[.\n]$/.test(description)) {
+      description += ".";
+    }
+
+    description += ` Default is \`${tag.default}\``;
+
+    return {
+      ...tag,
+      description: description.trim(),
+    };
+  } else {
+    return tag;
+  }
+}
+
+/**
+ * This will combine the `name`, `optional`, and `default` properties into name
+ * setting the other two to `false` and `undefined` respectively.
+ */
+function combineIntoName({
+  name,
+  optional,
+  default: default_,
+  ...rest
+}: commentParser.Tag): commentParser.Tag {
+  if (name && optional) {
+    // Figure out if tag type have default value
+    if (default_) {
+      name = `[${name}=${default_}]`;
+    } else {
+      name = `[${name}]`;
+    }
+  }
+
+  return {
+    ...rest,
+    name: name,
+    optional: false,
+    default: undefined,
+  };
 }
