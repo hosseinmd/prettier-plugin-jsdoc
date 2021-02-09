@@ -154,7 +154,7 @@ export const getParser = (parser: Parser["parse"]) =>
           return tagGroup;
         })
         .map(addDefaultValueToDescription)
-        .map(combineIntoName)
+        .map(assignOptionalAndDefaultToName)
         .map(({ type, name, description, tag, ...rest }) => {
           const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
             tag,
@@ -439,7 +439,7 @@ function addDefaultValueToDescription(
  * This will combine the `name`, `optional`, and `default` properties into name
  * setting the other two to `false` and `undefined` respectively.
  */
-function combineIntoName({
+function assignOptionalAndDefaultToName({
   name,
   optional,
   default: default_,
