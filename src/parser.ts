@@ -6,7 +6,7 @@ import {
   countLines,
   prefixLinesWith,
 } from "./utils";
-import { DESCRIPTION } from "./tags";
+import { DESCRIPTION, PARAM } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP,
@@ -16,7 +16,7 @@ import {
   TAGS_SYNONYMS,
   TAGS_TYPELESS,
 } from "./roles";
-import { AST, JsdocOptions, PrettierComment } from "./types";
+import { AST, JsdocOptions, PrettierComment, Token } from "./types";
 import { stringifyCommentContent } from "./stringify";
 import { Parser } from "prettier";
 
@@ -53,6 +53,8 @@ export const getParser = (parser: Parser["parse"]) =>
 
     ast.comments.forEach((comment) => {
       if (!isBlockComment(comment)) return;
+      const tokenIndex = ast.tokens.findIndex(({ loc }) => loc === comment.loc);
+      const paramsOrder = getParamsOrders(ast, tokenIndex);
 
       /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
       comment.value = comment.value.replace(/^([*]+)/g, "*");
@@ -89,69 +91,30 @@ export const getParser = (parser: Parser["parse"]) =>
 
       const groups = parsed.tags
         // Prepare tags data
-        .map(
-          ({
-            name,
-            description,
+        .map(({ type, optional, ...rest }) => {
+          if (type) {
+            /**
+             * Convert optional to standard
+             * https://jsdoc.app/tags-type.html#:~:text=Optional%20parameter
+             */
+            type = type.replace(/[=]$/, () => {
+              optional = true;
+              return "";
+            });
+
+            type = convertToModernType(type);
+            type = formatType(type, {
+              ...options,
+              printWidth: commentContentPrintWidth,
+            });
+          }
+
+          return {
+            ...rest,
             type,
-            tag,
-            source,
             optional,
-            default: _default,
-            ...restInfo
-          }) => {
-            if (type) {
-              /**
-               * Convert optional to standard
-               * https://jsdoc.app/tags-type.html#:~:text=Optional%20parameter
-               */
-              type = type.replace(/[=]$/, () => {
-                optional = true;
-                return "";
-              });
-
-              type = convertToModernType(type);
-              type = formatType(type, {
-                ...options,
-                printWidth: commentContentPrintWidth,
-              });
-
-              // Additional operations on name
-              if (name) {
-                // Optional tag name
-                if (optional) {
-                  // Figure out if tag type have default value
-                  if (_default) {
-                    description = description.replace(
-                      /[ \t]*Default is `.*`\.?$/,
-                      "",
-                    );
-                    if (description && !/[.\n]$/.test(description)) {
-                      description += ".";
-                    }
-                    description += ` Default is \`${_default}\``;
-                    name = `[${name}=${_default}]`;
-                  } else {
-                    name = `[${name}]`;
-                  }
-                }
-              }
-            }
-
-            description = description.trim();
-
-            return {
-              ...restInfo,
-              name,
-              description,
-              type,
-              tag,
-              source,
-              default: _default,
-              optional,
-            } as commentParser.Tag;
-          },
-        )
+          } as commentParser.Tag;
+        })
         .filter(({ description, tag }) => {
           if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
             return false;
@@ -171,13 +134,25 @@ export const getParser = (parser: Parser["parse"]) =>
 
           return tagGroups;
         }, [])
-
-        // sort tags
         .map((tagGroup) => {
+          // sort tags within groups
           tagGroup.sort((a, b) => {
+            if (
+              paramsOrder &&
+              paramsOrder.length > 1 &&
+              a.tag === PARAM &&
+              b.tag === PARAM
+            ) {
+              //sort params
+              return paramsOrder.indexOf(a.name) - paramsOrder.indexOf(b.name);
+            }
             return getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag);
           });
-          return tagGroup;
+
+          return tagGroup.map((tag) => {
+            combineName(tag);
+            return tag;
+          });
         });
 
       const content = stringifyCommentContent(groups, {
@@ -324,4 +299,107 @@ function convertCommentDescToDescTag(parsed: commentParser.Comment): void {
       optional: false,
     });
   }
+}
+
+/**
+ *  This is for find params of function name in code as strings of array
+ */
+function getParamsOrders(ast: AST, tokenIndex: number) {
+  let paramsOrder: string[] | undefined;
+  let params: Token[] | undefined;
+
+  try {
+    // next token
+    const nextTokenType = ast.tokens[tokenIndex + 1]?.type;
+    if (typeof nextTokenType !== "object") {
+      return undefined;
+    }
+    // Recognize function
+    if (nextTokenType.label === "function") {
+      let openedParenthesesCount = 1;
+      const tokensAfterComment = ast.tokens.slice(tokenIndex + 4);
+
+      const endIndex = tokensAfterComment.findIndex(({ type }) => {
+        if (typeof type === "string") {
+          return false;
+        } else if (type.label === "(") {
+          openedParenthesesCount++;
+        } else if (type.label === ")") {
+          openedParenthesesCount--;
+        }
+
+        return openedParenthesesCount === 0;
+      });
+
+      params = tokensAfterComment.slice(0, endIndex + 1);
+    }
+
+    // Recognize arrow function
+    if (nextTokenType.label === "const") {
+      let openedParenthesesCount = 1;
+      let tokensAfterComment = ast.tokens.slice(tokenIndex + 1);
+      const firstParenthesesIndex = tokensAfterComment.findIndex(
+        ({ type }) => typeof type === "object" && type.label === "(",
+      );
+
+      tokensAfterComment = tokensAfterComment.slice(firstParenthesesIndex + 1);
+
+      const endIndex = tokensAfterComment.findIndex(({ type }) => {
+        if (typeof type === "string") {
+          return false;
+        } else if (type.label === "(") {
+          openedParenthesesCount++;
+        } else if (type.label === ")") {
+          openedParenthesesCount--;
+        }
+
+        return openedParenthesesCount === 0;
+      });
+
+      const arrowItem: Token | undefined = tokensAfterComment[endIndex + 1];
+
+      if (
+        typeof arrowItem?.type === "object" &&
+        arrowItem.type.label === "=>"
+      ) {
+        params = tokensAfterComment.slice(0, endIndex + 1);
+      }
+    }
+
+    paramsOrder = params
+      ?.filter(({ type }) => typeof type === "object" && type.label === "name")
+      .map(({ value }) => value);
+  } catch {
+    //
+  }
+
+  return paramsOrder;
+}
+
+/**
+ * This converts the `name`, `optional`, and `default` properties into a single `name` property.
+ */
+function combineName(tag: commentParser.Tag): void {
+  // Additional operations on name
+  if (tag.name) {
+    // Optional tag name
+    if (tag.optional) {
+      // Figure out if tag type have default value
+      if (tag.default) {
+        tag.description = tag.description.replace(
+          /[ \t]*Default is `.*`\.?$/,
+          "",
+        );
+        if (tag.description && !/[.\n]$/.test(tag.description)) {
+          tag.description += ".";
+        }
+        tag.description += ` Default is \`${tag.default}\``;
+        tag.name = `[${tag.name}=${tag.default}]`;
+      } else {
+        tag.name = `[${tag.name}]`;
+      }
+    }
+  }
+
+  tag.description = tag.description.trim();
 }
