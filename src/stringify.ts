@@ -5,20 +5,16 @@ import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, SPACE_TAG_DATA } from "./tags";
 import { TAGS_VERTICALLY_ALIGN_ABLE } from "./roles";
 import { JsdocOptions } from "./types";
 
-const stringify = (
+function stringifyTag(
   { name, description, type, tag }: Tag,
-  tagIndex: number,
-  finalTagsArray: Tag[],
   options: JsdocOptions,
-  maxTagTitleLength: number,
-  maxTagTypeNameLength: number,
-  maxTagNameLength: number,
-): string => {
-  let tagString = "\n";
-
+  { maxTagLength, maxTypeLength, maxNameLength }: MaxLengthInfo,
+): string {
   if (tag === SPACE_TAG_DATA.tag) {
-    return tagString;
+    return "";
   }
+
+  let tagString = "";
 
   const {
     printWidth,
@@ -35,15 +31,14 @@ const stringify = (
   let descGapAdj = 0;
 
   if (jsdocVerticalAlignment && TAGS_VERTICALLY_ALIGN_ABLE.includes(tag)) {
-    if (tag) tagTitleGapAdj += maxTagTitleLength - tag.length;
-    else if (maxTagTitleLength) descGapAdj += maxTagTitleLength + gap.length;
+    if (tag) tagTitleGapAdj += maxTagLength - tag.length;
+    else if (maxTagLength) descGapAdj += maxTagLength + gap.length;
 
-    if (type) tagTypeGapAdj += maxTagTypeNameLength - type.length;
-    else if (maxTagTypeNameLength)
-      descGapAdj += maxTagTypeNameLength + gap.length;
+    if (type) tagTypeGapAdj += maxTypeLength - type.length;
+    else if (maxTypeLength) descGapAdj += maxTypeLength + gap.length;
 
-    if (name) tagNameGapAdj += maxTagNameLength - name.length;
-    else if (maxTagNameLength) descGapAdj = maxTagNameLength + gap.length;
+    if (name) tagNameGapAdj += maxNameLength - name.length;
+    else if (maxNameLength) descGapAdj = maxNameLength + gap.length;
   }
 
   const useTagTitle = tag !== DESCRIPTION || jsdocDescriptionTag;
@@ -116,14 +111,71 @@ const stringify = (
     }
   }
 
-  // Add empty line after some tags if there is something below
-  tagString += descriptionEndLine({
-    description: tagString,
-    tag,
-    isEndTag: tagIndex === finalTagsArray.length - 1,
-  });
-
   return tagString;
+}
+
+function stringify(tags: Tag[], options: JsdocOptions): string {
+  const lines: string[] = [];
+  const lastLineIsEmpty = () =>
+    lines.length > 0 && lines[lines.length - 1] === "";
+
+  const maxLengthInfo = options.jsdocVerticalAlignment
+    ? getMaxLengthInfo(tags)
+    : EMPTY_MAX_LENGTH_INFO;
+
+  for (const tag of tags) {
+    const tagString = stringifyTag(tag, options, maxLengthInfo);
+
+    lines.push(tagString);
+
+    // Add empty line after some tags
+    const extraLine = descriptionEndLine({
+      description: tagString,
+      tag: tag.tag,
+    });
+
+    if (extraLine && !lastLineIsEmpty()) {
+      lines.push("");
+    }
+  }
+
+  // remove first empty line
+  if (lines.length > 0 && lines[0] === "") {
+    lines.slice(0, 1);
+  }
+
+  // remove last empty line
+  if (lastLineIsEmpty()) {
+    lines.pop();
+  }
+
+  return lines.join("\n");
+}
+
+interface MaxLengthInfo {
+  readonly maxTagLength: number;
+  readonly maxTypeLength: number;
+  readonly maxNameLength: number;
+}
+const EMPTY_MAX_LENGTH_INFO: MaxLengthInfo = {
+  maxTagLength: 0,
+  maxTypeLength: 0,
+  maxNameLength: 0,
 };
+function getMaxLengthInfo(tags: Tag[]): MaxLengthInfo {
+  let maxTagLength = 0;
+  let maxTypeLength = 0;
+  let maxNameLength = 0;
+
+  for (const { tag, type, name } of tags) {
+    if (TAGS_VERTICALLY_ALIGN_ABLE.includes(tag)) {
+      maxTagLength = Math.max(maxTagLength, tag.length);
+      maxTypeLength = Math.max(maxTypeLength, type.length);
+      maxNameLength = Math.max(maxNameLength, name.length);
+    }
+  }
+
+  return { maxTagLength, maxTypeLength, maxNameLength };
+}
 
 export { stringify };

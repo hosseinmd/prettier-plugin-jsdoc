@@ -18,23 +18,21 @@ const CODE = "2@^5!~#sdE!_CODE";
 interface DescriptionEndLineParams {
   description: string;
   tag: string;
-  isEndTag: boolean;
 }
 
 function descriptionEndLine({
   description,
   tag,
-  isEndTag,
-}: DescriptionEndLineParams): string {
-  if (description.trim().length < 0 || isEndTag) {
-    return "";
+}: DescriptionEndLineParams): boolean {
+  if (description.trim().length < 0) {
+    return false;
   }
 
   if ([DESCRIPTION, EXAMPLE, TODO].includes(tag)) {
-    return "\n";
+    return true;
   }
 
-  return "";
+  return false;
 }
 
 interface FormatOptions {

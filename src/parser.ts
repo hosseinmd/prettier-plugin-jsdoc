@@ -14,7 +14,6 @@ import {
   TAGS_ORDER,
   TAGS_SYNONYMS,
   TAGS_TYPELESS,
-  TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
 import { AST, JsdocOptions, PrettierComment, Token } from "./types";
 import { stringify } from "./stringify";
@@ -88,11 +87,7 @@ export const getParser = (parser: Parser["parse"]) =>
         getIndentationWidth(comment, text, options) -
         " * ".length;
 
-      let maxTagTitleLength = 0;
-      let maxTagTypeLength = 0;
-      let maxTagNameLength = 0;
-
-      parsed.tags
+      const finalTags = parsed.tags
         // Prepare tags data
         .map(({ type, optional, ...rest }) => {
           if (type) {
@@ -155,22 +150,9 @@ export const getParser = (parser: Parser["parse"]) =>
         })
         .map(addDefaultValueToDescription)
         .map(assignOptionalAndDefaultToName)
-        .map(({ type, name, description, tag, ...rest }) => {
-          const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
-            tag,
-          );
-
-          if (isVerticallyAlignAbleTags) {
-            maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
-            maxTagTypeLength = Math.max(maxTagTypeLength, type.length);
-            maxTagNameLength = Math.max(maxTagNameLength, name.length);
-          }
-
+        .map(({ description, ...rest }) => {
           return {
-            type,
-            name,
             description: description.trim(),
-            tag,
             ...rest,
           };
         })
@@ -179,21 +161,16 @@ export const getParser = (parser: Parser["parse"]) =>
             return false;
           }
           return true;
-        })
-        // Create final jsDoc string
-        .forEach((tagData, tagIndex, finalTagsArray) => {
-          comment.value += stringify(
-            tagData,
-            tagIndex,
-            finalTagsArray,
-            { ...options, printWidth: commentContentPrintWidth },
-            maxTagTitleLength,
-            maxTagTypeLength,
-            maxTagNameLength,
-          );
         });
 
-      comment.value = comment.value.trimEnd();
+      // Create jsDoc string
+      comment.value = (
+        "\n" +
+        stringify(finalTags, {
+          ...options,
+          printWidth: commentContentPrintWidth,
+        })
+      ).trimEnd();
       if (comment.value) {
         comment.value = addStarsToTheBeginningOfTheLines(comment.value);
       }
