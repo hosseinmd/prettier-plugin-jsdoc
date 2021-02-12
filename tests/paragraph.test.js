@@ -482,6 +482,24 @@ test("Germany description with dot", () => {
   expect(result).toMatchSnapshot();
 });
 
+test("New Lines with star", () => {
+  const result1 = subject(
+    `/**
+ * Simplifies the token stream to ease the matching with the expected token stream.
+ *
+ * * Strings are kept as-is
+ * * In arrays each value is transformed individually
+ * * Values that are empty (empty arrays or strings only containing whitespace)
+ *
+ * @param {TokenStream} tokenStream
+ * @returns {SimplifiedTokenStream}
+ */
+`,
+  );
+
+  expect(result1).toMatchSnapshot();
+});
+
 /**
  * If this is a vertical ScrollView scrolls to the bottom.
  * If this is a horizontal ScrollView scrolls to the right.
