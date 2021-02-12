@@ -5,6 +5,10 @@ import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, SPACE_TAG_DATA } from "./tags";
 import { TAGS_VERTICALLY_ALIGN_ABLE } from "./roles";
 import { JsdocOptions } from "./types";
 
+/**
+ * @param {string} a __very__ important!
+ * @param {string} b _less_ important...
+ */
 const stringify = (
   { name, description, type, tag }: Tag,
   tagIndex: number,
@@ -71,7 +75,7 @@ const stringify = (
         // append the description to the tag
         tagString += formatDescription(tag, description, options, {
           // 1 is `\n` which added to tagString
-          firstLinePrintWidth: printWidth - (tagString.length - 1),
+          tagStringLength: tagString.length - 1,
         });
       }
     }

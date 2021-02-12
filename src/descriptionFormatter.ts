@@ -37,7 +37,7 @@ function descriptionEndLine({
 }
 
 interface FormatOptions {
-  firstLinePrintWidth?: number;
+  tagStringLength?: number;
 }
 
 /**
@@ -59,7 +59,7 @@ function formatDescription(
   if (!text) return text;
 
   const { printWidth } = options;
-  const { firstLinePrintWidth = printWidth } = formatOptions;
+  const { tagStringLength = 0 } = formatOptions;
 
   /**
    * Description
@@ -117,7 +117,7 @@ function formatDescription(
 
   text = capitalizer(text);
 
-  text = `${"_".repeat(Math.max(0, printWidth - firstLinePrintWidth))}${text}`;
+  text = `${"_".repeat(tagStringLength)}${text}`;
 
   // Wrap tag description
   const beginningSpace = tag === DESCRIPTION ? "" : "  "; // google style guide space
