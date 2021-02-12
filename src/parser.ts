@@ -1,4 +1,5 @@
-import commentParser from "comment-parser";
+import { Spec, Block } from "comment-parser/lib/primitives";
+import { parse } from "comment-parser";
 import {
   addStarsToTheBeginningOfTheLines,
   convertToModernType,
@@ -69,17 +70,16 @@ export const getParser = (parser: Parser["parse"]) =>
        */
       if (!/^\/\*\*[\s\S]+?\*\/$/.test(commentString)) return;
 
-      const parsed = commentParser(commentString, {
-        dotted_names: false,
-        trim: false,
+      const parsed = parse(commentString, {
+        spacing: "preserve",
       })[0];
+
+      comment.value = "";
 
       if (!parsed) {
         // Error on commentParser
         return;
       }
-
-      comment.value = "";
 
       normalizeTags(parsed);
       convertCommentDescToDescTag(parsed);
@@ -117,11 +117,11 @@ export const getParser = (parser: Parser["parse"]) =>
             ...rest,
             type,
             optional,
-          } as commentParser.Tag;
+          } as Spec;
         })
 
         // Group tags
-        .reduce<commentParser.Tag[][]>((tagGroups, cur, index, array) => {
+        .reduce<Spec[][]>((tagGroups, cur, index, array) => {
           if (
             (tagGroups.length === 0 || TAGS_GROUP.includes(cur.tag)) &&
             array[index - 1]?.tag !== DESCRIPTION
@@ -195,6 +195,7 @@ export const getParser = (parser: Parser["parse"]) =>
         });
 
       comment.value = comment.value.trimEnd();
+
       if (comment.value) {
         comment.value = addStarsToTheBeginningOfTheLines(comment.value);
       }
@@ -247,7 +248,7 @@ function getIndentationWidth(
  *
  * @param parsed
  */
-function normalizeTags(parsed: commentParser.Comment): void {
+function normalizeTags(parsed: Block): void {
   parsed.tags.forEach((t) => {
     t.tag = t.tag || "";
     t.type = t.type || "";
@@ -298,7 +299,7 @@ function normalizeTags(parsed: commentParser.Comment): void {
  *
  * @param parsed
  */
-function convertCommentDescToDescTag(parsed: commentParser.Comment): void {
+function convertCommentDescToDescTag(parsed: Block): void {
   let description = parsed.description || "";
   parsed.description = "";
 
@@ -319,9 +320,9 @@ function convertCommentDescToDescTag(parsed: commentParser.Comment): void {
       description,
       name: undefined as any,
       type: undefined as any,
-      source: "<Unknown>",
-      line: NaN,
+      source: [],
       optional: false,
+      problems: [],
     });
   }
 }
@@ -408,9 +409,7 @@ function getParamsOrders(ast: AST, tokenIndex: number): string[] | undefined {
  *
  * If the description already contains such a note, it will be updated.
  */
-function addDefaultValueToDescription(
-  tag: commentParser.Tag,
-): commentParser.Tag {
+function addDefaultValueToDescription(tag: Spec): Spec {
   if (tag.optional && tag.default) {
     let { description } = tag;
 
@@ -442,7 +441,7 @@ function assignOptionalAndDefaultToName({
   optional,
   default: default_,
   ...rest
-}: commentParser.Tag): commentParser.Tag {
+}: Spec): Spec {
   if (name && optional) {
     // Figure out if tag type have default value
     if (default_) {

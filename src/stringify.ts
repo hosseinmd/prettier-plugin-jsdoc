@@ -1,4 +1,4 @@
-import { Tag } from "comment-parser";
+import { Spec } from "comment-parser/src/primitives";
 import { format } from "prettier";
 import { formatDescription, descriptionEndLine } from "./descriptionFormatter";
 import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, SPACE_TAG_DATA } from "./tags";
@@ -10,9 +10,9 @@ import { JsdocOptions } from "./types";
  * @param {string} b _less_ important...
  */
 const stringify = (
-  { name, description, type, tag }: Tag,
+  { name, description, type, tag }: Spec,
   tagIndex: number,
-  finalTagsArray: Tag[],
+  finalTagsArray: Spec[],
   options: JsdocOptions,
   maxTagTitleLength: number,
   maxTagTypeNameLength: number,

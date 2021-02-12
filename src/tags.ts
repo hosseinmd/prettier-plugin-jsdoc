@@ -1,3 +1,5 @@
+import { Spec } from "comment-parser/lib/primitives";
+
 const ABSTRACT = "abstract";
 const ASYNC = "async";
 const AUGMENTS = "augments";
@@ -34,14 +36,14 @@ const TYPEDEF = "typedef";
 const VERSION = "version";
 const YIELDS = "yields";
 
-const SPACE_TAG_DATA = {
+const SPACE_TAG_DATA: Spec = {
   tag: "this_is_for_space",
   name: "",
   optional: false,
   type: "",
   description: "",
-  line: 0,
-  source: "",
+  source: [],
+  problems: [],
 };
 
 export {
