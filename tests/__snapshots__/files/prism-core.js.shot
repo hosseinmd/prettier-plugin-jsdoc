@@ -40,8 +40,6 @@ var Prism = (function (_self) {
 		 * // add a new <script> to load Prism's script
 		 * \`\`\`
 		 *
-		 *
-		 *
 		 * @memberof Prism
 		 * @default false
 		 * @type {boolean}
@@ -363,8 +361,6 @@ var Prism = (function (_self) {
 			 * assert(newMarkup === Prism.languages.markup);
 			 * \`\`\`
 			 *
-			 *
-			 *
 			 * @param {string} inside The property of \`root\` (e.g. a language id in \`Prism.languages\`) that contains the
 			 *   object to be modified.
 			 * @param {string} before The key to insert before.
@@ -372,7 +368,7 @@ var Prism = (function (_self) {
 			 * @param {Object<string, any>} [root] The object containing \`inside\`, i.e. the object that contains the object
 			 *   to be modified.
 			 *
-			 * Defaults to \`Prism.languages\`.
+			 *   Defaults to \`Prism.languages\`.
 			 * @returns {Grammar} The new grammar object.
 			 * @public
 			 */
@@ -510,7 +506,7 @@ var Prism = (function (_self) {
 		 *   improve performance and avoid blocking the UI when highlighting very large chunks of code. This option is
 		 *   [disabled by default](https://prismjs.com/faq.html#why-is-asynchronous-highlighting-disabled-by-default).
 		 *
-		 * Note: All language definitions required to highlight the code must be included in the main \`prism.js\` file for
+		 *   Note: All language definitions required to highlight the code must be included in the main \`prism.js\` file for
 		 *   asynchronous highlighting to work. You can build your own bundle on the [Download
 		 *   page](https://prismjs.com/download.html). Default is \`false\`
 		 * @param {HighlightCallback} [callback] An optional callback to be invoked after the highlighting is done. Mostly
@@ -602,7 +598,7 @@ var Prism = (function (_self) {
 		 * @param {string} text A string with the code to be highlighted.
 		 * @param {Grammar} grammar An object containing the tokens to use.
 		 *
-		 * Usually a language definition like \`Prism.languages.markup\`.
+		 *   Usually a language definition like \`Prism.languages.markup\`.
 		 * @param {string} language The name of the language definition passed to \`grammar\`.
 		 * @returns {string} The highlighted HTML.
 		 * @public
@@ -640,7 +636,7 @@ var Prism = (function (_self) {
 		 * @param {string} text A string with the code to be highlighted.
 		 * @param {Grammar} grammar An object containing the tokens to use.
 		 *
-		 * Usually a language definition like \`Prism.languages.markup\`.
+		 *   Usually a language definition like \`Prism.languages.markup\`.
 		 * @returns {TokenStream} An array of strings and tokens, a token stream.
 		 * @public
 		 */
@@ -1191,11 +1187,11 @@ if (typeof global !== 'undefined') {
  * @property {string | string[]} [alias] An optional alias or list of aliases.
  * @property {Grammar} [inside] The nested grammar of this token.
  *
- * The \`inside\` grammar will be used to tokenize the text value of each token of this kind.
+ *   The \`inside\` grammar will be used to tokenize the text value of each token of this kind.
  *
- * This can be used to make nested and even recursive language definitions.
+ *   This can be used to make nested and even recursive language definitions.
  *
- * Note: This can cause infinite recursion. Be careful when you embed different languages or even the same language into
+ *   Note: This can cause infinite recursion. Be careful when you embed different languages or even the same language into
  *   each another.
  * @global
  * @public

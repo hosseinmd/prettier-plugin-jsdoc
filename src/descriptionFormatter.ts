@@ -200,7 +200,7 @@ function formatDescription(
     }, "");
   }
 
-  text = text.slice(tagStringLength);
+  text = text.trim().slice(tagStringLength);
 
   return text;
 }
@@ -240,7 +240,7 @@ function breakDescriptionToLines(
 
   result += str;
 
-  return result;
+  return `${beginningSpace}${result}`;
 }
 
 export {
