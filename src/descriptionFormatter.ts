@@ -200,7 +200,7 @@ function formatDescription(
     }, "");
   }
 
-  text = text.replace(/^_+/g, "");
+  text = text.slice(tagStringLength);
 
   return text;
 }

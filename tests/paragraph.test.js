@@ -398,6 +398,17 @@ test("printWidth", () => {
   expect(result1).toMatchSnapshot();
 });
 
+test("description start underscores", () => {
+  const result1 = subject(
+    `/**
+ * @param {string} a __very__ important!
+ * @param {string} b _less_ important...
+ */`,
+  );
+
+  expect(result1).toMatchSnapshot();
+});
+
 /**
  * If this is a vertical ScrollView scrolls to the bottom.
  * If this is a horizontal ScrollView scrolls to the right.

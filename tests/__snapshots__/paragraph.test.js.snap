@@ -282,6 +282,14 @@ exports[`description new line with dash 3`] = `
 "
 `;
 
+exports[`description start underscores 1`] = `
+"/**
+ * @param {string} a __very__ important!
+ * @param {string} b _less_ important...
+ */
+"
+`;
+
 exports[`numbers and code in description 1`] = `
 "/**
  * =========================== PressResponder Tutorial ===========================
