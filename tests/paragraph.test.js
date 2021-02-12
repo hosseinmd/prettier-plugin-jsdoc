@@ -409,6 +409,20 @@ test("description start underscores", () => {
   expect(result1).toMatchSnapshot();
 });
 
+test("`#` in text", () => {
+  const result1 = subject(
+    `/**
+* JS: \`console.log("foo # bar");\`
+*
+* Some # text
+*
+* More text
+*/`,
+  );
+
+  expect(result1).toMatchSnapshot();
+});
+
 /**
  * If this is a vertical ScrollView scrolls to the bottom.
  * If this is a horizontal ScrollView scrolls to the right.

@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`\`#\` in text 1`] = `
+"/**
+ * JS: \`console.log(\\"foo # bar\\");\`
+ *
+ * Some # text
+ *
+ * More text
+ */
+"
+`;
+
 exports[`code in description 1`] = `
 "/**
  * \`Touchable\`: Taps done right.

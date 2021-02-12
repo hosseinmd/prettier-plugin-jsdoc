@@ -68,7 +68,7 @@ function formatDescription(
    *
    * Summry
    */
-  text = text.replace(/\s+(#{1,6})(.*)$\s+/gm, "\n\n$1 $2\n\n");
+  text = text.replace(/\n([\s]+)?(#{1,6})(.*)$\s+/gm, "\n\n$2 $3\n\n");
 
   /**
    * 1. a thing
