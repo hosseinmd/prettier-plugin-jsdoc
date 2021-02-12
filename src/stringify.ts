@@ -85,11 +85,19 @@ const stringify = (
       tagString = `${tagString} ${exampleCaption[0]}`;
     }
 
+    // Remove two space from lines, maybe added previous format
+    if (
+      description
+        .split("\n")
+        .slice(1)
+        .every((v) => !v.trim() || v.startsWith("  "))
+    ) {
+      description = description.replace(/\n[^\S\r\n]{2}/g, "\n");
+    }
+
     try {
       let formattedExample = "";
       const examplePrintWith = printWidth - "  ".length;
-
-      description = description.replace(/\n[^\S\r\n]{2}/g, "\n"); // Remove two space from lines, maybe added previous format
 
       // If example is a json
       if (description.trim().startsWith("{")) {

@@ -278,11 +278,11 @@ var Prism = (function (_self) {
 			 *
 			 * @example
 			 *   Prism.languages['css-with-colors'] = Prism.languages.extend('css', {
-			 *     // Prism.languages.css already has a 'comment' token, so this token will overwrite CSS' 'comment' token
-			 *     // at its original position
-			 *     'comment': { ... },
-			 *     // CSS doesn't have a 'color' token, so this token will be appended
-			 *     'color': /\\\\b(?:red|green|blue)\\\\b/
+			 *       // Prism.languages.css already has a 'comment' token, so this token will overwrite CSS' 'comment' token
+			 *       // at its original position
+			 *       'comment': { ... },
+			 *       // CSS doesn't have a 'color' token, so this token will be appended
+			 *       'color': /\\\\b(?:red|green|blue)\\\\b/
 			 *   });
 			 *
 			 * @param {string} id The id of the language to extend. This has to be a key in \`Prism.languages\`.

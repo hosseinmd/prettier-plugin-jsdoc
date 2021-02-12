@@ -99,6 +99,20 @@ exports[`example json  1`] = `
 "
 `;
 
+exports[`example unParseAble 1`] = `
+"/**
+ * @example
+ *   Prism.languages['css-with-colors'] = Prism.languages.extend('css', {
+ *       // Prism.languages.css already has a 'comment' token, so this token will overwrite CSS' 'comment' token
+ *       // at its original position
+ *       'comment': { ... },
+ *       // CSS doesn't have a 'color' token, so this token will be appended
+ *       'color': /(?:red|green|blue)/
+ *   });
+ */
+"
+`;
+
 exports[`examples Json 1`] = `
 "/**
  * @example

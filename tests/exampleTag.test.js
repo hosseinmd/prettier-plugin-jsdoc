@@ -149,3 +149,29 @@ test("example should be same after few time format ", () => {
   expect(result).toEqual(result2);
   expect(result).toEqual(result3);
 });
+
+test("example unParseAble", () => {
+  const result = subject(
+    `/**
+* @example
+* Prism.languages['css-with-colors'] = Prism.languages.extend('css', {
+*     // Prism.languages.css already has a 'comment' token, so this token will overwrite CSS' 'comment' token
+*     // at its original position
+*     'comment': { ... },
+*     // CSS doesn't have a 'color' token, so this token will be appended
+*     'color': /\b(?:red|green|blue)\b/
+* });
+*/`,
+    {
+      jsdocKeepUnParseAbleExampleIndent: true,
+    },
+  );
+
+  expect(result).toMatchSnapshot();
+  const result2 = subject(result, {
+    jsdocKeepUnParseAbleExampleIndent: true,
+  });
+
+  expect(result2).toEqual(result);
+  expect(subject(result)).not.toEqual(result);
+});
