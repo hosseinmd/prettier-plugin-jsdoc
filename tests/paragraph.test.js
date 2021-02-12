@@ -241,7 +241,8 @@ test("numbers and code in description", () => {
 `);
   expect(result2).toMatchSnapshot();
 
-  const result3 = subject(`
+  const result3 = subject(
+    `
 /**
 * The script uses two heuristics to determine whether the keyboard is being used:
 *
@@ -254,7 +255,18 @@ test("numbers and code in description", () => {
 * W3C Software Notice and License: https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
 *
 */
-`);
+`,
+    {
+      jsdocDescriptionWithDot: true,
+    },
+  );
+
+  expect(
+    subject(result3, {
+      jsdocDescriptionWithDot: true,
+    }),
+  ).toEqual(result3);
+
   expect(result3).toMatchSnapshot();
 });
 
@@ -442,6 +454,32 @@ test("empty lines", () => {
   );
 
   expect(result1).toMatchSnapshot();
+});
+
+test("Germany description with dot", () => {
+  const result = subject(
+    `/**
+
+* Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu groß
+
+*
+* Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu 3434
+
+*
+
+
+* @description Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu groß
+
+
+* @param a ssss
+
+*/`,
+    {
+      jsdocDescriptionWithDot: true,
+    },
+  );
+
+  expect(result).toMatchSnapshot();
 });
 
 /**

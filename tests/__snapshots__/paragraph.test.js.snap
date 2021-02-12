@@ -11,6 +11,19 @@ exports[`\`#\` in text 1`] = `
 "
 `;
 
+exports[`Germany description with dot 1`] = `
+"/**
+ * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu groß.
+ *
+ * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu 3434.
+ *
+ * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu groß.
+ *
+ * @param a Ssss.
+ */
+"
+`;
+
 exports[`code in description 1`] = `
 "/**
  * \`Touchable\`: Taps done right.
@@ -392,7 +405,7 @@ exports[`numbers and code in description 3`] = `
  * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
  * tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
  * quis nostrud exercitation ullamco laboris nisi ut aliq W3C Software Notice
- * and License: https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
+ * and License: https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document.
  */
 "
 `;

@@ -302,13 +302,10 @@ function convertCommentDescToDescTag(parsed: commentParser.Comment): void {
   let description = parsed.description || "";
   parsed.description = "";
 
-  parsed.tags = parsed.tags.filter((t) => {
-    if (t.tag.toLowerCase() === DESCRIPTION) {
-      // get description from source as some words may be parsed as the type
-      // or name
-      const desc = t.source.replace(/^@\w+/, "").trim();
-      if (desc) {
-        description += "\n\n" + desc;
+  parsed.tags = parsed.tags.filter(({ description: _description, tag }) => {
+    if (tag.toLowerCase() === DESCRIPTION) {
+      if (_description.trim()) {
+        description += "\n\n" + _description;
       }
       return false;
     } else {
