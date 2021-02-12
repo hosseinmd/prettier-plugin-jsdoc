@@ -278,7 +278,7 @@ exports[`description new line with dash 3`] = `
  *     -------------------------------------
  * {expected token stream}
  *
- * or of three parts:
+ * Or of three parts:
  *
  *     {source code}
  *     -------------------------------------
@@ -297,6 +297,17 @@ exports[`description start underscores 1`] = `
 "/**
  * @param {string} a __very__ important!
  * @param {string} b _less_ important...
+ */
+"
+`;
+
+exports[`empty lines 1`] = `
+"/**
+ * Foo
+ *
+ * Bar
+ *
+ * @param a Baz
  */
 "
 `;

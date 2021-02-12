@@ -423,6 +423,27 @@ test("`#` in text", () => {
   expect(result1).toMatchSnapshot();
 });
 
+test("empty lines", () => {
+  const result1 = subject(
+    `/**
+* Foo
+*
+*
+*
+*
+*
+* Bar
+*
+*
+*
+*
+* @param a Baz
+*/`,
+  );
+
+  expect(result1).toMatchSnapshot();
+});
+
 /**
  * If this is a vertical ScrollView scrolls to the bottom.
  * If this is a horizontal ScrollView scrolls to the right.

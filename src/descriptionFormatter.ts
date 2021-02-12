@@ -93,17 +93,17 @@ function formatDescription(
   }
 
   text = text.replace(
-    /(\n(\s+|)(---(\s|-)+)\n)/g, // `------- --- --- -` | `----`
+    /(\n(\s+)?(---(\s|-)+)\n)/g, // `------- --- --- -` | `----`
     NEW_DASH_LINE,
   );
 
   text = text.replace(
-    /(\n(\s+|)\n\s\s\s+)/g,
+    /(\n([^\S\r\n]+)?\n[^\S\r\n]{2}[^\S\r\n]+)/g,
     NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
   ); // Add a signature for new paragraph start with three space
 
   text = text.replace(
-    /(\n\n+(\s+|)-(\s+|))/g, // `\n\n - ` | `\n\n-` | `\n\n -` | `\n\n- `
+    /(\n\n+(\s+)?-(\s+)?)/g, // `\n\n - ` | `\n\n-` | `\n\n -` | `\n\n- `
     NEW_PARAGRAPH_START_WITH_DASH,
   );
 
@@ -112,7 +112,7 @@ function formatDescription(
     NEW_LINE_START_WITH_DASH,
   );
 
-  text = text.replace(/(\n\n)|(\n\s+\n)/g, EMPTY_LINE_SIGNATURE); // Add a signature for empty line and use that later
+  text = text.replace(/(\n(\s+)?\n+)/g, EMPTY_LINE_SIGNATURE); // Add a signature for empty line and use that later
   // text = text.replace(/\n\s\s\s+/g, NEW_LINE_START_THREE_SPACE_SIGNATURE); // Add a signature for new line start with three space
 
   text = capitalizer(text);
