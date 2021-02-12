@@ -22,7 +22,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      - run: npm i -g yarn
-      - run: npx yarn install
-      - run: npx yarn add prettier@${{ matrix.prettier }}
-      - run: npm test
+      - name: Install yarn
+        run: npm i -g yarn
+      - name: Install project dependencies
+        run: npx yarn install
+      - name: Install specific yarn version
+        run: npx yarn add prettier@${{ matrix.prettier }} && npx yarn list --depth=0 --pattern "prettier"
+      - name: Run tests
+        run: npm test
