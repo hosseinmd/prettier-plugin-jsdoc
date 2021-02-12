@@ -61,6 +61,13 @@ function formatDescription(
   const { printWidth } = options;
   const { tagStringLength = 0 } = formatOptions;
 
+  const codes = text.match(/[\s|]*```[\s\S]*?^[ \t]*```\s*/gm);
+
+  if (codes) {
+    codes.forEach((code) => {
+      text = text.replace(code, `\n\n${CODE}\n\n`);
+    });
+  }
   /**
    * Description
    *
@@ -83,14 +90,6 @@ function formatDescription(
     /\s+(\d+)[-.][\s-.|]+/g,
     NEW_LINE_START_WITH_NUMBER + "$1. ",
   );
-
-  const codes = text.match(/[\s|]*```[\s\S]*?^[ \t]*```\s*/gm);
-
-  if (codes) {
-    codes.forEach((code) => {
-      text = text.replace(code, `\n\n${CODE}\n\n`);
-    });
-  }
 
   text = text.replace(
     /(\n(\s+)?(---(\s|-)+)\n)/g, // `------- --- --- -` | `----`

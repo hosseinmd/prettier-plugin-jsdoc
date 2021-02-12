@@ -500,6 +500,27 @@ test("New Lines with star", () => {
   expect(result1).toMatchSnapshot();
 });
 
+test("# in block code", () => {
+  const result1 = subject(
+    `/**
+* \`\`\`py
+* # This program adds two numbers
+*
+* num1 = 1.5
+* num2 = 6.3
+*
+* # Add two numbers
+* sum = num1 + num2
+*
+* # Display the sum
+* print('The sum of {0} and {1} is {2}'.format(num1, num2, sum))
+* \`\`\`
+*/
+`,
+  );
+
+  expect(result1).toMatchSnapshot();
+});
 /**
  * If this is a vertical ScrollView scrolls to the bottom.
  * If this is a horizontal ScrollView scrolls to the right.
