@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [12.x, 14.x]
+        prettier: [2.1, 2.2, latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install yarn
+        run: npm i -g yarn
+      - name: Install project dependencies
+        run: npx yarn install
+      - name: Install specific yarn version
+        run: npx yarn add prettier@${{ matrix.prettier }} && npx yarn list --depth=0 --pattern "prettier"
+      - name: Run tests
+        run: npm test

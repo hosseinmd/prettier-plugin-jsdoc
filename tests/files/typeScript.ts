@@ -21,8 +21,7 @@
       }
      } User
      */
-export let User: SSuppersassdssasdssadssasdsad<FetchCallbackResponseArray<FetchCallbackResponseArray,AAGUID,AddEventListenerOptions
->>;
+export let User: string
 
 /**
      @typedef {
