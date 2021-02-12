@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         node: [12.x, 14.x]
         prettier: [latest, 2.1, 2.2]
