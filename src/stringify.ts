@@ -70,7 +70,8 @@ const stringify = (
       } else {
         // append the description to the tag
         tagString += formatDescription(tag, description, options, {
-          firstLinePrintWidth: printWidth - tagString.length,
+          // 1 is `\n` which added to tagString
+          firstLinePrintWidth: printWidth - (tagString.length - 1),
         });
       }
     }

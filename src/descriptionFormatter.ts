@@ -1,7 +1,6 @@
 import { format } from "prettier";
 import { TAGS_NEED_FORMAT_DESCRIPTION } from "./roles";
 import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
-import { Comment } from "comment-parser";
 import { JsdocOptions } from "./types";
 import { capitalizer } from "./utils";
 
@@ -219,10 +218,13 @@ function breakDescriptionToLines(
   const extraLastLineWidth = 10;
   let result = "";
   while (str.length > maxWidth + extraLastLineWidth) {
-    let sliceIndex = str.lastIndexOf(" ", maxWidth);
+    let sliceIndex = str.lastIndexOf(
+      " ",
+      str.startsWith("\n") ? maxWidth + 1 : maxWidth,
+    );
     /**
      * When a str is a long word lastIndexOf will gives 4 every time loop
-     * running on limited time
+     * running unlimited time
      */
     if (sliceIndex <= beginningSpace.length)
       sliceIndex = str.indexOf(" ", beginningSpace.length + 1);

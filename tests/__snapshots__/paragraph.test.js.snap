@@ -166,8 +166,8 @@ exports[`description contain paragraph 3`] = `
    * mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
    * adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
    * magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-   * laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-   * in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+   * laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+   * reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
    * pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
    * qui officia deserunt mollit anim id est laborum.
    */
@@ -211,9 +211,9 @@ exports[`description new line with dash 1`] = `
  * - Stop a scroll on the left edge, then turn that into an outer view's backswipe.
  * - Stop a scroll mid-bounce at the top, continue pulling to have the outer view dismiss.
  * - However, without catching the scroll view mid-bounce (while it is
- *   motionless), if you drag far enough for the scroll view to become
- *   responder (and therefore drag the scroll view a bit), any backswipe
- *   navigation of a swipe gesture higher in the view hierarchy, should be rejected.
+ *   motionless), if you drag far enough for the scroll view to become responder
+ *   (and therefore drag the scroll view a bit), any backswipe navigation of a
+ *   swipe gesture higher in the view hierarchy, should be rejected.
  */
 function scrollResponderHandleTerminationRequest() {
   return !this.state.observedScrollSinceBecomingResponder;
@@ -298,8 +298,8 @@ exports[`numbers and code in description 1`] = `
  *
  * A high quality interaction isn't as simple as you might think. There should
  * be a slight delay before activation. Moving your finger beyond an element's
- * bounds should trigger deactivation, but moving the same finger back within
- * an element's bounds should trigger reactivation.
+ * bounds should trigger deactivation, but moving the same finger back within an
+ * element's bounds should trigger reactivation.
  *
  * 1. In order to use \`PressResponder\`, do the following:
  *
@@ -363,6 +363,19 @@ exports[`numbers and code in description 3`] = `
  * tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
  * quis nostrud exercitation ullamco laboris nisi ut aliq W3C Software Notice
  * and License: https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
+ */
+"
+`;
+
+exports[`printWidth 1`] = `
+"/**
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ *
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
  */
 "
 `;

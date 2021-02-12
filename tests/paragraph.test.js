@@ -377,6 +377,27 @@ test("code in description", () => {
   expect(result2).toMatchSnapshot();
 });
 
+test("printWidth", () => {
+  const result1 = subject(
+    `/**
+  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+  *
+  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+  */`,
+    {
+      printWidth: 80,
+    },
+  );
+
+  expect(subject(subject(result1))).toEqual(result1);
+
+  expect(result1).toMatchSnapshot();
+});
+
 /**
  * If this is a vertical ScrollView scrolls to the bottom.
  * If this is a horizontal ScrollView scrolls to the right.
