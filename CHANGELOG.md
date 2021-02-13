@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.10](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.9...v0.3.10) (2021-02-13)
+
+
+### Features
+
+* fix function params order ([2524413](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/25244133d1aa23483b6cae2b0319f36d4223da59))
+* imporved tag order ([#52](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/52)) ([00675e2](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/00675e278328c569cd9be73051153e7302052308))
+* support stars paragraphs ([1a9aa02](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/1a9aa026016b92348f7344ff4ba4f6d254b53106))
+
+
+### Bug Fixes
+
+* # in block code ([c864ba0](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/c864ba055ce691b2c9369954791fac0d24b7ac96))
+* add to dot to non-English descriptions  ([6445702](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6445702b5f180c90ec760d9db6cd6144cc4bbfd4))
+* better trimming + refactor ([9350ee7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/9350ee7998e9214fad7915c60343abdeee57c0c2))
+* bug in tags order ([1331861](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/13318611b9706f0b8f40c5c98172eb231243dc2c))
+* indentation and printWidth fix ([#56](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/56)) ([8361d95](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/8361d955f56100da5cff590e69814730e1b314be))
+* jsdocDescriptionWithDot with germany words ([041c882](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/041c88235cd0c2ac4ef319963ae50490cf7dd857))
+* jsdocKeepUnParseAbleExampleIndent ([8f18200](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/8f1820038ee847f26ee24d0301c8f97797cfc0a2))
+* maxWidth of lines ([5f807ce](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/5f807ce89d1c8960881b8576aed8992a895c7b36))
+* tags description indentation ([b9c343f](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b9c343f4e5972078846e595c833395d42333a0a3))
+* wrong yarn command ([389f404](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/389f40439c73ff5470ffd033a19d91726a70a925))
+* wrong yarn command ([0b9f468](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/0b9f46862b9811da6185464be6ccfcf24198a6c5))
+* **description:** `#` in text mistaken for heading ([d9a5617](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/d9a5617a268ae1226348d1b1f55d0123d5864f60))
+* **description:** description start underscores ([3b8bf02](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/3b8bf02d082d4fc55a9c8fd549f40bc02b68dffe))
+* **description:** empty lines ([7d89a66](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/7d89a661bf819c5fca291b7e76daafbe8496e85c))
+* separate `[@typedef](https://github.com/typedef)` and `[@callback](https://github.com/callback)` ([dfc78b4](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dfc78b40edd088d0c03afa8d76b6d61feb0f8383))
+* windows EOL now supported ([4220471](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/422047192e63a72e6c61dcbcb0074070713c8ab2))
+
 ### [0.3.9](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.8...v0.3.9) (2021-02-03)
 
 
