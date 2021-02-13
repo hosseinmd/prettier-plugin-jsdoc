@@ -148,7 +148,7 @@ function formatDescription(
                                   paragraph = capitalizer(paragraph);
                                   if (options.jsdocDescriptionWithDot)
                                     paragraph = paragraph.replace(
-                                      /([\wäöüÄÖÜß])$/g,
+                                      /([\w\p{L}])$/u,
                                       "$1.",
                                     ); // Insert dot if needed
 
