@@ -141,8 +141,13 @@ export const getParser = (parser: Parser["parse"]) =>
               a.tag === PARAM &&
               b.tag === PARAM
             ) {
-              //sort params
-              return paramsOrder.indexOf(a.name) - paramsOrder.indexOf(b.name);
+              const aIndex = paramsOrder.indexOf(a.name);
+              const bIndex = paramsOrder.indexOf(b.name);
+              if (aIndex > -1 && bIndex > -1) {
+                //sort params
+                return aIndex - bIndex;
+              }
+              return 0;
             }
             return getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag);
           });

@@ -374,6 +374,22 @@ const fun = (param0: () => {}, param1: number, param2) => {
 "
 `;
 
+exports[`param order 2`] = `
+"/**
+ * @param {string} a      - A for foo.
+ * @param {object} c      - Options.
+ * @param {object} opts   - Options.
+ * @param {string} opts.b - Option b.
+ * @param {string} v      - Option b.
+ * @param {string} opt2   - Option b.
+ */
+const foo = (a, c, { b }, v, opt2) => {
+  console.log(a, v, c, b);
+};
+foo(\\"a\\", { b: \\"b\\" });
+"
+`;
+
 exports[`since  1`] = `
 "/** @since 3.16.0 */
 "

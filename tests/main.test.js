@@ -525,4 +525,27 @@ async subDomain(subDomainAddress2,subDomainAddress) {
 `);
 
   expect(result).toMatchSnapshot();
+
+  const result2 = subject(
+    `
+ /**
+ * @param {object} c      - Options.
+ * @param {string} a      - A for foo.
+ * @param {object} opts   - Options.
+ * @param {string} opts.b - Option b.
+ * @param {string} opt2 - Option b.
+ * @param {string} v - Option b.
+ */
+const foo = (a,c, { b }, v, opt2) => {
+  console.log(a,v,c, b);
+};
+foo('a', { b: 'b' });
+  
+`,
+    {
+      jsdocVerticalAlignment: true,
+    },
+  );
+
+  expect(result2).toMatchSnapshot();
 });
