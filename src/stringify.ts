@@ -5,10 +5,6 @@ import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, SPACE_TAG_DATA } from "./tags";
 import { TAGS_VERTICALLY_ALIGN_ABLE } from "./roles";
 import { JsdocOptions } from "./types";
 
-/**
- * @param {string} a __very__ important!
- * @param {string} b _less_ important...
- */
 const stringify = (
   { name, description, type, tag }: Spec,
   tagIndex: number,
