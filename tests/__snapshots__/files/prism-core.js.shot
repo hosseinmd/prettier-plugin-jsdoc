@@ -75,15 +75,15 @@ var Prism = (function (_self) {
 			 * Returns the name of the type of the given value.
 			 *
 			 * @example
-			 *   type(null) === 'Null';
-			 *   type(undefined) === 'Undefined';
-			 *   type(123) === 'Number';
-			 *   type('foo') === 'String';
-			 *   type(true) === 'Boolean';
-			 *   type([1, 2]) === 'Array';
-			 *   type({}) === 'Object';
-			 *   type(String) === 'Function';
-			 *   type(/abc+/) === 'RegExp';
+			 * 	type(null) === 'Null';
+			 * 	type(undefined) === 'Undefined';
+			 * 	type(123) === 'Number';
+			 * 	type('foo') === 'String';
+			 * 	type(true) === 'Boolean';
+			 * 	type([1, 2]) === 'Array';
+			 * 	type({}) === 'Object';
+			 * 	type(String) === 'Function';
+			 * 	type(/abc+/) === 'RegExp'
 			 *
 			 * @param {any} o
 			 * @returns {string}
@@ -593,7 +593,7 @@ var Prism = (function (_self) {
 		 *
 		 * @memberof Prism
 		 * @example
-		 *   Prism.highlight('var foo = true;', Prism.languages.javascript, 'javascript');
+		 * 	Prism.highlight('var foo = true;', Prism.languages.javascript, 'javascript')
 		 *
 		 * @param {string} text A string with the code to be highlighted.
 		 * @param {Grammar} grammar An object containing the tokens to use.
@@ -625,13 +625,13 @@ var Prism = (function (_self) {
 		 *
 		 * @memberof Prism
 		 * @example
-		 *   let code = \`var foo = 0;\`;
-		 *   let tokens = Prism.tokenize(code, Prism.languages.javascript);
-		 *   tokens.forEach(token => {
-		 *   	if (token instanceof Prism.Token && token.type === 'number') {
-		 *   		console.log(\`Found numeric literal: \${token.content}\`);
-		 *   	}
-		 *   });
+		 * 	let code = \`var foo = 0;\`;
+		 * 	let tokens = Prism.tokenize(code, Prism.languages.javascript);
+		 * 	tokens.forEach(token => {
+		 * 		if (token instanceof Prism.Token && token.type === 'number') {
+		 * 			console.log(\`Found numeric literal: \${token.content}\`);
+		 * 		}
+		 * 	})
 		 *
 		 * @param {string} text A string with the code to be highlighted.
 		 * @param {Grammar} grammar An object containing the tokens to use.

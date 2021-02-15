@@ -26,6 +26,8 @@ const stringify = (
     jsdocVerticalAlignment,
     jsdocDescriptionTag,
     jsdocKeepUnParseAbleExampleIndent,
+    useTabs,
+    tabWidth,
   } = options;
   const gap = " ".repeat(jsdocSpaces);
 
@@ -86,19 +88,24 @@ const stringify = (
       tagString = `${tagString} ${exampleCaption[0]}`;
     }
 
+    const beginningSpace = useTabs ? "\t" : " ".repeat(tabWidth);
+
     // Remove two space from lines, maybe added previous format
     if (
       description
         .split("\n")
         .slice(1)
-        .every((v) => !v.trim() || v.startsWith("  "))
+        .every((v) => !v.trim() || v.startsWith(beginningSpace))
     ) {
-      description = description.replace(/\n[^\S\r\n]{2}/g, "\n");
+      description = description.replace(
+        new RegExp(`\n${useTabs ? "[\t]" : `[^S\r\n]{${tabWidth}}`}`, "g"),
+        "\n",
+      );
     }
 
     try {
       let formattedExample = "";
-      const examplePrintWith = printWidth - "  ".length;
+      const examplePrintWith = printWidth - tabWidth;
 
       // If example is a json
       if (description.trim().startsWith("{")) {
@@ -114,7 +121,7 @@ const stringify = (
         });
       }
 
-      tagString += formattedExample.replace(/(^|\n)/g, "\n  "); // Add tow space to start of lines
+      tagString += formattedExample.replace(/(^|\n)/g, "\n" + beginningSpace); // Add tow space to start of lines
       tagString = tagString.slice(0, tagString.length - 3);
     } catch (err) {
       tagString += "\n";
