@@ -18,6 +18,7 @@ const FILE = "file";
 const FIRES = "fires";
 const FLOW = "flow";
 const FUNCTION = "function";
+const IGNORE = "ignore";
 const MEMBER = "member";
 const MEMBEROF = "memberof";
 const OVERRIDE = "override";
@@ -65,6 +66,7 @@ export {
   FIRES,
   FLOW,
   FUNCTION,
+  IGNORE,
   MEMBER,
   MEMBEROF,
   OVERRIDE,
