@@ -11,7 +11,6 @@ import { DESCRIPTION, PARAM } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP,
-  TAGS_IS_CAMEL_CASE,
   TAGS_NAMELESS,
   TAGS_ORDER,
   TAGS_SYNONYMS,
@@ -246,6 +245,7 @@ function getIndentationWidth(
   return spaces + tabs * options.tabWidth;
 }
 
+const TAGS_ORDER_LOWER = TAGS_ORDER.map((tagOrder) => tagOrder.toLowerCase());
 /**
  * This will adjust the casing of tag titles, resolve synonyms, fix
  * incorrectly parsed tags, correct incorrectly assigned names and types, and
@@ -254,48 +254,55 @@ function getIndentationWidth(
  * @param parsed
  */
 function normalizeTags(parsed: Block): void {
-  parsed.tags.forEach((t) => {
-    t.tag = t.tag || "";
-    t.type = t.type || "";
-    t.name = t.name || "";
-    t.description = t.description || "";
-    t.default = t.default?.trim();
+  parsed.tags = parsed.tags.map(
+    ({ tag, type, name, description, default: _default, ...rest }) => {
+      tag = tag || "";
+      type = type || "";
+      name = name || "";
+      description = description || "";
+      _default = _default?.trim();
 
-    /** When the space between tag and type is missing */
-    const tagSticksToType = t.tag.indexOf("{");
-    if (tagSticksToType !== -1 && t.tag[t.tag.length - 1] === "}") {
-      t.type = t.tag.slice(tagSticksToType + 1, -1) + " " + t.type;
-      t.tag = t.tag.slice(0, tagSticksToType);
-    }
+      /** When the space between tag and type is missing */
+      const tagSticksToType = tag.indexOf("{");
+      if (tagSticksToType !== -1 && tag[tag.length - 1] === "}") {
+        type = tag.slice(tagSticksToType + 1, -1) + " " + type;
+        tag = tag.slice(0, tagSticksToType);
+      }
 
-    t.tag = t.tag.trim();
-    const lower = t.tag.toLowerCase();
-    if (
-      !TAGS_IS_CAMEL_CASE.includes(t.tag) &&
-      (TAGS_ORDER.includes(lower) || lower in TAGS_SYNONYMS)
-    ) {
-      t.tag = lower;
-    }
+      tag = tag.trim();
+      const lower = tag.toLowerCase();
+      const tagIndex = TAGS_ORDER_LOWER.indexOf(lower);
+      if (tagIndex >= 0) {
+        tag = TAGS_ORDER[tagIndex];
+      } else if (lower in TAGS_SYNONYMS) {
+        // resolve synonyms
+        tag = TAGS_SYNONYMS[lower as keyof typeof TAGS_SYNONYMS];
+      }
 
-    // resolve synonyms
-    if (t.tag in TAGS_SYNONYMS) {
-      t.tag = TAGS_SYNONYMS[t.tag as keyof typeof TAGS_SYNONYMS];
-    }
+      type = type.trim();
+      name = name.trim();
 
-    t.type = t.type.trim();
-    t.name = t.name.trim();
+      if (name && TAGS_NAMELESS.includes(tag)) {
+        description = `${name} ${description}`;
+        name = "";
+      }
+      if (type && TAGS_TYPELESS.includes(tag)) {
+        description = `{${type}} ${description}`;
+        type = "";
+      }
 
-    if (t.name && TAGS_NAMELESS.includes(t.tag)) {
-      t.description = `${t.name} ${t.description}`;
-      t.name = "";
-    }
-    if (t.type && TAGS_TYPELESS.includes(t.tag)) {
-      t.description = `{${t.type}} ${t.description}`;
-      t.type = "";
-    }
+      description = description.trim();
 
-    t.description = t.description.trim();
-  });
+      return {
+        tag,
+        type,
+        name,
+        description,
+        default: _default,
+        ...rest,
+      };
+    },
+  );
 }
 
 /**

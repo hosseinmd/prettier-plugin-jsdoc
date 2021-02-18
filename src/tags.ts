@@ -24,8 +24,10 @@ const MEMBEROF = "memberof";
 const OVERRIDE = "override";
 const PARAM = "param";
 const PRIVATE = "private";
+const PRIVATE_REMARKS = "privateRemarks";
 const PROPERTY = "property";
 const PROVIDES_MODULE = "providesModule";
+const REMARKS = "remarks";
 const RETURNS = "returns";
 const SEE = "see";
 const SINCE = "since";
@@ -71,9 +73,11 @@ export {
   MEMBEROF,
   OVERRIDE,
   PARAM,
+  PRIVATE_REMARKS,
   PRIVATE,
   PROPERTY,
   PROVIDES_MODULE,
+  REMARKS,
   RETURNS,
   SEE,
   SINCE,

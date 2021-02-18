@@ -5,6 +5,11 @@ exports[`object property 1`] = `
  * @providesModule Foo
  * @providesModule bar
  * @flow
+ * @remarks This source code is licensed under the license found in the
+ *   LICENSE file in the root directory of this source tree.
+ * @privateRemarks This Source code is licensed under the license found in the
+ *   LICENSE file in the root directory of this source tree.
+ * @privateRemarks description
  */
 
 /**
