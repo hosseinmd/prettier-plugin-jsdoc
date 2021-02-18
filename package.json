@@ -44,15 +44,28 @@
     "jest-specific-snapshot": "^4.0.0",
     "prettier": "^2.1.2",
     "standard-version": "^9.1.0",
+    "ts-jest": "^26.5.1",
     "typescript": "^4.1.5"
   },
   "peerDependencies": {
     "prettier": ">=2.1.2"
   },
   "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
     "verbose": true,
     "testMatch": [
+      "**/tests/**/*.test.ts",
       "**/tests/**/*.test.js"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
     ]
   },
   "dependencies": {

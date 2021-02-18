@@ -1,16 +1,13 @@
-const prettier = require("prettier");
+import prettier from "prettier";
+import { JsdocOptions } from "../src/types";
 
-function subject(code, options = {}) {
-  try {
-    return prettier.format(code, {
-      plugins: ["."],
-      jsdocSpaces: 1,
-      parser: "babel",
-      ...options,
-    });
-  } catch (error) {
-    console.error(error);
-  }
+function subject(code: string, options: Partial<JsdocOptions> = {}) {
+  return prettier.format(code, {
+    plugins: ["."],
+    jsdocSpaces: 1,
+    parser: "babel",
+    ...options,
+  } as JsdocOptions);
 }
 
 test("JS code should be formatted as usuall", () => {

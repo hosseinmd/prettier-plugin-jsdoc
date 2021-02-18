@@ -1,9 +1,14 @@
-const prettier = require("prettier");
-const { readFileSync } = require("fs");
-const { resolve } = require("path");
+import prettier from "prettier";
+import { readFileSync } from "fs";
+import { resolve } from "path";
+import { JsdocOptions } from "../src/types";
+
 require("jest-specific-snapshot");
 
-function subjectFiles(relativePath, options = {}) {
+function subjectFiles(
+  relativePath: string,
+  options: Partial<JsdocOptions> = {},
+) {
   const filepath = resolve(__dirname, relativePath);
 
   try {
@@ -15,7 +20,7 @@ function subjectFiles(relativePath, options = {}) {
       trailingComma: "all",
       filepath,
       ...options,
-    });
+    } as JsdocOptions);
   } catch (error) {
     console.error(error);
   }
@@ -28,7 +33,10 @@ function subjectFiles(relativePath, options = {}) {
  * @property {string} name
  * @property {import("prettier").Options} [options]
  */
-const files = [
+const files: {
+  name: string;
+  options?: Partial<JsdocOptions>;
+}[] = [
   { name: "typeScript.js" },
   { name: "typeScript.js" },
   { name: "typeScript.ts" },

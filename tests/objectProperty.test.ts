@@ -1,12 +1,13 @@
-const prettier = require("prettier");
+import prettier from "prettier";
+import { JsdocOptions } from "../src/types";
 
-function subject(code, options = {}) {
+function subject(code: string, options: Partial<JsdocOptions> = {}) {
   return prettier.format(code, {
     parser: "babel-flow",
     plugins: ["."],
     jsdocSpaces: 1,
     ...options,
-  });
+  } as JsdocOptions);
 }
 
 test("object property", () => {

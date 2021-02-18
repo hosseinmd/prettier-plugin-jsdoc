@@ -1,15 +1,12 @@
-const prettier = require("prettier");
+import prettier from "prettier";
+import { JsdocOptions } from "../src/types";
 
-function subject(code, options = {}) {
-  try {
-    return prettier.format(code, {
-      plugins: ["."],
-      parser: "babel-ts",
-      ...options,
-    });
-  } catch (error) {
-    console.error(error);
-  }
+function subject(code: string, options: Partial<JsdocOptions> = {}) {
+  return prettier.format(code, {
+    plugins: ["."],
+    parser: "babel-ts",
+    ...options,
+  } as JsdocOptions);
 }
 
 test("description contain paragraph", () => {
