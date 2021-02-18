@@ -1,5 +1,4 @@
 import { format } from "prettier";
-import { TAGS_NEED_FORMAT_DESCRIPTION } from "./roles";
 import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
 import { JsdocOptions } from "./types";
 import { capitalizer } from "./utils";
@@ -52,10 +51,6 @@ function formatDescription(
   options: JsdocOptions,
   formatOptions: FormatOptions = {},
 ): string {
-  if (!TAGS_NEED_FORMAT_DESCRIPTION.includes(tag)) {
-    return text;
-  }
-
   if (!text) return text;
 
   const { printWidth } = options;

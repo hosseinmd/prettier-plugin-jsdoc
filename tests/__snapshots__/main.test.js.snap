@@ -208,7 +208,7 @@ exports[`Should format regular jsDoc 1`] = `
  * @param {Number | Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  * @undefiendTag
- * @undefiendTag {number} name des
+ * @undefiendTag {number} name Des
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
 "
@@ -238,7 +238,7 @@ exports[`Should format regular jsDoc 2`] = `
  * @param {Number | Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  * @undefiendTag
- * @undefiendTag {number} name des
+ * @undefiendTag {number} name Des
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
 "

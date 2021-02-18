@@ -18,7 +18,7 @@ exports[`Example javascript code 1`] = `
  *   }
  *
  * @undefiendTag
- * @undefiendTag {number} name des
+ * @undefiendTag {number} name Des
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
 "
@@ -42,7 +42,7 @@ exports[`Example javascript code 2`] = `
  *   }
  *
  * @undefiendTag
- * @undefiendTag {number} name des
+ * @undefiendTag {number} name Des
  */
 const testFunction = (text, defaultValue, optionalNumber) => true;
 "
