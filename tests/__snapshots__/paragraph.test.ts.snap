@@ -43,6 +43,15 @@ exports[`New Lines with star 1`] = `
 "
 `;
 
+exports[`New Lines with star 2`] = `
+"/**
+ * Some comment text.
+ *
+ * **Warning:** I am a warning.
+ */
+"
+`;
+
 exports[`Non-english description with dot 1`] = `
 "/**
  * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu groß.

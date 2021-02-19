@@ -514,6 +514,17 @@ test("New Lines with star", () => {
   );
 
   expect(result1).toMatchSnapshot();
+
+  const result2 = subject(
+    `/**
+    * Some comment text.
+    *
+    * **Warning:** I am a warning.
+    */
+`,
+  );
+
+  expect(result2).toMatchSnapshot();
 });
 
 test("# in block code", () => {
