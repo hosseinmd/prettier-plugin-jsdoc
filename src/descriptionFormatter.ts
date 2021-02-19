@@ -97,14 +97,12 @@ function formatDescription(
   ); // Add a signature for new paragraph start with three space
 
   text = text.replace(
-    // [^*] is for ignore bold text like `**warning**`
-    /(\n\n+(\s+)?[-*]([^\S\r\n]+|[^*]))/g, // `\n\n - ` | `\n\n-` | `\n\n -` | `\n\n- `
+    /(\n\n+(\s+)?[-*]([^\S\r\n]+))/g, // `\n\n - ` | `\n\n-` | `\n\n -` | `\n\n- `
     NEW_PARAGRAPH_START_WITH_DASH,
   );
 
   text = text.replace(
-    // [^*] is for ignore bold text like `**warning**`
-    /\n\s*[-*]([^\S\r\n]+|[^*])/g, // `\n - ` | `\n-` | `\n -` | `\n- `
+    /\n\s*[-*]([^\S\r\n]+)/g, // `\n - ` | `\n-` | `\n -` | `\n- `
     NEW_LINE_START_WITH_DASH,
   );
 
