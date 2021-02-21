@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.12](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.10...v0.3.12) (2021-02-21)
+
+
+### Features
+
+* add [@remarks](https://github.com/remarks) and [@private](https://github.com/private)Remarks ([40cbe4b](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/40cbe4b500bd693b0cd623638ab047e5a32d7ca1))
+* add ignore to tags, synonyms hidden ([905f735](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/905f735830273d44acf77817f2f399b1a9259ff1))
+* use prettier options to example indentation ([8d96fd7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/8d96fd710c3c492494e7e44836eb16d07acebd1c))
+
+
+### Bug Fixes
+
+* bold text by stars ([306218b](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/306218b7909416d7f2074c911fc9d5f2cb3d1505))
+* format all tags descriptions ([cb815f0](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/cb815f09e2afc0a2d2d54bea9ab4ae4716f02baa))
+* sort params order without name ([5337018](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/53370180757d32a615e9dbe8f275931b871ca540))
+* sort params order without name ([5da7a26](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/5da7a26cfd05af155e76702b2e075bdfa89aefdc))
+
 ### [0.3.10](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.9...v0.3.10) (2021-02-13)
 
 
