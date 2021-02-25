@@ -550,3 +550,15 @@ foo('a', { b: 'b' });
 
   expect(result2).toMatchSnapshot();
 });
+
+test("jsdoc tags", () => {
+  const result2 = subject(
+    `/**
+    * @namespace
+    * @borrows trstr as trim
+    */   
+`,
+  );
+
+  expect(result2).toMatchSnapshot();
+});

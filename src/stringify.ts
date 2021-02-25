@@ -1,8 +1,12 @@
 import { Spec } from "comment-parser/src/primitives";
 import { format } from "prettier";
 import { formatDescription, descriptionEndLine } from "./descriptionFormatter";
-import { DESCRIPTION, EXAMPLE, MEMBEROF, SEE, SPACE_TAG_DATA } from "./tags";
-import { TAGS_VERTICALLY_ALIGN_ABLE } from "./roles";
+import { DESCRIPTION, EXAMPLE, SPACE_TAG_DATA } from "./tags";
+import {
+  TAGS_ORDER,
+  TAGS_PEV_FORMATE_DESCRIPTION,
+  TAGS_VERTICALLY_ALIGN_ABLE,
+} from "./roles";
 import { JsdocOptions } from "./types";
 
 const stringify = (
@@ -61,7 +65,10 @@ const stringify = (
   // Add description (complicated because of text wrap)
   if (description && tag !== EXAMPLE) {
     if (useTagTitle) tagString += gap + " ".repeat(descGapAdj);
-    if ([MEMBEROF, SEE].includes(tag)) {
+    if (
+      TAGS_PEV_FORMATE_DESCRIPTION.includes(tag) ||
+      !TAGS_ORDER.includes(tag)
+    ) {
       // Avoid wrapping
       tagString += description;
     } else {

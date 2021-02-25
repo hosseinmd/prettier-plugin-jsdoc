@@ -13,8 +13,8 @@ var _self =
 /**
  * Prism: Lightweight, robust, elegant syntax highlighting
  *
- * @author Lea Verou <https://lea.verou.me>
  * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
  * @namespace
  * @public
  */

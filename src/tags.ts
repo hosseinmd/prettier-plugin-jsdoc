@@ -4,6 +4,7 @@ const ABSTRACT = "abstract";
 const ASYNC = "async";
 const AUGMENTS = "augments";
 const AUTHOR = "author";
+const BORROWS = "borrows";
 const CALLBACK = "callback";
 const CATEGORY = "category";
 const CLASS = "class";
@@ -19,8 +20,11 @@ const FIRES = "fires";
 const FLOW = "flow";
 const FUNCTION = "function";
 const IGNORE = "ignore";
+const LICENSE = "license";
 const MEMBER = "member";
 const MEMBEROF = "memberof";
+const MODULE = "module";
+const NAMESPACE = "namespace";
 const OVERRIDE = "override";
 const PARAM = "param";
 const PRIVATE = "private";
@@ -54,6 +58,7 @@ export {
   ASYNC,
   AUGMENTS,
   AUTHOR,
+  BORROWS,
   CALLBACK,
   CATEGORY,
   CLASS,
@@ -69,8 +74,11 @@ export {
   FLOW,
   FUNCTION,
   IGNORE,
+  LICENSE,
   MEMBER,
   MEMBEROF,
+  MODULE,
+  NAMESPACE,
   OVERRIDE,
   PARAM,
   PRIVATE_REMARKS,
