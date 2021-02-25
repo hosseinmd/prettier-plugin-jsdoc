@@ -64,7 +64,7 @@ module.exports = {
 
 ## Ignore
 
-To ignore prettier use `/* */` or `//` instead of /** */
+To ignore prettier use `/* */` or `//` instead of /\*\* \*/
 
 ## Examples
 
@@ -180,6 +180,7 @@ Description is formatting as Markdown, so you could use any features of Markdown
 | jsdocDescriptionTag               | Boolean | false   |
 | jsdocVerticalAlignment            | Boolean | false   |
 | jsdocKeepUnParseAbleExampleIndent | Boolean | false   |
+| jsdocSingleLineComment            | Boolean | true    |
 
 Full up to date list and description of options can be found in Prettier help. First install plugin then run Prettier with "--help" option.
 

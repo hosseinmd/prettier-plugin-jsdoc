@@ -1,13 +1,17 @@
 import { ParserOptions } from "prettier";
 
-export type JsdocOptions = {
+export interface JsdocOptions {
   jsdocSpaces: number;
   jsdocDescriptionWithDot: boolean;
   jsdocDescriptionTag: boolean;
   jsdocVerticalAlignment: boolean;
   jsdocKeepUnParseAbleExampleIndent: boolean;
   jsdocParser: boolean;
-} & ParserOptions;
+  /** default is true */
+  jsdocSingleLineComment: boolean;
+}
+
+export interface AllOptions extends ParserOptions, JsdocOptions {}
 
 type LocationDetails = { line: number; column: number };
 type Location = { start: LocationDetails; end: LocationDetails };

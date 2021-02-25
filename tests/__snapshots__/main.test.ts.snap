@@ -162,6 +162,29 @@ exports[`Should convert to single line if necessary 3`] = `
 "
 `;
 
+exports[`Should convert to single multiLine 1`] = `
+"/**
+ * Single line description
+ */
+"
+`;
+
+exports[`Should convert to single multiLine 2`] = `
+"/**
+ * Single line description
+ */
+"
+`;
+
+exports[`Should convert to single multiLine 3`] = `
+"/**
+ * Single line description
+ *
+ * @returns {Boolean} Always true
+ */
+"
+`;
+
 exports[`Should format jsDoc default values 1`] = `
 "/**
  * @param {String} [arg1=\\"defaultTest\\"] Foo. Default is \`\\"defaultTest\\"\`

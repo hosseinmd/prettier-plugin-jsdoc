@@ -7,13 +7,13 @@ import {
   TAGS_PEV_FORMATE_DESCRIPTION,
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
-import { JsdocOptions } from "./types";
+import { AllOptions } from "./types";
 
 const stringify = (
   { name, description, type, tag }: Spec,
   tagIndex: number,
   finalTagsArray: Spec[],
-  options: JsdocOptions,
+  options: AllOptions,
   maxTagTitleLength: number,
   maxTagTypeNameLength: number,
   maxTagNameLength: number,

@@ -2,55 +2,70 @@ import { getParser } from "./parser";
 import parserBabel from "prettier/parser-babel";
 import parserFlow from "prettier/parser-flow";
 import parserTypescript from "prettier/parser-typescript";
-import prettier from "prettier";
+import prettier, { SupportOption } from "prettier";
+import { JsdocOptions } from "./types";
 
-const options = {
+const options: Record<keyof JsdocOptions, SupportOption> = {
   jsdocParser: {
+    name: "jsdocParser",
     type: "boolean",
     category: "jsdoc",
     default: true,
     description: "Format with jsdoc if is true",
   },
   jsdocSpaces: {
+    name: "jsdocSpaces",
     type: "int",
     category: "jsdoc",
     default: 1,
     description: "How many spaces will be used to separate tag elements.",
   },
   jsdocDescriptionWithDot: {
+    name: "jsdocDescriptionWithDot",
     type: "boolean",
     category: "jsdoc",
     default: false,
     description: "Should dot be inserted at the end of description",
   },
   jsdocDescriptionTag: {
+    name: "jsdocDescriptionTag",
     type: "boolean",
     category: "jsdoc",
     default: false,
     description: "Should description tag be used",
   },
   jsdocVerticalAlignment: {
+    name: "jsdocVerticalAlignment",
     type: "boolean",
     category: "jsdoc",
     default: false,
     description: "Should tags, types, names and description be aligned",
   },
   jsdocKeepUnParseAbleExampleIndent: {
+    name: "jsdocKeepUnParseAbleExampleIndent",
     type: "boolean",
     category: "jsdoc",
     default: false,
     description:
       "Should unParseAble example (pseudo code or no js code) keep its indentation",
   },
+  jsdocSingleLineComment: {
+    name: "jsdocSingleLineComment",
+    type: "boolean",
+    category: "jsdoc",
+    default: true,
+    description: "Should compact single line comment",
+  },
 };
 
-const defaultOptions = {
+const defaultOptions: JsdocOptions = {
   jsdocParser: true,
   jsdocSpaces: 1,
   jsdocDescriptionWithDot: false,
   jsdocDescriptionTag: false,
   jsdocVerticalAlignment: false,
   jsdocKeepUnParseAbleExampleIndent: false,
+  jsdocSingleLineComment: true,
 };
 
 const languages = prettier

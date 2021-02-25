@@ -1,13 +1,13 @@
 import prettier from "prettier";
-import { JsdocOptions } from "../src/types";
+import { AllOptions } from "../src/types";
 
-function subject(code: string, options: Partial<JsdocOptions> = {}) {
+function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
     parser: "typescript",
     plugins: ["."],
     jsdocSpaces: 1,
     ...options,
-  } as JsdocOptions);
+  } as AllOptions);
 }
 
 test("JS code should be formatted as usuall", () => {

@@ -1,6 +1,6 @@
 import { format } from "prettier";
 import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
-import { JsdocOptions } from "./types";
+import { AllOptions } from "./types";
 import { capitalizer } from "./utils";
 
 const EMPTY_LINE_SIGNATURE = "2@^5!~#sdE!_EMPTY_LINE_SIGNATURE";
@@ -48,7 +48,7 @@ interface FormatOptions {
 function formatDescription(
   tag: string,
   text: string,
-  options: JsdocOptions,
+  options: AllOptions,
   formatOptions: FormatOptions = {},
 ): string {
   if (!text) return text;

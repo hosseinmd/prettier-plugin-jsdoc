@@ -1,13 +1,13 @@
 import prettier from "prettier";
-import { JsdocOptions } from "../src/types";
+import { AllOptions } from "../src/types";
 
-function subject(code: string, options: Partial<JsdocOptions> = {}) {
+function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
     plugins: ["."],
     jsdocSpaces: 1,
     parser: "babel",
     ...options,
-  } as JsdocOptions);
+  } as AllOptions);
 }
 
 test("single tag", () => {

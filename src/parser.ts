@@ -17,7 +17,7 @@ import {
   TAGS_TYPELESS,
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
-import { AST, JsdocOptions, PrettierComment, Token } from "./types";
+import { AST, AllOptions, PrettierComment, Token } from "./types";
 import { stringify } from "./stringify";
 import { Parser } from "prettier";
 import { SPACE_TAG_DATA } from "./tags";
@@ -27,7 +27,7 @@ export const getParser = (parser: Parser["parse"]) =>
   function jsdocParser(
     text: string,
     parsers: Parameters<Parser["parse"]>[1],
-    options: JsdocOptions,
+    options: AllOptions,
   ): AST {
     const ast = parser(text, parsers, options) as AST;
 
@@ -201,7 +201,10 @@ export const getParser = (parser: Parser["parse"]) =>
       comment.value = comment.value.trimEnd();
 
       if (comment.value) {
-        comment.value = addStarsToTheBeginningOfTheLines(comment.value);
+        comment.value = addStarsToTheBeginningOfTheLines(
+          comment.value,
+          options,
+        );
       }
 
       if (eol === "cr") {
@@ -225,7 +228,7 @@ function isBlockComment(comment: PrettierComment): boolean {
 function getIndentationWidth(
   comment: PrettierComment,
   text: string,
-  options: JsdocOptions,
+  options: AllOptions,
 ): number {
   const line = text.split(/\r\n?|\n/g)[comment.loc.start.line - 1];
 

@@ -1,5 +1,5 @@
 import { format, Options } from "prettier";
-import { Token } from "./types";
+import { AllOptions, Token } from "./types";
 import BSearch from "binary-search-bounds";
 
 function convertToModernType(oldType: string): string {
@@ -118,8 +118,14 @@ function formatType(type: string, options?: Options): string {
   }
 }
 
-function addStarsToTheBeginningOfTheLines(comment: string): string {
-  if (numberOfAStringInString(comment.trim(), "\n") === 0) {
+function addStarsToTheBeginningOfTheLines(
+  comment: string,
+  options: AllOptions,
+): string {
+  if (
+    options.jsdocSingleLineComment &&
+    numberOfAStringInString(comment.trim(), "\n") === 0
+  ) {
     return `* ${comment.trim()} `;
   }
 

@@ -1,13 +1,13 @@
 import prettier from "prettier";
-import { JsdocOptions } from "../src/types";
+import { AllOptions } from "../src/types";
 
-function subject(code: string, options: Partial<JsdocOptions> = {}) {
+function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
     parser: "babel",
     plugins: ["."],
     jsdocSpaces: 1,
     ...options,
-  } as JsdocOptions);
+  } as AllOptions);
 }
 
 test("JS code should be formatted as usuall", () => {
@@ -79,6 +79,36 @@ test("Should convert to single line if necessary", () => {
  * @return {Boolean} Always true
  * @example
  */`);
+
+  expect(Result1).toMatchSnapshot();
+  expect(Result2).toMatchSnapshot();
+  expect(Result3).toMatchSnapshot();
+});
+
+test("Should convert to single multiLine", () => {
+  const Result1 = subject(`/** single line description*/`, {
+    jsdocSingleLineComment: false,
+  });
+  const Result2 = subject(
+    subject(`/**
+ * single line description
+ * @example
+ */`),
+    {
+      jsdocSingleLineComment: false,
+    },
+  );
+
+  const Result3 = subject(
+    `/**
+ * single line description
+ * @return {Boolean} Always true
+ * @example
+ */`,
+    {
+      jsdocSingleLineComment: false,
+    },
+  );
 
   expect(Result1).toMatchSnapshot();
   expect(Result2).toMatchSnapshot();
