@@ -1,5 +1,4 @@
 import { Spec } from "comment-parser/src/primitives";
-import { format } from "prettier";
 import { formatDescription, descriptionEndLine } from "./descriptionFormatter";
 import { DESCRIPTION, EXAMPLE, SPACE_TAG_DATA } from "./tags";
 import {
@@ -8,6 +7,7 @@ import {
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
 import { AllOptions } from "./types";
+import { formatCode } from "./utils";
 
 const stringify = (
   { name, description, type, tag }: Spec,
@@ -29,7 +29,6 @@ const stringify = (
     jsdocSpaces,
     jsdocVerticalAlignment,
     jsdocDescriptionTag,
-    jsdocKeepUnParseAbleExampleIndent,
     useTabs,
     tabWidth,
   } = options;
@@ -96,47 +95,10 @@ const stringify = (
     }
 
     const beginningSpace = useTabs ? "\t" : " ".repeat(tabWidth);
-
-    // Remove two space from lines, maybe added previous format
-    if (
-      description
-        .split("\n")
-        .slice(1)
-        .every((v) => !v.trim() || v.startsWith(beginningSpace))
-    ) {
-      description = description.replace(
-        new RegExp(`\n${useTabs ? "[\t]" : `[^S\r\n]{${tabWidth}}`}`, "g"),
-        "\n",
-      );
-    }
-
-    try {
-      let formattedExample = "";
-      const examplePrintWith = printWidth - tabWidth;
-
-      // If example is a json
-      if (description.trim().startsWith("{")) {
-        formattedExample = format(description || "", {
-          ...options,
-          parser: "json",
-          printWidth: examplePrintWith,
-        });
-      } else {
-        formattedExample = format(description || "", {
-          ...options,
-          printWidth: examplePrintWith,
-        });
-      }
-
-      tagString += formattedExample.replace(/(^|\n)/g, "\n" + beginningSpace); // Add tow space to start of lines
-      tagString = tagString.slice(0, tagString.length - 3);
-    } catch (err) {
-      tagString += "\n";
-      tagString += description
-        .split("\n")
-        .map((l) => `  ${jsdocKeepUnParseAbleExampleIndent ? l : l.trim()}`)
-        .join("\n");
-    }
+    const formattedExample = formatCode(description, beginningSpace, options);
+    tagString += formattedExample.startsWith("\n")
+      ? formattedExample.trimEnd()
+      : "\n" + formattedExample;
   }
 
   // Add empty line after some tags if there is something below

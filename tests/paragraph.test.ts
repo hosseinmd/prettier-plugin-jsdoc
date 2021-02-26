@@ -154,9 +154,8 @@ test("description new line with dash", () => {
    *
    * The test case file can either consist of two parts:
    *
-   *     {source code}
-   *     ----
-   *     {expected token stream}
+   *     const a='' 
+   *     const b={c:[]} 
    *
    *
    * or of three parts:

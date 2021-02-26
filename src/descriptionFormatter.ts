@@ -1,7 +1,7 @@
 import { format } from "prettier";
 import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
 import { AllOptions } from "./types";
-import { capitalizer } from "./utils";
+import { capitalizer, formatCode } from "./utils";
 
 const EMPTY_LINE_SIGNATURE = "2@^5!~#sdE!_EMPTY_LINE_SIGNATURE";
 const NEW_LINE_START_WITH_DASH = "2@^5!~#sdE!_NEW_LINE_START_WITH_DASH";
@@ -12,6 +12,7 @@ const NEW_PARAGRAPH_START_WITH_DASH =
 const NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE =
   "2@^5!~#sdE!_NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE";
 const CODE = "2@^5!~#sdE!_CODE";
+const CODE_INDENTED = "2@^5!~#sdE!_CODE_INDENTED";
 
 interface DescriptionEndLineParams {
   description: string;
@@ -63,6 +64,17 @@ function formatDescription(
       text = text.replace(code, `\n\n${CODE}\n\n`);
     });
   }
+  const intendedCodes: string[] = [];
+  text = text.replace(
+    /(\n\n[^\S\r\n]{4}[\s\S]*?)((\n[\S])|$)/g,
+    (code, _1, _2, _3) => {
+      code = _3 ? code.slice(0, -1) : code;
+
+      intendedCodes.push(code);
+      return `\n\n${CODE_INDENTED}\n\n${_3 ? _3.slice(1) : ""}`;
+    },
+  );
+
   /**
    * Description
    *
@@ -194,6 +206,19 @@ function formatDescription(
     }, "");
   }
 
+  if (intendedCodes.length > 0) {
+    text = text.split(CODE_INDENTED).reduce((pre, cur, index) => {
+      let result = intendedCodes?.[index] || "";
+      const beginningSpace = " ".repeat(4);
+
+      if (result) {
+        // Remove two space from lines, maybe added previous format
+        result = formatCode(result, beginningSpace, options).trim();
+      }
+      return `${pre}${cur.trim()}${result ? `\n\n    ${result}\n\n` : ""}`;
+    }, "");
+  }
+
   text = text.trim().slice(tagStringLength);
 
   return text;
@@ -209,6 +234,7 @@ function breakDescriptionToLines(
   if (!str) {
     return str;
   }
+
   const extraLastLineWidth = 10;
   let result = "";
   while (str.length > maxWidth + extraLastLineWidth) {

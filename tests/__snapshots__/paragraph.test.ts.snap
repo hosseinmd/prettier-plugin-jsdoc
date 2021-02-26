@@ -354,17 +354,16 @@ exports[`description new line with dash 3`] = `
  *
  * The test case file can either consist of two parts:
  *
- *     {source code}
- *     -------------------------------------
- * {expected token stream}
+ *     const a = \\"\\";
+ *     const b = { c: [] };
  *
  * Or of three parts:
  *
  *     {source code}
- *     -------------------------------------
- * {expected token stream}
- *     -------------------------------------
- * {text comment explaining the test case}
+ *     ----
+ *     {expected token stream}
+ *     ----
+ *     {text comment explaining the test case}
  *
  * If the file contains more than three parts, the remaining parts are just
  * ignored. If the file however does not contain at least two parts (so no

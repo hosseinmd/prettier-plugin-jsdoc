@@ -207,6 +207,64 @@ function findTokenIndex(tokens: Token[], token: Token): number {
   });
 }
 
+function formatCode(
+  result: string,
+  beginningSpace: string,
+  options: AllOptions,
+): string {
+  const { printWidth, jsdocKeepUnParseAbleExampleIndent } = options;
+
+  if (
+    result
+      .split("\n")
+      .slice(1)
+      .every((v) => !v.trim() || v.startsWith(beginningSpace))
+  ) {
+    result = result.replace(
+      new RegExp(
+        `\n${beginningSpace
+          .replace(/[\t]/g, "[\\t]")
+          .replace(/[^S\r\n]/g, "[^S\\r\\n]")}`,
+        "g",
+      ),
+      "\n",
+    );
+  }
+
+  try {
+    let formattedExample = "";
+    const examplePrintWith = printWidth - 4;
+
+    // If example is a json
+    if (result.trim().startsWith("{")) {
+      formattedExample = format(result || "", {
+        ...options,
+        parser: "json",
+        printWidth: examplePrintWith,
+      });
+    } else {
+      formattedExample = format(result || "", {
+        ...options,
+        printWidth: examplePrintWith,
+      });
+    }
+
+    result = formattedExample.replace(/(^|\n)/g, "\n" + beginningSpace); // Add spaces to start of lines
+  } catch (err) {
+    result = result
+      .split("\n")
+      .map(
+        (l) =>
+          `${beginningSpace}${
+            jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
+          }`,
+      )
+      .join("\n");
+  }
+
+  return result;
+}
+
 export {
   convertToModernType,
   formatType,
@@ -214,4 +272,5 @@ export {
   capitalizer,
   detectEndOfLine,
   findTokenIndex,
+  formatCode,
 };

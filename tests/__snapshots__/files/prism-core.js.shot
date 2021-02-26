@@ -83,7 +83,7 @@ var Prism = (function (_self) {
 			 * 	type([1, 2]) === 'Array';
 			 * 	type({}) === 'Object';
 			 * 	type(String) === 'Function';
-			 * 	type(/abc+/) === 'RegExp'
+			 * 	type(/abc+/) === 'RegExp';
 			 *
 			 * @param {any} o
 			 * @returns {string}
@@ -275,13 +275,13 @@ var Prism = (function (_self) {
 			 * Furthermore, all non-overwriting tokens should be placed after the overwriting ones.
 			 *
 			 * @example
-			 *   Prism.languages['css-with-colors'] = Prism.languages.extend('css', {
-			 *       // Prism.languages.css already has a 'comment' token, so this token will overwrite CSS' 'comment' token
-			 *       // at its original position
-			 *       'comment': { ... },
-			 *       // CSS doesn't have a 'color' token, so this token will be appended
-			 *       'color': /\\\\b(?:red|green|blue)\\\\b/
-			 *   });
+			 * 	Prism.languages['css-with-colors'] = Prism.languages.extend('css', {
+			 * 	    // Prism.languages.css already has a 'comment' token, so this token will overwrite CSS' 'comment' token
+			 * 	    // at its original position
+			 * 	    'comment': { ... },
+			 * 	    // CSS doesn't have a 'color' token, so this token will be appended
+			 * 	    'color': /\\\\b(?:red|green|blue)\\\\b/
+			 * 	});
 			 *
 			 * @param {string} id The id of the language to extend. This has to be a key in \`Prism.languages\`.
 			 * @param {Grammar} redef The new tokens to append.
@@ -593,7 +593,7 @@ var Prism = (function (_self) {
 		 *
 		 * @memberof Prism
 		 * @example
-		 * 	Prism.highlight('var foo = true;', Prism.languages.javascript, 'javascript')
+		 * 	Prism.highlight('var foo = true;', Prism.languages.javascript, 'javascript');
 		 *
 		 * @param {string} text A string with the code to be highlighted.
 		 * @param {Grammar} grammar An object containing the tokens to use.
@@ -631,7 +631,7 @@ var Prism = (function (_self) {
 		 * 		if (token instanceof Prism.Token && token.type === 'number') {
 		 * 			console.log(\`Found numeric literal: \${token.content}\`);
 		 * 		}
-		 * 	})
+		 * 	});
 		 *
 		 * @param {string} text A string with the code to be highlighted.
 		 * @param {Grammar} grammar An object containing the tokens to use.
