@@ -9,6 +9,7 @@ export interface JsdocOptions {
   jsdocParser: boolean;
   /** default is true */
   jsdocSingleLineComment: boolean;
+  tsdoc: boolean;
 }
 
 export interface AllOptions extends ParserOptions, JsdocOptions {}

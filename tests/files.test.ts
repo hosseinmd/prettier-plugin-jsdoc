@@ -54,6 +54,12 @@ const files: {
       jsdocKeepUnParseAbleExampleIndent: true,
     },
   },
+  {
+    name: "tsdoc.ts",
+    options: {
+      tsdoc: true,
+    },
+  },
 ];
 
 for (let i = 0; i < files.length; i++) {

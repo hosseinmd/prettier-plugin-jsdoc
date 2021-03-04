@@ -29,6 +29,7 @@ const stringify = (
     jsdocSpaces,
     jsdocVerticalAlignment,
     jsdocDescriptionTag,
+    tsdoc,
     useTabs,
     tabWidth,
   } = options;
@@ -61,8 +62,22 @@ const stringify = (
   }
   if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
 
-  // Add description (complicated because of text wrap)
-  if (description && tag !== EXAMPLE) {
+  // Try to use prettier on @example tag description
+  if (tag === EXAMPLE && !tsdoc) {
+    const exampleCaption = description.match(/<caption>([\s\S]*?)<\/caption>/i);
+
+    if (exampleCaption) {
+      description = description.replace(exampleCaption[0], "");
+      tagString = `${tagString} ${exampleCaption[0]}`;
+    }
+
+    const beginningSpace = useTabs ? "\t" : " ".repeat(tabWidth);
+    const formattedExample = formatCode(description, beginningSpace, options);
+    tagString += formattedExample.startsWith("\n")
+      ? formattedExample.trimEnd()
+      : "\n" + formattedExample;
+  } // Add description (complicated because of text wrap)
+  else if (description) {
     if (useTagTitle) tagString += gap + " ".repeat(descGapAdj);
     if (
       TAGS_PEV_FORMATE_DESCRIPTION.includes(tag) ||
@@ -83,22 +98,6 @@ const stringify = (
         });
       }
     }
-  }
-
-  // Try to use prettier on @example tag description
-  if (tag === EXAMPLE) {
-    const exampleCaption = description.match(/<caption>([\s\S]*?)<\/caption>/i);
-
-    if (exampleCaption) {
-      description = description.replace(exampleCaption[0], "");
-      tagString = `${tagString} ${exampleCaption[0]}`;
-    }
-
-    const beginningSpace = useTabs ? "\t" : " ".repeat(tabWidth);
-    const formattedExample = formatCode(description, beginningSpace, options);
-    tagString += formattedExample.startsWith("\n")
-      ? formattedExample.trimEnd()
-      : "\n" + formattedExample;
   }
 
   // Add empty line after some tags if there is something below

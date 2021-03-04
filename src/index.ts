@@ -56,16 +56,25 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     default: true,
     description: "Should compact single line comment",
   },
+  tsdoc: {
+    name: "tsdoc",
+    type: "boolean",
+    category: "jsdoc",
+    default: false,
+    description: "Should format as tsdoc",
+  },
 };
 
 const defaultOptions: JsdocOptions = {
-  jsdocParser: true,
-  jsdocSpaces: 1,
-  jsdocDescriptionWithDot: false,
-  jsdocDescriptionTag: false,
-  jsdocVerticalAlignment: false,
-  jsdocKeepUnParseAbleExampleIndent: false,
-  jsdocSingleLineComment: true,
+  jsdocParser: options.jsdocParser.default as boolean,
+  jsdocSpaces: options.jsdocSpaces.default as number,
+  jsdocDescriptionWithDot: options.jsdocDescriptionWithDot.default as boolean,
+  jsdocDescriptionTag: options.jsdocDescriptionTag.default as boolean,
+  jsdocVerticalAlignment: options.jsdocVerticalAlignment.default as boolean,
+  jsdocKeepUnParseAbleExampleIndent: options.jsdocKeepUnParseAbleExampleIndent
+    .default as boolean,
+  jsdocSingleLineComment: options.jsdocSingleLineComment.default as boolean,
+  tsdoc: options.tsdoc.default as boolean,
 };
 
 const languages = prettier
