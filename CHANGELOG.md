@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.13](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.12...v0.3.13) (2021-03-04)
+
+
+### Features
+
+* add [@borrows](https://github.com/borrows) [@namespace](https://github.com/namespace) [@license](https://github.com/license) [@module](https://github.com/module) ([2a377f2](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/2a377f2aeeb6a51da628ea86021d2309ff3c2c58))
+* add jsdocSingleLineComment to options ([f755db1](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/f755db1e72af75685fbb997d2ef1fe346e8092ee))
+* format indented code block ([b5d8c9f](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b5d8c9f8bcc85ed789136806cb3a4cb058cfd52f))
+* support tsdoc ([4213aed](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/4213aedd3b63e9dbc9e25c2b58a6e3cfcf7ede6b))
+
 ### [0.3.12](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.10...v0.3.12) (2021-02-21)
 
 
