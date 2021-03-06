@@ -87,7 +87,10 @@ const stringify = (
       tagString += description;
     } else {
       const [, firstWord] = /^\s*(\S+)/.exec(description) || ["", ""];
-      if (tagString.length + firstWord.length > printWidth) {
+      if (
+        tag !== DESCRIPTION &&
+        tagString.length + firstWord.length > printWidth
+      ) {
         // the tag is already longer than we are allowed to, so let's start at a new line
         tagString += "\n  " + formatDescription(tag, description, options);
       } else {

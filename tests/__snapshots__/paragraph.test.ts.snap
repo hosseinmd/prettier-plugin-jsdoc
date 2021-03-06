@@ -29,6 +29,13 @@ exports[`\`#\` in text 1`] = `
 "
 `;
 
+exports[`Long words 1`] = `
+"/**
+ * 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567
+ */
+"
+`;
+
 exports[`New Lines with star 1`] = `
 "/**
  * Simplifies the token stream to ease the matching with the expected token stream.
@@ -83,8 +90,7 @@ exports[`Non-english description with dot 1`] = `
  */
 
 /**
- *
- *   Unicode（ユニコード）は、符号化文字集合や文字符号化方式などを定めた、文字コードの業界規格。文字集合（文字セット）が単一の大規模文字セットであること（「Uni」という名はそれに由来する）などが特徴である.
+ * Unicode（ユニコード）は、符号化文字集合や文字符号化方式などを定めた、文字コードの業界規格。文字集合（文字セット）が単一の大規模文字セットであること（「Uni」という名はそれに由来する）などが特徴である.
  *
  * @see https://ja.wikipedia.org/wiki/Unicode
  */
