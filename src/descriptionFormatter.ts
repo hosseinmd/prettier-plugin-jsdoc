@@ -13,6 +13,7 @@ const NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE =
   "2@^5!~#sdE!_NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE";
 const CODE = "2@^5!~#sdE!_CODE";
 const CODE_INDENTED = "2@^5!~#sdE!_CODE_INDENTED";
+const TABLE = "2@^5!~#sdE!_TABLE";
 
 interface DescriptionEndLineParams {
   description: string;
@@ -74,6 +75,14 @@ function formatDescription(
       return `\n\n${CODE_INDENTED}\n\n${_3 ? _3.slice(1) : ""}`;
     },
   );
+
+  const tables: string[] = [];
+  text = text.replace(/((\n|^)\|[\s\S]*?)((\n[^|])|$)/g, (code, _1, _2, _3) => {
+    code = _3 ? code.slice(0, -1) : code;
+
+    tables.push(code);
+    return `\n\n${TABLE}\n\n${_3 ? _3.slice(1) : ""}`;
+  });
 
   /**
    * Description
@@ -216,6 +225,19 @@ function formatDescription(
         result = formatCode(result, beginningSpace, options).trim();
       }
       return `${pre}${cur.trim()}${result ? `\n\n    ${result}\n\n` : ""}`;
+    }, "");
+  }
+
+  if (tables.length > 0) {
+    text = text.split(TABLE).reduce((pre, cur, index) => {
+      let result = tables?.[index] || "";
+      if (result) {
+        result = format(result, {
+          ...options,
+          parser: "markdown",
+        }).trim();
+      }
+      return `${pre}${cur.trim()}${result ? `\n\n${result}\n\n` : ""}`;
     }, "");
   }
 

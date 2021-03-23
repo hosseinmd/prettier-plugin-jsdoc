@@ -36,6 +36,36 @@ exports[`Long words 1`] = `
 "
 `;
 
+exports[`Markdown Table 1`] = `
+"/**
+ * Description
+ *
+ * | A   | B   | C   |
+ * | --- | --- | --- |
+ * | C   | V   | B   |
+ * | 1   | 2   | 3   |
+ *
+ * Description
+ *
+ * | A| B |C |
+ * |C | V | B |
+ * |1|2|3|
+ *
+ * End
+ */
+"
+`;
+
+exports[`Markdown Table 2`] = `
+"/**
+ * | A   | B   | C   |
+ * | --- | --- | --- |
+ * | C   | V   | B   |
+ * | 1   | 2   | 3   |
+ */
+"
+`;
+
 exports[`New Lines with star 1`] = `
 "/**
  * Simplifies the token stream to ease the matching with the expected token stream.

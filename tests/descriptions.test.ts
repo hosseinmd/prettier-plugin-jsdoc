@@ -563,11 +563,39 @@ test("Long words", () => {
   expect(result2).toMatchSnapshot();
 });
 
+test("Markdown Table", () => {
+  const result1 = subject(
+    `
 /**
- * If this is a vertical ScrollView scrolls to the bottom.
- * If this is a horizontal ScrollView scrolls to the right.
- *
- * Use `scrollToEnd({ animated: true })` for smooth animated scrolling,
- * `scrollToEnd({ animated: false })` for immediate scrolling.
- * If no options are passed, `animated` defaults to true.
+ * description 
+ * | A| B |C |
+ * | - | - | - |
+ * |C | V | B |
+ * |1|2|3|
+ * 
+ * description 
+ * 
+ * 
+ * | A| B |C |
+ * |C | V | B |
+ * |1|2|3|
+ * end
  */
+`,
+  );
+
+  expect(result1).toMatchSnapshot();
+
+  const result2 = subject(
+    `
+/**
+ * | A| B |C |
+ * | - | - | - |
+ * |C | V | B |
+ * |1|2|3|
+ */
+`,
+  );
+
+  expect(result2).toMatchSnapshot();
+});
