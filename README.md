@@ -37,12 +37,14 @@ yarn add prettier-plugin-jsdoc
 
 ## Config
 
+Set jsdocParser true, will format all javascript and typescript files comments.
+
 .prettierrc
 
 ```json
 {
-  //any other config you have
-  "jsdocParser": true, // default is true, format all javascript and typescript files
+  ...
+  "jsdocParser": true,
 };
 ```
 
