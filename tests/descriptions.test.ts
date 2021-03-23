@@ -598,4 +598,18 @@ test("Markdown Table", () => {
   );
 
   expect(result2).toMatchSnapshot();
+
+  const result3 = subject(
+    `
+/**
+ * @param {string} a description
+ * | A| B |C |
+ * | - | - | - |
+ * |C | V | B |
+ * |1|2|3|
+ */
+`,
+  );
+
+  expect(result3).toMatchSnapshot();
 });

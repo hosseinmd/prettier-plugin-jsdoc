@@ -237,7 +237,13 @@ function formatDescription(
           parser: "markdown",
         }).trim();
       }
-      return `${pre}${cur.trim()}${result ? `\n\n${result}\n\n` : ""}`;
+      return `${pre}${cur.trim()}${
+        result
+          ? `\n\n${beginningSpace}${result
+              .split("\n")
+              .join(`\n${beginningSpace}`)}\n\n`
+          : ""
+      }`;
     }, "");
   }
 
