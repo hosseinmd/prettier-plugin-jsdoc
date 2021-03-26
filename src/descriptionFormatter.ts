@@ -83,7 +83,6 @@ function formatDescription(
   text = capitalizer(text);
 
   text = `${"!".repeat(tagStringLength)}${
-    /** @todo issue: {@link https://github.com/syntax-tree/mdast-util-from-markdown/issues/18} */
     text.startsWith("```") ? "\n" : ""
   }${text}`;
 
