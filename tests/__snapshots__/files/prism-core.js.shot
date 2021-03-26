@@ -13,8 +13,8 @@ var _self =
 /**
  * Prism: Lightweight, robust, elegant syntax highlighting
  *
- * @license MIT <https://opensource.org/licenses/MIT>
- * @author Lea Verou <https://lea.verou.me>
+ * @license MIT [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT)
+ * @author Lea Verou [https://lea.verou.me](https://lea.verou.me)
  * @namespace
  * @public
  */
@@ -51,7 +51,7 @@ var Prism = (function (_self) {
 		/**
 		 * A namespace for utility methods.
 		 *
-		 * All function in this namespace that are not explicitly marked as _public_ are for __internal use only__ and may
+		 * All function in this namespace that are not explicitly marked as *public* are for **internal use only** and may
 		 * change or disappear at any time.
 		 *
 		 * @memberof Prism
@@ -176,7 +176,7 @@ var Prism = (function (_self) {
 			/**
 			 * Returns the script element that is currently executing.
 			 *
-			 * This does __not__ work for line script element.
+			 * This does **not** work for line script element.
 			 *
 			 * @returns {HTMLScriptElement | null}
 			 */
@@ -219,14 +219,14 @@ var Prism = (function (_self) {
 			 * Returns whether a given class is active for \`element\`.
 			 *
 			 * The class can be activated if \`element\` or one of its ancestors has the given class and it can be deactivated
-			 * if \`element\` or one of its ancestors has the negated version of the given class. The _negated version_ of the
+			 * if \`element\` or one of its ancestors has the negated version of the given class. The *negated version* of the
 			 * given class is just the given class with a \`no-\` prefix.
 			 *
 			 * Whether the class is active is determined by the closest ancestor of \`element\` (where \`element\` itself is
 			 * closest ancestor) that has the given class or the negated version of it. If neither \`element\` nor any of its
 			 * ancestors have the given class or the negated version of it, then the default activation will be returned.
 			 *
-			 * In the paradoxical situation where the closest ancestor contains __both__ the given class and the negated
+			 * In the paradoxical situation where the closest ancestor contains **both** the given class and the negated
 			 * version of it, the class is considered active.
 			 *
 			 * @param {Element} element
@@ -299,7 +299,7 @@ var Prism = (function (_self) {
 			},
 
 			/**
-			 * Inserts tokens _before_ another token in a language definition or any other grammar.
+			 * Inserts tokens *before* another token in a language definition or any other grammar.
 			 *
 			 * ## Usage
 			 *
@@ -455,6 +455,7 @@ var Prism = (function (_self) {
 		 * Prism.highlightElement} on each one of them.
 		 *
 		 * The following hooks will be run:
+		 *
 		 * 1. \`before-highlightall\`
 		 * 2. \`before-all-elements-highlight\`
 		 * 3. All hooks of {@link Prism.highlightElement} for each element.
@@ -489,6 +490,7 @@ var Prism = (function (_self) {
 		 * Highlights the code inside a single element.
 		 *
 		 * The following hooks will be run:
+		 *
 		 * 1. \`before-sanity-check\`
 		 * 2. \`before-highlight\`
 		 * 3. All hooks of {@link Prism.highlight}. These hooks will be run by an asynchronous worker if \`async\` is \`true\`.
@@ -587,6 +589,7 @@ var Prism = (function (_self) {
 		 * definitions to use, and returns a string with the HTML produced.
 		 *
 		 * The following hooks will be run:
+		 *
 		 * 1. \`before-tokenize\`
 		 * 2. \`after-tokenize\`
 		 * 3. \`wrap\`: On each {@link Token}.
@@ -768,7 +771,7 @@ var Prism = (function (_self) {
 	 * 1. No adjacent strings.
 	 * 2. No empty strings.
 	 *
-	 *     The only exception here is the token stream that only contains the empty string and nothing else.
+	 *    The only exception here is the token stream that only contains the empty string and nothing else.
 	 *
 	 * @typedef {(string | Token)[]} TokenStream
 	 * @global
@@ -779,6 +782,7 @@ var Prism = (function (_self) {
 	 * Converts the given token or token stream to an HTML representation.
 	 *
 	 * The following hooks will be run:
+	 *
 	 * 1. \`wrap\`: On each {@link Token}.
 	 *
 	 * @memberof Token

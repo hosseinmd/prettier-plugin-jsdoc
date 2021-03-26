@@ -1,4 +1,4 @@
-import { Spec } from "comment-parser/src/primitives";
+import { Spec } from "comment-parser";
 import { formatDescription, descriptionEndLine } from "./descriptionFormatter";
 import { DESCRIPTION, EXAMPLE, SPACE_TAG_DATA } from "./tags";
 import {

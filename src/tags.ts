@@ -1,4 +1,4 @@
-import { Spec } from "comment-parser/lib/primitives";
+import { Spec } from "comment-parser";
 
 const ABSTRACT = "abstract";
 const ASYNC = "async";
