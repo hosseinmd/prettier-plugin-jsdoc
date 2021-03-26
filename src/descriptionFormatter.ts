@@ -82,7 +82,10 @@ function formatDescription(
   });
   text = capitalizer(text);
 
-  text = `${"_".repeat(tagStringLength)}${text}`;
+  text = `${"!".repeat(tagStringLength)}${
+    /** @todo issue: {@link https://github.com/syntax-tree/mdast-util-from-markdown/issues/18} */
+    text.startsWith("```") ? "\n" : ""
+  }${text}`;
 
   let tableIndex = 0;
 
@@ -126,9 +129,9 @@ function formatDescription(
         }
         result = mdAst.lang ? result : result.trimEnd();
         return result
-          ? `${mdAst.lang ? `\n\n\`\`\`${mdAst.lang}` : "\n"}${result}${
-              mdAst.lang ? `${_intention}\`\`\`` : ""
-            }`
+          ? mdAst.lang
+            ? `\n\n${_intention}\`\`\`${mdAst.lang}${result}\`\`\``
+            : `\n${result}`
           : "";
       }
 

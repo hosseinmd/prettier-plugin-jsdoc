@@ -249,7 +249,7 @@ function formatCode(
       });
     }
 
-    result = formattedExample.replace(/(^|\n)/g, "\n" + beginningSpace); // Add spaces to start of lines
+    result = formattedExample.replace(/(^|\n)/g, `\n${beginningSpace}`); // Add spaces to start of lines
   } catch (err) {
     result = `\n${result
       .split("\n")

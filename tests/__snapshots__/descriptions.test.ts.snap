@@ -335,6 +335,14 @@ exports[`description contain paragraph 4`] = `
  *
  * @type {React.FC<BounceProps>}
  */
+
+/**
+ * @param {string} a
+ *
+ *   \`\`\`js
+ *   var a = 0;
+ *   \`\`\`
+ */
 "
 `;
 

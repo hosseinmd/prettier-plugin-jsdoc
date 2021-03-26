@@ -77,6 +77,13 @@ test("description contain paragraph", () => {
    * @type {React.FC<BounceProps>}
    */
   
+   /**
+    * @param {string} a
+    *
+    * \`\`\`js
+    * var a = 0;
+    * \`\`\`
+    */
    `);
 
   expect(result4).toMatchSnapshot();
