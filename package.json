@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-jsdoc",
-  "version": "0.3.14",
+  "version": "0.3.14-rc1",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -35,9 +35,9 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^12.0.1",
     "@react-native-community/eslint-config": "^2.0.0",
-    "@typescript-eslint/parser": "^4.19.0",
-    "@types/mdast": "^3.0.3",
     "@types/jest": "^26.0.22",
+    "@types/mdast": "^3.0.3",
+    "@typescript-eslint/parser": "^4.19.0",
     "commitlint": "^12.0.1",
     "eslint": "^7.22.0",
     "eslint-plugin-prettier": "^3.3.1",
