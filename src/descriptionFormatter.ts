@@ -214,7 +214,6 @@ function formatDescription(
         }
 
         if (ast.type === "link") {
-          console.log({ link: JSON.stringify(ast) });
           return `[${stringyfy(ast, intention, mdAst)}](${ast.url})`;
         }
 
