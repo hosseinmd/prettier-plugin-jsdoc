@@ -1,18 +1,10 @@
-import { format } from "prettier";
+import { format, BuiltInParserName } from "prettier";
 import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
 import { AllOptions } from "./types";
 import { capitalizer, formatCode } from "./utils";
+import fromMarkdown from "mdast-util-from-markdown";
+import { Root, Content } from "mdast";
 
-const EMPTY_LINE_SIGNATURE = "2@^5!~#sdE!_EMPTY_LINE_SIGNATURE";
-const NEW_LINE_START_WITH_DASH = "2@^5!~#sdE!_NEW_LINE_START_WITH_DASH";
-const NEW_DASH_LINE = "2@^5!~#sdE!_NEW_LINE_WITH_DASH";
-const NEW_LINE_START_WITH_NUMBER = "2@^5!~#sdE!_NEW_LINE_START_WITH_NUMBER";
-const NEW_PARAGRAPH_START_WITH_DASH =
-  "2@^5!~#sdE!_NEW_PARAGRAPH_START_WITH_DASH";
-const NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE =
-  "2@^5!~#sdE!_NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE";
-const CODE = "2@^5!~#sdE!_CODE";
-const CODE_INDENTED = "2@^5!~#sdE!_CODE_INDENTED";
 const TABLE = "2@^5!~#sdE!_TABLE";
 
 interface DescriptionEndLineParams {
@@ -20,6 +12,14 @@ interface DescriptionEndLineParams {
   tag: string;
   isEndTag: boolean;
 }
+
+const parserSynonyms: Record<string, BuiltInParserName[]> = {
+  js: ["babel", "babel-flow", "vue"],
+  javascript: ["babel", "babel-flow", "vue"],
+  ts: ["typescript", "babel-ts", "angular"],
+  typescript: ["typescript", "babel-ts", "angular"],
+  json: ["json", "json5", "json-stringify"],
+};
 
 function descriptionEndLine({
   description,
@@ -55,26 +55,23 @@ function formatDescription(
 ): string {
   if (!text) return text;
 
-  const { printWidth } = options;
+  const { printWidth, tsdoc } = options;
   const { tagStringLength = 0 } = formatOptions;
 
-  const codes = text.match(/[\s|]*```[\s\S]*?^[ \t]*```\s*/gm);
+  // Wrap tag description
+  const beginningSpace =
+    tag === DESCRIPTION || (tag === EXAMPLE && tsdoc) ? "" : "  "; // google style guide space
 
-  if (codes) {
-    codes.forEach((code) => {
-      text = text.replace(code, `\n\n${CODE}\n\n`);
-    });
-  }
-  const intendedCodes: string[] = [];
-  text = text.replace(
-    /(\n\n[^\S\r\n]{4}[\s\S]*?)((\n[\S])|$)/g,
-    (code, _1, _2, _3) => {
-      code = _3 ? code.slice(0, -1) : code;
+  /**
+   * 1. a thing
+   *
+   * 2. another thing
+   */
+  text = text.replace(/^(\d+)[-.][\s|]+/g, "$1. "); // Start
 
-      intendedCodes.push(code);
-      return `\n\n${CODE_INDENTED}\n\n${_3 ? _3.slice(1) : ""}`;
-    },
-  );
+  text = text.replace(/\n\s+[1][-.][\s]+/g, "\n1. "); // add an empty line before of `1.`
+
+  text = text.replace(/\s+(\d+)[-.][\s]+/g, "\n$1. ");
 
   const tables: string[] = [];
   text = text.replace(/((\n|^)\|[\s\S]*?)((\n[^|])|$)/g, (code, _1, _2, _3) => {
@@ -83,173 +80,154 @@ function formatDescription(
     tables.push(code);
     return `\n\n${TABLE}\n\n${_3 ? _3.slice(1) : ""}`;
   });
-
-  /**
-   * Description
-   *
-   * # Example
-   *
-   * Summry
-   */
-  text = text.replace(/\n([\s]+)?(#{1,6})(.*)$\s+/gm, "\n\n$2 $3\n\n");
-
-  /**
-   * 1. a thing
-   *
-   * 2. another thing
-   */
-  text = text.replace(/^(\d+)[-.][\s-.|]+/g, "$1. "); // Start
-
-  text = text.replace(/\n\s+[1][-.][\s-.|]+/g, EMPTY_LINE_SIGNATURE + "1. "); // add an empty line before of `1.`
-
-  text = text.replace(
-    /\s+(\d+)[-.][\s-.|]+/g,
-    NEW_LINE_START_WITH_NUMBER + "$1. ",
-  );
-
-  text = text.replace(
-    /(\n(\s+)?(---(\s|-)+)\n)/g, // `------- --- --- -` | `----`
-    NEW_DASH_LINE,
-  );
-
-  text = text.replace(
-    /(\n([^\S\r\n]+)?\n[^\S\r\n]{2}[^\S\r\n]+)/g,
-    NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
-  ); // Add a signature for new paragraph start with three space
-
-  text = text.replace(
-    /(\n\n+(\s+)?[-*]([^\S\r\n]+))/g, // `\n\n - ` | `\n\n-` | `\n\n -` | `\n\n- `
-    NEW_PARAGRAPH_START_WITH_DASH,
-  );
-
-  text = text.replace(
-    /\n\s*[-*]([^\S\r\n]+)/g, // `\n - ` | `\n-` | `\n -` | `\n- `
-    NEW_LINE_START_WITH_DASH,
-  );
-
-  text = text.replace(/(\n(\s+)?\n+)/g, EMPTY_LINE_SIGNATURE); // Add a signature for empty line and use that later
-  // text = text.replace(/\n\s\s\s+/g, NEW_LINE_START_THREE_SPACE_SIGNATURE); // Add a signature for new line start with three space
-
   text = capitalizer(text);
 
-  text = `${"_".repeat(tagStringLength)}${text}`;
+  text = `${"!".repeat(tagStringLength)}${
+    text.startsWith("```") ? "\n" : ""
+  }${text}`;
 
-  // Wrap tag description
-  const beginningSpace = tag === DESCRIPTION ? "" : "  "; // google style guide space
+  let tableIndex = 0;
 
-  text = text
-    .split(NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE)
-    .map((newParagraph) => {
-      return newParagraph
-        .split(EMPTY_LINE_SIGNATURE)
-        .map(
-          (newEmptyLineWithDash) =>
-            newEmptyLineWithDash
-              .split(NEW_LINE_START_WITH_NUMBER)
-              .map(
-                (newLineWithNumber) =>
-                  newLineWithNumber
-                    .split(NEW_DASH_LINE)
-                    .map(
-                      (newDashLine) =>
-                        newDashLine
-                          .split(NEW_PARAGRAPH_START_WITH_DASH)
-                          .map(
-                            (newLineWithDash) =>
-                              newLineWithDash
-                                .split(NEW_LINE_START_WITH_DASH)
-                                .map((paragraph) => {
-                                  paragraph = paragraph.replace(/\s+/g, " "); // Make single line
+  const rootAst = fromMarkdown(text);
 
-                                  paragraph = capitalizer(paragraph);
-                                  if (options.jsdocDescriptionWithDot)
-                                    paragraph = paragraph.replace(
-                                      /([\w\p{L}])$/u,
-                                      "$1.",
-                                    ); // Insert dot if needed
+  function stringyfy(
+    mdAst: Content | Root,
+    intention: string,
+    parent: Content | Root | null,
+  ): string {
+    if (!Array.isArray(mdAst.children)) {
+      if (mdAst.type === "inlineCode") {
+        return ` \`${mdAst.value}\``;
+      }
 
-                                  return breakDescriptionToLines(
-                                    paragraph,
-                                    printWidth,
-                                    beginningSpace,
-                                  );
-                                })
-                                .join("\n- "), // NEW_LINE_START_WITH_DASH
-                          )
-                          .join("\n\n- "), // NEW_PARAGRAPH_START_WITH_DASH
-                    )
-                    .join(`\n    ${"-".repeat(printWidth / 2)}\n`), // NEW_DASH_LINE
-              )
-              .join("\n"), // NEW_LINE_START_WITH_NUMBER
-        )
-        .join("\n\n"); // EMPTY_LINE_SIGNATURE
-    })
-    .join("\n\n    "); // NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE;
+      if (mdAst.type === "code") {
+        let result = mdAst.value || "";
+        let _intention = intention;
 
-  const dashContent = text.match(/(^|\n)-(.+\n(?!(-)))+/g);
+        if (result) {
+          // Remove two space from lines, maybe added previous format
+          if (mdAst.lang) {
+            const supportParsers = parserSynonyms[mdAst.lang.toLowerCase()];
+            const parser = supportParsers?.includes(options.parser as any)
+              ? options.parser
+              : supportParsers?.[0] || mdAst.lang;
 
-  if (dashContent) {
-    dashContent.forEach((content) => {
-      text = text.replace(content, content.replace(/((?!(^))\n)/g, "\n  "));
-    });
-  }
+            result = formatCode(result, intention, {
+              ...options,
+              parser,
+              jsdocKeepUnParseAbleExampleIndent: true,
+            });
+          } else {
+            _intention = intention + " ".repeat(4);
 
-  const numberContent = text.match(/(^|\n)\d+.(.+\n(?!(\d+.)))+/g);
+            result = formatCode(result, _intention, {
+              ...options,
+              jsdocKeepUnParseAbleExampleIndent: true,
+            });
+          }
+        }
+        result = mdAst.lang ? result : result.trimEnd();
+        return result
+          ? mdAst.lang
+            ? `\n\n${_intention}\`\`\`${mdAst.lang}${result}\`\`\``
+            : `\n${result}`
+          : "";
+      }
 
-  if (numberContent) {
-    numberContent.forEach((content) => {
-      text = text.replace(content, content.replace(/((?!(^))\n)/g, "\n   "));
-    });
-  }
+      if (mdAst.value === TABLE) {
+        if (parent) {
+          parent.costumeType = TABLE;
+        }
 
-  if (codes) {
-    text = text.split(CODE).reduce((pre, cur, index) => {
-      return `${pre}${cur.trim()}${
-        codes[index]
-          ? `\n\n${format(codes[index], {
+        if (tables.length > 0) {
+          let result = tables?.[tableIndex] || "";
+          tableIndex++;
+          if (result) {
+            result = format(result, {
               ...options,
               parser: "markdown",
-            }).trim()}\n\n`
-          : ""
-      }`;
-    }, "");
-  }
-
-  if (intendedCodes.length > 0) {
-    text = text.split(CODE_INDENTED).reduce((pre, cur, index) => {
-      let result = intendedCodes?.[index] || "";
-      const beginningSpace = " ".repeat(4);
-
-      if (result) {
-        // Remove two space from lines, maybe added previous format
-        result = formatCode(result, beginningSpace, options).trim();
+            }).trim();
+          }
+          return `${
+            result
+              ? `\n\n${intention}${result.split("\n").join(`\n${intention}`)}`
+              : mdAst.value
+          }`;
+        }
       }
-      return `${pre}${cur.trim()}${result ? `\n\n    ${result}\n\n` : ""}`;
-    }, "");
+
+      return (mdAst.value || "") as string;
+    }
+    return (mdAst.children as Content[])
+      .map((ast, index) => {
+        if (ast.type === "listItem") {
+          let _listCount = `\n- `;
+          // .replace(/((?!(^))\n)/g, "\n" + _intention);
+          if (typeof mdAst.start === "number") {
+            const count = index + ((mdAst.start as number) ?? 1);
+            _listCount = `\n${count}. `;
+          }
+
+          const _intention = intention + " ".repeat(_listCount.length - 1);
+
+          const result = stringyfy(ast, _intention, mdAst).trim();
+
+          return `${_listCount}${result}`;
+        }
+
+        if (ast.type === "list") {
+          return `\n${stringyfy(ast, intention, mdAst)}`;
+        }
+
+        if (ast.type === "paragraph") {
+          let paragraph = stringyfy(ast, intention, parent);
+          if (ast.costumeType === TABLE) {
+            return paragraph;
+          }
+          paragraph = paragraph.replace(/\s+/g, " "); // Make single line
+
+          paragraph = capitalizer(paragraph);
+          if (options.jsdocDescriptionWithDot)
+            paragraph = paragraph.replace(/([\w\p{L}])$/u, "$1."); // Insert dot if needed
+
+          return `\n\n${breakDescriptionToLines(
+            paragraph,
+            printWidth,
+            intention,
+          )}`;
+        }
+
+        if (ast.type === "strong") {
+          return `**${stringyfy(ast, intention, mdAst)}**`;
+        }
+
+        if (ast.type === "emphasis") {
+          return `*${stringyfy(ast, intention, mdAst)}*`;
+        }
+
+        if (ast.type === "heading") {
+          return `\n\n${intention}${"#".repeat(ast.depth)} ${stringyfy(
+            ast,
+            intention,
+            mdAst,
+          )}`;
+        }
+
+        if (ast.type === "link") {
+          console.log({ link: JSON.stringify(ast) });
+          return `[${stringyfy(ast, intention, mdAst)}](${ast.url})`;
+        }
+
+        return stringyfy(ast, intention, mdAst);
+      })
+      .join("");
   }
 
-  if (tables.length > 0) {
-    text = text.split(TABLE).reduce((pre, cur, index) => {
-      let result = tables?.[index] || "";
-      if (result) {
-        result = format(result, {
-          ...options,
-          parser: "markdown",
-        }).trim();
-      }
-      return `${pre}${cur.trim()}${
-        result
-          ? `\n\n${beginningSpace}${result
-              .split("\n")
-              .join(`\n${beginningSpace}`)}\n\n`
-          : ""
-      }`;
-    }, "");
-  }
+  let result = stringyfy(rootAst, beginningSpace, null);
 
-  text = text.trim().slice(tagStringLength);
+  result = result.trim().slice(tagStringLength);
 
-  return text;
+  return result;
 }
 
 function breakDescriptionToLines(
@@ -291,12 +269,4 @@ function breakDescriptionToLines(
   return `${beginningSpace}${result}`;
 }
 
-export {
-  EMPTY_LINE_SIGNATURE,
-  NEW_LINE_START_WITH_DASH,
-  NEW_PARAGRAPH_START_WITH_DASH,
-  NEW_PARAGRAPH_START_THREE_SPACE_SIGNATURE,
-  descriptionEndLine,
-  FormatOptions,
-  formatDescription,
-};
+export { descriptionEndLine, FormatOptions, formatDescription };

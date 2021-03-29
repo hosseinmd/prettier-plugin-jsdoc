@@ -249,9 +249,9 @@ function formatCode(
       });
     }
 
-    result = formattedExample.replace(/(^|\n)/g, "\n" + beginningSpace); // Add spaces to start of lines
+    result = formattedExample.replace(/(^|\n)/g, `\n${beginningSpace}`); // Add spaces to start of lines
   } catch (err) {
-    result = result
+    result = `\n${result
       .split("\n")
       .map(
         (l) =>
@@ -259,7 +259,7 @@ function formatCode(
             jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
           }`,
       )
-      .join("\n");
+      .join("\n")}\n`;
   }
 
   return result;

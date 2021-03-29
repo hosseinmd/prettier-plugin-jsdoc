@@ -1,5 +1,4 @@
-import { Spec, Block } from "comment-parser/lib/primitives";
-import { parse } from "comment-parser";
+import { parse, Spec, Block } from "comment-parser";
 import {
   addStarsToTheBeginningOfTheLines,
   convertToModernType,

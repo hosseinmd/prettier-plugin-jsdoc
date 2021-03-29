@@ -179,15 +179,17 @@ exports[`code in description 1`] = `
  * \`\`\`
  *
  * - Choose the rendered component who's touches should start the interactive
- *   sequence. On that rendered node, forward all \`Touchable\` responder handlers.
- *   You can choose any rendered node you like. Choose a node whose hit target
- *   you'd like to instigate the interaction sequence:
+ *   sequence. On that rendered node, forward all \`Touchable\` responder
+ *   handlers. You can choose any rendered node you like. Choose a node whose
+ *   hit target you'd like to instigate the interaction sequence:
  *
  * \`\`\`js
  * // In render function:
  * return (
  *   <View
- *     onStartShouldSetResponder={this.touchableHandleStartShouldSetResponder}
+ *     onStartShouldSetResponder={
+ *       this.touchableHandleStartShouldSetResponder
+ *     }
  *     onResponderTerminationRequest={
  *       this.touchableHandleResponderTerminationRequest
  *     }
@@ -198,8 +200,8 @@ exports[`code in description 1`] = `
  *   >
  *     <View>
  *       Even though the hit detection/interactions are triggered by the
- *       wrapping (typically larger) node, we usually end up implementing custom
- *       logic that highlights this inner one.
+ *       wrapping (typically larger) node, we usually end up implementing
+ *       custom logic that highlights this inner one.
  *     </View>
  *   </View>
  * );
@@ -207,7 +209,6 @@ exports[`code in description 1`] = `
  *
  * - You may set up your own handlers for each of these events, so long as you
  *   also invoke the \`touchable*\` handlers inside of your custom handler.
- *
  * - Implement the handlers on your component class in order to provide feedback
  *   to the user. See documentation for each of these class methods that you
  *   should implement.
@@ -247,15 +248,11 @@ exports[`code in description 2`] = `
  *
  * The following is bad because position is more restrictive than 'string':
  *
- * \`\`\`
- * type Props = {position: string};
- * \`\`\`
+ *     type Props = { position: string };
  *
  * You should use the following instead:
  *
- * \`\`\`
- * type Props = {position: TypeForStyleKey<'position'>};
- * \`\`\`
+ *     type Props = { position: TypeForStyleKey<\\"position\\"> };
  *
  * This will correctly give you the type 'absolute' | 'relative'
  */
@@ -338,6 +335,14 @@ exports[`description contain paragraph 4`] = `
  *
  * @type {React.FC<BounceProps>}
  */
+
+/**
+ * @param {string} a
+ *
+ *   \`\`\`js
+ *   var a = 0;
+ *   \`\`\`
+ */
 "
 `;
 
@@ -350,9 +355,9 @@ exports[`description new line with dash 1`] = `
  * - Stop a scroll on the left edge, then turn that into an outer view's backswipe.
  * - Stop a scroll mid-bounce at the top, continue pulling to have the outer view dismiss.
  * - However, without catching the scroll view mid-bounce (while it is
- *   motionless), if you drag far enough for the scroll view to become responder
- *   (and therefore drag the scroll view a bit), any backswipe navigation of a
- *   swipe gesture higher in the view hierarchy, should be rejected.
+ *   motionless), if you drag far enough for the scroll view to become
+ *   responder (and therefore drag the scroll view a bit), any backswipe
+ *   navigation of a swipe gesture higher in the view hierarchy, should be rejected.
  */
 function scrollResponderHandleTerminationRequest() {
   return !this.state.observedScrollSinceBecomingResponder;
@@ -422,8 +427,8 @@ exports[`description new line with dash 3`] = `
 
 exports[`description start underscores 1`] = `
 "/**
- * @param {string} a __very__ important!
- * @param {string} b _less_ important...
+ * @param {string} a **very** important!
+ * @param {string} b *less* important...
  */
 "
 `;
@@ -494,11 +499,11 @@ exports[`numbers and code in description 1`] = `
 
 exports[`numbers and code in description 2`] = `
 "/**
- * 1. a keydown event occurred immediately before a focus event
- * 2. a focus event happened on an element which requires keyboard interaction
- *       (e.g., a text field);
- * 2. a focus event happened on an element which requires keyboard interaction
- * (e.g., a text field);
+ * 1. A keydown event occurred immediately before a focus event
+ * 2. A focus event happened on an element which requires keyboard interaction
+ *    (e.g., a text field);
+ * 3. A focus event happened on an element which requires keyboard interaction
+ *    (e.g., a text field);
  */
 "
 `;
@@ -507,12 +512,12 @@ exports[`numbers and code in description 3`] = `
 "/**
  * The script uses two heuristics to determine whether the keyboard is being used:
  *
- * 1. a keydown event occurred lorem ipsum dolor sit amet, consectetur
- *    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
- *    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
- *    nisi ut aliqimmediately before a focus event;
- * 2. a focus evenlorem ipsum dolor sit amet, consectetur adipiscing elit, sed
- *    do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+ * 1. A keydown event occurred lorem ipsum dolor sit amet, consectetur adipiscing
+ *    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+ *    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+ *    aliqimmediately before a focus event;
+ * 2. A focus evenlorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+ *    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
  *    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqt
  *    happened on an element which requires keyboard interaction (e.g., a text field);
  *
@@ -520,6 +525,33 @@ exports[`numbers and code in description 3`] = `
  * tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
  * quis nostrud exercitation ullamco laboris nisi ut aliq W3C Software Notice
  * and License: https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document.
+ */
+"
+`;
+
+exports[`numbers and code in description 4`] = `
+"/**
+ * Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla
+ * mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget
+ * bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero.
+ * Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut,
+ * mollis sed, nonummy id, metus.
+ *
+ * 1. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+ *    ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
+ *    dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
+ *    nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+ * 2. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+ *    justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
+ *    felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus
+ *    elementum semper nisi. Aenean vulputate eleifend tellus.
+ *
+ *    Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam
+ *    lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra
+ *    nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
+ *    ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.
+ *
+ * @public
  */
 "
 `;

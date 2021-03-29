@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-jsdoc",
-  "version": "0.3.14",
+  "version": "0.3.14-rc1",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -33,19 +33,21 @@
     "url": "git+https://github.com/hosseinmd/prettier-plugin-jsdoc.git"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^11.0.0",
+    "@commitlint/config-conventional": "^12.0.1",
     "@react-native-community/eslint-config": "^2.0.0",
-    "@typescript-eslint/parser": "^4.15.0",
-    "commitlint": "^11.0.0",
-    "eslint": "^7.19.0",
+    "@types/jest": "^26.0.22",
+    "@types/mdast": "^3.0.3",
+    "@typescript-eslint/parser": "^4.19.0",
+    "commitlint": "^12.0.1",
+    "eslint": "^7.22.0",
     "eslint-plugin-prettier": "^3.3.1",
     "husky": "^5.0.9",
     "jest": "^26.6.3",
     "jest-specific-snapshot": "^4.0.0",
     "prettier": "^2.1.2",
-    "standard-version": "^9.1.0",
-    "ts-jest": "^26.5.1",
-    "typescript": "^4.1.5"
+    "standard-version": "^9.1.1",
+    "ts-jest": "^26.5.4",
+    "typescript": "^4.2.3"
   },
   "peerDependencies": {
     "prettier": ">=2.1.2"
@@ -70,8 +72,9 @@
   },
   "dependencies": {
     "binary-search-bounds": "^2.0.5",
-    "comment-parser": "^1.1.2",
-    "linguist-languages": "^7.12.2"
+    "comment-parser": "^1.1.4",
+    "linguist-languages": "^7.13.0",
+    "mdast-util-from-markdown": "^0.8.5"
   },
   "engines": {
     "node": ">=12.0.0"

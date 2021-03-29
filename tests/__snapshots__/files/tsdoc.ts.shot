@@ -21,7 +21,7 @@ export function plusOne(input: number) {
  *
  * @example Parsing a basic JSON file
  *
- *   # Contents of \`file.json\`
+ * # Contents of  \`file.json\`
  *
  * \`\`\`json
  * {
@@ -39,7 +39,7 @@ export function plusOne(input: number) {
  *
  * \`\`\`ts
  * {
- *   exampleItem:'text',
+ *   \\"exampleItem\\": \\"text\\"
  * }
  * \`\`\`
  *
@@ -59,10 +59,8 @@ export function plusOne(input: number) {
  *
  * @example Here's an example with negative numbers:
  *
- * \`\`\`
- * // Prints \\"0\\":
- * console.log(add(1,-1));
- * \`\`\`
+ *     // Prints \\"0\\":
+ *     console.log(add(1, -1));
  */
 export function add(x: number, y: number): number {
   return x * y;
