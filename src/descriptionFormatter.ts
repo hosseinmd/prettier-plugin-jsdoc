@@ -63,15 +63,15 @@ function formatDescription(
     tag === DESCRIPTION || (tag === EXAMPLE && tsdoc) ? "" : "  "; // google style guide space
 
   /**
-   * 1. a thing
+   * change list with dash to dot for example:
+   * 1- a thing
    *
-   * 2. another thing
+   * to
+   *
+   * 1. a thing
    */
-  text = text.replace(/^(\d+)[-.][\s|]+/g, "$1. "); // Start
-
-  text = text.replace(/\n\s+[1][-.][\s]+/g, "\n1. "); // add an empty line before of `1.`
-
-  text = text.replace(/\s+(\d+)[-.][\s]+/g, "\n$1. ");
+  text = text.replace(/^(\d+)[-][\s|]+/g, "$1. "); // Start
+  text = text.replace(/\n+(\s*\d+)[-][\s]+/g, "\n$1. ");
 
   const tables: string[] = [];
   text = text.replace(/((\n|^)\|[\s\S]*?)((\n[^|])|$)/g, (code, _1, _2, _3) => {
@@ -161,11 +161,11 @@ function formatDescription(
     return (mdAst.children as Content[])
       .map((ast, index) => {
         if (ast.type === "listItem") {
-          let _listCount = `\n- `;
+          let _listCount = `\n${intention}- `;
           // .replace(/((?!(^))\n)/g, "\n" + _intention);
           if (typeof mdAst.start === "number") {
             const count = index + ((mdAst.start as number) ?? 1);
-            _listCount = `\n${count}. `;
+            _listCount = `\n${intention}${count}. `;
           }
 
           const _intention = intention + " ".repeat(_listCount.length - 1);

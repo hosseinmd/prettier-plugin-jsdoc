@@ -207,7 +207,7 @@ test("numbers and code in description", () => {
  *\`\`\`js
  *     const pressResponder = new PressResponder(config);
  *\`\`\`
- *     2.   Choose the rendered component who should collect the press events. On that
+ *   2.   Choose the rendered component who should collect the press events. On that
  *   element, spread \`pressability.getEventHandlers()\` into its props.
  *\`\`\`js
  *    return (
@@ -285,6 +285,27 @@ test("numbers and code in description", () => {
  */
 `);
   expect(result4).toMatchSnapshot();
+});
+
+test("Nested list", () => {
+  const result1 = subject(
+    `
+/**
+ * 1.  Foo
+ *     1.  Entry 1
+ *     2.  Entry 2
+ *         - Foo
+ *         - bar
+ *     3.  Entry 3
+ * 2.  Bar
+ *     1.  Entry 1
+ *     2.  Entry 2
+ *     3.  Entry 3
+ */
+`,
+  );
+
+  expect(result1).toMatchSnapshot();
 });
 
 test("code in description", () => {
