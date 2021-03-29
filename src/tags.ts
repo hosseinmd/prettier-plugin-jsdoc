@@ -39,6 +39,7 @@ const TEMPLATE = "template";
 const THROWS = "throws";
 const TODO = "todo";
 const TYPE = "type";
+const TYPE_PARAM = "typeParam";
 const TYPEDEF = "typedef";
 const VERSION = "version";
 const YIELDS = "yields";
@@ -93,6 +94,7 @@ export {
   THROWS,
   TODO,
   TYPE,
+  TYPE_PARAM,
   TYPEDEF,
   VERSION,
   YIELDS,

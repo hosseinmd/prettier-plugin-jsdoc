@@ -24,3 +24,14 @@ exports[`template for callback 1`] = `
  */
 "
 `;
+
+exports[`typeParam for callback 1`] = `
+"/**
+ * @typeParam T
+ *
+ * @callback CallbackName
+ * @param {GetStyles<T>} getStyles
+ * @returns {UseStyle<T>}
+ */
+"
+`;

@@ -37,3 +37,16 @@ test("extends", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("typeParam for callback", () => {
+  const result = subject(`
+/**
+ * @typeParam T
+ * @callback CallbackName
+ * @param {GetStyles<T>} getStyles
+ * @returns {UseStyle<T>}
+ */
+`);
+
+  expect(result).toMatchSnapshot();
+});
