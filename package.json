@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-jsdoc",
-  "version": "0.3.14-rc1",
+  "version": "0.3.14",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
