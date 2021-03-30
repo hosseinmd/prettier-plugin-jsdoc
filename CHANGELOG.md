@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.16](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.15...v0.3.16) (2021-03-30)
+
+
+### Features
+
+* add typeParam ([af3a0e2](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/af3a0e2fbd3c05d76c3cd07a4ab0c4d330a2a0bd))
+
+
+### Bug Fixes
+
+* nested list in description ([15a57ad](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/15a57ade73defa15350e02d661cd06139169ec32))
+* unstable sorting ([f8afb27](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/f8afb27df82414034fde4554a10deb361c9dd225))
+* unwanted space between tags ([6771c62](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6771c6273f870c0c8b5080c7bc92bea535fd2112))
+
 ### [0.3.15](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.14...v0.3.15) (2021-03-29)
 
 
