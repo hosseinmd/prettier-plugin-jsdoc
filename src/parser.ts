@@ -9,7 +9,8 @@ import {
 import { DESCRIPTION, PARAM } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
-  TAGS_GROUP,
+  TAGS_GROUP_HEAD,
+  TAGS_GROUP_CONDITION,
   TAGS_NAMELESS,
   TAGS_ORDER,
   TAGS_SYNONYMS,
@@ -91,6 +92,8 @@ export const getParser = (parser: Parser["parse"]) =>
       let maxTagTypeLength = 0;
       let maxTagNameLength = 0;
 
+      let canGroupNextTags = false;
+
       parsed.tags
         // Prepare tags data
         .map(({ type, optional, ...rest }) => {
@@ -119,12 +122,16 @@ export const getParser = (parser: Parser["parse"]) =>
         })
 
         // Group tags
-        .reduce<Spec[][]>((tagGroups, cur, index, array) => {
+        .reduce<Spec[][]>((tagGroups, cur) => {
           if (
-            (tagGroups.length === 0 || TAGS_GROUP.includes(cur.tag)) &&
-            array[index - 1]?.tag !== DESCRIPTION
+            tagGroups.length === 0 ||
+            (TAGS_GROUP_HEAD.includes(cur.tag) && canGroupNextTags)
           ) {
+            canGroupNextTags = false;
             tagGroups.push([]);
+          }
+          if (TAGS_GROUP_CONDITION.includes(cur.tag)) {
+            canGroupNextTags = true;
           }
           tagGroups[tagGroups.length - 1].push(cur);
 

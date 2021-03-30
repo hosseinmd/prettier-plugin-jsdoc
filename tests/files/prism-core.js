@@ -1195,6 +1195,8 @@ if (typeof global !== 'undefined') {
 */
 
 /**
+ * @description A description for test
+ * 
  * @callback HookCallback
  * @param {Object<string, any>} env The environment variables of the hook.
  * @returns {void}

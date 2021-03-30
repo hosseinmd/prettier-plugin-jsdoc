@@ -21,6 +21,20 @@ test("template for callback", () => {
 `);
 
   expect(result).toMatchSnapshot();
+
+  const result2 = subject(`
+  /**
+   * @template T
+   * @param {GetStyles<T>} getStyles
+   * @returns {UseStyle<T>}
+   * @template H
+   * @callback CallbackName
+   * @param {GetStyles<H>} getStyles
+   * @returns {UseStyle<H>}
+   */
+  `);
+
+  expect(result2).toMatchSnapshot();
 });
 
 test("extends", () => {
