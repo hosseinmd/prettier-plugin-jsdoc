@@ -39,17 +39,6 @@ export const getParser = (parser: Parser["parse"]) =>
       options.endOfLine === "auto" ? detectEndOfLine(text) : options.endOfLine;
     options = { ...options, endOfLine: "lf" };
 
-    /**
-     * Control order of tags by weights. Smaller value brings tag higher.
-     */
-    function getTagOrderWeight(tag: string): number {
-      if (tag === DESCRIPTION && !options.jsdocDescriptionTag) {
-        return -1;
-      }
-      const index = TAGS_ORDER.indexOf(tag);
-      return index === -1 ? TAGS_ORDER.indexOf("other") : index;
-    }
-
     ast.comments.forEach((comment) => {
       if (!isBlockComment(comment)) return;
       const tokenIndex = findTokenIndex(ast.tokens, comment);
@@ -92,9 +81,7 @@ export const getParser = (parser: Parser["parse"]) =>
       let maxTagTypeLength = 0;
       let maxTagNameLength = 0;
 
-      let canGroupNextTags = false;
-
-      parsed.tags
+      let tags = parsed.tags
         // Prepare tags data
         .map(({ type, optional, ...rest }) => {
           if (type) {
@@ -119,51 +106,12 @@ export const getParser = (parser: Parser["parse"]) =>
             type,
             optional,
           } as Spec;
-        })
+        });
 
-        // Group tags
-        .reduce<Spec[][]>((tagGroups, cur) => {
-          if (
-            tagGroups.length === 0 ||
-            (TAGS_GROUP_HEAD.includes(cur.tag) && canGroupNextTags)
-          ) {
-            canGroupNextTags = false;
-            tagGroups.push([]);
-          }
-          if (TAGS_GROUP_CONDITION.includes(cur.tag)) {
-            canGroupNextTags = true;
-          }
-          tagGroups[tagGroups.length - 1].push(cur);
+      // Group tags
+      tags = sortTags(tags, paramsOrder, options);
 
-          return tagGroups;
-        }, [])
-        .flatMap((tagGroup, index, tags) => {
-          // sort tags within groups
-          tagGroup.sort((a, b) => {
-            if (
-              paramsOrder &&
-              paramsOrder.length > 1 &&
-              a.tag === PARAM &&
-              b.tag === PARAM
-            ) {
-              const aIndex = paramsOrder.indexOf(a.name);
-              const bIndex = paramsOrder.indexOf(b.name);
-              if (aIndex > -1 && bIndex > -1) {
-                //sort params
-                return aIndex - bIndex;
-              }
-              return 0;
-            }
-            return getTagOrderWeight(a.tag) - getTagOrderWeight(b.tag);
-          });
-
-          // add an empty line between groups
-          if (tags.length - 1 !== index) {
-            tagGroup.push(SPACE_TAG_DATA);
-          }
-
-          return tagGroup;
-        })
+      tags
         .map(addDefaultValueToDescription)
         .map(assignOptionalAndDefaultToName)
         .map(({ type, name, description, tag, ...rest }) => {
@@ -226,6 +174,82 @@ export const getParser = (parser: Parser["parse"]) =>
 
     return ast;
   };
+
+function sortTags(
+  tags: Spec[],
+  paramsOrder: string[] | undefined,
+  options: AllOptions,
+): Spec[] {
+  let canGroupNextTags = false;
+  let shouldSortAgain = false;
+
+  tags = tags
+    .reduce<Spec[][]>((tagGroups, cur) => {
+      if (
+        tagGroups.length === 0 ||
+        (TAGS_GROUP_HEAD.includes(cur.tag) && canGroupNextTags)
+      ) {
+        canGroupNextTags = false;
+        tagGroups.push([]);
+      }
+      if (TAGS_GROUP_CONDITION.includes(cur.tag)) {
+        canGroupNextTags = true;
+      }
+      tagGroups[tagGroups.length - 1].push(cur);
+
+      return tagGroups;
+    }, [])
+    .flatMap((tagGroup, index, array) => {
+      // sort tags within groups
+      tagGroup.sort((a, b) => {
+        if (
+          paramsOrder &&
+          paramsOrder.length > 1 &&
+          a.tag === PARAM &&
+          b.tag === PARAM
+        ) {
+          const aIndex = paramsOrder.indexOf(a.name);
+          const bIndex = paramsOrder.indexOf(b.name);
+          if (aIndex > -1 && bIndex > -1) {
+            //sort params
+            return aIndex - bIndex;
+          }
+          return 0;
+        }
+        return (
+          getTagOrderWeight(a.tag, options) - getTagOrderWeight(b.tag, options)
+        );
+      });
+
+      // add an empty line between groups
+      if (array.length - 1 !== index) {
+        tagGroup.push(SPACE_TAG_DATA);
+      }
+
+      if (
+        index > 0 &&
+        tagGroup[0]?.tag &&
+        !TAGS_GROUP_HEAD.includes(tagGroup[0].tag)
+      ) {
+        shouldSortAgain = true;
+      }
+
+      return tagGroup;
+    });
+
+  return shouldSortAgain ? sortTags(tags, paramsOrder, options) : tags;
+}
+
+/**
+ * Control order of tags by weights. Smaller value brings tag higher.
+ */
+function getTagOrderWeight(tag: string, options: AllOptions): number {
+  if (tag === DESCRIPTION && !options.jsdocDescriptionTag) {
+    return -1;
+  }
+  const index = TAGS_ORDER.indexOf(tag);
+  return index === -1 ? TAGS_ORDER.indexOf("other") : index;
+}
 
 function isBlockComment(comment: PrettierComment): boolean {
   return comment.type === "CommentBlock" || comment.type === "Block";

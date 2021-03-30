@@ -23,6 +23,18 @@ function subjectFiles(relativePath: string, options: Partial<AllOptions> = {}) {
   }
 }
 
+const PrismOptions = {
+  arrowParens: "avoid",
+  printWidth: 120,
+  quoteProps: "preserve",
+  semi: true,
+  singleQuote: true,
+  tabWidth: 4,
+  trailingComma: "none",
+  useTabs: true,
+  jsdocKeepUnParseAbleExampleIndent: true,
+} as const;
+
 /**
  * @type {TestFile[]}
  *
@@ -42,17 +54,11 @@ const files: {
   { name: "create-ignorer.js" },
   {
     name: "prism-core.js",
-    options: {
-      arrowParens: "avoid",
-      printWidth: 120,
-      quoteProps: "preserve",
-      semi: true,
-      singleQuote: true,
-      tabWidth: 4,
-      trailingComma: "none",
-      useTabs: true,
-      jsdocKeepUnParseAbleExampleIndent: true,
-    },
+    options: PrismOptions,
+  },
+  {
+    name: "prism-dependencies.js",
+    options: PrismOptions,
   },
   {
     name: "tsdoc.ts",
