@@ -73,41 +73,42 @@ const TAGS_SYNONYMS = {
 };
 
 const TAGS_NAMELESS = [
-  LICENSE,
   BORROWS,
   CATEGORY,
+  DEPRECATED,
   DESCRIPTION,
   EXAMPLE,
   EXTENDS,
+  LICENSE,
   MODULE,
   NAMESPACE,
+  OVERRIDE,
   RETURNS,
+  SINCE,
   THROWS,
   TODO,
   YIELDS,
-  DEPRECATED,
-  OVERRIDE,
-  SINCE,
 ];
 
 const TAGS_TYPELESS = [
-  LICENSE,
   BORROWS,
+  BORROWS,
+  DEPRECATED,
   DESCRIPTION,
-  BORROWS,
   EXAMPLE,
+  IGNORE,
+  LICENSE,
   MODULE,
   NAMESPACE,
-  TODO,
-  DEPRECATED,
   OVERRIDE,
   SINCE,
-  IGNORE,
+  TODO,
 ];
 
 const TAGS_PEV_FORMATE_DESCRIPTION = [
   /** @todo should be formate like jsdoc standard saw https://jsdoc.app/tags-borrows.html  */
   BORROWS,
+  DEFAULT,
   MEMBEROF,
   MODULE,
   SEE,
