@@ -1,8 +1,8 @@
 {
   "name": "prettier-plugin-jsdoc",
-  "version": "0.3.17",
+  "version": "0.3.18",
   "description": "",
-  "private": "false",
+  "private": false,
   "workspaces": {
     "prettier-plugin-fake": "./prettier-plugin-fake"
   },
