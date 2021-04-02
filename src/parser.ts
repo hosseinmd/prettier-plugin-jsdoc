@@ -5,6 +5,7 @@ import {
   formatType,
   detectEndOfLine,
   findTokenIndex,
+  findPluginByParser,
 } from "./utils";
 import { DESCRIPTION, PARAM } from "./tags";
 import {
@@ -23,13 +24,16 @@ import { Parser } from "prettier";
 import { SPACE_TAG_DATA } from "./tags";
 
 /** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
-export const getParser = (parser: Parser["parse"]) =>
+export const getParser = (originalParse: Parser["parse"], parserName: string) =>
   function jsdocParser(
     text: string,
     parsers: Parameters<Parser["parse"]>[1],
     options: AllOptions,
   ): AST {
-    const ast = parser(text, parsers, options) as AST;
+    const prettierParse =
+      findPluginByParser(parserName, options)?.parse || originalParse;
+
+    const ast = prettierParse(text, parsers, options) as AST;
 
     if (!options.jsdocParser) {
       return ast;
@@ -72,10 +76,11 @@ export const getParser = (parser: Parser["parse"]) =>
       normalizeTags(parsed);
       convertCommentDescToDescTag(parsed);
 
-      const commentContentPrintWidth =
-        options.printWidth -
-        getIndentationWidth(comment, text, options) -
-        " * ".length;
+      const commentContentPrintWidth = getIndentationWidth(
+        comment,
+        text,
+        options,
+      );
 
       let maxTagTitleLength = 0;
       let maxTagTypeLength = 0;
@@ -275,7 +280,7 @@ function getIndentationWidth(
     }
   }
 
-  return spaces + tabs * options.tabWidth;
+  return options.printWidth - (spaces + tabs * options.tabWidth) - " * ".length;
 }
 
 const TAGS_ORDER_LOWER = TAGS_ORDER.map((tagOrder) => tagOrder.toLowerCase());

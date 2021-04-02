@@ -4,6 +4,7 @@ import parserFlow from "prettier/parser-flow";
 import parserTypescript from "prettier/parser-typescript";
 import prettier, { SupportOption } from "prettier";
 import { JsdocOptions } from "./types";
+import { findPluginByParser } from "./utils";
 
 const options: Record<keyof JsdocOptions, SupportOption> = {
   jsdocParser: {
@@ -95,7 +96,7 @@ const parsers = {
   // JS - Babel
   get babel() {
     const parser = parserBabel.parsers.babel;
-    return mergeParsers(parser, "babel-babel");
+    return mergeParsers(parser, "babel");
   },
   get "babel-flow"() {
     const parser = parserBabel.parsers["babel-flow"];
@@ -126,38 +127,18 @@ const parsers = {
 };
 
 function mergeParsers(originalParser: prettier.Parser, parserName: string) {
-  let pluginParse = originalParser.parse;
+  const jsDocParse = getParser(originalParser.parse, parserName) as any;
 
-  const jsDocParse = getParser(pluginParse) as any;
   const jsDocPreprocess = (text: string, options: prettier.ParserOptions) => {
-    const tsPlugin = options.plugins.find((plugin) => {
-      return (
-        typeof plugin === "object" &&
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
-        plugin.name &&
-        plugin.parsers &&
-        // eslint-disable-next-line no-prototype-builtins
-        plugin.parsers.hasOwnProperty(parserName)
-      );
-    }) as prettier.Plugin | undefined;
+    const tsPluginParser = findPluginByParser(parserName, options);
 
-    if (
-      !tsPlugin || // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      tsPlugin.name === "prettier-plugin-jsdoc" ||
-      tsPlugin.parsers?.hasOwnProperty("jsdoc-parser")
-    ) {
+    if (!tsPluginParser) {
       return originalParser.preprocess
         ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //@ts-ignore
           originalParser.preprocess(text, options)
         : text;
     }
-
-    const tsPluginParser = tsPlugin.parsers?.typescript || originalParser;
-
-    pluginParse = tsPluginParser.parse || pluginParse;
 
     const preprocess = tsPluginParser.preprocess || originalParser.preprocess;
 

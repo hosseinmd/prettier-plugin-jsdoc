@@ -1,4 +1,4 @@
-import { format, Options } from "prettier";
+import { format, Options, ParserOptions, Plugin } from "prettier";
 import { AllOptions, Token } from "./types";
 import BSearch from "binary-search-bounds";
 
@@ -267,6 +267,27 @@ function formatCode(
   return result;
 }
 
+const findPluginByParser = (parserName: string, options: ParserOptions) => {
+  const tsPlugin = options.plugins.find((plugin) => {
+    return (
+      typeof plugin === "object" &&
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      plugin.name &&
+      plugin.parsers &&
+      // eslint-disable-next-line no-prototype-builtins
+      plugin.parsers.hasOwnProperty(parserName)
+    );
+  }) as Plugin | undefined;
+
+  return !tsPlugin || // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    tsPlugin.name === "prettier-plugin-jsdoc" ||
+    tsPlugin.parsers?.hasOwnProperty("jsdoc-parser")
+    ? undefined
+    : tsPlugin.parsers?.[parserName];
+};
+
 export {
   convertToModernType,
   formatType,
@@ -275,4 +296,5 @@ export {
   detectEndOfLine,
   findTokenIndex,
   formatCode,
+  findPluginByParser,
 };

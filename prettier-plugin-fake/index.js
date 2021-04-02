@@ -25,5 +25,13 @@ exports.parsers = {
             options,
           )
       : preprocess,
+    parse: (text, parsers, options) => {
+      const ast = typescriptParsers.typescript.parse(text, parsers, options);
+      if (ast.comments) {
+        ast.comments[0].value = "PRETTIER-PLUGIN-FAKE";
+      }
+
+      return ast;
+    },
   },
 };
