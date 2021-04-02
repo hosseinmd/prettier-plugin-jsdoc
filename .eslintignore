@@ -1,3 +1,4 @@
 node_modules/
+prettier-plugin-fake/
 lib/
 tests/files

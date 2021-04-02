@@ -95,32 +95,89 @@ const parsers = {
   // JS - Babel
   get babel() {
     const parser = parserBabel.parsers.babel;
-    return { ...parser, parse: getParser(parser.parse) };
+    return mergeParsers(parser, "babel-babel");
   },
   get "babel-flow"() {
     const parser = parserBabel.parsers["babel-flow"];
-    return { ...parser, parse: getParser(parser.parse) };
+    return mergeParsers(parser, "babel-flow");
   },
   get "babel-ts"() {
     const parser = parserBabel.parsers["babel-ts"];
-    return { ...parser, parse: getParser(parser.parse) };
+    return mergeParsers(parser, "babel-ts");
   },
   // JS - Flow
   get flow() {
     const parser = parserFlow.parsers.flow;
-    return { ...parser, parse: getParser(parser.parse) };
+    return mergeParsers(parser, "flow");
   },
   // JS - TypeScript
-  get typescript() {
+  get typescript(): prettier.Parser {
     const parser = parserTypescript.parsers.typescript;
-    return { ...parser, parse: getParser(parser.parse) };
+
+    return mergeParsers(parser, "typescript");
     // require("./parser-typescript").parsers.typescript;
   },
   get "jsdoc-parser"() {
     // Backward compatible, don't use this in new version since 1.0.0
     const parser = parserBabel.parsers["babel-ts"];
-    return { ...parser, parse: getParser(parser.parse) };
+
+    return mergeParsers(parser, "babel-ts");
   },
 };
+
+function mergeParsers(originalParser: prettier.Parser, parserName: string) {
+  let pluginParse = originalParser.parse;
+
+  const jsDocParse = getParser(pluginParse) as any;
+  const jsDocPreprocess = (text: string, options: prettier.ParserOptions) => {
+    const tsPlugin = options.plugins.find((plugin) => {
+      return (
+        typeof plugin === "object" &&
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        plugin.name &&
+        plugin.parsers &&
+        // eslint-disable-next-line no-prototype-builtins
+        plugin.parsers.hasOwnProperty(parserName)
+      );
+    }) as prettier.Plugin | undefined;
+
+    if (
+      !tsPlugin || // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      tsPlugin.name === "prettier-plugin-jsdoc" ||
+      tsPlugin.parsers?.hasOwnProperty("jsdoc-parser")
+    ) {
+      return originalParser.preprocess
+        ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore
+          originalParser.preprocess(text, options)
+        : text;
+    }
+
+    const tsPluginParser = tsPlugin.parsers?.typescript || originalParser;
+
+    pluginParse = tsPluginParser.parse || pluginParse;
+
+    const preprocess = tsPluginParser.preprocess || originalParser.preprocess;
+
+    Object.assign(parser, {
+      ...parser,
+      ...tsPluginParser,
+      preprocess: jsDocPreprocess,
+      parse: jsDocParse,
+    });
+
+    return preprocess ? preprocess(text, options) : text;
+  };
+
+  const parser = {
+    ...originalParser,
+    preprocess: jsDocPreprocess,
+    parse: jsDocParse,
+  };
+
+  return parser;
+}
 
 export { languages, options, parsers, defaultOptions };

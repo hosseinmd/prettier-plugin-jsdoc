@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should convert to single line if necessary 1`] = `
+"//prettier-plugin-fake
+/** Single line description */
+"
+`;
+
+exports[`Should convert to single line if necessary 2`] = `
+"//prettier-plugin-fake
+/** Single line description */
+"
+`;
+
+exports[`Should convert to single line if necessary 3`] = `
+"//prettier-plugin-fake
+/**
+ * Single line description
+ *
+ * @returns {Boolean} Always true
+ */
+"
+`;
+
+exports[`Should format jsDoc default values 1`] = `
+"//prettier-plugin-fake
+
+/**
+ * @param {String} [arg1=\\"defaultTest\\"] Foo. Default is \`\\"defaultTest\\"\`
+ * @param {number} [arg2=123] The width of the rectangle. Default is \`123\`
+ * @param {number} [arg3=123] Default is \`123\`
+ * @param {number} [arg4=Foo.bar.baz] Default is \`Foo.bar.baz\`
+ * @param {number | string} [arg5=123] Something. Default is \`123\`
+ */
+"
+`;
+
+exports[`Should format jsDoc default values 2`] = `
+"//prettier-plugin-fake
+//prettier-plugin-fake
+
+/**
+ * @param {String} [arg1=\\"defaultTest\\"] Foo. Default is \`\\"defaultTest\\"\`
+ * @param {number} [arg2=123] The width of the rectangle. Default is \`123\`
+ * @param {number} [arg3=123] Default is \`123\`
+ * @param {number} [arg4=Foo.bar.baz] Default is \`Foo.bar.baz\`
+ * @param {number | string} [arg5=123] Something. Default is \`123\`
+ */
+"
+`;
+
+exports[`Should format regular jsDoc 1`] = `
+"//prettier-plugin-fake
+
+import b from \\"b\\";
+import { k } from \\"k\\";
+import a from \\"a\\";
+
+/**
+ * Function example description that was wrapped by hand so it have more then
+ * one line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to
+ * copy function example description that was wrapped by hand so it have more
+ * then one line.
+ *
+ * @async
+ * @private
+ * @memberof test
+ * @example
+ *   //prettier-plugin-fake
+ *   var one = 5;
+ *   var two = 10;
+ *
+ *   if (one > 2) {
+ *     two += one;
+ *   }
+ *
+ * @param {String | Number} text - Some text description that is very long and
+ *   needs to be wrapped
+ * @param {String} [defaultValue=\\"defaultTest\\"] TODO. Default is \`\\"defaultTest\\"\`
+ * @param {Number | Null} [optionalNumber]
+ * @returns {Boolean} Description for @returns with s
+ * @undefiendTag
+ * @undefiendTag {number} name des
+ */
+const testFunction = (text, defaultValue, optionalNumber) => true;
+"
+`;
+
+exports[`Should format regular jsDoc 2`] = `
+"//prettier-plugin-fake
+//prettier-plugin-fake
+
+import b from \\"b\\";
+import { k } from \\"k\\";
+import a from \\"a\\";
+
+/**
+ * Function example description that was wrapped by hand so it have more then
+ * one line and don't end with a dot REPEATED TWO TIMES BECAUSE IT WAS EASIER to
+ * copy function example description that was wrapped by hand so it have more
+ * then one line.
+ *
+ * @async
+ * @private
+ * @memberof test
+ * @example
+ *   //prettier-plugin-fake
+ *   //prettier-plugin-fake
+ *   var one = 5;
+ *   var two = 10;
+ *
+ *   if (one > 2) {
+ *     two += one;
+ *   }
+ *
+ * @param {String | Number} text - Some text description that is very long and
+ *   needs to be wrapped
+ * @param {String} [defaultValue=\\"defaultTest\\"] TODO. Default is \`\\"defaultTest\\"\`
+ * @param {Number | Null} [optionalNumber]
+ * @returns {Boolean} Description for @returns with s
+ * @undefiendTag
+ * @undefiendTag {number} name des
+ */
+const testFunction = (text, defaultValue, optionalNumber) => true;
+"
+`;

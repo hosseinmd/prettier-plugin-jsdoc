@@ -103,6 +103,8 @@ function formatType(type: string, options?: Options): string {
     pretty = format(`${TYPE_START}${pretty}`, {
       ...options,
       parser: "typescript",
+      plugins: [],
+      filepath: "file.ts",
     });
     pretty = pretty.slice(TYPE_START.length);
     pretty = pretty.replace(/[;\n]*$/g, "");
