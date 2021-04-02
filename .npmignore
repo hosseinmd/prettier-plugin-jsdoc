@@ -1,5 +1,6 @@
 .vscode/
 node_modules/
+prettier-plugin-fake/
 tests/
 src/
 

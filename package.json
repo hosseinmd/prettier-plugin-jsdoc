@@ -2,6 +2,7 @@
   "name": "prettier-plugin-jsdoc",
   "version": "0.3.17",
   "description": "",
+  "private": "false",
   "workspaces": {
     "prettier-plugin-fake": "./prettier-plugin-fake"
   },
