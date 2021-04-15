@@ -3,9 +3,8 @@ import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
-    plugins: ["."],
+    plugins: [],
     parser: "babel",
-    jsdocParser: false,
     jsdocSpaces: 1,
     ...options,
   } as AllOptions);

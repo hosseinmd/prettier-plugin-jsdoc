@@ -7,7 +7,6 @@ export interface JsdocOptions {
   jsdocDescriptionTag: boolean;
   jsdocVerticalAlignment: boolean;
   jsdocKeepUnParseAbleExampleIndent: boolean;
-  jsdocParser: boolean;
   /** default is true */
   jsdocSingleLineComment: boolean;
   tsdoc: boolean;

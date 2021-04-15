@@ -35,7 +35,10 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
 
     const ast = prettierParse(text, parsers, options) as AST;
 
-    if (!options.jsdocParser) {
+    // jsdocParser is deprecated,this is backward compatible will be remove
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    if (options.jsdocParser === false) {
       return ast;
     }
     options = {

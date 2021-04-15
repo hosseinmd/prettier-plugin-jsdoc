@@ -7,13 +7,6 @@ import { JsdocOptions } from "./types";
 import { findPluginByParser } from "./utils";
 
 const options: Record<keyof JsdocOptions, SupportOption> = {
-  jsdocParser: {
-    name: "jsdocParser",
-    type: "boolean",
-    category: "jsdoc",
-    default: true,
-    description: "Format with jsdoc if is true",
-  },
   jsdocSpaces: {
     name: "jsdocSpaces",
     type: "int",
@@ -75,7 +68,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
 };
 
 const defaultOptions: JsdocOptions = {
-  jsdocParser: options.jsdocParser.default as boolean,
   jsdocSpaces: options.jsdocSpaces.default as number,
   jsdocPrintWidth: (options.jsdocPrintWidth.default as unknown) as undefined,
   jsdocDescriptionWithDot: options.jsdocDescriptionWithDot.default as boolean,

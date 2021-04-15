@@ -37,27 +37,26 @@ yarn add prettier-plugin-jsdoc
 
 ## Config
 
-Set jsdocParser true, will format comments of javascript and typescript files.
+Set `prettier-plugin-jsdoc` to your plugins list.
 
 .prettierrc
 
 ```json
 {
-  ...
-  "jsdocParser": true,
+  "plugins": ["prettier-plugin-jsdoc"],
 };
 ```
 
-If you want ignore some type of files set jsdocParser to false
+If you want ignore some type of files remove "prettier-plugin-jsdoc" from plugins or add empty plugins
 
 ```.prettierrc.js
 module.exports = {
-  // any other config you have
+  "plugins": ["prettier-plugin-jsdoc"]
   overrides: [
     {
       files: '*.tsx',
       options: {
-        jsdocParser: false
+        "plugins": []
       },
     },
   ],
@@ -176,7 +175,6 @@ Description is formatting as Markdown, so you could use any features of Markdown
 
 | Key                               | type    | Default   | description                                                                               |
 | :-------------------------------- | :------ | :-------- | ----------------------------------------------------------------------------------------- |
-| jsdocParser                       | Boolean | true      |
 | jsdocSpaces                       | Number  | 1         |
 | jsdocDescriptionWithDot           | Boolean | false     |
 | jsdocDescriptionTag               | Boolean | false     |
