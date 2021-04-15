@@ -8,7 +8,6 @@ import { Root, Content } from "mdast";
 const TABLE = "2@^5!~#sdE!_TABLE";
 
 interface DescriptionEndLineParams {
-  description: string;
   tag: string;
   isEndTag: boolean;
 }
@@ -22,15 +21,10 @@ const parserSynonyms: Record<string, BuiltInParserName[]> = {
 };
 
 function descriptionEndLine({
-  description,
   tag,
   isEndTag,
 }: DescriptionEndLineParams): string {
-  if (description.trim().length < 0 || isEndTag) {
-    return "";
-  }
-
-  if ([DESCRIPTION, EXAMPLE, TODO].includes(tag)) {
+  if ([DESCRIPTION, EXAMPLE, TODO].includes(tag) && !isEndTag) {
     return "\n";
   }
 
@@ -90,74 +84,83 @@ function formatDescription(
 
   const rootAst = fromMarkdown(text);
 
+  function stringifyASTWithoutChildren(
+    mdAst: Content | Root,
+    intention: string,
+    parent: Content | Root | null,
+  ) {
+    if (mdAst.type === "inlineCode") {
+      return ` \`${mdAst.value}\``;
+    }
+
+    if (mdAst.type === "code") {
+      let result = mdAst.value || "";
+      let _intention = intention;
+
+      if (result) {
+        // Remove two space from lines, maybe added previous format
+        if (mdAst.lang) {
+          const supportParsers = parserSynonyms[mdAst.lang.toLowerCase()];
+          const parser = supportParsers?.includes(options.parser as any)
+            ? options.parser
+            : supportParsers?.[0] || mdAst.lang;
+
+          result = formatCode(result, intention, {
+            ...options,
+            parser,
+            jsdocKeepUnParseAbleExampleIndent: true,
+          });
+        } else {
+          _intention = intention + " ".repeat(4);
+
+          result = formatCode(result, _intention, {
+            ...options,
+            jsdocKeepUnParseAbleExampleIndent: true,
+          });
+        }
+      }
+      result = mdAst.lang ? result : result.trimEnd();
+      return result
+        ? mdAst.lang
+          ? `\n\n${_intention}\`\`\`${mdAst.lang}${result}\`\`\``
+          : `\n${result}`
+        : "";
+    }
+
+    if (mdAst.value === TABLE) {
+      if (parent) {
+        parent.costumeType = TABLE;
+      }
+
+      if (tables.length > 0) {
+        let result = tables?.[tableIndex] || "";
+        tableIndex++;
+        if (result) {
+          result = format(result, {
+            ...options,
+            parser: "markdown",
+          }).trim();
+        }
+        return `${
+          result
+            ? `\n\n${intention}${result.split("\n").join(`\n${intention}`)}`
+            : mdAst.value
+        }`;
+      }
+    }
+
+    return (mdAst.value || "") as string;
+  }
+
   function stringyfy(
     mdAst: Content | Root,
     intention: string,
     parent: Content | Root | null,
   ): string {
     if (!Array.isArray(mdAst.children)) {
-      if (mdAst.type === "inlineCode") {
-        return ` \`${mdAst.value}\``;
-      }
-
-      if (mdAst.type === "code") {
-        let result = mdAst.value || "";
-        let _intention = intention;
-
-        if (result) {
-          // Remove two space from lines, maybe added previous format
-          if (mdAst.lang) {
-            const supportParsers = parserSynonyms[mdAst.lang.toLowerCase()];
-            const parser = supportParsers?.includes(options.parser as any)
-              ? options.parser
-              : supportParsers?.[0] || mdAst.lang;
-
-            result = formatCode(result, intention, {
-              ...options,
-              parser,
-              jsdocKeepUnParseAbleExampleIndent: true,
-            });
-          } else {
-            _intention = intention + " ".repeat(4);
-
-            result = formatCode(result, _intention, {
-              ...options,
-              jsdocKeepUnParseAbleExampleIndent: true,
-            });
-          }
-        }
-        result = mdAst.lang ? result : result.trimEnd();
-        return result
-          ? mdAst.lang
-            ? `\n\n${_intention}\`\`\`${mdAst.lang}${result}\`\`\``
-            : `\n${result}`
-          : "";
-      }
-
-      if (mdAst.value === TABLE) {
-        if (parent) {
-          parent.costumeType = TABLE;
-        }
-
-        if (tables.length > 0) {
-          let result = tables?.[tableIndex] || "";
-          tableIndex++;
-          if (result) {
-            result = format(result, {
-              ...options,
-              parser: "markdown",
-            }).trim();
-          }
-          return `${
-            result
-              ? `\n\n${intention}${result.split("\n").join(`\n${intention}`)}`
-              : mdAst.value
-          }`;
-        }
-      }
-
-      return (mdAst.value || "") as string;
+      return stringifyASTWithoutChildren(mdAst, intention, parent);
     }
+
     return (mdAst.children as Content[])
       .map((ast, index) => {
         if (ast.type === "listItem") {

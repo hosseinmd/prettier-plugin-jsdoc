@@ -105,7 +105,6 @@ const stringify = (
 
   // Add empty line after some tags if there is something below
   tagString += descriptionEndLine({
-    description: tagString,
     tag,
     isEndTag: tagIndex === finalTagsArray.length - 1,
   });
