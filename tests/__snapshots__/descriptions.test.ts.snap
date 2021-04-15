@@ -29,6 +29,25 @@ exports[`\`#\` in text 1`] = `
 "
 `;
 
+exports[`List in tags 1`] = `
+"/**
+ * @param {any} var An example list:
+ *
+ *   - Item 1
+ *   - Item 2
+ *
+ * @returns {Promise} A return value.
+ */
+
+/**
+ * @param {any} var An example list:
+ *
+ *   - Item 1
+ *   - Item 2
+ */
+"
+`;
+
 exports[`Long words 1`] = `
 "/**
  * 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567

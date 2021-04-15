@@ -308,6 +308,31 @@ test("Nested list", () => {
   expect(result1).toMatchSnapshot();
 });
 
+test("List in tags", () => {
+  const result1 = subject(
+    `
+/**
+ * @param {any} var An example list:
+ *
+ *   - Item 1
+ *   - Item 2
+ *
+ * @returns {Promise} A return value.
+ */
+
+ /**
+  * @param {any} var An example list:
+  *
+  *   - Item 1
+  *   - Item 2
+  *
+  */
+`,
+  );
+
+  expect(result1).toMatchSnapshot();
+});
+
 test("code in description", () => {
   const result1 = subject(`
 /**

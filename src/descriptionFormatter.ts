@@ -179,7 +179,19 @@ function formatDescription(
         }
 
         if (ast.type === "list") {
-          return `\n${stringyfy(ast, intention, mdAst)}`;
+          let end = "";
+          /**
+           * Add empty line after list if that is end of description
+           * issue: {@link https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/98}
+           */
+          if (
+            tag !== DESCRIPTION &&
+            mdAst.type === "root" &&
+            index === mdAst.children.length - 1
+          ) {
+            end = "\n";
+          }
+          return `\n${stringyfy(ast, intention, mdAst)}${end}`;
         }
 
         if (ast.type === "paragraph") {
