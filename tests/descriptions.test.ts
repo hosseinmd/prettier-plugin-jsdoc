@@ -478,7 +478,7 @@ test("printWidth", () => {
   * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
   */`,
     {
-      printWidth: 80,
+      jsdocPrintWidth: 80,
     },
   );
 

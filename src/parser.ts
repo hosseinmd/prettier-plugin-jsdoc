@@ -38,6 +38,10 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
     if (!options.jsdocParser) {
       return ast;
     }
+    options = {
+      ...options,
+      printWidth: options.jsdocPrintWidth ?? options.printWidth,
+    };
 
     const eol =
       options.endOfLine === "auto" ? detectEndOfLine(text) : options.endOfLine;

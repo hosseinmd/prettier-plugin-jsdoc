@@ -2,6 +2,7 @@ import { ParserOptions } from "prettier";
 
 export interface JsdocOptions {
   jsdocSpaces: number;
+  jsdocPrintWidth?: number;
   jsdocDescriptionWithDot: boolean;
   jsdocDescriptionTag: boolean;
   jsdocVerticalAlignment: boolean;

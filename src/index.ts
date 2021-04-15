@@ -64,11 +64,20 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     default: false,
     description: "Should format as tsdoc",
   },
+  jsdocPrintWidth: {
+    name: "jsdocPrintWidth",
+    type: "int",
+    category: "jsdoc",
+    default: undefined as any,
+    description:
+      "If You don't set value to jsdocPrintWidth, the printWidth will be use as jsdocPrintWidth.",
+  },
 };
 
 const defaultOptions: JsdocOptions = {
   jsdocParser: options.jsdocParser.default as boolean,
   jsdocSpaces: options.jsdocSpaces.default as number,
+  jsdocPrintWidth: (options.jsdocPrintWidth.default as unknown) as undefined,
   jsdocDescriptionWithDot: options.jsdocDescriptionWithDot.default as boolean,
   jsdocDescriptionTag: options.jsdocDescriptionTag.default as boolean,
   jsdocVerticalAlignment: options.jsdocVerticalAlignment.default as boolean,
