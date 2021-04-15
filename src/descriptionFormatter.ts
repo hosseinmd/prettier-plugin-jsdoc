@@ -149,6 +149,10 @@ function formatDescription(
       }
     }
 
+    if (mdAst.type === "break") {
+      return `\\\n`;
+    }
+
     return (mdAst.value || "") as string;
   }
 
@@ -195,21 +199,27 @@ function formatDescription(
         }
 
         if (ast.type === "paragraph") {
-          let paragraph = stringyfy(ast, intention, parent);
+          const paragraph = stringyfy(ast, intention, parent);
           if (ast.costumeType === TABLE) {
             return paragraph;
           }
-          paragraph = paragraph.replace(/\s+/g, " "); // Make single line
 
-          paragraph = capitalizer(paragraph);
-          if (options.jsdocDescriptionWithDot)
-            paragraph = paragraph.replace(/([\w\p{L}])$/u, "$1."); // Insert dot if needed
+          return `\n\n${paragraph
+            /**
+             * Break by backslash\
+             * issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/102
+             */
+            .split("\\\n")
+            .map((_paragraph) => {
+              _paragraph = _paragraph.replace(/\s+/g, " "); // Make single line
 
-          return `\n\n${breakDescriptionToLines(
-            paragraph,
-            printWidth,
-            intention,
-          )}`;
+              _paragraph = capitalizer(_paragraph);
+              if (options.jsdocDescriptionWithDot)
+                _paragraph = _paragraph.replace(/([\w\p{L}])$/u, "$1."); // Insert dot if needed
+
+              return breakDescriptionToLines(_paragraph, printWidth, intention);
+            })
+            .join("\\\n")}`;
         }
 
         if (ast.type === "strong") {

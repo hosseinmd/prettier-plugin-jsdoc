@@ -308,6 +308,20 @@ test("Nested list", () => {
   expect(result1).toMatchSnapshot();
 });
 
+test("New line with \\", () => {
+  const result1 = subject(
+    `
+/**
+ * A short description,\
+ * A long description.
+ */
+`,
+  );
+
+  expect(result1).toMatchSnapshot();
+  expect(subject(result1)).toEqual(result1);
+});
+
 test("List in tags", () => {
   const result1 = subject(
     `

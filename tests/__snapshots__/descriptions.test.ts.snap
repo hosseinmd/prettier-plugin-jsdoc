@@ -139,6 +139,11 @@ exports[`New Lines with star 2`] = `
 "
 `;
 
+exports[`New line with \\ 1`] = `
+"/** A short description, * A long description. */
+"
+`;
+
 exports[`Non-english description with dot 1`] = `
 "/**
  * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu groß.
