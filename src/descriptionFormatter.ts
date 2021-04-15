@@ -224,7 +224,7 @@ function formatDescription(
 
   let result = stringyfy(rootAst, beginningSpace, null);
 
-  result = result.trim().slice(tagStringLength);
+  result = result.trimStart().slice(tagStringLength);
 
   return result;
 }
@@ -258,9 +258,10 @@ function breakDescriptionToLines(
 
     result += str.substring(0, sliceIndex);
     str = str.substring(sliceIndex + 1);
-
-    str = `${beginningSpace}${str}`;
-    str = `\n${str}`;
+    if (str) {
+      str = `${beginningSpace}${str}`;
+      str = `\n${str}`;
+    }
   }
 
   result += str;
