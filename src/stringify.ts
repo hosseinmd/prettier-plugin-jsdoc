@@ -1,6 +1,12 @@
 import { Spec } from "comment-parser";
 import { formatDescription, descriptionEndLine } from "./descriptionFormatter";
-import { DESCRIPTION, EXAMPLE, SPACE_TAG_DATA } from "./tags";
+import {
+  DESCRIPTION,
+  EXAMPLE,
+  PRIVATE_REMARKS,
+  REMARKS,
+  SPACE_TAG_DATA,
+} from "./tags";
 import {
   TAGS_ORDER,
   TAGS_PEV_FORMATE_DESCRIPTION,
@@ -87,17 +93,30 @@ const stringify = (
       tagString += description;
     } else {
       const [, firstWord] = /^\s*(\S+)/.exec(description) || ["", ""];
+
+      // Wrap tag description
+      const beginningSpace =
+        tag === DESCRIPTION ||
+        ([EXAMPLE, REMARKS, PRIVATE_REMARKS].includes(tag) && tsdoc)
+          ? ""
+          : "  "; // google style guide space
+
       if (
-        tag !== DESCRIPTION &&
-        tagString.length + firstWord.length > printWidth
+        (tag !== DESCRIPTION &&
+          tagString.length + firstWord.length > printWidth) ||
+        // tsdoc tags
+        [REMARKS, PRIVATE_REMARKS].includes(tag)
       ) {
         // the tag is already longer than we are allowed to, so let's start at a new line
-        tagString += "\n  " + formatDescription(tag, description, options);
+        tagString +=
+          `\n${beginningSpace}` +
+          formatDescription(tag, description, options, { beginningSpace });
       } else {
         // append the description to the tag
         tagString += formatDescription(tag, description, options, {
           // 1 is `\n` which added to tagString
           tagStringLength: tagString.length - 1,
+          beginningSpace,
         });
       }
     }

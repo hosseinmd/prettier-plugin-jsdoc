@@ -12,18 +12,6 @@ function subject(code: string, options: Partial<AllOptions> = {}) {
 
 test("object property", () => {
   const result = subject(`
-  /**
- * @providesModule Foo
- * @remarks
- * This source code is licensed under the license found in the LICENSE file in	
- * the root directory of this source tree.	
- * @privateRemarks This source code is licensed under the license found in the LICENSE file in	
- * the root directory of this source tree.	
- * @PrivaTeremaRks description 
- * @providesmodule bar
- * 
- * @flow
- */
 
 /**	
  * Copyright (c) 2015-present, Facebook, Inc.	

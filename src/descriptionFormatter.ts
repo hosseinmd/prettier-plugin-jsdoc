@@ -1,5 +1,5 @@
 import { format, BuiltInParserName } from "prettier";
-import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
+import { DESCRIPTION, EXAMPLE, PRIVATE_REMARKS, REMARKS, TODO } from "./tags";
 import { AllOptions } from "./types";
 import { capitalizer, formatCode } from "./utils";
 import fromMarkdown from "mdast-util-from-markdown";
@@ -33,6 +33,7 @@ function descriptionEndLine({
 
 interface FormatOptions {
   tagStringLength?: number;
+  beginningSpace: string;
 }
 
 /**
@@ -45,16 +46,12 @@ function formatDescription(
   tag: string,
   text: string,
   options: AllOptions,
-  formatOptions: FormatOptions = {},
+  formatOptions: FormatOptions,
 ): string {
   if (!text) return text;
 
-  const { printWidth, tsdoc } = options;
-  const { tagStringLength = 0 } = formatOptions;
-
-  // Wrap tag description
-  const beginningSpace =
-    tag === DESCRIPTION || (tag === EXAMPLE && tsdoc) ? "" : "  "; // google style guide space
+  const { printWidth } = options;
+  const { tagStringLength = 0, beginningSpace } = formatOptions;
 
   /**
    * change list with dash to dot for example:

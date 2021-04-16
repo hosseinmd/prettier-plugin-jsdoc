@@ -65,5 +65,41 @@ export function plusOne(input: number) {
 export function add(x: number, y: number): number {
   return x * y;
 }
+
+/**
+ * This is a summary for foo.
+ *
+ * Foo is the name of the function.
+ *
+ * @remarks
+ * This is some additional info
+ *
+ * 1. Point 1
+ * 2. Point 2
+ * 3. Point 3
+ *
+ * @example
+ *
+ * \`\`\`ts
+ * foo(2, 5, 9);
+ * \`\`\`
+ */
+function foo(num1, num2, num3) {
+  //
+}
+
+/**
+ * @remarks
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ * @privateRemarks
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ * @privateRemarks
+ * Description
+ * @providesModule Foo
+ * @providesModule bar
+ * @flow
+ */
 "
 `;
