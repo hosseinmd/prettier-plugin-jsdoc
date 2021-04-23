@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.20](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.17...v0.3.20) (2021-04-23)
+
+
+### Features
+
+* add jsdocPrintWidth to options ([6fb1897](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6fb1897fea12b187afd31a9a1d224a931e903b9b))
+* add support break by backslash ([4f4cd07](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/4f4cd07c0d273736135589d549160d57c9430f00))
+
+
+### Bug Fixes
+
+* Add empty line after list ([74c1b65](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/74c1b65fbec4ef4fd961ecef60a7114498e4b421))
+* compatibility with other plugins ([bfc9c39](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/bfc9c3901e6a0d702b740e9297dea6d5606f3623))
+* jsdocParser option is deprecated ([17b5fbf](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/17b5fbfc1e9198bff04e0c88758179dc0675dc27)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/10#issuecomment-815148264](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/10/issues/issuecomment-815148264)
+* line breaks inside jsdoc link ([86bb75c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/86bb75c55f6894b2387f4f6b0de7207df86004ef))
+* remark tsdoc format ([4e46c4f](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/4e46c4f3b4a9ad4aa3ff2bd0a4f89790457d5f11))
+* remove blank space before of backtick ([6dd64e4](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6dd64e449c5c0d5e2e9d029fb6db19c1a61f4532)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/107#issuecomment-825267537](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/107/issues/issuecomment-825267537)
+* resolve  parser of plugins ([bd9be19](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/bd9be192c8f562cbb625e0bfdda06825435f5fc9))
+
 ### [0.3.19](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.17...v0.3.19) (2021-04-15)
 
 ### Features
