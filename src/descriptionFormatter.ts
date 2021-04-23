@@ -87,7 +87,7 @@ function formatDescription(
     parent: Content | Root | null,
   ) {
     if (mdAst.type === "inlineCode") {
-      return ` \`${mdAst.value}\``;
+      return `\`${mdAst.value}\``;
     }
 
     if (mdAst.type === "code") {

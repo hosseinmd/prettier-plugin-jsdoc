@@ -322,8 +322,8 @@ var getLoader = (function () {
 	}
 
 	/**
-	 * Returns an object which provides methods to get the ids of the components which have to be loaded ( \`getIds\`) and
-	 * a way to efficiently load them in synchronously and asynchronous contexts ( \`load\`).
+	 * Returns an object which provides methods to get the ids of the components which have to be loaded (\`getIds\`) and
+	 * a way to efficiently load them in synchronously and asynchronous contexts (\`load\`).
 	 *
 	 * The set of ids to be loaded is a superset of \`load\`. If some of these ids are in \`loaded\`, the corresponding
 	 * components will have to reloaded.

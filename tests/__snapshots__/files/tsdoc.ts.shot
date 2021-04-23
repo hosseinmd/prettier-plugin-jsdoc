@@ -21,7 +21,7 @@ export function plusOne(input: number) {
  *
  * @example Parsing a basic JSON file
  *
- * # Contents of  \`file.json\`
+ * # Contents of \`file.json\`
  *
  * \`\`\`json
  * {
