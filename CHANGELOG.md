@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.20](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.17...v0.3.20) (2021-04-23)
+
+### Bug Fixes
+
+- line breaks inside jsdoc link ([86bb75c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/86bb75c55f6894b2387f4f6b0de7207df86004ef))
+- remark tsdoc format ([4e46c4f](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/4e46c4f3b4a9ad4aa3ff2bd0a4f89790457d5f11))
+- remove blank space before of backtick ([6dd64e4](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6dd64e449c5c0d5e2e9d029fb6db19c1a61f4532)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/107#issuecomment-825267537](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/107/issues/issuecomment-825267537)
+- resolve parser of plugins ([bd9be19](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/bd9be192c8f562cbb625e0bfdda06825435f5fc9))
+
 ### [0.3.19](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.17...v0.3.19) (2021-04-15)
 
 ### Features
