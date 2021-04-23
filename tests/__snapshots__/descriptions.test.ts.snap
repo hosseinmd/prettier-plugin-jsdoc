@@ -29,6 +29,32 @@ exports[`\`#\` in text 1`] = `
 "
 `;
 
+exports[`Jsdoc link in description 1`] = `
+"/**
+ * Calculate the
+ * {@link https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement difference}
+ * between two sets.
+ *
+ * @param second
+ * @param first
+ */
+export function difference<T>(first: Set<T>, second: Set<T>): Set<T>;
+
+/**
+ * Calculate the
+ * {@link https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement difference}
+ * {@link https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement difference}
+ * between two sets.
+ */
+
+/**
+ * Calculate the
+ * {@link https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement difference}
+ * between {@link https://en.wikipedia.org/wiki/Complement} between two sets.
+ */
+"
+`;
+
 exports[`List in tags 1`] = `
 "/**
  * @param {any} var An example list:

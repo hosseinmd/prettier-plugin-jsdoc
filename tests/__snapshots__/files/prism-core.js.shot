@@ -451,8 +451,8 @@ var Prism = (function (_self) {
 		},
 
 		/**
-		 * Fetches all the descendants of \`container\` that have a \`.language-xxxx\` class and then calls {@link
-		 * Prism.highlightElement} on each one of them.
+		 * Fetches all the descendants of \`container\` that have a \`.language-xxxx\` class and then calls
+		 * {@link Prism.highlightElement} on each one of them.
 		 *
 		 * The following hooks will be run:
 		 *

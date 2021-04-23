@@ -208,13 +208,45 @@ function formatDescription(
              */
             .split("\\\n")
             .map((_paragraph) => {
+              const links: string[] = [];
+              // Find jsdoc links and remove spaces
+              _paragraph = _paragraph.replace(
+                /{@link[\s](([^{}])*)}/g,
+                (_, link: string) => {
+                  links.push(link);
+
+                  return `{@link${"_".repeat(link.length)}}`;
+                },
+              );
+
               _paragraph = _paragraph.replace(/\s+/g, " "); // Make single line
 
               _paragraph = capitalizer(_paragraph);
               if (options.jsdocDescriptionWithDot)
                 _paragraph = _paragraph.replace(/([\w\p{L}])$/u, "$1."); // Insert dot if needed
 
-              return breakDescriptionToLines(_paragraph, printWidth, intention);
+              let result = breakDescriptionToLines(
+                _paragraph,
+                printWidth,
+                intention,
+              );
+
+              // Replace links
+              result = result.replace(
+                /{@link([_]+)}/g,
+                (original: string, underline: string) => {
+                  const link = links[0];
+
+                  if (link.length === underline.length) {
+                    links.shift();
+                    return `{@link ${link}}`;
+                  }
+
+                  return original;
+                },
+              );
+
+              return result;
             })
             .join("\\\n")}`;
         }
