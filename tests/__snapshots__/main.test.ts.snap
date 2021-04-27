@@ -353,6 +353,27 @@ exports[`Sould keep params ordering when more than 10 tags are present 1`] = `
 "
 `;
 
+exports[`example  1`] = `
+"/**
+ * ABCCCC
+ *
+ * @example <caption>DDDD</caption>
+ *   const MyHook = () => {
+ *   const config useConfig(state => state.config)
+ *   return <span></span>
+ *   }
+ *
+ *   const useMyHook = () => {
+ *   const config useConfig(state => state.config)
+ *   return config
+ *   }
+ *
+ * @example <caption>AAAA</caption>
+ *   const config = useConfig.getState().config;
+ */
+"
+`;
+
 exports[`jsdoc tags 1`] = `
 "/**
  * @namespace

@@ -79,9 +79,17 @@ const stringify = (
 
     const beginningSpace = useTabs ? "\t" : " ".repeat(tabWidth);
     const formattedExample = formatCode(description, beginningSpace, options);
-    tagString += formattedExample.startsWith("\n")
-      ? formattedExample.trimEnd()
-      : "\n" + formattedExample;
+
+    tagString += formattedExample
+      .replace(
+        new RegExp(
+          `^\\n${beginningSpace
+            .replace(/[\t]/g, "[\\t]")
+            .replace(/[^S\r\n]/g, "[^S\\r\\n]")}\\n`,
+        ),
+        "",
+      )
+      .trimEnd();
   } // Add description (complicated because of text wrap)
   else if (description) {
     if (useTagTitle) tagString += gap + " ".repeat(descGapAdj);
