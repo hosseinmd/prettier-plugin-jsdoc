@@ -626,3 +626,31 @@ test("example ", () => {
 
   expect(subject(subject(result2))).toMatchSnapshot();
 });
+
+test("example with tab intention", () => {
+  const result2 = subject(
+    `
+/**
+ * @example
+ * 	function Hello() {
+ * 		console.log("Hello World");
+ * 	}
+ */
+    
+`,
+    {
+      useTabs: true,
+    },
+  );
+
+  expect(
+    subject(
+      subject(result2, {
+        useTabs: true,
+      }),
+      {
+        useTabs: true,
+      },
+    ),
+  ).toMatchSnapshot();
+});
