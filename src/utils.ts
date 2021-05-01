@@ -223,12 +223,7 @@ function formatCode(
       .every((v) => !v.trim() || v.startsWith(beginningSpace))
   ) {
     result = result.replace(
-      new RegExp(
-        `\n${beginningSpace
-          .replace(/[\t]/g, "[\\t]")
-          .replace(/[^S\r\n]/g, "[^S\\r\\n]")}`,
-        "g",
-      ),
+      new RegExp(`\n${beginningSpace.replace(/[\t]/g, "[\\t]")}`, "g"),
       "\n",
     );
   }

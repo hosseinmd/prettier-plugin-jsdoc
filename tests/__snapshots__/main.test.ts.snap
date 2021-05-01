@@ -374,6 +374,16 @@ exports[`example  1`] = `
 "
 `;
 
+exports[`example with tab intention 1`] = `
+"/**
+ * @example
+ * 	function Hello() {
+ * 		console.log(\\"Hello World\\");
+ * 	}
+ */
+"
+`;
+
 exports[`jsdoc tags 1`] = `
 "/**
  * @namespace
