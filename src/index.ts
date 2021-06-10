@@ -50,6 +50,13 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     default: true,
     description: "Should compact single line comment",
   },
+  jsdocSeparateReturnsFromParam: {
+    name: "jsdocSeparateReturnsFromParam",
+    type: "boolean",
+    category: "jsdoc",
+    default: false,
+    description: "Add an space between last @param and @returns",
+  },
   tsdoc: {
     name: "tsdoc",
     type: "boolean",
@@ -76,6 +83,8 @@ const defaultOptions: JsdocOptions = {
   jsdocKeepUnParseAbleExampleIndent: options.jsdocKeepUnParseAbleExampleIndent
     .default as boolean,
   jsdocSingleLineComment: options.jsdocSingleLineComment.default as boolean,
+  jsdocSeparateReturnsFromParam: options.jsdocSeparateReturnsFromParam
+    .default as boolean,
   tsdoc: options.tsdoc.default as boolean,
 };
 

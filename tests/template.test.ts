@@ -6,6 +6,7 @@ function subject(code: string, options: Partial<AllOptions> = {}) {
     plugins: ["."],
     jsdocSpaces: 1,
     parser: "babel-flow",
+    jsdocSeparateReturnsFromParam: true,
     ...options,
   } as AllOptions);
 }

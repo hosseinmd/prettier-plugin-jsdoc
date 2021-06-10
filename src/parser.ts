@@ -7,7 +7,7 @@ import {
   findTokenIndex,
   findPluginByParser,
 } from "./utils";
-import { DESCRIPTION, PARAM } from "./tags";
+import { DESCRIPTION, PARAM, RETURNS } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP_HEAD,
@@ -122,6 +122,16 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
 
       // Group tags
       tags = sortTags(tags, paramsOrder, options);
+
+      if (options.jsdocSeparateReturnsFromParam) {
+        tags = tags.flatMap((tag, index) => {
+          if (tag.tag === RETURNS && tags[index - 1]?.tag === PARAM) {
+            return [SPACE_TAG_DATA, tag];
+          }
+
+          return [tag];
+        });
+      }
 
       tags
         .map(addDefaultValueToDescription)

@@ -181,6 +181,7 @@ Description is formatting as Markdown, so you could use any features of Markdown
 | jsdocVerticalAlignment            | Boolean | false     |
 | jsdocKeepUnParseAbleExampleIndent | Boolean | false     |
 | jsdocSingleLineComment            | Boolean | true      |
+| jsdocSeparateReturnsFromParam     | Boolean | true      | Add an space between last @param and @returns                                             |
 | tsdoc                             | Boolean | false     |
 | jsdocPrintWidth                   | Number  | undefined | If You don't set value to jsdocPrintWidth, the printWidth will be use as jsdocPrintWidth. |
 

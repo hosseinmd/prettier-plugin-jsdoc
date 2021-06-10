@@ -9,6 +9,7 @@ export interface JsdocOptions {
   jsdocKeepUnParseAbleExampleIndent: boolean;
   /** default is true */
   jsdocSingleLineComment: boolean;
+  jsdocSeparateReturnsFromParam: boolean;
   tsdoc: boolean;
 }
 
