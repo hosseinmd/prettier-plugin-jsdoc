@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.23](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.22...v0.3.23) (2021-06-10)
+
+
+### Features
+
+* add jsdocSeparateReturnsFromParam ([1b3eb01](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/1b3eb01c6f33de26361e989113c4dec0e06a1587))
+
 ### [0.3.22](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.21...v0.3.22) (2021-05-01)
 
 
