@@ -76,7 +76,7 @@
   },
   "dependencies": {
     "binary-search-bounds": "^2.0.5",
-    "comment-parser": "^1.1.4",
+    "comment-parser": "^1.2.4",
     "linguist-languages": "^7.13.0",
     "mdast-util-from-markdown": "^0.8.5"
   },
