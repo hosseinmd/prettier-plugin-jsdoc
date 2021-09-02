@@ -95,3 +95,13 @@ export function add(x: number, y: number): number {
  * 
  * @flow
  */
+
+
+ interface DialogProps {
+    /**
+     * Whether the dialog should disable the main content while open
+     *
+     * @defaultValue true
+     */
+    modal?: boolean;
+  }

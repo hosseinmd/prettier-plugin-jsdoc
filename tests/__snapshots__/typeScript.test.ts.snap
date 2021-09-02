@@ -51,7 +51,7 @@ export let User;
 
 exports[`Union types 1`] = `
 "/**
- * @typedef {  | { foo: string }
+ * @typedef {| { foo: string }
  *   | { bar: string; manyMoreLongArguments: object }
  *   | { baz: string }} Foo
  */

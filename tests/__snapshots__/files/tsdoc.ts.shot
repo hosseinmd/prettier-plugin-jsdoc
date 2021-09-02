@@ -101,5 +101,14 @@ function foo(num1, num2, num3) {
  * @providesModule bar
  * @flow
  */
+
+interface DialogProps {
+  /**
+   * Whether the dialog should disable the main content while open
+   *
+   * @defaultValue true
+   */
+  modal?: boolean;
+}
 "
 `;
