@@ -57,6 +57,13 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     default: false,
     description: "Add an space between last @param and @returns",
   },
+  jsdocCapitalizeDescription: {
+    name: "jsdocCapitalizeDescription",
+    type: "boolean",
+    category: "jsdoc",
+    default: true,
+    description: "Should capitalize first letter of description",
+  },
   tsdoc: {
     name: "tsdoc",
     type: "boolean",
@@ -84,6 +91,8 @@ const defaultOptions: JsdocOptions = {
     .default as boolean,
   jsdocSingleLineComment: options.jsdocSingleLineComment.default as boolean,
   jsdocSeparateReturnsFromParam: options.jsdocSeparateReturnsFromParam
+    .default as boolean,
+  jsdocCapitalizeDescription: options.jsdocCapitalizeDescription
     .default as boolean,
   tsdoc: options.tsdoc.default as boolean,
 };
