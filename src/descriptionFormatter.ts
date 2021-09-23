@@ -71,7 +71,7 @@ function formatDescription(
     tables.push(code);
     return `\n\n${TABLE}\n\n${_3 ? _3.slice(1) : ""}`;
   });
-  text = capitalizer(text);
+  if (options.jsdocCapitalizeDescription) text = capitalizer(text);
 
   text = `${"!".repeat(tagStringLength)}${
     text.startsWith("```") ? "\n" : ""
@@ -221,7 +221,8 @@ function formatDescription(
 
               _paragraph = _paragraph.replace(/\s+/g, " "); // Make single line
 
-              _paragraph = capitalizer(_paragraph);
+              if (options.jsdocCapitalizeDescription)
+                _paragraph = capitalizer(_paragraph);
               if (options.jsdocDescriptionWithDot)
                 _paragraph = _paragraph.replace(/([\w\p{L}])$/u, "$1."); // Insert dot if needed
 
