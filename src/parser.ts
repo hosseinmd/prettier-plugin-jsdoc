@@ -137,9 +137,8 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
         .map(addDefaultValueToDescription)
         .map(assignOptionalAndDefaultToName)
         .map(({ type, name, description, tag, ...rest }) => {
-          const isVerticallyAlignAbleTags = TAGS_VERTICALLY_ALIGN_ABLE.includes(
-            tag,
-          );
+          const isVerticallyAlignAbleTags =
+            TAGS_VERTICALLY_ALIGN_ABLE.includes(tag);
 
           if (isVerticallyAlignAbleTags) {
             maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);

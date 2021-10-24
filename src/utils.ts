@@ -108,6 +108,7 @@ function formatType(type: string, options?: Options): string {
     });
     pretty = pretty.slice(TYPE_START.length);
     pretty = pretty.replace(/[;\n]*$/g, "");
+    pretty = pretty.trim();
 
     if (rest) {
       pretty = "..." + pretty.replace(/\[\s*\]$/, "");

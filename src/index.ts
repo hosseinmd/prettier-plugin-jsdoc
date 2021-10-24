@@ -76,7 +76,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
 
 const defaultOptions: JsdocOptions = {
   jsdocSpaces: options.jsdocSpaces.default as number,
-  jsdocPrintWidth: (options.jsdocPrintWidth.default as unknown) as undefined,
+  jsdocPrintWidth: options.jsdocPrintWidth.default as unknown as undefined,
   jsdocDescriptionWithDot: options.jsdocDescriptionWithDot.default as boolean,
   jsdocDescriptionTag: options.jsdocDescriptionTag.default as boolean,
   jsdocVerticalAlignment: options.jsdocVerticalAlignment.default as boolean,
