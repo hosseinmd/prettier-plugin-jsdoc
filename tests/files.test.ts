@@ -3,6 +3,7 @@ import { readFileSync } from "fs";
 import { resolve } from "path";
 import { AllOptions } from "../src/types";
 
+// eslint-disable-next-line no-undef
 require("jest-specific-snapshot");
 
 function subjectFiles(relativePath: string, options: Partial<AllOptions> = {}) {
@@ -58,7 +59,10 @@ const files: {
   },
   {
     name: "prism-dependencies.js",
-    options: PrismOptions,
+    options: {
+      jsdocSeparateTagGroups: true,
+      ...PrismOptions,
+    },
   },
   {
     name: "tsdoc.ts",
@@ -70,7 +74,7 @@ const files: {
 
 for (let i = 0; i < files.length; i++) {
   const { name, options } = files[i];
-  test(`File: ${name} Options: ${JSON.stringify(options || {})}`, () => {
+  test(`File: ${name}`, () => {
     const result = subjectFiles("./files/" + name, options);
     expect(result).toMatchSpecificSnapshot(
       `./__snapshots__/files/${name}.shot`,

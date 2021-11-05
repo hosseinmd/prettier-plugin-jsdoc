@@ -1,6 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`File: order.jsx Options: {} 1`] = `
+exports[`File: order.jsx 1`] = `
+"/**
+ * @callback ClassMapper
+ * @param {string} className
+ * @param {string} language
+ * @returns {string}
+ *
+ * @callback ClassAdder
+ * @param {ClassAdderEnvironment} env
+ * @returns {undefined | string | string[]}
+ *
+ * @typedef ClassAdderEnvironment
+ * @property {string} language
+ * @property {string} type
+ * @property {string} content
+ */
+"
+`;
+
+exports[`File: order.jsx index: 4 1`] = `
 "/**
  * @callback ClassMapper
  * @param {string} className

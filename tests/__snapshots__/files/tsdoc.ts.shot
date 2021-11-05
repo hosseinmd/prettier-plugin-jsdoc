@@ -1,6 +1,119 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`File: tsdoc.ts Options: {"tsdoc":true} 1`] = `
+exports[`File: tsdoc.ts 1`] = `
+"/**
+ * @example Adding one adds one
+ *
+ * \`\`\`typescript
+ * import plusOne from \\"plus-one\\";
+ * import expect from \\"test-lib\\";
+ *
+ * const actual = plusOne(3);
+ * expect(actual).toEqual(4);
+ * \`\`\`
+ */
+export function plusOne(input: number) {
+  return input + 1;
+}
+
+/**
+ * Parses a JSON file.
+ *
+ * @example Parsing a basic JSON file
+ *
+ * # Contents of \`file.json\`
+ *
+ * \`\`\`json
+ * {
+ *   \\"exampleItem\\": \\"text\\"
+ * }
+ * \`\`\`
+ *
+ * # Usage
+ *
+ * \`\`\`ts
+ * const result = parseFile(\\"file.json\\");
+ * \`\`\`
+ *
+ * # Result
+ *
+ * \`\`\`ts
+ * {
+ *   \\"exampleItem\\": \\"text\\"
+ * }
+ * \`\`\`
+ *
+ * @param path - Full path to the file.
+ * @returns An object containing the JSON data.
+ */
+
+/**
+ * Adds two numbers together.
+ *
+ * @example Here's a simple example:
+ *
+ * \`\`\`js
+ * // Prints \\"2\\":
+ * console.log(add(1, 1));
+ * \`\`\`
+ *
+ * @example Here's an example with negative numbers:
+ *
+ *     // Prints \\"0\\":
+ *     console.log(add(1, -1));
+ */
+export function add(x: number, y: number): number {
+  return x * y;
+}
+
+/**
+ * This is a summary for foo.
+ *
+ * Foo is the name of the function.
+ *
+ * @remarks
+ * This is some additional info
+ *
+ * 1. Point 1
+ * 2. Point 2
+ * 3. Point 3
+ *
+ * @example
+ *
+ * \`\`\`ts
+ * foo(2, 5, 9);
+ * \`\`\`
+ */
+function foo(num1, num2, num3) {
+  //
+}
+
+/**
+ * @remarks
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ * @privateRemarks
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ * @privateRemarks
+ * Description
+ * @providesModule Foo
+ * @providesModule bar
+ * @flow
+ */
+
+interface DialogProps {
+  /**
+   * Whether the dialog should disable the main content while open
+   *
+   * @defaultValue true
+   */
+  modal?: boolean;
+}
+"
+`;
+
+exports[`File: tsdoc.ts index: 8 1`] = `
 "/**
  * @example Adding one adds one
  *

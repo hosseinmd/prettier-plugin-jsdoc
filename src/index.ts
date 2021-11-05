@@ -64,6 +64,14 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     default: false,
     description: "Add an space between last @param and @returns",
   },
+  jsdocSeparateTagGroups: {
+    since: "0.3.27",
+    name: "jsdocSeparateTagGroups",
+    type: "boolean",
+    category: "jsdoc",
+    default: false,
+    description: "Add an space between tag groups",
+  },
   jsdocCapitalizeDescription: {
     since: "0.3.24",
     name: "jsdocCapitalizeDescription",
@@ -102,6 +110,7 @@ const defaultOptions: JsdocOptions = {
   jsdocSingleLineComment: options.jsdocSingleLineComment.default as boolean,
   jsdocSeparateReturnsFromParam: options.jsdocSeparateReturnsFromParam
     .default as boolean,
+  jsdocSeparateTagGroups: options.jsdocSeparateTagGroups.default as boolean,
   jsdocCapitalizeDescription: options.jsdocCapitalizeDescription
     .default as boolean,
   tsdoc: options.tsdoc.default as boolean,

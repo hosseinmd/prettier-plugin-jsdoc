@@ -10,6 +10,7 @@ export interface JsdocOptions {
   /** default is true */
   jsdocSingleLineComment: boolean;
   jsdocSeparateReturnsFromParam: boolean;
+  jsdocSeparateTagGroups: boolean;
   jsdocCapitalizeDescription: boolean;
   tsdoc: boolean;
 }

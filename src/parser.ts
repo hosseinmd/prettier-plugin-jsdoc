@@ -131,7 +131,7 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
         });
       }
 
-      tags
+      tags = tags
         .map(addDefaultValueToDescription)
         .map(assignOptionalAndDefaultToName)
         .map(({ type, name, description, tag, ...rest }) => {
@@ -151,7 +151,27 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
             tag,
             ...rest,
           };
-        })
+        });
+
+      if (options.jsdocSeparateTagGroups) {
+        tags = tags.flatMap((tag, index) => {
+          const prevTag = tags[index - 1];
+          if (
+            prevTag &&
+            !prevTag.description?.includes("\n") &&
+            prevTag.tag !== DESCRIPTION &&
+            prevTag.tag !== SPACE_TAG_DATA.tag &&
+            tag.tag !== SPACE_TAG_DATA.tag &&
+            prevTag.tag !== tag.tag
+          ) {
+            return [SPACE_TAG_DATA, tag];
+          }
+
+          return [tag];
+        });
+      }
+
+      tags
         .filter(({ description, tag }) => {
           if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
             return false;
