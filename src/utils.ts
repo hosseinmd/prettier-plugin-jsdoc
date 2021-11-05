@@ -268,18 +268,16 @@ const findPluginByParser = (parserName: string, options: ParserOptions) => {
   const tsPlugin = options.plugins.find((plugin) => {
     return (
       typeof plugin === "object" &&
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      plugin.name &&
+      (plugin as any).name &&
       plugin.parsers &&
       // eslint-disable-next-line no-prototype-builtins
       plugin.parsers.hasOwnProperty(parserName)
     );
   }) as Plugin | undefined;
 
-  return !tsPlugin || // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    tsPlugin.name === "prettier-plugin-jsdoc" ||
+  return !tsPlugin ||
+    (tsPlugin as any).name === "prettier-plugin-jsdoc" ||
+    // eslint-disable-next-line no-prototype-builtins
     tsPlugin.parsers?.hasOwnProperty("jsdoc-parser")
     ? undefined
     : tsPlugin.parsers?.[parserName];

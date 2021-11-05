@@ -163,9 +163,7 @@ function mergeParsers(originalParser: prettier.Parser, parserName: string) {
 
     if (!tsPluginParser) {
       return originalParser.preprocess
-        ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          //@ts-ignore
-          originalParser.preprocess(text, options)
+        ? originalParser.preprocess(text, options)
         : text;
     }
 

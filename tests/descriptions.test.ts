@@ -735,6 +735,31 @@ test("Markdown link", () => {
   expect(result1).toMatchSnapshot();
 });
 
+test("Jsx tsx css ", () => {
+  const result1 = subject(`
+ /**
+  * \`\`\`js
+  * let   a
+  * \`\`\`
+  * 
+  * \`\`\`jsx
+  * let   a
+  * \`\`\`
+  * 
+  * \`\`\`css
+  * .body {color:red;
+  * }
+  * \`\`\`
+  * 
+  * \`\`\`html
+  * <div class="body"  >   </   div>
+  * \`\`\`
+  */
+`);
+
+  expect(result1).toMatchSnapshot();
+});
+
 test("Not Capitalizing", () => {
   const comment = `/**
 

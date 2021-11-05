@@ -3,7 +3,7 @@ import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
 import { AllOptions } from "./types";
 import { capitalizer, formatCode } from "./utils";
 import fromMarkdown from "mdast-util-from-markdown";
-import { Root, Content } from "mdast";
+import { Root, Content, Link, Image, Text, List } from "mdast";
 
 const TABLE = "2@^5!~#sdE!_TABLE";
 
@@ -12,12 +12,30 @@ interface DescriptionEndLineParams {
   isEndTag: boolean;
 }
 
-const parserSynonyms: Record<string, BuiltInParserName[]> = {
-  js: ["babel", "babel-flow", "vue"],
-  javascript: ["babel", "babel-flow", "vue"],
-  ts: ["typescript", "babel-ts", "angular"],
-  typescript: ["typescript", "babel-ts", "angular"],
-  json: ["json", "json5", "json-stringify"],
+const parserSynonyms = (lang: string): BuiltInParserName[] => {
+  switch (lang) {
+    case "js":
+    case "javascript":
+    case "jsx":
+      return ["babel", "babel-flow", "vue"];
+    case "ts":
+    case "typescript":
+    case "tsx":
+      return ["typescript", "babel-ts", "angular"];
+    case "json":
+    case "css":
+      return ["css"];
+    case "less":
+      return ["less"];
+    case "scss":
+      return ["scss"];
+    case "html":
+      return ["html"];
+    case "yaml":
+      return ["yaml"];
+    default:
+      return ["babel"];
+  }
 };
 
 function descriptionEndLine({
@@ -97,7 +115,7 @@ function formatDescription(
       if (result) {
         // Remove two space from lines, maybe added previous format
         if (mdAst.lang) {
-          const supportParsers = parserSynonyms[mdAst.lang.toLowerCase()];
+          const supportParsers = parserSynonyms(mdAst.lang.toLowerCase());
           const parser = supportParsers?.includes(options.parser as any)
             ? options.parser
             : supportParsers?.[0] || mdAst.lang;
@@ -124,9 +142,9 @@ function formatDescription(
         : "";
     }
 
-    if (mdAst.value === TABLE) {
+    if ((mdAst as Text).value === TABLE) {
       if (parent) {
-        parent.costumeType = TABLE;
+        (parent as any).costumeType = TABLE;
       }
 
       if (tables.length > 0) {
@@ -141,7 +159,7 @@ function formatDescription(
         return `${
           result
             ? `\n\n${intention}${result.split("\n").join(`\n${intention}`)}`
-            : mdAst.value
+            : (mdAst as Text).value
         }`;
       }
     }
@@ -150,7 +168,10 @@ function formatDescription(
       return `\\\n`;
     }
 
-    return (mdAst.value || mdAst.title || mdAst.alt || "") as string;
+    return ((mdAst as Text).value ||
+      (mdAst as Link).title ||
+      (mdAst as Image).alt ||
+      "") as string;
   }
 
   function stringyfy(
@@ -158,17 +179,17 @@ function formatDescription(
     intention: string,
     parent: Content | Root | null,
   ): string {
-    if (!Array.isArray(mdAst.children)) {
+    if (!Array.isArray((mdAst as Root).children)) {
       return stringifyASTWithoutChildren(mdAst, intention, parent);
     }
 
-    return (mdAst.children as Content[])
+    return ((mdAst as Root).children as Content[])
       .map((ast, index) => {
         if (ast.type === "listItem") {
           let _listCount = `\n${intention}- `;
           // .replace(/((?!(^))\n)/g, "\n" + _intention);
-          if (typeof mdAst.start === "number") {
-            const count = index + ((mdAst.start as number) ?? 1);
+          if (typeof (mdAst as List).start === "number") {
+            const count = index + (((mdAst as List).start as number) ?? 1);
             _listCount = `\n${intention}${count}. `;
           }
 
@@ -197,7 +218,7 @@ function formatDescription(
 
         if (ast.type === "paragraph") {
           const paragraph = stringyfy(ast, intention, parent);
-          if (ast.costumeType === TABLE) {
+          if ((ast as any).costumeType === TABLE) {
             return paragraph;
           }
 
