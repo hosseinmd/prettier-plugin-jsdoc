@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.27](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.26...v0.3.27) (2021-11-05)
+
+
+### Features
+
+* add jsx tsx css less sass html yaml to markdown support ([ef00318](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/ef00318939239d65f9b18dd4f79e86f9c25a9a43))
+
 ### [0.3.26](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.25...v0.3.26) (2021-11-05)
 
 
