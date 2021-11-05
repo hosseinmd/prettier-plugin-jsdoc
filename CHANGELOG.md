@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.28](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.27...v0.3.28) (2021-11-05)
+
+
+### Features
+
+* add jsdocSeparateTagGroups ([d46e7f9](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/d46e7f9552d98e1f3b6efba2a5515487b7c1e80a))
+
 ### [0.3.27](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.26...v0.3.27) (2021-11-05)
 
 
