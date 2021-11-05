@@ -8,6 +8,7 @@ import { findPluginByParser } from "./utils";
 
 const options: Record<keyof JsdocOptions, SupportOption> = {
   jsdocSpaces: {
+    since: "0.3.24",
     name: "jsdocSpaces",
     type: "int",
     category: "jsdoc",
@@ -15,6 +16,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "How many spaces will be used to separate tag elements.",
   },
   jsdocDescriptionWithDot: {
+    since: "0.3.24",
     name: "jsdocDescriptionWithDot",
     type: "boolean",
     category: "jsdoc",
@@ -22,6 +24,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should dot be inserted at the end of description",
   },
   jsdocDescriptionTag: {
+    since: "0.3.24",
     name: "jsdocDescriptionTag",
     type: "boolean",
     category: "jsdoc",
@@ -29,6 +32,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should description tag be used",
   },
   jsdocVerticalAlignment: {
+    since: "0.3.24",
     name: "jsdocVerticalAlignment",
     type: "boolean",
     category: "jsdoc",
@@ -36,6 +40,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should tags, types, names and description be aligned",
   },
   jsdocKeepUnParseAbleExampleIndent: {
+    since: "0.3.24",
     name: "jsdocKeepUnParseAbleExampleIndent",
     type: "boolean",
     category: "jsdoc",
@@ -44,6 +49,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
       "Should unParseAble example (pseudo code or no js code) keep its indentation",
   },
   jsdocSingleLineComment: {
+    since: "0.3.24",
     name: "jsdocSingleLineComment",
     type: "boolean",
     category: "jsdoc",
@@ -51,6 +57,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should compact single line comment",
   },
   jsdocSeparateReturnsFromParam: {
+    since: "0.3.24",
     name: "jsdocSeparateReturnsFromParam",
     type: "boolean",
     category: "jsdoc",
@@ -58,6 +65,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Add an space between last @param and @returns",
   },
   jsdocCapitalizeDescription: {
+    since: "0.3.24",
     name: "jsdocCapitalizeDescription",
     type: "boolean",
     category: "jsdoc",
@@ -65,6 +73,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should capitalize first letter of description",
   },
   tsdoc: {
+    since: "0.3.24",
     name: "tsdoc",
     type: "boolean",
     category: "jsdoc",
@@ -72,6 +81,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should format as tsdoc",
   },
   jsdocPrintWidth: {
+    since: "0.3.24",
     name: "jsdocPrintWidth",
     type: "int",
     category: "jsdoc",

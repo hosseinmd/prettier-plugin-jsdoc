@@ -724,3 +724,31 @@ test("Jsdoc link in description", () => {
 
   expect(result1).toMatchSnapshot();
 });
+
+test("Not Capitalizing", () => {
+  const comment = `/**
+
+  * simplifies the token stream to ease the matching with the expected token stream.
+ 
+  * Simplifies the token stream to ease the matching with the expected token stream.
+  *
+  * * Strings are kept as-is
+  * * in arrays each value is transformed individually
+  * * Values that are empty (empty arrays or strings only containing whitespace)
+  *
+  * @param {TokenStream} tokenStream Description
+  * @returns {SimplifiedTokenStream} description
+  */
+ `;
+  const result1 = subject(comment, {
+    jsdocCapitalizeDescription: false,
+  });
+
+  expect(result1).toMatchSnapshot();
+
+  const result2 = subject(comment, {
+    jsdocCapitalizeDescription: true,
+  });
+
+  expect(result2).toMatchSnapshot();
+});
