@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.25](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.24...v0.3.25) (2021-11-05)
+
+
+### Features
+
+* add option to turn off capitalization ([#127](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/127)) ([03e74ab](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/03e74ab2e00316b0a4c61e1daeb24cdb1333fa6a))
+
+
+### Bug Fixes
+
+* new prettier bug ([5f70c1c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/5f70c1c50161ccb790145d6198df7d6666192392))
+* typo in readme ([#129](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/129)) ([170c56c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/170c56cb1a209bb66fb264e25ebd57de64a77333))
+
 ### [0.3.24](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.23...v0.3.24) (2021-09-02)
 
 
