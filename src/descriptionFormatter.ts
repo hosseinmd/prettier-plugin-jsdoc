@@ -1,5 +1,5 @@
 import { format, BuiltInParserName } from "prettier";
-import { DESCRIPTION, EXAMPLE, PRIVATE_REMARKS, REMARKS, TODO } from "./tags";
+import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
 import { AllOptions } from "./types";
 import { capitalizer, formatCode } from "./utils";
 import fromMarkdown from "mdast-util-from-markdown";
@@ -73,7 +73,7 @@ function formatDescription(
   });
   if (options.jsdocCapitalizeDescription) text = capitalizer(text);
 
-  text = `${"!".repeat(tagStringLength)}${
+  text = `${tagStringLength ? `${"!".repeat(tagStringLength - 1)}?` : ""}${
     text.startsWith("```") ? "\n" : ""
   }${text}`;
 
@@ -150,7 +150,7 @@ function formatDescription(
       return `\\\n`;
     }
 
-    return (mdAst.value || "") as string;
+    return (mdAst.value || mdAst.title || mdAst.alt || "") as string;
   }
 
   function stringyfy(
@@ -268,7 +268,7 @@ function formatDescription(
           )}`;
         }
 
-        if (ast.type === "link") {
+        if (ast.type === "link" || ast.type === "image") {
           return `[${stringyfy(ast, intention, mdAst)}](${ast.url})`;
         }
 
@@ -279,7 +279,8 @@ function formatDescription(
 
   let result = stringyfy(rootAst, beginningSpace, null);
 
-  result = result.trimStart().slice(tagStringLength);
+  result = result.replace(/^[\s\n]+/g, "");
+  result = result.replace(/^([!]+\?)/g, "");
 
   return result;
 }

@@ -123,6 +123,11 @@ exports[`Markdown Table 3`] = `
 "
 `;
 
+exports[`Markdown link 1`] = `
+"/** @param {string} [dir] [Next.js](https://nextjs.org) project directory path. */
+"
+`;
+
 exports[`Nested list 1`] = `
 "/**
  * 1. Foo

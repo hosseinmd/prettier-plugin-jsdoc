@@ -725,6 +725,16 @@ test("Jsdoc link in description", () => {
   expect(result1).toMatchSnapshot();
 });
 
+test("Markdown link", () => {
+  const result1 = subject(`
+/**
+ @param {string} [dir] [Next.js](https://nextjs.org) project directory path.
+ */
+`);
+
+  expect(result1).toMatchSnapshot();
+});
+
 test("Not Capitalizing", () => {
   const comment = `/**
 
