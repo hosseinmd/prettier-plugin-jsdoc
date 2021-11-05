@@ -9,7 +9,12 @@ module.exports = {
     ecmaVersion: "next",
   },
   parser: "@typescript-eslint/parser",
-  extends: ["prettier", "eslint:recommended"],
+  plugins: ["@typescript-eslint"],
+  extends: [
+    "prettier",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+  ],
   rules: {
     "@typescript-eslint/no-explicit-any": "off",
     "no-unused-vars": "off",

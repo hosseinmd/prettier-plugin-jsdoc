@@ -63,6 +63,7 @@
   },
   "exclude": [
     "./lib",
-    "tests"
+    "tests",
+    "src/custom.d.ts"
   ]
 }

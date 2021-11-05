@@ -130,9 +130,11 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
           return [tag];
         });
       }
+      if (options.jsdocAddDefaultToDescription) {
+        tags = tags.map(addDefaultValueToDescription);
+      }
 
       tags = tags
-        .map(addDefaultValueToDescription)
         .map(assignOptionalAndDefaultToName)
         .map(({ type, name, description, tag, ...rest }) => {
           const isVerticallyAlignAbleTags =
@@ -415,7 +417,6 @@ function convertCommentDescToDescTag(parsed: Block): void {
  * This is for find params of function name in code as strings of array
  */
 function getParamsOrders(ast: AST, tokenIndex: number): string[] | undefined {
-  let paramsOrder: string[] | undefined;
   let params: Token[] | undefined;
 
   try {
@@ -476,14 +477,14 @@ function getParamsOrders(ast: AST, tokenIndex: number): string[] | undefined {
       }
     }
 
-    paramsOrder = params
+    return params
       ?.filter(({ type }) => typeof type === "object" && type.label === "name")
       .map(({ value }) => value);
   } catch {
     //
   }
 
-  return paramsOrder;
+  return;
 }
 
 /**

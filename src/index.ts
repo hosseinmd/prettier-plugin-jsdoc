@@ -97,6 +97,14 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description:
       "If You don't set value to jsdocPrintWidth, the printWidth will be use as jsdocPrintWidth.",
   },
+  jsdocAddDefaultToDescription: {
+    since: "0.3.29",
+    name: "jsdocAddDefaultToDescription",
+    type: "boolean",
+    category: "jsdoc",
+    default: true,
+    description: "Add Default value of a param to end description",
+  },
 };
 
 const defaultOptions: JsdocOptions = {
@@ -112,6 +120,8 @@ const defaultOptions: JsdocOptions = {
     .default as boolean,
   jsdocSeparateTagGroups: options.jsdocSeparateTagGroups.default as boolean,
   jsdocCapitalizeDescription: options.jsdocCapitalizeDescription
+    .default as boolean,
+  jsdocAddDefaultToDescription: options.jsdocAddDefaultToDescription
     .default as boolean,
   tsdoc: options.tsdoc.default as boolean,
 };

@@ -76,7 +76,7 @@ for (let i = 0; i < files.length; i++) {
   const { name, options } = files[i];
   test(`File: ${name}`, () => {
     const result = subjectFiles("./files/" + name, options);
-    expect(result).toMatchSpecificSnapshot(
+    (expect(result) as any).toMatchSpecificSnapshot(
       `./__snapshots__/files/${name}.shot`,
     );
   });

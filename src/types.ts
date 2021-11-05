@@ -11,6 +11,7 @@ export interface JsdocOptions {
   jsdocSingleLineComment: boolean;
   jsdocSeparateReturnsFromParam: boolean;
   jsdocSeparateTagGroups: boolean;
+  jsdocAddDefaultToDescription: boolean;
   jsdocCapitalizeDescription: boolean;
   tsdoc: boolean;
 }
