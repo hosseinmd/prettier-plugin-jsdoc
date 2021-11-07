@@ -27,9 +27,11 @@ import { SPACE_TAG_DATA } from "./tags";
 export const getParser = (originalParse: Parser["parse"], parserName: string) =>
   function jsdocParser(
     text: string,
-    parsers: Parameters<Parser["parse"]>[1],
-    options: AllOptions,
+    parsersOrOptions: Parameters<Parser["parse"]>[1],
+    maybeOptions?: AllOptions,
   ): AST {
+  const parsers = parsersOrOptions;
+  let options = (maybeOptions ?? parsersOrOptions) as AllOptions;
     const prettierParse =
       findPluginByParser(parserName, options)?.parse || originalParse;
 
