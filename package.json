@@ -6,6 +6,9 @@
   "workspaces": {
     "prettier-plugin-fake": "./prettier-plugin-fake"
   },
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "scripts": {
     "prepare": "tsc",
@@ -13,12 +16,6 @@
     "test": "yarn prepare && jest",
     "changeLog": "standard-version",
     "prettierAll": "prettier --write \"**/*.ts\""
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn test"
-    }
   },
   "keywords": [
     "prettier",
@@ -56,17 +53,6 @@
   },
   "peerDependencies": {
     "prettier": ">=2.1.2"
-  },
-  "jest": {
-    "preset": "ts-jest/presets/default-esm",
-    "globals": {
-      "ts-jest": {
-        "useESM": true
-      }
-    },
-    "moduleNameMapper": {
-      "^(\\.{1,2}/.*)\\.js$": "$1"
-    }
   },
   "dependencies": {
     "binary-search-bounds": "^2.0.5",
