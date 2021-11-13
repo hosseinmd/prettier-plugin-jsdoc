@@ -6,6 +6,9 @@
   "workspaces": {
     "prettier-plugin-fake": "./prettier-plugin-fake"
   },
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "scripts": {
     "prepare": "tsc",
