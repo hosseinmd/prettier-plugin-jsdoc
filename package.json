@@ -17,12 +17,6 @@
     "changeLog": "standard-version",
     "prettierAll": "prettier --write \"**/*.ts\""
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn test"
-    }
-  },
   "keywords": [
     "prettier",
     "plugin",
