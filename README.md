@@ -21,6 +21,7 @@ Configured with best practices of jsDoc style guides.
 - [Examples](#Examples)
 - [Links](#Links)
 - [Options](#Options)
+- [Support](#Support)
 
 ## Installation
 
@@ -241,3 +242,7 @@ This project extended from @gum3n worked project on GitLab.
 [Prettier](https://prettier.io)
 
 [JSDoc](https://jsdoc.app)
+
+## Support
+
+[![Donate with Ethereum](https://en.cryptobadges.io/badge/big/0x9CEFC5f143c63217800c07d7a0fb4d949456923C)](https://en.cryptobadges.io/donate/0x9CEFC5f143c63217800c07d7a0fb4d949456923C)
