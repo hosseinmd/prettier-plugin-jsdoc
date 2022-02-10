@@ -57,6 +57,50 @@ exports[`Code in description 1`] = `
 "
 `;
 
+exports[`Code in description 2`] = `
+"/**
+ * Description
+ *
+ *     an indented code block
+ *     of a few lines.
+ */
+"
+`;
+
+exports[`Code in description 3`] = `
+"/**
+ * Description
+ *
+ * \`\`\`
+ * an indented code block
+ * of a few lines.
+ * \`\`\`
+ */
+"
+`;
+
+exports[`Code in description 4`] = `
+"/**
+ * Description
+ *
+ *     A fenced code block
+ *     spanning a few lines.
+ */
+"
+`;
+
+exports[`Code in description 5`] = `
+"/**
+ * Description
+ *
+ * \`\`\`
+ * A fenced code block
+ * spanning a few lines.
+ * \`\`\`
+ */
+"
+`;
+
 exports[`Jsdoc link in description 1`] = `
 "/**
  * Calculate the
@@ -170,6 +214,33 @@ exports[`Markdown Table 3`] = `
  *   | --- | --- | --- |
  *   | C   | V   | B   |
  *   | 1   | 2   | 3   |
+ */
+"
+`;
+
+exports[`Markdown Table 4`] = `
+"/**
+ * Description
+ *
+ *     fenced code
+ *     | A| B |C |
+ *     | - | - | - |
+ *     |C | V | B |
+ *     |1|2|3|
+ */
+"
+`;
+
+exports[`Markdown Table 5`] = `
+"/**
+ * Description
+ *
+ * Indented code
+ *
+ *     | A| B |C |
+ *     | - | - | - |
+ *     |C | V | B |
+ *     |1|2|3|
  */
 "
 `;

@@ -82,13 +82,31 @@ function formatDescription(
   text = text.replace(/^(\d+)[-][\s|]+/g, "$1. "); // Start
   text = text.replace(/\n+(\s*\d+)[-][\s]+/g, "\n$1. ");
 
+  const fencedCodeBlocks = text.matchAll(/```\S*?\n[\s\S]+?```/gm);
+  const indentedCodeBlocks = text.matchAll(
+    /^\r?\n^(?:(?:(?:[ ]{4}|\t).*(?:\r?\n|$))+)/gm,
+  );
   const tables: string[] = [];
-  text = text.replace(/((\n|^)\|[\s\S]*?)((\n[^|])|$)/g, (code, _1, _2, _3) => {
-    code = _3 ? code.slice(0, -1) : code;
+  text = text.replace(
+    /((\n|^)\|[\s\S]*?)((\n[^|])|$)/g,
+    (code, _1, _2, _3, _, offs: number) => {
+      // If this potential table is inside a code block, don't touch it
+      for (const block of [...fencedCodeBlocks, ...indentedCodeBlocks]) {
+        if (
+          block.index !== undefined &&
+          block.index <= offs + 1 &&
+          offs + code.length + 1 <= block.index + block[0].length
+        ) {
+          return code;
+        }
+      }
 
-    tables.push(code);
-    return `\n\n${TABLE}\n\n${_3 ? _3.slice(1) : ""}`;
-  });
+      code = _3 ? code.slice(0, -1) : code;
+
+      tables.push(code);
+      return `\n\n${TABLE}\n\n${_3 ? _3.slice(1) : ""}`;
+    },
+  );
   if (options.jsdocCapitalizeDescription) text = capitalizer(text);
 
   text = `${tagStringLength ? `${"!".repeat(tagStringLength - 1)}?` : ""}${
@@ -125,6 +143,11 @@ function formatDescription(
             parser,
             jsdocKeepUnParseAbleExampleIndent: true,
           });
+        } else if (options.jsdocPreferCodeFences || false) {
+          result = formatCode(result, _intention, {
+            ...options,
+            jsdocKeepUnParseAbleExampleIndent: true,
+          });
         } else {
           _intention = intention + " ".repeat(4);
 
@@ -134,10 +157,11 @@ function formatDescription(
           });
         }
       }
-      result = mdAst.lang ? result : result.trimEnd();
+      const addFence = options.jsdocPreferCodeFences || !!mdAst.lang;
+      result = addFence ? result : result.trimEnd();
       return result
-        ? mdAst.lang
-          ? `\n\n${_intention}\`\`\`${mdAst.lang}${result}\`\`\``
+        ? addFence
+          ? `\n\n${_intention}\`\`\`${mdAst.lang || ""}${result}\`\`\``
           : `\n${result}`
         : "";
     }
