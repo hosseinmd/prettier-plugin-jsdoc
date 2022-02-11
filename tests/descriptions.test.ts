@@ -705,6 +705,12 @@ test("Markdown Table", () => {
  * |C | V | B |
  * |1|2|3|
  * \`\`\`
+ *
+ * \`\`\`
+ * Second fenced table-like
+ * | A
+ * | B
+ * \`\`\`
  */
     `,
   );
@@ -857,7 +863,7 @@ test("Code in description", () => {
 `;
 
   const fenced = `
- /**
+/**
  * description
  *
  * \`\`\`

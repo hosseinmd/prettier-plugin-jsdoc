@@ -86,12 +86,13 @@ function formatDescription(
   const indentedCodeBlocks = text.matchAll(
     /^\r?\n^(?:(?:(?:[ ]{4}|\t).*(?:\r?\n|$))+)/gm,
   );
+  const allCodeBlocks = [...fencedCodeBlocks, ...indentedCodeBlocks];
   const tables: string[] = [];
   text = text.replace(
     /((\n|^)\|[\s\S]*?)((\n[^|])|$)/g,
     (code, _1, _2, _3, _, offs: number) => {
       // If this potential table is inside a code block, don't touch it
-      for (const block of [...fencedCodeBlocks, ...indentedCodeBlocks]) {
+      for (const block of allCodeBlocks) {
         if (
           block.index !== undefined &&
           block.index <= offs + 1 &&

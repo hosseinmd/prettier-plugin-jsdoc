@@ -227,6 +227,10 @@ exports[`Markdown Table 4`] = `
  *     | - | - | - |
  *     |C | V | B |
  *     |1|2|3|
+ *
+ *     Second fenced table-like
+ *     | A
+ *     | B
  */
 "
 `;
