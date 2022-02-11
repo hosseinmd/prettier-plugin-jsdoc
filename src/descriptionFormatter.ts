@@ -129,7 +129,6 @@ function formatDescription(
 
     if (mdAst.type === "code") {
       let result = mdAst.value || "";
-      let _intention = intention;
 
       if (result) {
         // Remove two space from lines, maybe added previous format
@@ -144,26 +143,15 @@ function formatDescription(
             parser,
             jsdocKeepUnParseAbleExampleIndent: true,
           });
-        } else if (options.jsdocPreferCodeFences || false) {
-          result = formatCode(result, _intention, {
-            ...options,
-            jsdocKeepUnParseAbleExampleIndent: true,
-          });
         } else {
-          _intention = intention + " ".repeat(4);
-
-          result = formatCode(result, _intention, {
+          result = formatCode(result, intention, {
             ...options,
             jsdocKeepUnParseAbleExampleIndent: true,
           });
         }
       }
-      const addFence = options.jsdocPreferCodeFences || !!mdAst.lang;
-      result = addFence ? result : result.trimEnd();
       return result
-        ? addFence
-          ? `\n\n${_intention}\`\`\`${mdAst.lang || ""}${result}\`\`\``
-          : `\n${result}`
+        ? `\n\n${intention}\`\`\`${mdAst.lang || ""}${result}\`\`\``
         : "";
     }
 
