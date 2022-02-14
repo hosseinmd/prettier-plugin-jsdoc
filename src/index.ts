@@ -105,6 +105,14 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     default: true,
     description: "Add Default value of a param to end description",
   },
+  jsdocPreferCodeFences: {
+    since: "0.3.31",
+    name: "jsdocPreferCodeFences",
+    type: "boolean",
+    category: "jsdoc",
+    default: false,
+    description: `Prefer to render code blocks using "fences" (triple backticks). If not set, blocks without a language tag will be rendered with a four space indentation.`,
+  },
 };
 
 const defaultOptions: JsdocOptions = {
@@ -123,6 +131,7 @@ const defaultOptions: JsdocOptions = {
     .default as boolean,
   jsdocAddDefaultToDescription: options.jsdocAddDefaultToDescription
     .default as boolean,
+  jsdocPreferCodeFences: options.jsdocPreferCodeFences.default as boolean,
   tsdoc: options.tsdoc.default as boolean,
 };
 

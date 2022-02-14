@@ -882,7 +882,15 @@ test("Code in description", () => {
 
   expect(result2).toMatchSnapshot();
 
+  const result3 = subject(indented, { jsdocPreferCodeFences: true });
+
+  expect(result3).toMatchSnapshot();
+
   const result4 = subject(fenced);
 
   expect(result4).toMatchSnapshot();
+
+  const result5 = subject(fenced, { jsdocPreferCodeFences: true });
+
+  expect(result5).toMatchSnapshot();
 });

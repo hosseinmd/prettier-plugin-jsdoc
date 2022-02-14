@@ -61,6 +61,16 @@ exports[`Code in description 2`] = `
 "/**
  * Description
  *
+ *     an indented code block
+ *     of a few lines.
+ */
+"
+`;
+
+exports[`Code in description 3`] = `
+"/**
+ * Description
+ *
  * \`\`\`
  * an indented code block
  * of a few lines.
@@ -69,7 +79,17 @@ exports[`Code in description 2`] = `
 "
 `;
 
-exports[`Code in description 3`] = `
+exports[`Code in description 4`] = `
+"/**
+ * Description
+ *
+ *     A fenced code block
+ *     spanning a few lines.
+ */
+"
+`;
+
+exports[`Code in description 5`] = `
 "/**
  * Description
  *
@@ -202,20 +222,16 @@ exports[`Markdown Table 4`] = `
 "/**
  * Description
  *
- * \`\`\`
- * fenced code
- * | A| B |C |
- * | - | - | - |
- * |C | V | B |
- * |1|2|3|
- * \`\`\`
+ *     fenced code
+ *     | A| B |C |
+ *     | - | - | - |
+ *     |C | V | B |
+ *     |1|2|3|
  *
- * \`\`\`
- * Second fenced table-like
- * 10
- * |--3
- * \`--4
- * \`\`\`
+ *     Second fenced table-like
+ *     10
+ *     |--3
+ *     \`--4
  */
 "
 `;
@@ -226,12 +242,10 @@ exports[`Markdown Table 5`] = `
  *
  * Indented code
  *
- * \`\`\`
- * | A| B |C |
- * | - | - | - |
- * |C | V | B |
- * |1|2|3|
- * \`\`\`
+ *     | A| B |C |
+ *     | - | - | - |
+ *     |C | V | B |
+ *     |1|2|3|
  */
 "
 `;
@@ -467,15 +481,11 @@ exports[`code in description 2`] = `
  *
  * The following is bad because position is more restrictive than 'string':
  *
- * \`\`\`
- * type Props = { position: string };
- * \`\`\`
+ *     type Props = { position: string };
  *
  * You should use the following instead:
  *
- * \`\`\`
- * type Props = { position: TypeForStyleKey<\\"position\\"> };
- * \`\`\`
+ *     type Props = { position: TypeForStyleKey<\\"position\\"> };
  *
  * This will correctly give you the type 'absolute' | 'relative'
  */
@@ -630,20 +640,16 @@ exports[`description new line with dash 3`] = `
  *
  * The test case file can either consist of two parts:
  *
- * \`\`\`
- * const a = \\"\\";
- * const b = { c: [] };
- * \`\`\`
+ *     const a = \\"\\";
+ *     const b = { c: [] };
  *
  * Or of three parts:
  *
- * \`\`\`
- * {source code}
- * ----
- * {expected token stream}
- * ----
- * {text comment explaining the test case}
- * \`\`\`
+ *     {source code}
+ *     ----
+ *     {expected token stream}
+ *     ----
+ *     {text comment explaining the test case}
  *
  * If the file contains more than three parts, the remaining parts are just
  * ignored. If the file however does not contain at least two parts (so no
