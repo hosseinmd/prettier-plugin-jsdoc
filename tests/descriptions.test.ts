@@ -693,6 +693,47 @@ test("Markdown Table", () => {
   );
 
   expect(result3).toMatchSnapshot();
+
+  const result4 = subject(
+    `
+/**
+ * description
+ * \`\`\`
+ * fenced code
+ * | A| B |C |
+ * | - | - | - |
+ * |C | V | B |
+ * |1|2|3|
+ * \`\`\`
+ *
+ * \`\`\`
+ * Second fenced table-like
+ * 10
+ * |--3
+ * \`--4
+ * \`\`\`
+ */
+    `,
+  );
+
+  expect(result4).toMatchSnapshot();
+
+  const result5 = subject(
+    `
+/**
+ * description
+ *
+ * indented code
+ *
+ *     | A| B |C |
+ *     | - | - | - |
+ *     |C | V | B |
+ *     |1|2|3|
+ */
+`,
+  );
+
+  expect(result5).toMatchSnapshot();
 });
 
 test("Jsdoc link in description", () => {
@@ -813,7 +854,43 @@ test("Code in description", () => {
    */
  `;
 
+  const indented = `
+/**
+ * description
+ *
+ *     an indented code block
+ *     of a few lines.
+ */
+`;
+
+  const fenced = `
+/**
+ * description
+ *
+ * \`\`\`
+ * A fenced code block
+ * spanning a few lines.
+ * \`\`\`
+ */
+`;
+
   const result1 = subject(comment);
 
   expect(result1).toMatchSnapshot();
+
+  const result2 = subject(indented);
+
+  expect(result2).toMatchSnapshot();
+
+  const result3 = subject(indented, { jsdocPreferCodeFences: true });
+
+  expect(result3).toMatchSnapshot();
+
+  const result4 = subject(fenced);
+
+  expect(result4).toMatchSnapshot();
+
+  const result5 = subject(fenced, { jsdocPreferCodeFences: true });
+
+  expect(result5).toMatchSnapshot();
 });

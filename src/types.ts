@@ -13,6 +13,7 @@ export interface JsdocOptions {
   jsdocSeparateTagGroups: boolean;
   jsdocAddDefaultToDescription: boolean;
   jsdocCapitalizeDescription: boolean;
+  jsdocPreferCodeFences: boolean;
   tsdoc: boolean;
 }
 
