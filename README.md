@@ -185,6 +185,7 @@ Description is formatting as Markdown, so you could use any features of Markdown
 | jsdocCapitalizeDescription        | Boolean | true      |
 | jsdocSeparateReturnsFromParam     | Boolean | false     | Add an space between last @param and @returns                                             |
 | jsdocSeparateTagGroups            | Boolean | false     | Add an space between tag groups                                                           |
+| jsdocPreferCodeFences             | Boolean | false     | Always fence code blocks (surround them by triple backticks)                              |
 | tsdoc                             | Boolean | false     |
 | jsdocPrintWidth                   | Number  | undefined | If You don't set value to jsdocPrintWidth, the printWidth will be use as jsdocPrintWidth. |
 
