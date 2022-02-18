@@ -303,7 +303,7 @@ function formatDescription(
         }
 
         if (ast.type === "emphasis") {
-          return `*${stringyfy(ast, intention, mdAst)}*`;
+          return `_${stringyfy(ast, intention, mdAst)}_`;
         }
 
         if (ast.type === "heading") {
