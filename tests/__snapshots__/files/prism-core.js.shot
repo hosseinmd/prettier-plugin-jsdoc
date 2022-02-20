@@ -51,7 +51,7 @@ var Prism = (function (_self) {
 		/**
 		 * A namespace for utility methods.
 		 *
-		 * All function in this namespace that are not explicitly marked as *public* are for **internal use only** and may
+		 * All function in this namespace that are not explicitly marked as _public_ are for **internal use only** and may
 		 * change or disappear at any time.
 		 *
 		 * @memberof Prism
@@ -219,7 +219,7 @@ var Prism = (function (_self) {
 			 * Returns whether a given class is active for \`element\`.
 			 *
 			 * The class can be activated if \`element\` or one of its ancestors has the given class and it can be deactivated
-			 * if \`element\` or one of its ancestors has the negated version of the given class. The *negated version* of the
+			 * if \`element\` or one of its ancestors has the negated version of the given class. The _negated version_ of the
 			 * given class is just the given class with a \`no-\` prefix.
 			 *
 			 * Whether the class is active is determined by the closest ancestor of \`element\` (where \`element\` itself is
@@ -299,7 +299,7 @@ var Prism = (function (_self) {
 			},
 
 			/**
-			 * Inserts tokens *before* another token in a language definition or any other grammar.
+			 * Inserts tokens _before_ another token in a language definition or any other grammar.
 			 *
 			 * ## Usage
 			 *
