@@ -257,11 +257,11 @@ function formatDescription(
               const links: string[] = [];
               // Find jsdoc links and remove spaces
               _paragraph = _paragraph.replace(
-                /{@link[\s](([^{}])*)}/g,
-                (_, link: string) => {
+                /{@(link|linkcode|linkplain)[\s](([^{}])*)}/g,
+                (_, tag: string, link: string) => {
                   links.push(link);
 
-                  return `{@link${"_".repeat(link.length)}}`;
+                  return `{@${tag}${"_".repeat(link.length)}}`;
                 },
               );
 
@@ -280,13 +280,13 @@ function formatDescription(
 
               // Replace links
               result = result.replace(
-                /{@link([_]+)}/g,
-                (original: string, underline: string) => {
+                /{@(link|linkcode|linkplain)([_]+)}/g,
+                (original: string, tag: string, underline: string) => {
                   const link = links[0];
 
                   if (link.length === underline.length) {
                     links.shift();
-                    return `{@link ${link}}`;
+                    return `{@${tag} ${link}}`;
                   }
 
                   return original;
