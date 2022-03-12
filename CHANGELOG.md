@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.31](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.30...v0.3.31) (2022-03-12)
+
+
+### Bug Fixes
+
+* add a package description ([#141](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/141)) ([b2f142f](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b2f142f52e2950080e746e0a4d5302020cd1a8f7))
+* add jsdocPreferCodeFences documentation to README. ([#146](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/146)) ([06ac97e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/06ac97e0e2f285f17209c8c90d4c07690a4313d1))
+* clean published files ([#140](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/140)) ([a77e0f7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/a77e0f77b8c45f7b1cf2e779807d2e1557b10832))
+* do not try to format tables found in code blocks ([#145](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/145)) ([dd9e1dc](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dd9e1dc5c1b0ac06a4399e36e6d6af6304edcb1b))
+* ensure formatting matches Prettier markdown formatter ([#147](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/147)) ([f735b18](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/f735b186cb3cc5ace18965b813beac9744811d5d))
+* line breaks inside jsdoc link synonyms ([#149](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/149)) ([092f409](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/092f409097465746a8c2eb549c958c1837c94a8f))
+
 ### [0.3.30](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.29...v0.3.30) (2021-11-07)
 
 
