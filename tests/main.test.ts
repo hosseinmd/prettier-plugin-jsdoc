@@ -683,3 +683,24 @@ test("Optional params", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("non-escapable character", () => {
+  const result = subject(`
+/**
+ * \\\\
+ * 
+ * 
+ * \\\\-
+*/
+`);
+
+  expect(result).toMatchSnapshot();
+
+  const result2 = subject(`
+/**
+ * \\\\
+*/
+`);
+
+  expect(result2).toMatchSnapshot();
+});

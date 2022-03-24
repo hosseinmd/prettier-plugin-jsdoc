@@ -419,6 +419,20 @@ exports[`jsdoc tags 1`] = `
 "
 `;
 
+exports[`non-escapable character 1`] = `
+"/**
+ * \\\\
+ *
+ * \\\\-
+ */
+"
+`;
+
+exports[`non-escapable character 2`] = `
+"/** \\\\ */
+"
+`;
+
 exports[`param order 1`] = `
 "/**
  * @param {string} param0 Description
