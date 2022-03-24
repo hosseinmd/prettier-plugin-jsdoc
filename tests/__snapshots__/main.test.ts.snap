@@ -36,6 +36,28 @@ exports[`Big single word 1`] = `
 "
 `;
 
+exports[`Block quote 1`] = `
+"/** > A block quote */
+"
+`;
+
+exports[`Block quote 2`] = `
+"/**
+ * > \`\`\`js
+ * > > A block quote
+ * > \`\`\`
+ *
+ * > Turns into
+ *
+ * > \`\`\`js
+ * > A block quote
+ * > \`\`\`
+ *
+ * Sdssasdassd
+ */
+"
+`;
+
 exports[`Empty comment 1`] = `
 "// Line Comment
 //

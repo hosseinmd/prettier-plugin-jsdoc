@@ -712,3 +712,30 @@ test("@file", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("Block quote", () => {
+  const result = subject(`
+  /** > A block quote */
+`);
+
+  expect(result).toMatchSnapshot();
+
+  const result2 = subject(`
+  /**
+   *  > \`\`\`js
+   *  > > A block quote
+   *  > \`\`\`
+   *  > 
+   *  > turns into
+   *  > 
+   *  > \`\`\`js
+   *  > A block quote 
+   *  > \`\`\`
+   *  
+   *  sdssasdassd
+   *   
+   */
+`);
+
+  expect(result2).toMatchSnapshot();
+});

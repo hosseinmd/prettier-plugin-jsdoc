@@ -318,6 +318,12 @@ function formatDescription(
           return `[${stringyfy(ast, intention, mdAst)}](${ast.url})`;
         }
 
+        if (ast.type === "blockquote") {
+          const paragraph = stringyfy(ast, "", mdAst);
+          return `${intention}> ${paragraph
+            .trim()
+            .replace(/(\n+)/g, `$1${intention}> `)}`;
+        }
         return stringyfy(ast, intention, mdAst);
       })
       .join("");
