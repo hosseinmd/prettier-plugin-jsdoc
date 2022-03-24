@@ -6,16 +6,26 @@
   "workspaces": {
     "prettier-plugin-fake": "./prettier-plugin-fake"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.min.mjs",
+  "unpkg": "dist/index.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "lib"
+    "dist"
   ],
-  "main": "lib/index.js",
   "scripts": {
-    "prepare": "tsc",
+    "prepare": "yarn build",
     "lint": "eslint --ext '.ts' ./src",
     "test": "yarn prepare && jest",
     "changeLog": "standard-version",
-    "prettierAll": "prettier --write \"**/*.ts\""
+    "prettierAll": "prettier --write \"**/*.ts\"",
+    "clean": "rm -fr dist",
+    "build": "npm run clean && npm run lint && tsc --project tsconfig.json && npm run bundle:esm && npm run bundle:esm:min && npm run bundle:umd && npm run bundle:umd:min && npm run build:stats && tsc --project tsconfig.json --module commonjs",
+    "build:stats": "(echo '\\033[35;3m' ; cd dist && ls -lh index*js index*gz | tail -n +2 | awk '{print $5,$9}')",
+    "bundle:esm": "rollup dist/index.js --file dist/index.mjs --format esm",
+    "bundle:esm:min": "terser --ecma 6 --compress --mangle --module -o dist/index.min.mjs -- dist/index.mjs && gzip -9 -c dist/index.min.mjs > dist/index.min.mjs.gz",
+    "bundle:umd": "rollup dist/index.js --file dist/index.umd.js --format umd --name sayHello",
+    "bundle:umd:min": "terser --ecma 6 --compress --mangle -o dist/index.umd.min.js -- dist/index.umd.js && gzip -9 -c dist/index.umd.min.js > dist/index.umd.min.js.gz"
   },
   "keywords": [
     "prettier",
@@ -35,18 +45,21 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^14.1.0",
-    "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@types/jest": "^27.0.2",
     "@types/mdast": "^3.0.10",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
     "commitlint": "^14.1.0",
     "eslint": "^8.1.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "jest": "^27.3.1",
     "jest-specific-snapshot": "^5.0.0",
     "prettier": "^2.4.1",
+    "rollup": "^2.70.1",
     "standard-version": "^9.3.2",
+    "terser": "^5.12.1",
     "ts-jest": "^27.0.7",
     "typescript": "^4.4.4"
   },
