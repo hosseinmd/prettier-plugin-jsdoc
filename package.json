@@ -17,7 +17,7 @@
     "prepare": "yarn build",
     "lint": "eslint --ext '.ts' ./src",
     "test": "yarn prepare && jest",
-    "changeLog": "standard-version",
+    "release": "standard-version && npm publish",
     "prettierAll": "prettier --write \"**/*.ts\"",
     "clean": "rm -fr dist",
     "build": "npm run clean && npm run lint && tsc --project tsconfig.json && npm run bundle:esm && npm run bundle:esm:min && npm run bundle:umd && npm run bundle:umd:min && npm run build:stats && tsc --project tsconfig.json --module commonjs",
