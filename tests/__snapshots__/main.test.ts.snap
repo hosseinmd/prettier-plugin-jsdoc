@@ -15,6 +15,11 @@ exports[` undefined|null|void type 3`] = `
 "
 `;
 
+exports[`@file 1`] = `
+"/** @file A file description */
+"
+`;
+
 exports[`Bad defined name 1`] = `
 "/** @type {import(\\"@jest/types/build/Config\\").InitialOptions} */
 /** @type {{ foo: string }} */

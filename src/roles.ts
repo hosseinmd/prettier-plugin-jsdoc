@@ -90,6 +90,7 @@ const TAGS_NAMELESS = [
   THROWS,
   TODO,
   YIELDS,
+  FILE,
 ];
 
 const TAGS_TYPELESS = [
@@ -107,6 +108,7 @@ const TAGS_TYPELESS = [
   REMARKS,
   SINCE,
   TODO,
+  FILE,
 ];
 
 const TAGS_PEV_FORMATE_DESCRIPTION = [
@@ -175,6 +177,7 @@ const TAGS_ORDER = [
   IGNORE,
   MEMBEROF,
   VERSION,
+  FILE,
   AUTHOR,
   DEPRECATED,
   SINCE,
@@ -187,7 +190,6 @@ const TAGS_ORDER = [
   DEFAULT,
   DEFAULT_Value,
   EXTERNAL,
-  FILE,
   FIRES,
   TEMPLATE,
   TYPE_PARAM,

@@ -686,21 +686,29 @@ test("Optional params", () => {
 
 test("non-escapable character", () => {
   const result = subject(`
-/**
- * \\\\
- * 
- * 
- * \\\\-
-*/
-`);
+  /**
+   * \\\\
+   * 
+   * 
+   * \\\\-
+   */
+  `);
 
   expect(result).toMatchSnapshot();
 
   const result2 = subject(`
-/**
- * \\\\
-*/
-`);
+  /**
+   * \\\\
+   */
+  `);
 
   expect(result2).toMatchSnapshot();
+});
+
+test("@file", () => {
+  const result = subject(`
+  /** @file A file description */
+`);
+
+  expect(result).toMatchSnapshot();
 });
