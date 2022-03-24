@@ -30,8 +30,8 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
     parsersOrOptions: Parameters<Parser["parse"]>[1],
     maybeOptions?: AllOptions,
   ): AST {
-  const parsers = parsersOrOptions;
-  let options = (maybeOptions ?? parsersOrOptions) as AllOptions;
+    const parsers = parsersOrOptions;
+    let options = (maybeOptions ?? parsersOrOptions) as AllOptions;
     const prettierParse =
       findPluginByParser(parserName, options)?.parse || originalParse;
 
@@ -107,10 +107,6 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
             });
 
             type = convertToModernType(type);
-            type = formatType(type, {
-              ...options,
-              printWidth: commentContentPrintWidth,
-            });
           }
 
           return {
@@ -138,6 +134,19 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
 
       tags = tags
         .map(assignOptionalAndDefaultToName)
+        .map(({ type, ...rest }) => {
+          if (type) {
+            type = formatType(type, {
+              ...options,
+              printWidth: commentContentPrintWidth,
+            });
+          }
+
+          return {
+            ...rest,
+            type,
+          } as Spec;
+        })
         .map(({ type, name, description, tag, ...rest }) => {
           const isVerticallyAlignAbleTags =
             TAGS_VERTICALLY_ALIGN_ABLE.includes(tag);
@@ -527,21 +536,29 @@ function assignOptionalAndDefaultToName({
   name,
   optional,
   default: default_,
+  tag,
+  type,
   ...rest
 }: Spec): Spec {
-  if (name && optional) {
-    // Figure out if tag type have default value
-    if (default_) {
-      name = `[${name}=${default_}]`;
+  if (optional) {
+    if (name) {
+      // Figure out if tag type have default value
+      if (default_) {
+        name = `[${name}=${default_}]`;
+      } else {
+        name = `[${name}]`;
+      }
     } else {
-      name = `[${name}]`;
+      type = `${type} | undefined`;
     }
   }
 
   return {
     ...rest,
-    name: name,
-    optional: optional,
+    tag,
+    name,
+    optional,
+    type,
     default: default_,
   };
 }

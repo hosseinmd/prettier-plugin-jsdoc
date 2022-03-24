@@ -121,6 +121,15 @@ exports[`Optional parameters 1`] = `
 "
 `;
 
+exports[`Optional params 1`] = `
+"/**
+ * @param {string} [p2] - An optional param (Google Closure syntax)
+ * @param {string} [p3] - Another optional param (JSDoc syntax).
+ * @returns {string | undefined}
+ */
+"
+`;
+
 exports[`Should align vertically param|property|returns|yields|throws if option set to true, and amount of spaces is different than default 1`] = `
 "/**
  * @property  {Object}          unalginedProp   Unaligned property descriptin
