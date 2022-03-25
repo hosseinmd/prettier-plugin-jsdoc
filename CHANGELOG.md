@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.33](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.31...v0.3.33) (2022-03-25)
+
+
+### Features
+
+* add rollup script for compile to mjs ([8783637](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/8783637eb3da7abd6fedc5c4c032028f82f30670))
+* support block quote ([db0b07e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/db0b07ecfeb862b9b6510e8dd1896c638ca1aaef))
+
+
+### Bug Fixes
+
+* not capitalizing pre formated tags ([b5beeb7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b5beeb7e2a3db9290e1b4d77ab4866824b25347f))
+* optional type without name ([b14397c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b14397c6e0a2e310172f12b7bc8f0efbbdf8ebdd))
+* tag [@file](https://github.com/file) capitalization ([dc76b72](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dc76b72a8e2f8b9c5e1c71d7f614563fa107de11)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/143#issuecomment-1014096745](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/143/issues/issuecomment-1014096745)
+
 ### [0.3.32](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.31...v0.3.32) (2022-03-24)
 
 
