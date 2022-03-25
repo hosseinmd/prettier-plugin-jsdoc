@@ -1,6 +1,6 @@
 import { format, Options, ParserOptions, Plugin } from "prettier";
 import { AllOptions, Token } from "./types";
-import BSearch from "binary-search-bounds";
+import BSearch from "binary-searching";
 
 function convertToModernType(oldType: string): string {
   return withoutStrings(oldType, (type) => {
