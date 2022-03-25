@@ -615,6 +615,16 @@ test("jsdoc tags", () => {
   );
 
   expect(result2).toMatchSnapshot();
+
+  const result3 = subject(
+    `
+/**
+ * @default 'i am a value' i am the description
+*/   
+`,
+  );
+
+  expect(result3).toMatchSnapshot();
 });
 
 test("example ", () => {
