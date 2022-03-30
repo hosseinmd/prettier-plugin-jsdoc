@@ -8,7 +8,7 @@ import { findPluginByParser } from "./utils";
 
 const options: Record<keyof JsdocOptions, SupportOption> = {
   jsdocParser: {
-    since: "0.3.24",
+    since: "0.3.34",
     name: "jsdocParser",
     type: "boolean",
     category: "jsdoc",
