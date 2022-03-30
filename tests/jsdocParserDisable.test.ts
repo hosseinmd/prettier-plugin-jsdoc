@@ -23,7 +23,7 @@ test("template for callback", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("extends", () => {
+test("disabled complex object typedef ", () => {
   const result = subject(`
  /**
   * The bread crumbs indicate the navigate path and trigger the active page.
@@ -36,4 +36,23 @@ test("extends", () => {
 `);
 
   expect(result).toMatchSnapshot();
+
+  const result2 = subject(
+    `
+  /**
+   * The bread crumbs indicate the navigate path and trigger the active page.
+   * @class
+   * @typedef {object} props
+   * @prop        {any} navigation
+   * @extends         {PureComponent<       props>} 
+   */
+  export class BreadCrumbs extends PureComponent {}
+ `,
+    {
+      plugins: ["prettier-plugin-jsdoc"],
+      jsdocParser: false,
+    },
+  );
+
+  expect(result).toBe(result2);
 });

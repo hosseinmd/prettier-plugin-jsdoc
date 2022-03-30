@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`extends 1`] = `
+exports[`disabled complex object typedef  1`] = `
 "/**
  * The bread crumbs indicate the navigate path and trigger the active page.
  * @class

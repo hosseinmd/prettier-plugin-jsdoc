@@ -524,7 +524,7 @@ test("matches prettier markdown format", () => {
   );
 
   expect(result1).toMatchSnapshot();
-})
+});
 
 test("description start underscores", () => {
   const result1 = subject(
@@ -987,4 +987,19 @@ test("Code in description", () => {
   const result5 = subject(fenced, { jsdocPreferCodeFences: true });
 
   expect(result5).toMatchSnapshot();
+});
+
+test("Link ", () => {
+  const result = subject(`
+  /**
+   * Name of something.
+   *
+   * See [documentation](1) for more details.
+   *
+   * # 1
+   * https://www.documentation.com
+   */
+`);
+
+  expect(result).toMatchSnapshot();
 });

@@ -199,6 +199,19 @@ exports[`Jsx tsx css  1`] = `
 "
 `;
 
+exports[`Link  1`] = `
+"/**
+ * Name of something.
+ *
+ * See [documentation](1) for more details.
+ *
+ * # 1
+ *
+ * https://www.documentation.com
+ */
+"
+`;
+
 exports[`List in tags 1`] = `
 "/**
  * @param {any} var An example list:
