@@ -11,21 +11,19 @@
   "unpkg": "dist/index.umd.min.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist/index.js",
+    "dist/index.min.mjs",
+    "dist/index.umd.min.js",
+    "dist/index.d.ts"
   ],
   "scripts": {
     "prepare": "yarn build",
     "lint": "eslint --ext '.ts' ./src",
-    "test": "yarn prepare && jest",
+    "test": "yarn build --test && jest",
     "release": "standard-version && npm publish && git push --follow-tags origin master",
     "prettierAll": "prettier --write \"**/*.ts\"",
     "clean": "rm -fr dist",
-    "build": "npm run clean && npm run lint && tsc --project tsconfig.json && npm run bundle:esm && npm run bundle:esm:min && npm run bundle:umd && npm run bundle:umd:min && npm run build:stats && tsc --project tsconfig.json --module commonjs",
-    "build:stats": "(echo '\\033[35;3m' ; cd dist && ls -lh index*js index*gz | tail -n +2 | awk '{print $5,$9}')",
-    "bundle:esm": "rollup dist/index.js --file dist/index.mjs --format esm",
-    "bundle:esm:min": "terser --ecma 6 --compress --mangle --module -o dist/index.min.mjs -- dist/index.mjs && gzip -9 -c dist/index.min.mjs > dist/index.min.mjs.gz",
-    "bundle:umd": "rollup dist/index.js --file dist/index.umd.js --format umd --name sayHello",
-    "bundle:umd:min": "terser --ecma 6 --compress --mangle -o dist/index.umd.min.js -- dist/index.umd.js && gzip -9 -c dist/index.umd.min.js > dist/index.umd.min.js.gz"
+    "build": "node script.mjs"
   },
   "keywords": [
     "prettier",
@@ -45,6 +43,9 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^14.1.0",
+    "@rollup/plugin-commonjs": "^21.0.3",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
     "@types/jest": "^27.4.1",
     "@types/mdast": "^3.0.10",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
@@ -70,7 +71,8 @@
     "binary-searching": "^2.0.5",
     "comment-parser": "^1.3.1",
     "linguist-languages": "^7.15.0",
-    "mdast-util-from-markdown": "^0.8.5"
+    "remark-parse": "^10.0.1",
+    "unified": "^10.1.2"
   },
   "engines": {
     "node": ">=12.0.0"
