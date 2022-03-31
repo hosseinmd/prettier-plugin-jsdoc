@@ -20,7 +20,7 @@
     "prepare": "yarn build",
     "lint": "eslint --ext '.ts' ./src",
     "test": "yarn build --test && jest",
-    "release": "standard-version && npm publish && git push --follow-tags origin master",
+    "release": "standard-version && yarn publish && git push --follow-tags origin master",
     "prettierAll": "prettier --write \"**/*.ts\"",
     "clean": "rm -fr dist",
     "build": "node script.mjs"
