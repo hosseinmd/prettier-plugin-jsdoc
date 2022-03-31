@@ -2,12 +2,9 @@ import { format, BuiltInParserName } from "prettier";
 import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
 import { AllOptions } from "./types";
 import { capitalizer, formatCode } from "./utils";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
 import { Root, Content, Link, Image, Text, List } from "mdast";
 import { TAGS_PEV_FORMATE_DESCRIPTION } from "./roles";
-
-const fromMarkdown = unified().use(remarkParse);
+import { fromMarkdown } from "mdast-util-from-markdown";
 
 const TABLE = "2@^5!~#sdE!_TABLE";
 
@@ -126,7 +123,7 @@ function formatDescription(
 
   let tableIndex = 0;
 
-  const rootAst = fromMarkdown.parse(text);
+  const rootAst = fromMarkdown(text);
 
   function stringifyASTWithoutChildren(
     mdAst: Content | Root,
