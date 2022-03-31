@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.35](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.34...v0.3.35) (2022-03-31)
+
+
+### Bug Fixes
+
+* link reference ([dd08855](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dd0885536c8523ac78b2cfabde9fe81d6c57074a))
+* use esm module ([28ac56e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/28ac56e0eeaaf9d5f6e6170f8d8979c0d758840b))
+
 ### [0.3.34](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.33...v0.3.34) (2022-03-30)
 
 
