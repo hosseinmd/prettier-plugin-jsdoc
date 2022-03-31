@@ -217,122 +217,132 @@ function formatDescription(
 
     return ((mdAst as Root).children as Content[])
       .map((ast, index) => {
-        if (ast.type === "listItem") {
-          let _listCount = `\n${intention}- `;
-          // .replace(/((?!(^))\n)/g, "\n" + _intention);
-          if (typeof (mdAst as List).start === "number") {
-            const count = index + (((mdAst as List).start as number) ?? 1);
-            _listCount = `\n${intention}${count}. `;
+        switch (ast.type) {
+          case "listItem": {
+            let _listCount = `\n${intention}- `;
+            // .replace(/((?!(^))\n)/g, "\n" + _intention);
+            if (typeof (mdAst as List).start === "number") {
+              const count = index + (((mdAst as List).start as number) ?? 1);
+              _listCount = `\n${intention}${count}. `;
+            }
+
+            const _intention = intention + " ".repeat(_listCount.length - 1);
+
+            const result = stringyfy(ast, _intention, mdAst).trim();
+
+            return `${_listCount}${result}`;
           }
 
-          const _intention = intention + " ".repeat(_listCount.length - 1);
-
-          const result = stringyfy(ast, _intention, mdAst).trim();
-
-          return `${_listCount}${result}`;
-        }
-
-        if (ast.type === "list") {
-          let end = "";
-          /**
-           * Add empty line after list if that is end of description
-           * issue: {@link https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/98}
-           */
-          if (
-            tag !== DESCRIPTION &&
-            mdAst.type === "root" &&
-            index === mdAst.children.length - 1
-          ) {
-            end = "\n";
-          }
-          return `\n${stringyfy(ast, intention, mdAst)}${end}`;
-        }
-
-        if (ast.type === "paragraph") {
-          const paragraph = stringyfy(ast, intention, parent);
-          if ((ast as any).costumeType === TABLE) {
-            return paragraph;
-          }
-
-          return `\n\n${paragraph
+          case "list": {
+            let end = "";
             /**
-             * Break by backslash\
-             * issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/102
+             * Add empty line after list if that is end of description
+             * issue: {@link https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/98}
              */
-            .split("\\\n")
-            .map((_paragraph) => {
-              const links: string[] = [];
-              // Find jsdoc links and remove spaces
-              _paragraph = _paragraph.replace(
-                /{@(link|linkcode|linkplain)[\s](([^{}])*)}/g,
-                (_, tag: string, link: string) => {
-                  links.push(link);
+            if (
+              tag !== DESCRIPTION &&
+              mdAst.type === "root" &&
+              index === mdAst.children.length - 1
+            ) {
+              end = "\n";
+            }
+            return `\n${stringyfy(ast, intention, mdAst)}${end}`;
+          }
 
-                  return `{@${tag}${"_".repeat(link.length)}}`;
-                },
-              );
+          case "paragraph": {
+            const paragraph = stringyfy(ast, intention, parent);
+            if ((ast as any).costumeType === TABLE) {
+              return paragraph;
+            }
 
-              _paragraph = _paragraph.replace(/\s+/g, " "); // Make single line
+            return `\n\n${paragraph
+              /**
+               * Break by backslash\
+               * issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/102
+               */
+              .split("\\\n")
+              .map((_paragraph) => {
+                const links: string[] = [];
+                // Find jsdoc links and remove spaces
+                _paragraph = _paragraph.replace(
+                  /{@(link|linkcode|linkplain)[\s](([^{}])*)}/g,
+                  (_, tag: string, link: string) => {
+                    links.push(link);
 
-              if (
-                options.jsdocCapitalizeDescription &&
-                !TAGS_PEV_FORMATE_DESCRIPTION.includes(tag)
-              )
-                _paragraph = capitalizer(_paragraph);
-              if (options.jsdocDescriptionWithDot)
-                _paragraph = _paragraph.replace(/([\w\p{L}])$/u, "$1."); // Insert dot if needed
+                    return `{@${tag}${"_".repeat(link.length)}}`;
+                  },
+                );
 
-              let result = breakDescriptionToLines(
-                _paragraph,
-                printWidth,
-                intention,
-              );
+                _paragraph = _paragraph.replace(/\s+/g, " "); // Make single line
 
-              // Replace links
-              result = result.replace(
-                /{@(link|linkcode|linkplain)([_]+)}/g,
-                (original: string, tag: string, underline: string) => {
-                  const link = links[0];
+                if (
+                  options.jsdocCapitalizeDescription &&
+                  !TAGS_PEV_FORMATE_DESCRIPTION.includes(tag)
+                )
+                  _paragraph = capitalizer(_paragraph);
+                if (options.jsdocDescriptionWithDot)
+                  _paragraph = _paragraph.replace(/([\w\p{L}])$/u, "$1."); // Insert dot if needed
 
-                  if (link.length === underline.length) {
-                    links.shift();
-                    return `{@${tag} ${link}}`;
-                  }
+                let result = breakDescriptionToLines(
+                  _paragraph,
+                  printWidth,
+                  intention,
+                );
 
-                  return original;
-                },
-              );
+                // Replace links
+                result = result.replace(
+                  /{@(link|linkcode|linkplain)([_]+)}/g,
+                  (original: string, tag: string, underline: string) => {
+                    const link = links[0];
 
-              return result;
-            })
-            .join("\\\n")}`;
-        }
+                    if (link.length === underline.length) {
+                      links.shift();
+                      return `{@${tag} ${link}}`;
+                    }
 
-        if (ast.type === "strong") {
-          return `**${stringyfy(ast, intention, mdAst)}**`;
-        }
+                    return original;
+                  },
+                );
 
-        if (ast.type === "emphasis") {
-          return `_${stringyfy(ast, intention, mdAst)}_`;
-        }
+                return result;
+              })
+              .join("\\\n")}`;
+          }
 
-        if (ast.type === "heading") {
-          return `\n\n${intention}${"#".repeat(ast.depth)} ${stringyfy(
-            ast,
-            intention,
-            mdAst,
-          )}`;
-        }
+          case "strong": {
+            return `**${stringyfy(ast, intention, mdAst)}**`;
+          }
 
-        if (ast.type === "link" || ast.type === "image") {
-          return `[${stringyfy(ast, intention, mdAst)}](${ast.url})`;
-        }
+          case "emphasis": {
+            return `_${stringyfy(ast, intention, mdAst)}_`;
+          }
 
-        if (ast.type === "blockquote") {
-          const paragraph = stringyfy(ast, "", mdAst);
-          return `${intention}> ${paragraph
-            .trim()
-            .replace(/(\n+)/g, `$1${intention}> `)}`;
+          case "heading": {
+            return `\n\n${intention}${"#".repeat(ast.depth)} ${stringyfy(
+              ast,
+              intention,
+              mdAst,
+            )}`;
+          }
+
+          case "link":
+          case "image": {
+            return `[${stringyfy(ast, intention, mdAst)}](${ast.url})`;
+          }
+
+          case "linkReference": {
+            return `[${stringyfy(ast, intention, mdAst)}][${ast.label}]`;
+          }
+          case "definition": {
+            return `\n\n[${ast.label}]: [${ast.url}]`;
+          }
+
+          case "blockquote": {
+            const paragraph = stringyfy(ast, "", mdAst);
+            return `${intention}> ${paragraph
+              .trim()
+              .replace(/(\n+)/g, `$1${intention}> `)}`;
+          }
         }
         return stringyfy(ast, intention, mdAst);
       })

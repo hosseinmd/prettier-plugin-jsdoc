@@ -1003,3 +1003,17 @@ test("Link ", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("Reference-style Links ", () => {
+  const result = subject(`
+  /**
+   * Name of something.
+   *
+   * See [documentation][1] for more details.
+   *
+   * [1]: https://www.documentation.com
+   */
+`);
+
+  expect(result).toMatchSnapshot();
+});

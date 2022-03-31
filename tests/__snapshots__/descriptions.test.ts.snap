@@ -434,6 +434,17 @@ exports[`Not Capitalizing 2`] = `
 "
 `;
 
+exports[`Reference-style Links  1`] = `
+"/**
+ * Name of something.
+ *
+ * See [documentation][1] for more details.
+ *
+ * [1]: [https://www.documentation.com]
+ */
+"
+`;
+
 exports[`code in description 1`] = `
 "/**
  * \`Touchable\`: Taps done right.
@@ -755,7 +766,9 @@ exports[`matches prettier markdown format 1`] = `
  *
  * - List
  * - With a [link] (/to/somewhere)
- * - And another oneExample title
+ * - And [another one][another one]
+ *
+ * [another one]: [http://example.com]
  *
  * Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
  * consectetur maximus risus, sed maximus tellus tincidunt et.
