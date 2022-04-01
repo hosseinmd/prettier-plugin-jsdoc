@@ -440,8 +440,22 @@ exports[`Reference-style Links  1`] = `
  *
  * See [documentation][1] for more details.
  *
- * [1]: [https://www.documentation.com]
+ * [1]: https://www.documentation.com
  */
+"
+`;
+
+exports[`Reference-style Links  2`] = `
+"/**
+ * This is a [link][1] test.
+ *
+ * [1]: https://www.google.com/
+ *
+ * @param value - Any value you want to test is a number.
+ */
+function test(value) {
+  return true;
+}
 "
 `;
 
@@ -768,7 +782,7 @@ exports[`matches prettier markdown format 1`] = `
  * - With a [link] (/to/somewhere)
  * - And [another one][another one]
  *
- * [another one]: [http://example.com]
+ * [another one]: http://example.com
  *
  * Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
  * consectetur maximus risus, sed maximus tellus tincidunt et.

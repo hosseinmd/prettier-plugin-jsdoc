@@ -334,7 +334,7 @@ function formatDescription(
             return `[${stringyfy(ast, intention, mdAst)}][${ast.label}]`;
           }
           case "definition": {
-            return `\n\n[${ast.label}]: [${ast.url}]`;
+            return `\n\n[${ast.label}]: ${ast.url}`;
           }
 
           case "blockquote": {
