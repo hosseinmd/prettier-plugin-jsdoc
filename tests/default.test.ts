@@ -10,7 +10,7 @@ function subject(code: string, options: Partial<AllOptions> = {}) {
   } as AllOptions);
 }
 
-test("Empty default", () => {
+test("default string with description", () => {
   const result = subject(`
   /**
    * The value
@@ -21,14 +21,29 @@ test("Empty default", () => {
 
   expect(result).toMatchSnapshot();
 });
-test("Empty default", () => {
-  const result = subject(`
+
+test("default array", () => {
+  const input = `
   /**
    * The value
    *
    * @default []
    */
-`);
+`
+  const result = subject(input);
 
-  expect(result).toMatchSnapshot();
+  expect(result).toBe(input);
+});
+
+test("default object", () => {
+  const input = `
+  /**
+   * The value
+   *
+   * @default {}
+   */
+`
+  const result = subject(input);
+
+  expect(result).toBe(input);
 });
