@@ -10,8 +10,9 @@
             "request": "launch",
             "runtimeArgs": [
                 "--inspect",
-                "./node_modules/.bin/jest",
-                "-i"
+                "./node_modules/jest/bin/jest.js",
+                "--runInBand",
+                "--watch"
             ],
             "cwd": "${workspaceRoot}",
             "protocol": "inspector",
