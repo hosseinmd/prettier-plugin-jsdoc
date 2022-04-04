@@ -22,7 +22,7 @@ test("default string with description", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("default array", () => {
+test("default empty array", () => {
   const input = `
   /**
    * The value
@@ -35,7 +35,7 @@ test("default array", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("default object", () => {
+test("default empty object", () => {
   const input = `
   /**
    * The value
@@ -48,7 +48,7 @@ test("default object", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("default value array", () => {
+test("default value empty array", () => {
   const input = `
   /**
    * The value
@@ -61,12 +61,38 @@ test("default value array", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("default value object", () => {
+test("default value empty object", () => {
   const input = `
   /**
    * The value
    *
    * @defaultValue {}
+   */
+`
+  const result = subject(input);
+
+  expect(result).toMatchSnapshot();
+});
+
+test("default filled array", () => {
+  const input = `
+  /**
+   * The value
+   *
+   * @default [ 1, 'two', { three: true } ]
+   */
+`
+  const result = subject(input);
+
+  expect(result).toMatchSnapshot();
+});
+
+test("default filled object", () => {
+  const input = `
+  /**
+   * The value
+   *
+   * @default { one: 1, two: '2' }
    */
 `
   const result = subject(input);

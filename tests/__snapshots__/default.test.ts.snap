@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`default array 1`] = `
+exports[`default empty array 1`] = `
 "/**
  * The value
  *
@@ -9,11 +9,29 @@ exports[`default array 1`] = `
 "
 `;
 
-exports[`default object 1`] = `
+exports[`default empty object 1`] = `
 "/**
  * The value
  *
  * @default { }
+ */
+"
+`;
+
+exports[`default filled array 1`] = `
+"/**
+ * The value
+ *
+ * @default [1, 'two', { three: true }]
+ */
+"
+`;
+
+exports[`default filled object 1`] = `
+"/**
+ * The value
+ *
+ * @default {one: 1, two: '2'}
  */
 "
 `;
@@ -27,7 +45,7 @@ exports[`default string with description 1`] = `
 "
 `;
 
-exports[`default value array 1`] = `
+exports[`default value empty array 1`] = `
 "/**
  * The value
  *
@@ -36,7 +54,7 @@ exports[`default value array 1`] = `
 "
 `;
 
-exports[`default value object 1`] = `
+exports[`default value empty object 1`] = `
 "/**
  * The value
  *
