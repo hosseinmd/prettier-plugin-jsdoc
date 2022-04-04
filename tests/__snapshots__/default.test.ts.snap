@@ -26,3 +26,21 @@ exports[`default string with description 1`] = `
  */
 "
 `;
+
+exports[`default value array 1`] = `
+"/**
+ * The value
+ *
+ * @defaultValue [ ]
+ */
+"
+`;
+
+exports[`default value object 1`] = `
+"/**
+ * The value
+ *
+ * @defaultValue { }
+ */
+"
+`;

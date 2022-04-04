@@ -47,3 +47,29 @@ test("default object", () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("default value array", () => {
+  const input = `
+  /**
+   * The value
+   *
+   * @defaultValue []
+   */
+`
+  const result = subject(input);
+
+  expect(result).toMatchSnapshot();
+});
+
+test("default value object", () => {
+  const input = `
+  /**
+   * The value
+   *
+   * @defaultValue {}
+   */
+`
+  const result = subject(input);
+
+  expect(result).toMatchSnapshot();
+});
