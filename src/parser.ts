@@ -558,9 +558,9 @@ function assignOptionalAndDefaultToName({
   if ([DEFAULT, DEFAULT_Value].includes(tag)) {
     const emptyArrayOrObjectRegEx = /(\[ *])|({ *}) *$/
     const usefulSourceLine = source.find(x => x.source.includes(`@${tag}`))?.source || ''
-    const matchResult = usefulSourceLine.match(emptyArrayOrObjectRegEx) || []
+    const matchResult = usefulSourceLine.match(emptyArrayOrObjectRegEx)
 
-    if (!name && matchResult.length) {
+    if (!name && matchResult) {
       const { 1: array, 2: object } = matchResult
       // The space is to improve readability in non-monospace fonts
       name = (array && '[ ]') || (object && '{ }') || ''
