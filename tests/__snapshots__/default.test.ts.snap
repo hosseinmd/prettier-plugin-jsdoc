@@ -1,19 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Empty default 1`] = `
+exports[`default array 1`] = `
 "/**
  * The value
  *
- * @default 'type' name description
+ * @default [ ]
  */
 "
 `;
 
-exports[`Empty default 2`] = `
+exports[`default object 1`] = `
 "/**
  * The value
  *
- * @default
+ * @default { }
+ */
+"
+`;
+
+exports[`default string with description 1`] = `
+"/**
+ * The value
+ *
+ * @default 'type' name description
  */
 "
 `;

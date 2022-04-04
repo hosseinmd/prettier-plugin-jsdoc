@@ -32,7 +32,7 @@ test("default array", () => {
 `
   const result = subject(input);
 
-  expect(result).toBe(input);
+  expect(result).toMatchSnapshot();
 });
 
 test("default object", () => {
@@ -45,5 +45,5 @@ test("default object", () => {
 `
   const result = subject(input);
 
-  expect(result).toBe(input);
+  expect(result).toMatchSnapshot();
 });
