@@ -7,7 +7,7 @@ import {
   findTokenIndex,
   findPluginByParser,
 } from "./utils";
-import { DESCRIPTION, PARAM, RETURNS } from "./tags";
+import { DEFAULT, DEFAULT_Value, DESCRIPTION, PARAM, RETURNS } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP_HEAD,
@@ -538,8 +538,10 @@ function assignOptionalAndDefaultToName({
   default: default_,
   tag,
   type,
+  source,
   ...rest
 }: Spec): Spec {
+
   if (optional) {
     if (name) {
       // Figure out if tag type have default value
@@ -553,12 +555,25 @@ function assignOptionalAndDefaultToName({
     }
   }
 
+  if ([DEFAULT, DEFAULT_Value].includes(tag)) {
+    const emptyArrayOrObjectRegEx = /(\[ *])|({ *}) *$/
+    const usefulSourceLine = source.find(x => x.source.includes(`@${tag}`))?.source || ''
+    const matchResult = usefulSourceLine.match(emptyArrayOrObjectRegEx) || []
+
+    if (!name && matchResult.length) {
+      const { 1: array, 2: object } = matchResult
+      // The space is to improve readability in non-monospace fonts
+      name = (array && '[ ]') || (object && '{ }') || ''
+    }
+  }
+
   return {
     ...rest,
     tag,
     name,
     optional,
     type,
+    source,
     default: default_,
   };
 }
