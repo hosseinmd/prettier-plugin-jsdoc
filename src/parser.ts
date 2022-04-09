@@ -1,4 +1,4 @@
-import { parse, Spec, Block, tokenizers } from "comment-parser";
+import { parse, Spec, Block } from "comment-parser";
 import {
   addStarsToTheBeginningOfTheLines,
   convertToModernType,
@@ -22,13 +22,6 @@ import { AST, AllOptions, PrettierComment, Token } from "./types";
 import { stringify } from "./stringify";
 import { Parser } from "prettier";
 import { SPACE_TAG_DATA } from "./tags";
-
-const {
-  name: nameTokenizer,
-  tag: tagTokenizer,
-  type: typeTokenizer,
-  description: descriptionTokenizer
-} = tokenizers;
 
 /** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
 export const getParser = (originalParse: Parser["parse"], parserName: string) =>
@@ -78,20 +71,6 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
 
       const parsed = parse(commentString, {
         spacing: "preserve",
-        tokenizers: [
-          tagTokenizer(),
-          typeTokenizer(),
-          (spec) => {
-            if ([DEFAULT, DEFAULT_Value].includes(spec.tag)) {
-              console.log(commentString)
-              console.log(spec)
-              return spec;
-            }
-
-            return nameTokenizer()(spec);
-          },
-          descriptionTokenizer('preserve')
-        ],
       })[0];
 
       comment.value = "";
@@ -576,17 +555,17 @@ function assignOptionalAndDefaultToName({
     }
   }
 
-  // if ([DEFAULT, DEFAULT_Value].includes(tag)) {
-  //   const emptyArrayOrObjectRegEx = /(\[ *])|({ *}) *$/
-  //   const usefulSourceLine = source.find(x => x.source.includes(`@${tag}`))?.source || ''
-  //   const matchResult = usefulSourceLine.match(emptyArrayOrObjectRegEx)
+  if ([DEFAULT, DEFAULT_Value].includes(tag)) {
+    const emptyArrayOrObjectRegEx = /(\[ *])|({ *}) *$/
+    const usefulSourceLine = source.find(x => x.source.includes(`@${tag}`))?.source || ''
+    const matchResult = usefulSourceLine.match(emptyArrayOrObjectRegEx)
 
-  //   if (!name && matchResult) {
-  //     const { 1: array, 2: object } = matchResult
-  //     // The space is to improve readability in non-monospace fonts
-  //     name = (array && '[ ]') || (object && '{ }') || ''
-  //   }
-  // }
+    if (!name && matchResult) {
+      const { 1: array, 2: object } = matchResult
+      // The space is to improve readability in non-monospace fonts
+      name = (array && '[ ]') || (object && '{ }') || ''
+    }
+  }
 
   return {
     ...rest,
