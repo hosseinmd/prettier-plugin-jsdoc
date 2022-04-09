@@ -62,3 +62,23 @@ exports[`default value empty object 1`] = `
  */
 "
 `;
+
+exports[`double default one 1`] = `
+"/**
+ * The value
+ *
+ * @default 'something'
+ * @default { }
+ */
+"
+`;
+
+exports[`double default two 1`] = `
+"/**
+ * The value
+ *
+ * @default { }
+ * @default 'something'
+ */
+"
+`;

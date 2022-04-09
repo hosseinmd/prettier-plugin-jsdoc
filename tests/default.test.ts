@@ -15,7 +15,7 @@ test("default string with description", () => {
   /**
    * The value
    *
-   * @default 'type' name description
+   * @default "type" name description
    */
 `);
 
@@ -93,6 +93,34 @@ test("default filled object", () => {
    * The value
    *
    * @default { one: 1, two: '2' }
+   */
+`
+  const result = subject(input);
+
+  expect(result).toMatchSnapshot();
+});
+
+test("double default one", () => {
+  const input = `
+  /**
+   * The value
+   *
+   * @default "something"
+   * @default {}
+   */
+`
+  const result = subject(input);
+
+  expect(result).toMatchSnapshot();
+});
+
+test("double default two", () => {
+  const input = `
+  /**
+   * The value
+   *
+   * @default {}
+   * @default "something"
    */
 `
   const result = subject(input);
