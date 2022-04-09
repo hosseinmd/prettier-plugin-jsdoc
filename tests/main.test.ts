@@ -749,3 +749,20 @@ test("Block quote", () => {
 
   expect(result2).toMatchSnapshot();
 });
+
+test("File with just an import", () => {
+  const result = subject(
+    `
+import { something } from './index';
+`,
+    {
+      jsdocDescriptionWithDot: true,
+      jsdocSingleLineComment: false,
+      jsdocSeparateTagGroups: true,
+      jsdocPreferCodeFences: true,
+      tsdoc: true,
+    },
+  );
+
+  expect(subject(subject(result))).toMatchSnapshot();
+});

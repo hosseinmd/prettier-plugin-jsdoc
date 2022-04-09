@@ -64,6 +64,11 @@ exports[`Empty comment 1`] = `
 "
 `;
 
+exports[`File with just an import 1`] = `
+"import { something } from \\"./index\\";
+"
+`;
+
 exports[`Format rest parameters properly 1`] = `
 "/**
  * @param {...any} arg1
