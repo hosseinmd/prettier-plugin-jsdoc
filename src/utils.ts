@@ -3,7 +3,7 @@ import { AllOptions, Token } from "./types";
 import BSearch from "binary-searching";
 import { DEFAULT, DEFAULT_Value } from "./tags";
 
-export function convertToModernType(oldType: string): string {
+function convertToModernType(oldType: string): string {
   return withoutStrings(oldType, (type) => {
     type = type.trim();
 
@@ -73,7 +73,7 @@ function withoutStrings(type: string, mapFn: (type: string) => string): string {
   return modifiedType.replace(/String\$(\d+)\$/g, (_, index) => strings[index]);
 }
 
-export function formatType(type: string, options?: Options): string {
+function formatType(type: string, options?: Options): string {
   try {
     const TYPE_START = "type name = ";
 
@@ -123,7 +123,7 @@ export function formatType(type: string, options?: Options): string {
   }
 }
 
-export function addStarsToTheBeginningOfTheLines(
+function addStarsToTheBeginningOfTheLines(
   comment: string,
   options: AllOptions,
 ): string {
@@ -142,7 +142,7 @@ function numberOfAStringInString(string: string, search: string | RegExp) {
 }
 
 // capitalize if needed
-export function capitalizer(str: string): string {
+function capitalizer(str: string): string {
   if (!str) {
     return str;
   }
@@ -167,7 +167,7 @@ export function capitalizer(str: string): string {
  *
  * @param text
  */
-export function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
+function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
   const counter = {
     "\r": 0,
     "\r\n": 0,
@@ -202,7 +202,7 @@ export function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
  * @param tokens
  * @param token
  */
-export function findTokenIndex(tokens: Token[], token: Token): number {
+function findTokenIndex(tokens: Token[], token: Token): number {
   return BSearch.eq(tokens, token, (a, b) => {
     if (a.loc.start.line === b.loc.start.line) {
       return a.loc.start.column - b.loc.start.column;
@@ -212,7 +212,7 @@ export function findTokenIndex(tokens: Token[], token: Token): number {
   });
 }
 
-export function formatCode(
+function formatCode(
   result: string,
   beginningSpace: string,
   options: AllOptions,
@@ -264,7 +264,7 @@ export function formatCode(
   return result;
 }
 
-export const findPluginByParser = (parserName: string, options: ParserOptions) => {
+const findPluginByParser = (parserName: string, options: ParserOptions) => {
   const tsPlugin = options.plugins.find((plugin) => {
     return (
       typeof plugin === "object" &&
@@ -283,4 +283,16 @@ export const findPluginByParser = (parserName: string, options: ParserOptions) =
     : tsPlugin.parsers?.[parserName];
 };
 
-export const isDefaultTag = (tag: string): boolean => [DEFAULT, DEFAULT_Value].includes(tag)
+const isDefaultTag = (tag: string): boolean => [DEFAULT, DEFAULT_Value].includes(tag)
+
+export {
+  convertToModernType,
+  formatType,
+  addStarsToTheBeginningOfTheLines,
+  capitalizer,
+  detectEndOfLine,
+  findTokenIndex,
+  formatCode,
+  findPluginByParser,
+  isDefaultTag,
+};
