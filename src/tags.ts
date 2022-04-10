@@ -11,6 +11,7 @@ const CLASS = "class";
 const CONSTANT = "constant";
 const DEFAULT = "default";
 const DEFAULT_Value = "defaultValue";
+const DEFAULT_value = "defaultvalue"; // official documentation makes `@defaultvalue` all lowercase
 const DEPRECATED = "deprecated";
 const DESCRIPTION = "description";
 const EXAMPLE = "example";
@@ -67,6 +68,7 @@ export {
   CONSTANT,
   DEFAULT,
   DEFAULT_Value,
+  DEFAULT_value,
   DEPRECATED,
   DESCRIPTION,
   EXAMPLE,

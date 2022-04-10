@@ -43,6 +43,7 @@ import {
   TYPEDEF,
   VERSION,
   YIELDS,
+  DEFAULT_value,
 } from "./tags";
 
 const TAGS_SYNONYMS = {
@@ -116,6 +117,7 @@ const TAGS_PEV_FORMATE_DESCRIPTION = [
   BORROWS,
   DEFAULT,
   DEFAULT_Value,
+  DEFAULT_value,
   MEMBEROF,
   MODULE,
   SEE,
@@ -189,6 +191,7 @@ const TAGS_ORDER = [
   CONSTANT,
   DEFAULT,
   DEFAULT_Value,
+  DEFAULT_value,
   EXTERNAL,
   FIRES,
   TEMPLATE,
