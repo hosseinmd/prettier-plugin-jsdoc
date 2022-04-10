@@ -73,16 +73,11 @@ const stringify = (
       if (type === '[]') return '[ ]'
       if (type === '{}') return '{ }'
 
-      const squareBracketBoilerplateMatch = type.match(/^\[(.*)]$/)?.[1] || ''
-
       const isAnObject = (value: string): boolean => /^{.*[A-z0-9_]+ ?:.*}$/.test(value)
       const fixObjectCommas = (objWithBrokenCommas: string): string => objWithBrokenCommas.replace(/; ([A-z0-9_])/g, ', $1')
 
       if (isAnObject(type)) {
         return fixObjectCommas(type)
-      }
-      if (isAnObject(squareBracketBoilerplateMatch)) {
-        return `[${fixObjectCommas(squareBracketBoilerplateMatch)}]`
       }
 
       return type
