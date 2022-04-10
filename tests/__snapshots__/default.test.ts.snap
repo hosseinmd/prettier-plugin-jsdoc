@@ -1,17 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Empty default 1`] = `
+exports[`@default filled array 1`] = `
 "/**
- * The value
+ * The summary
  *
- * @default 'type' name description
+ * @default [1, \\"two\\", { three: true }, [\\"four\\"]]
  */
 "
 `;
 
-exports[`Empty default 2`] = `
+exports[`@default filled object 1`] = `
 "/**
- * The value
+ * The summary
+ *
+ * @default { object: \\"value\\", nestingTest: { obj: \\"nested\\" } }
+ */
+"
+`;
+
+exports[`@defaultValue filled array 1`] = `
+"/**
+ * The summary
+ *
+ * @defaultValue [1, \\"two\\", { three: true }, [\\"four\\"]]
+ */
+"
+`;
+
+exports[`@defaultValue filled object 1`] = `
+"/**
+ * The summary
+ *
+ * @defaultValue { object: \\"value\\", nestingTest: { obj: \\"nested\\" } }
+ */
+"
+`;
+
+exports[`Can't convert double quote @default if a single quote character is in the string 1`] = `
+"/**
+ * The summary
+ *
+ * @default \\"This isn't bad\\"
+ */
+"
+`;
+
+exports[`convert double quote @default to single quote 1`] = `
+"/**
+ * The summary
+ *
+ * @default 'value'
+ */
+"
+`;
+
+exports[`convert single quote @default to double quote 1`] = `
+"/**
+ * The summary
+ *
+ * @default \\"value\\"
+ */
+"
+`;
+
+exports[`default empty array 1`] = `
+"/**
+ * The summary
+ *
+ * @default [ ]
+ */
+"
+`;
+
+exports[`default empty object 1`] = `
+"/**
+ * The summary
+ *
+ * @default { }
+ */
+"
+`;
+
+exports[`default string with description 1`] = `
+"/**
+ * The summary
+ *
+ * @default \\"type\\" description
+ */
+"
+`;
+
+exports[`double default one 1`] = `
+"/**
+ * The summary
+ *
+ * @default \\"something\\"
+ * @default { }
+ */
+"
+`;
+
+exports[`double default two 1`] = `
+"/**
+ * The summary
+ *
+ * @default { }
+ * @default \\"something\\"
+ */
+"
+`;
+
+exports[`empty default tag 1`] = `
+"/**
+ * The summary
  *
  * @default
  */

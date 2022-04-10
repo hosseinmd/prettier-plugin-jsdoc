@@ -13,7 +13,7 @@ import {
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
 import { AllOptions } from "./types";
-import { formatCode } from "./utils";
+import { formatCode, formatType, isDefaultTag } from "./utils";
 
 const stringify = (
   { name, description, type, tag }: Spec,
@@ -64,7 +64,26 @@ const stringify = (
     tagString += `@${tag}${" ".repeat(tagTitleGapAdj || 0)}`;
   }
   if (type) {
-    tagString += gap + `{${type}}` + " ".repeat(tagTypeGapAdj);
+    const getUpdatedType = () => {
+      if (!isDefaultTag(tag)) {
+        return `{${type}}`
+      }
+
+      // The space is to improve readability in non-monospace fonts
+      if (type === '[]') return '[ ]'
+      if (type === '{}') return '{ }'
+
+      const isAnObject = (value: string): boolean => /^{.*[A-z0-9_]+ ?:.*}$/.test(value)
+      const fixObjectCommas = (objWithBrokenCommas: string): string => objWithBrokenCommas.replace(/; ([A-z0-9_])/g, ', $1')
+
+      if (isAnObject(type)) {
+        return fixObjectCommas(type)
+      }
+
+      return type
+    }
+    const updatedType = getUpdatedType()
+    tagString += gap + updatedType + " ".repeat(tagTypeGapAdj);
   }
   if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
 
@@ -105,7 +124,7 @@ const stringify = (
       // Wrap tag description
       const beginningSpace =
         tag === DESCRIPTION ||
-        ([EXAMPLE, REMARKS, PRIVATE_REMARKS].includes(tag) && tsdoc)
+          ([EXAMPLE, REMARKS, PRIVATE_REMARKS].includes(tag) && tsdoc)
           ? ""
           : "  "; // google style guide space
 

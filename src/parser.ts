@@ -6,6 +6,7 @@ import {
   detectEndOfLine,
   findTokenIndex,
   findPluginByParser,
+  isDefaultTag,
 } from "./utils";
 import { DESCRIPTION, PARAM, RETURNS } from "./tags";
 import {
@@ -538,9 +539,24 @@ function assignOptionalAndDefaultToName({
   default: default_,
   tag,
   type,
+  source,
+  description,
   ...rest
 }: Spec): Spec {
-  if (optional) {
+
+  if (isDefaultTag(tag)) {
+    const usefulSourceLine = source.find(x => x.source.includes(`@${tag}`))?.source || ''
+
+    const tagMatch = usefulSourceLine.match(/@default(Value)? (\[.*]|{.*}|\(.*\)|'.*'|".*"|`.*`|[A-z0-9_]+)( (.+))?/)
+    const tagValue = tagMatch?.[2] || ''
+    const tagDescription = tagMatch?.[4] || ''
+
+    if (tagMatch) {
+      type = tagValue
+      name = ''
+      description = tagDescription
+    }
+  } else if (optional) {
     if (name) {
       // Figure out if tag type have default value
       if (default_) {
@@ -557,8 +573,10 @@ function assignOptionalAndDefaultToName({
     ...rest,
     tag,
     name,
+    description,
     optional,
     type,
+    source,
     default: default_,
   };
 }

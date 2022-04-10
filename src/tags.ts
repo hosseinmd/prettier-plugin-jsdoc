@@ -10,7 +10,7 @@ const CATEGORY = "category";
 const CLASS = "class";
 const CONSTANT = "constant";
 const DEFAULT = "default";
-const DEFAULT_Value = "defaultValue";
+const DEFAULT_VALUE = "defaultValue";
 const DEPRECATED = "deprecated";
 const DESCRIPTION = "description";
 const EXAMPLE = "example";
@@ -66,7 +66,7 @@ export {
   CLASS,
   CONSTANT,
   DEFAULT,
-  DEFAULT_Value,
+  DEFAULT_VALUE,
   DEPRECATED,
   DESCRIPTION,
   EXAMPLE,

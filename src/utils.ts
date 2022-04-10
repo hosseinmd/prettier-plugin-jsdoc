@@ -1,6 +1,7 @@
 import { format, Options, ParserOptions, Plugin } from "prettier";
 import { AllOptions, Token } from "./types";
 import BSearch from "binary-searching";
+import { TAGS_DEFAULT } from "./roles";
 
 function convertToModernType(oldType: string): string {
   return withoutStrings(oldType, (type) => {
@@ -254,8 +255,7 @@ function formatCode(
       .split("\n")
       .map(
         (l) =>
-          `${beginningSpace}${
-            jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
+          `${beginningSpace}${jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
           }`,
       )
       .join("\n")}\n`;
@@ -283,6 +283,8 @@ const findPluginByParser = (parserName: string, options: ParserOptions) => {
     : tsPlugin.parsers?.[parserName];
 };
 
+const isDefaultTag = (tag: string): boolean => TAGS_DEFAULT.includes(tag)
+
 export {
   convertToModernType,
   formatType,
@@ -292,4 +294,5 @@ export {
   findTokenIndex,
   formatCode,
   findPluginByParser,
+  isDefaultTag,
 };
