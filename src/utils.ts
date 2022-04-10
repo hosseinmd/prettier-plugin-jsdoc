@@ -2,7 +2,7 @@ import { format, Options, ParserOptions, Plugin } from "prettier";
 import { AllOptions, Token } from "./types";
 import BSearch from "binary-searching";
 
-function convertToModernType(oldType: string): string {
+export function convertToModernType(oldType: string): string {
   return withoutStrings(oldType, (type) => {
     type = type.trim();
 
@@ -72,7 +72,7 @@ function withoutStrings(type: string, mapFn: (type: string) => string): string {
   return modifiedType.replace(/String\$(\d+)\$/g, (_, index) => strings[index]);
 }
 
-function formatType(type: string, options?: Options): string {
+export function formatType(type: string, options?: Options): string {
   try {
     const TYPE_START = "type name = ";
 
@@ -122,7 +122,7 @@ function formatType(type: string, options?: Options): string {
   }
 }
 
-function addStarsToTheBeginningOfTheLines(
+export function addStarsToTheBeginningOfTheLines(
   comment: string,
   options: AllOptions,
 ): string {
@@ -141,7 +141,7 @@ function numberOfAStringInString(string: string, search: string | RegExp) {
 }
 
 // capitalize if needed
-function capitalizer(str: string): string {
+export function capitalizer(str: string): string {
   if (!str) {
     return str;
   }
@@ -166,7 +166,7 @@ function capitalizer(str: string): string {
  *
  * @param text
  */
-function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
+export function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
   const counter = {
     "\r": 0,
     "\r\n": 0,
@@ -201,7 +201,7 @@ function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
  * @param tokens
  * @param token
  */
-function findTokenIndex(tokens: Token[], token: Token): number {
+export function findTokenIndex(tokens: Token[], token: Token): number {
   return BSearch.eq(tokens, token, (a, b) => {
     if (a.loc.start.line === b.loc.start.line) {
       return a.loc.start.column - b.loc.start.column;
@@ -211,7 +211,7 @@ function findTokenIndex(tokens: Token[], token: Token): number {
   });
 }
 
-function formatCode(
+export function formatCode(
   result: string,
   beginningSpace: string,
   options: AllOptions,
@@ -254,8 +254,7 @@ function formatCode(
       .split("\n")
       .map(
         (l) =>
-          `${beginningSpace}${
-            jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
+          `${beginningSpace}${jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
           }`,
       )
       .join("\n")}\n`;
@@ -264,7 +263,7 @@ function formatCode(
   return result;
 }
 
-const findPluginByParser = (parserName: string, options: ParserOptions) => {
+export const findPluginByParser = (parserName: string, options: ParserOptions) => {
   const tsPlugin = options.plugins.find((plugin) => {
     return (
       typeof plugin === "object" &&
@@ -281,15 +280,4 @@ const findPluginByParser = (parserName: string, options: ParserOptions) => {
     tsPlugin.parsers?.hasOwnProperty("jsdoc-parser")
     ? undefined
     : tsPlugin.parsers?.[parserName];
-};
-
-export {
-  convertToModernType,
-  formatType,
-  addStarsToTheBeginningOfTheLines,
-  capitalizer,
-  detectEndOfLine,
-  findTokenIndex,
-  formatCode,
-  findPluginByParser,
 };
