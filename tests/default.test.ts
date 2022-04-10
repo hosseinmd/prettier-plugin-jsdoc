@@ -1,5 +1,6 @@
 import prettier from "prettier";
 import { AllOptions } from "../src/types";
+import { DEFAULT, DEFAULT_Value, DEFAULT_value } from "../src/tags";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
@@ -84,12 +85,12 @@ test("default empty object", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("default value empty array", () => {
+test("empty default tag", () => {
   const input = `
   /**
    * The summary
    *
-   * @defaultValue []
+   * @default
    */
 `
   const result = subject(input);
@@ -97,70 +98,33 @@ test("default value empty array", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("default value empty object", () => {
-  const input = `
-  /**
-   * The summary
-   *
-   * @defaultValue {}
-   */
-`
-  const result = subject(input);
+[DEFAULT, DEFAULT_Value, DEFAULT_value].forEach((tag: string) => {
+  test(`@${tag} filled array`, () => {
+    const input = `
+    /**
+     * The summary
+     *
+     * @${tag} [1,'two',{three:true},['four']]
+     */
+  `
+    const result = subject(input);
 
-  expect(result).toMatchSnapshot();
-});
+    expect(result).toMatchSnapshot();
+  });
 
-test("default empty array in square-bracket boilerplate", () => {
-  const input = `
-  /**
-   * The summary
-   *
-   * @default [[]]
-   */
-`
-  const result = subject(input);
+  test(`@${tag} filled object`, () => {
+    const input = `
+    /**
+     * The summary
+     *
+     * @${tag} {object:'value',nestingTest:{obj:'nested'}}
+     */
+  `
+    const result = subject(input);
 
-  expect(result).toMatchSnapshot();
-});
-
-test("default empty object in square-bracket boilerplate", () => {
-  const input = `
-  /**
-   * The summary
-   *
-   * @default [{}]
-   */
-`
-  const result = subject(input);
-
-  expect(result).toMatchSnapshot();
-});
-
-test("default filled array", () => {
-  const input = `
-  /**
-   * The summary
-   *
-   * @default [1,'two',{three:true},['four']]
-   */
-`
-  const result = subject(input);
-
-  expect(result).toMatchSnapshot();
-});
-
-test("default filled object", () => {
-  const input = `
-  /**
-   * The summary
-   *
-   * @default {object:'value',nestingTest:{obj:'nested'}}
-   */
-`
-  const result = subject(input);
-
-  expect(result).toMatchSnapshot();
-});
+    expect(result).toMatchSnapshot();
+  });
+})
 
 test("double default one", () => {
   const input = `
@@ -183,21 +147,6 @@ test("double default two", () => {
    *
    * @default {}
    * @default "something"
-   */
-`
-  const result = subject(input);
-
-  expect(result).toMatchSnapshot();
-});
-
-test("default with [square brackets boilerplate]", () => {
-  const input = `
-  /**
-   * The summary
-   *
-   * @default [true]
-   * @default [{object:'value',nestingTest:{obj:'nested'}}]
-   * @default [[1,'two',{three:true},['four']]]
    */
 `
   const result = subject(input);

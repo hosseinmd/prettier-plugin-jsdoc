@@ -1,5 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`@default filled array 1`] = `
+"/**
+ * The summary
+ *
+ * @default [1, \\"two\\", { three: true }, [\\"four\\"]]
+ */
+"
+`;
+
+exports[`@default filled object 1`] = `
+"/**
+ * The summary
+ *
+ * @default { object: \\"value\\", nestingTest: { obj: \\"nested\\" } }
+ */
+"
+`;
+
+exports[`@defaultValue filled array 1`] = `
+"/**
+ * The summary
+ *
+ * @defaultValue [1, \\"two\\", { three: true }, [\\"four\\"]]
+ */
+"
+`;
+
+exports[`@defaultValue filled object 1`] = `
+"/**
+ * The summary
+ *
+ * @defaultValue { object: \\"value\\", nestingTest: { obj: \\"nested\\" } }
+ */
+"
+`;
+
+exports[`@defaultvalue filled array 1`] = `
+"/**
+ * The summary
+ *
+ * @defaultvalue [1, \\"two\\", { three: true }, [\\"four\\"]]
+ */
+"
+`;
+
+exports[`@defaultvalue filled object 1`] = `
+"/**
+ * The summary
+ *
+ * @defaultvalue { object: \\"value\\", nestingTest: { obj: \\"nested\\" } }
+ */
+"
+`;
+
 exports[`Can't convert double quote @default if a single quote character is in the string 1`] = `
 "/**
  * The summary
@@ -36,15 +90,6 @@ exports[`default empty array 1`] = `
 "
 `;
 
-exports[`default empty array in square-bracket boilerplate 1`] = `
-"/**
- * The summary
- *
- * @default [[]]
- */
-"
-`;
-
 exports[`default empty object 1`] = `
 "/**
  * The summary
@@ -54,67 +99,11 @@ exports[`default empty object 1`] = `
 "
 `;
 
-exports[`default empty object in square-bracket boilerplate 1`] = `
-"/**
- * The summary
- *
- * @default [{}]
- */
-"
-`;
-
-exports[`default filled array 1`] = `
-"/**
- * The summary
- *
- * @default [1, \\"two\\", { three: true }, [\\"four\\"]]
- */
-"
-`;
-
-exports[`default filled object 1`] = `
-"/**
- * The summary
- *
- * @default { object: \\"value\\", nestingTest: { obj: \\"nested\\" } }
- */
-"
-`;
-
 exports[`default string with description 1`] = `
 "/**
  * The summary
  *
  * @default \\"type\\" description
- */
-"
-`;
-
-exports[`default value empty array 1`] = `
-"/**
- * The summary
- *
- * @defaultValue [ ]
- */
-"
-`;
-
-exports[`default value empty object 1`] = `
-"/**
- * The summary
- *
- * @defaultValue { }
- */
-"
-`;
-
-exports[`default with [square brackets boilerplate] 1`] = `
-"/**
- * The summary
- *
- * @default [true]
- * @default [{ object: \\"value\\", nestingTest: { obj: \\"nested\\" } }]
- * @default [[1, \\"two\\", { three: true }, [\\"four\\"]]]
  */
 "
 `;
@@ -135,6 +124,15 @@ exports[`double default two 1`] = `
  *
  * @default { }
  * @default \\"something\\"
+ */
+"
+`;
+
+exports[`empty default tag 1`] = `
+"/**
+ * The summary
+ *
+ * @default
  */
 "
 `;
