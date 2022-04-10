@@ -36,11 +36,29 @@ exports[`default empty array 1`] = `
 "
 `;
 
+exports[`default empty array in square-bracket boilerplate 1`] = `
+"/**
+ * The summary
+ *
+ * @default [[]]
+ */
+"
+`;
+
 exports[`default empty object 1`] = `
 "/**
  * The summary
  *
  * @default { }
+ */
+"
+`;
+
+exports[`default empty object in square-bracket boilerplate 1`] = `
+"/**
+ * The summary
+ *
+ * @default [{}]
  */
 "
 `;

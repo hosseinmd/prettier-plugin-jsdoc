@@ -110,6 +110,32 @@ test("default value empty object", () => {
   expect(result).toMatchSnapshot();
 });
 
+test("default empty array in square-bracket boilerplate", () => {
+  const input = `
+  /**
+   * The summary
+   *
+   * @default [[]]
+   */
+`
+  const result = subject(input);
+
+  expect(result).toMatchSnapshot();
+});
+
+test("default empty object in square-bracket boilerplate", () => {
+  const input = `
+  /**
+   * The summary
+   *
+   * @default [{}]
+   */
+`
+  const result = subject(input);
+
+  expect(result).toMatchSnapshot();
+});
+
 test("default filled array", () => {
   const input = `
   /**
