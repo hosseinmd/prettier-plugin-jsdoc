@@ -36,24 +36,6 @@ exports[`@defaultValue filled object 1`] = `
 "
 `;
 
-exports[`@defaultvalue filled array 1`] = `
-"/**
- * The summary
- *
- * @defaultvalue [1, \\"two\\", { three: true }, [\\"four\\"]]
- */
-"
-`;
-
-exports[`@defaultvalue filled object 1`] = `
-"/**
- * The summary
- *
- * @defaultvalue { object: \\"value\\", nestingTest: { obj: \\"nested\\" } }
- */
-"
-`;
-
 exports[`Can't convert double quote @default if a single quote character is in the string 1`] = `
 "/**
  * The summary
