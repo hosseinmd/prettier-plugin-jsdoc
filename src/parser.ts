@@ -540,10 +540,23 @@ function assignOptionalAndDefaultToName({
   tag,
   type,
   source,
+  description,
   ...rest
 }: Spec): Spec {
 
-  if (optional) {
+  if (isDefaultTag(tag)) {
+    const usefulSourceLine = source.find(x => x.source.includes(`@${tag}`))?.source || ''
+
+    const tagMatch = usefulSourceLine.match(/@default(Value)? (\[.*]|{.*}|\(.*\)|'.*'|".*"|`.*`|[A-z0-9_]+)( (.+))?/)
+    const tagValue = tagMatch?.[2] || ''
+    const tagDescription = tagMatch?.[4] || ''
+
+    if (tagMatch) {
+      type = tagValue
+      name = ''
+      description = tagDescription
+    }
+  } else if (optional) {
     if (name) {
       // Figure out if tag type have default value
       if (default_) {
@@ -556,20 +569,11 @@ function assignOptionalAndDefaultToName({
     }
   }
 
-  if (isDefaultTag(tag)) {
-    const emptyArrayOrObjectRegEx = /(\[ *])|({ *}) *$/
-    const usefulSourceLine = source.find(x => x.source.includes(`@${tag}`))?.source || ''
-    const matchResult = usefulSourceLine.match(emptyArrayOrObjectRegEx)
-
-    if (!type && matchResult) {
-      type = matchResult[0] || ''
-    }
-  }
-
   return {
     ...rest,
     tag,
     name,
+    description,
     optional,
     type,
     source,

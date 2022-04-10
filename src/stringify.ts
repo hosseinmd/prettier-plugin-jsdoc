@@ -64,8 +64,35 @@ const stringify = (
     tagString += `@${tag}${" ".repeat(tagTitleGapAdj || 0)}`;
   }
   if (type) {
-    // The space is to improve readability in non-monospace fonts
-    const updatedType = isDefaultTag(tag) ? type.replace('[]', '[ ]').replace('{}', '{ }') : `{${type}}`
+    const getUpdatedType = () => {
+      if (!isDefaultTag(tag)) {
+        return `{${type}}`
+      }
+
+      // The space is to improve readability in non-monospace fonts
+      if (type === '[]') return '[ ]'
+      if (type === '{}') return '{ }'
+
+      const boilerplateMatch = type.match(/^{(.*)}$|^\[(.*)]$/)
+      const curlyBracketMatch = boilerplateMatch?.[1] || ''
+      const squareBracketMatch = boilerplateMatch?.[2] || ''
+
+      const isAnObject = (value: string): boolean => /^{.*[A-z0-9_]+:.*}$/.test(value)
+      const fixObjectCommas = (objWithBrokenCommas: string): string => objWithBrokenCommas.replace(/; ([A-z0-9_])/g, ', $1')
+
+      if (isAnObject(type)) {
+        return fixObjectCommas(type)
+      }
+      if (isAnObject(curlyBracketMatch)) {
+        return `{${fixObjectCommas(curlyBracketMatch)}}`
+      }
+      if (isAnObject(squareBracketMatch)) {
+        return `[${fixObjectCommas(squareBracketMatch)}]`
+      }
+
+      return type
+    }
+    const updatedType = getUpdatedType()
     tagString += gap + updatedType + " ".repeat(tagTypeGapAdj);
   }
   if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
