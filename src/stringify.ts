@@ -13,7 +13,7 @@ import {
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
 import { AllOptions } from "./types";
-import { formatCode, isDefaultTag } from "./utils";
+import { formatCode, formatType, isDefaultTag } from "./utils";
 
 const stringify = (
   { name, description, type, tag }: Spec,
@@ -84,7 +84,7 @@ const stringify = (
         return fixObjectCommas(type)
       }
       if (isAnObject(curlyBracketMatch)) {
-        return `{${fixObjectCommas(curlyBracketMatch)}}`
+        return `{${fixObjectCommas(formatType(curlyBracketMatch, options))}}`
       }
       if (isAnObject(squareBracketMatch)) {
         return `[${fixObjectCommas(squareBracketMatch)}]`
