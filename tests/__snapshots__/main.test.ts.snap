@@ -447,7 +447,7 @@ exports[`jsdoc tags 1`] = `
 `;
 
 exports[`jsdoc tags 2`] = `
-"/** @default 'i am a value' i am the description */
+"/** @default \\"i am a value\\" i am the description */
 "
 `;
 
