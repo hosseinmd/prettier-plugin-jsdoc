@@ -1,7 +1,7 @@
 import { format, Options, ParserOptions, Plugin } from "prettier";
 import { AllOptions, Token } from "./types";
 import BSearch from "binary-searching";
-import { DEFAULT, DEFAULT_value, DEFAULT_Value } from "./tags";
+import { TAGS_DEFAULT } from "./roles";
 
 function convertToModernType(oldType: string): string {
   return withoutStrings(oldType, (type) => {
@@ -283,7 +283,7 @@ const findPluginByParser = (parserName: string, options: ParserOptions) => {
     : tsPlugin.parsers?.[parserName];
 };
 
-const isDefaultTag = (tag: string): boolean => [DEFAULT, DEFAULT_Value, DEFAULT_value].includes(tag)
+const isDefaultTag = (tag: string): boolean => TAGS_DEFAULT.includes(tag)
 
 export {
   convertToModernType,

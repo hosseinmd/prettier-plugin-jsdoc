@@ -9,7 +9,8 @@ import {
   CLASS,
   CONSTANT,
   DEFAULT,
-  DEFAULT_Value,
+  DEFAULT_VALUE,
+  DEFAULT_VALUE_LOWERCASE,
   DEPRECATED,
   DESCRIPTION,
   EXAMPLE,
@@ -43,7 +44,6 @@ import {
   TYPEDEF,
   VERSION,
   YIELDS,
-  DEFAULT_value,
 } from "./tags";
 
 const TAGS_SYNONYMS = {
@@ -112,12 +112,16 @@ const TAGS_TYPELESS = [
   FILE,
 ];
 
+const TAGS_DEFAULT = [
+  DEFAULT,
+  DEFAULT_VALUE,
+  DEFAULT_VALUE_LOWERCASE,
+]
+
 const TAGS_PEV_FORMATE_DESCRIPTION = [
   /** @todo should be formate like jsdoc standard saw https://jsdoc.app/tags-borrows.html  */
+  ...TAGS_DEFAULT,
   BORROWS,
-  DEFAULT,
-  DEFAULT_Value,
-  DEFAULT_value,
   MEMBEROF,
   MODULE,
   SEE,
@@ -189,9 +193,7 @@ const TAGS_ORDER = [
   ABSTRACT,
   AUGMENTS,
   CONSTANT,
-  DEFAULT,
-  DEFAULT_Value,
-  DEFAULT_value,
+  ...TAGS_DEFAULT,
   EXTERNAL,
   FIRES,
   TEMPLATE,
@@ -226,4 +228,5 @@ export {
   TAGS_TYPE_NEEDED,
   TAGS_TYPELESS,
   TAGS_VERTICALLY_ALIGN_ABLE,
+  TAGS_DEFAULT,
 };

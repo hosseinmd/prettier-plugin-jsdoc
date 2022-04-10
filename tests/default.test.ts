@@ -1,6 +1,6 @@
 import prettier from "prettier";
 import { AllOptions } from "../src/types";
-import { DEFAULT, DEFAULT_Value, DEFAULT_value } from "../src/tags";
+import { TAGS_DEFAULT } from "../src/roles";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
@@ -98,7 +98,7 @@ test("empty default tag", () => {
   expect(result).toMatchSnapshot();
 });
 
-[DEFAULT, DEFAULT_Value, DEFAULT_value].forEach((tag: string) => {
+TAGS_DEFAULT.forEach((tag: string) => {
   test(`@${tag} filled array`, () => {
     const input = `
     /**
