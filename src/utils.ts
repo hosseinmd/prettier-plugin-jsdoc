@@ -1,6 +1,7 @@
 import { format, Options, ParserOptions, Plugin } from "prettier";
 import { AllOptions, Token } from "./types";
 import BSearch from "binary-searching";
+import { DEFAULT, DEFAULT_Value } from "./tags";
 
 export function convertToModernType(oldType: string): string {
   return withoutStrings(oldType, (type) => {
@@ -281,3 +282,5 @@ export const findPluginByParser = (parserName: string, options: ParserOptions) =
     ? undefined
     : tsPlugin.parsers?.[parserName];
 };
+
+export const isDefaultTag = (tag: string): boolean => [DEFAULT, DEFAULT_Value].includes(tag)

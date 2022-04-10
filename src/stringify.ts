@@ -13,7 +13,7 @@ import {
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
 import { AllOptions } from "./types";
-import { formatCode } from "./utils";
+import { formatCode, isDefaultTag } from "./utils";
 
 const stringify = (
   { name, description, type, tag }: Spec,
@@ -64,7 +64,9 @@ const stringify = (
     tagString += `@${tag}${" ".repeat(tagTitleGapAdj || 0)}`;
   }
   if (type) {
-    tagString += gap + `{${type}}` + " ".repeat(tagTypeGapAdj);
+    // The space is to improve readability in non-monospace fonts
+    const updatedType = isDefaultTag(tag) ? type.replace('[]', '[ ]').replace('{}', '{ }') : `{${type}}`
+    tagString += gap + updatedType + " ".repeat(tagTypeGapAdj);
   }
   if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
 
@@ -105,7 +107,7 @@ const stringify = (
       // Wrap tag description
       const beginningSpace =
         tag === DESCRIPTION ||
-        ([EXAMPLE, REMARKS, PRIVATE_REMARKS].includes(tag) && tsdoc)
+          ([EXAMPLE, REMARKS, PRIVATE_REMARKS].includes(tag) && tsdoc)
           ? ""
           : "  "; // google style guide space
 

@@ -6,8 +6,9 @@ import {
   detectEndOfLine,
   findTokenIndex,
   findPluginByParser,
+  isDefaultTag,
 } from "./utils";
-import { DEFAULT, DEFAULT_Value, DESCRIPTION, PARAM, RETURNS } from "./tags";
+import { DESCRIPTION, PARAM, RETURNS } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP_HEAD,
@@ -555,15 +556,13 @@ function assignOptionalAndDefaultToName({
     }
   }
 
-  if ([DEFAULT, DEFAULT_Value].includes(tag)) {
+  if (isDefaultTag(tag)) {
     const emptyArrayOrObjectRegEx = /(\[ *])|({ *}) *$/
     const usefulSourceLine = source.find(x => x.source.includes(`@${tag}`))?.source || ''
     const matchResult = usefulSourceLine.match(emptyArrayOrObjectRegEx)
 
-    if (!name && matchResult) {
-      const { 1: array, 2: object } = matchResult
-      // The space is to improve readability in non-monospace fonts
-      name = (array && '[ ]') || (object && '{ }') || ''
+    if (!type && matchResult) {
+      type = matchResult[0] || ''
     }
   }
 
