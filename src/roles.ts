@@ -118,8 +118,8 @@ const TAGS_DEFAULT = [
 
 const TAGS_PEV_FORMATE_DESCRIPTION = [
   /** @todo should be formate like jsdoc standard saw https://jsdoc.app/tags-borrows.html  */
-  ...TAGS_DEFAULT,
   BORROWS,
+  ...TAGS_DEFAULT,
   MEMBEROF,
   MODULE,
   SEE,
