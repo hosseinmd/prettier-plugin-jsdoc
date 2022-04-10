@@ -164,20 +164,6 @@ test("double default two", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("default with {curly brackets boilerplate}", () => {
-  const input = `
-  /**
-   * The summary
-   *
-   * @default {true}
-   * @default {{object:'value',nestingTest:{obj:'nested'}}}
-   * @default {[1,'two',{three:true},['four']]}
-   */
-`
-  const result = subject(input);
-
-  expect(result).toMatchSnapshot();
-});
 test("default with [square brackets boilerplate]", () => {
   const input = `
   /**

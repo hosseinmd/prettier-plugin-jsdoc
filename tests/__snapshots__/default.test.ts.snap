@@ -101,17 +101,6 @@ exports[`default with [square brackets boilerplate] 1`] = `
 "
 `;
 
-exports[`default with {curly brackets boilerplate} 1`] = `
-"/**
- * The summary
- *
- * @default {true}
- * @default {{ object: \\"value\\", nestingTest: { obj: \\"nested\\" } }}
- * @default {[1, \\"two\\", { three: true }, [\\"four\\"]]}
- */
-"
-`;
-
 exports[`double default one 1`] = `
 "/**
  * The summary

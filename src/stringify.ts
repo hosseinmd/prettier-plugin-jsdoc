@@ -73,18 +73,14 @@ const stringify = (
       if (type === '[]') return '[ ]'
       if (type === '{}') return '{ }'
 
-      const boilerplateMatch = type.match(/^{(.*)}$|^\[(.*)]$/)
-      const curlyBracketMatch = boilerplateMatch?.[1] || ''
-      const squareBracketMatch = boilerplateMatch?.[2] || ''
+      const boilerplateMatch = type.match(/^\[(.*)]$/)
+      const squareBracketMatch = boilerplateMatch?.[1] || ''
 
-      const isAnObject = (value: string): boolean => /^{.*[A-z0-9_]+:.*}$/.test(value)
+      const isAnObject = (value: string): boolean => /^{.*[A-z0-9_]+ ?:.*}$/.test(value)
       const fixObjectCommas = (objWithBrokenCommas: string): string => objWithBrokenCommas.replace(/; ([A-z0-9_])/g, ', $1')
 
       if (isAnObject(type)) {
         return fixObjectCommas(type)
-      }
-      if (isAnObject(curlyBracketMatch)) {
-        return `{${fixObjectCommas(formatType(curlyBracketMatch, options))}}`
       }
       if (isAnObject(squareBracketMatch)) {
         return `[${fixObjectCommas(squareBracketMatch)}]`
