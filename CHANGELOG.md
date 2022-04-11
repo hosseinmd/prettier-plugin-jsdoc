@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.37](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.36...v0.3.37) (2022-04-11)
+
+
+### Bug Fixes
+
+* default tag type bug ([#160](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/160)) ([11ef0c5](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/11ef0c52aa257214ba20b6320cbfc7e48bd13a28)), closes [#159](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/159) [#159](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/159) [#159](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/159)
+
 ### [0.3.36](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.35...v0.3.36) (2022-04-01)
 
 
