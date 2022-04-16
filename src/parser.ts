@@ -1,4 +1,4 @@
-import { parse, Spec, Block } from "comment-parser";
+import { parse, Spec, Block, tokenizers } from "comment-parser";
 import {
   addStarsToTheBeginningOfTheLines,
   convertToModernType,
@@ -8,7 +8,7 @@ import {
   findPluginByParser,
   isDefaultTag,
 } from "./utils";
-import { DESCRIPTION, PARAM, RETURNS } from "./tags";
+import { DESCRIPTION, PARAM, RETURNS, DEFAULT, DEFAULT_VALUE } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP_HEAD,
@@ -23,6 +23,13 @@ import { AST, AllOptions, PrettierComment, Token } from "./types";
 import { stringify } from "./stringify";
 import { Parser } from "prettier";
 import { SPACE_TAG_DATA } from "./tags";
+
+const {
+  name: nameTokenizer,
+  tag: tagTokenizer,
+  type: typeTokenizer,
+  description: descriptionTokenizer
+} = tokenizers;
 
 /** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
 export const getParser = (originalParse: Parser["parse"], parserName: string) =>
@@ -72,6 +79,18 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
 
       const parsed = parse(commentString, {
         spacing: "preserve",
+        tokenizers: [
+          tagTokenizer(),
+          (spec) => {
+            if ([DEFAULT, DEFAULT_VALUE].includes(spec.tag)) {
+              return spec;
+            }
+
+            return typeTokenizer('preserve')(spec);
+          },
+          nameTokenizer(),
+          descriptionTokenizer('preserve')
+        ]
       })[0];
 
       comment.value = "";
