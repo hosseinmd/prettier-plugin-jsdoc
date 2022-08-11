@@ -121,6 +121,18 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     default: false,
     description: `Prefer to render code blocks using "fences" (triple backticks). If not set, blocks without a language tag will be rendered with a four space indentation.`,
   },
+  jsdocWrapStrategy: {
+    since: "0.3.39",
+    name: "jsdocWrapStrategy",
+    type: "choice",
+    choices: [
+      { since: "0.3.39", value: "simple", description: `Lines wrap as soon as they reach the print width` },
+      { since: "0.3.39", value: "smart", description: `Lines wrap "smartly" to improve aesthetics, but may under- or over-shoot print width` },
+    ],
+    category: "jsdoc",
+    default: "smart",
+    description: `Strategy for wrapping lines for the given print width`,
+  }
 };
 
 const defaultOptions: JsdocOptions = {
@@ -142,6 +154,7 @@ const defaultOptions: JsdocOptions = {
     .default as boolean,
   jsdocPreferCodeFences: options.jsdocPreferCodeFences.default as boolean,
   tsdoc: options.tsdoc.default as boolean,
+  jsdocWrapStrategy: options.jsdocWrapStrategy.default as ("smart" | "simple"),
 };
 
 const languages = prettier

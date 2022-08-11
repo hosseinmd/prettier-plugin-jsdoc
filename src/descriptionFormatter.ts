@@ -287,6 +287,7 @@ function formatDescription(
                   _paragraph,
                   printWidth,
                   intention,
+                  options.jsdocWrapStrategy,
                 );
 
                 // Replace links
@@ -361,6 +362,7 @@ function breakDescriptionToLines(
   desContent: string,
   maxWidth: number,
   beginningSpace: string,
+  strategy: string,
 ): string {
   let str = desContent.trim();
 
@@ -368,7 +370,9 @@ function breakDescriptionToLines(
     return str;
   }
 
-  const extraLastLineWidth = 10;
+  let extraLastLineWidth = 0;
+  if (strategy === "simple") extraLastLineWidth = 0;
+  if (strategy === "smart") extraLastLineWidth = 10;
   let result = "";
   while (str.length > maxWidth + extraLastLineWidth) {
     let sliceIndex = str.lastIndexOf(
