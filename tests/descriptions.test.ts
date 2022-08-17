@@ -187,7 +187,7 @@ test("description new line with dash", () => {
 test("numbers and code in description", () => {
   const result1 = subject(`
 /**
- * =========================== PressResponder Tutorial ===========================
+ * ========================== PressResponder Tutorial ==========================
  *
  * The \`PressResponder\` class helps you create press interactions by analyzing the
  * geometry of elements and observing when another responder (e.g. ScrollView)
@@ -231,9 +231,10 @@ test("numbers and code in description", () => {
  *
  */
   `);
+
   expect(subject(subject(result1))).toEqual(result1);
 
-  expect(subject(subject(result1))).toMatchSnapshot();
+  expect(result1).toMatchSnapshot();
 
   const result2 = subject(`
   /**

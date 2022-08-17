@@ -16,7 +16,7 @@ export interface JsdocOptions {
   jsdocCapitalizeDescription: boolean;
   jsdocPreferCodeFences: boolean;
   tsdoc: boolean;
-  jsdocWrapStrategy: "simple" | "smart";
+  jsdocLineWrappingStyle: "greedy";
 }
 
 export interface AllOptions extends ParserOptions, JsdocOptions {}
