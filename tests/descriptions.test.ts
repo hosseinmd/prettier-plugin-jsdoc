@@ -234,7 +234,7 @@ test("numbers and code in description", () => {
 
   expect(subject(subject(result1))).toEqual(result1);
 
-  expect(result1).toMatchSnapshot();
+  expect(subject(subject(result1))).toMatchSnapshot();
 
   const result2 = subject(`
   /**
