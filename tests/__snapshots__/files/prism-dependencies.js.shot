@@ -365,7 +365,8 @@ var getLoader = (function () {
 	 * @param {string[]} load
 	 * @param {string[]} [loaded=[]] A list of already loaded components.
 	 *
-	 *   If a component is in this list, then all of its requirements will also be assumed to be in the list. Default is \`[]\`
+	 *   If a component is in this list, then all of its requirements will also be assumed to be in the list. Default is
+	 *   \`[]\`
 	 * @returns {Loader}
 	 *
 	 *

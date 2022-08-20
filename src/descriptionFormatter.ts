@@ -368,9 +368,8 @@ function breakDescriptionToLines(
     return str;
   }
 
-  const extraLastLineWidth = 10;
   let result = "";
-  while (str.length > maxWidth + extraLastLineWidth) {
+  while (str.length > maxWidth) {
     let sliceIndex = str.lastIndexOf(
       " ",
       str.startsWith("\n") ? maxWidth + 1 : maxWidth,

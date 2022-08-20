@@ -252,7 +252,8 @@ var Prism = (function (_self) {
 		},
 
 		/**
-		 * This namespace contains all currently loaded languages and the some helper functions to create and modify languages.
+		 * This namespace contains all currently loaded languages and the some helper functions to create and modify
+		 * languages.
 		 *
 		 * @memberof Prism
 		 * @namespace
@@ -306,7 +307,8 @@ var Prism = (function (_self) {
 			 * This helper method makes it easy to modify existing languages. For example, the CSS language definition not
 			 * only defines CSS highlighting for CSS documents, but also needs to define highlighting for CSS embedded in
 			 * HTML through \`<style>\` elements. To do this, it needs to modify \`Prism.languages.markup\` and add the
-			 * appropriate tokens. However, \`Prism.languages.markup\` is a regular JavaScript object literal, so if you do this:
+			 * appropriate tokens. However, \`Prism.languages.markup\` is a regular JavaScript object literal, so if you do
+			 * this:
 			 *
 			 * \`\`\`js
 			 * Prism.languages.markup.style = {
@@ -461,10 +463,12 @@ var Prism = (function (_self) {
 		 * 3. All hooks of {@link Prism.highlightElement} for each element.
 		 *
 		 * @memberof Prism
-		 * @param {ParentNode} container The root element, whose descendants that have a \`.language-xxxx\` class will be highlighted.
+		 * @param {ParentNode} container The root element, whose descendants that have a \`.language-xxxx\` class will be
+		 *   highlighted.
 		 * @param {boolean} [async=false] Whether each element is to be highlighted asynchronously using Web Workers.
 		 *   Default is \`false\`
-		 * @param {HighlightCallback} [callback] An optional callback to be invoked on each element after its highlighting is done.
+		 * @param {HighlightCallback} [callback] An optional callback to be invoked on each element after its highlighting
+		 *   is done.
 		 * @public
 		 */
 		highlightAllUnder: function (container, async, callback) {
@@ -766,7 +770,8 @@ var Prism = (function (_self) {
 	/**
 	 * A token stream is an array of strings and {@link Token Token} objects.
 	 *
-	 * Token streams have to fulfill a few properties that are assumed by most functions (mostly internal ones) that process them.
+	 * Token streams have to fulfill a few properties that are assumed by most functions (mostly internal ones) that process
+	 * them.
 	 *
 	 * 1. No adjacent strings.
 	 * 2. No empty strings.

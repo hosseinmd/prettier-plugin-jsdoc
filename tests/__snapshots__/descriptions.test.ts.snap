@@ -148,7 +148,8 @@ export function difference<T>(first: Set<T>, second: Set<T>): Set<T>;
 /**
  * Calculate the
  * {@linkcode https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement difference}
- * between {@linkcode https://en.wikipedia.org/wiki/Complement} between two sets.
+ * between {@linkcode https://en.wikipedia.org/wiki/Complement} between two
+ * sets.
  */
 
 /**
@@ -171,7 +172,8 @@ export function difference<T>(first: Set<T>, second: Set<T>): Set<T>;
 /**
  * Calculate the
  * {@linkplain https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement difference}
- * between {@linkplain https://en.wikipedia.org/wiki/Complement} between two sets.
+ * between {@linkplain https://en.wikipedia.org/wiki/Complement} between two
+ * sets.
  */
 "
 `;
@@ -338,7 +340,8 @@ exports[`Nested list 1`] = `
 
 exports[`New Lines with star 1`] = `
 "/**
- * Simplifies the token stream to ease the matching with the expected token stream.
+ * Simplifies the token stream to ease the matching with the expected token
+ * stream.
  *
  * - Strings are kept as-is
  * - In arrays each value is transformed individually
@@ -366,11 +369,14 @@ exports[`New line with \\ 1`] = `
 
 exports[`Non-english description with dot 1`] = `
 "/**
- * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu groß.
+ * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu
+ * groß.
  *
- * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu 3434.
+ * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu
+ * 3434.
  *
- * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu groß.
+ * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu
+ * groß.
  *
  * @param a Ssss.
  */
@@ -404,9 +410,11 @@ exports[`Non-english description with dot 1`] = `
 
 exports[`Not Capitalizing 1`] = `
 "/**
- * simplifies the token stream to ease the matching with the expected token stream.
+ * simplifies the token stream to ease the matching with the expected token
+ * stream.
  *
- * Simplifies the token stream to ease the matching with the expected token stream.
+ * Simplifies the token stream to ease the matching with the expected token
+ * stream.
  *
  * - Strings are kept as-is
  * - in arrays each value is transformed individually
@@ -420,9 +428,11 @@ exports[`Not Capitalizing 1`] = `
 
 exports[`Not Capitalizing 2`] = `
 "/**
- * Simplifies the token stream to ease the matching with the expected token stream.
+ * Simplifies the token stream to ease the matching with the expected token
+ * stream.
  *
- * Simplifies the token stream to ease the matching with the expected token stream.
+ * Simplifies the token stream to ease the matching with the expected token
+ * stream.
  *
  * - Strings are kept as-is
  * - In arrays each value is transformed individually
@@ -640,7 +650,8 @@ exports[`description contain paragraph 4`] = `
  */
 
 /**
- * Bounce give a renderContent and show that around children when isVisible is true
+ * Bounce give a renderContent and show that around children when isVisible is
+ * true
  *
  * @example
  *   <Bounce
@@ -672,28 +683,35 @@ exports[`description new line with dash 1`] = `
  * during an - animation. This is a very useful default that happens to
  * satisfy many common user experiences.
  *
- * - Stop a scroll on the left edge, then turn that into an outer view's backswipe.
- * - Stop a scroll mid-bounce at the top, continue pulling to have the outer view dismiss.
+ * - Stop a scroll on the left edge, then turn that into an outer view's
+ *   backswipe.
+ * - Stop a scroll mid-bounce at the top, continue pulling to have the outer
+ *   view dismiss.
  * - However, without catching the scroll view mid-bounce (while it is
  *   motionless), if you drag far enough for the scroll view to become
  *   responder (and therefore drag the scroll view a bit), any backswipe
- *   navigation of a swipe gesture higher in the view hierarchy, should be rejected.
+ *   navigation of a swipe gesture higher in the view hierarchy, should be
+ *   rejected.
  */
 function scrollResponderHandleTerminationRequest() {
   return !this.state.observedScrollSinceBecomingResponder;
 }
 
 /**
- * - Stop a scroll on the left edge, then turn that into an outer view's backswipe.
- * - Stop a scroll mid-bounce at the top, continue pulling to have the outer view dismiss.
+ * - Stop a scroll on the left edge, then turn that into an outer view's
+ *   backswipe.
+ * - Stop a scroll mid-bounce at the top, continue pulling to have the outer
+ *   view dismiss.
  */
 function scrollResponderHandleTerminationRequest() {
   return !this.state.observedScrollSinceBecomingResponder;
 }
 
 /**
- * - Stop a scroll on the left edge, then turn that into an outer view's backswipe.
- * - Stop a scroll mid-bounce at the top, continue pulling to have the outer view dismiss.
+ * - Stop a scroll on the left edge, then turn that into an outer view's
+ *   backswipe.
+ * - Stop a scroll mid-bounce at the top, continue pulling to have the outer
+ *   view dismiss.
  */
 function scrollResponderHandleTerminationRequest() {
   return !this.state.observedScrollSinceBecomingResponder;
@@ -797,7 +815,7 @@ exports[`matches prettier markdown format 1`] = `
 
 exports[`numbers and code in description 1`] = `
 "/**
- * =========================== PressResponder Tutorial ===========================
+ * ========================== PressResponder Tutorial ==========================
  *
  * The \`PressResponder\` class helps you create press interactions by analyzing
  * the geometry of elements and observing when another responder (e.g.
@@ -861,7 +879,8 @@ exports[`numbers and code in description 2`] = `
 
 exports[`numbers and code in description 3`] = `
 "/**
- * The script uses two heuristics to determine whether the keyboard is being used:
+ * The script uses two heuristics to determine whether the keyboard is being
+ * used:
  *
  * 1. A keydown event occurred lorem ipsum dolor sit amet, consectetur adipiscing
  *    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -870,12 +889,14 @@ exports[`numbers and code in description 3`] = `
  * 2. A focus evenlorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
  *    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
  *    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqt
- *    happened on an element which requires keyboard interaction (e.g., a text field);
+ *    happened on an element which requires keyboard interaction (e.g., a text
+ *    field);
  *
  * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
  * tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
  * quis nostrud exercitation ullamco laboris nisi ut aliq W3C Software Notice
- * and License: https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document.
+ * and License:
+ * https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document.
  */
 "
 `;
@@ -900,7 +921,8 @@ exports[`numbers and code in description 4`] = `
  *    Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam
  *    lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra
  *    nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
- *    ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.
+ *    ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget
+ *    dui.
  *
  * @public
  */
@@ -911,11 +933,13 @@ exports[`printWidth 1`] = `
 "/**
  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A
  *
  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A
  */
 "
 `;

@@ -174,8 +174,8 @@ Description is formatting as Markdown, so you could use any features of Markdown
 
 ## Options
 
-| Key                               | type    | Default   | description                                                                               |
-| :-------------------------------- | :------ | :-------- | ----------------------------------------------------------------------------------------- |
+| Key                               | type    | Default   | description                                                                                 |
+| :-------------------------------- | :------ | :-------- | ------------------------------------------------------------------------------------------- |
 | jsdocSpaces                       | Number  | 1         |
 | jsdocDescriptionWithDot           | Boolean | false     |
 | jsdocDescriptionTag               | Boolean | false     |
@@ -183,11 +183,12 @@ Description is formatting as Markdown, so you could use any features of Markdown
 | jsdocKeepUnParseAbleExampleIndent | Boolean | false     |
 | jsdocSingleLineComment            | Boolean | true      |
 | jsdocCapitalizeDescription        | Boolean | true      |
-| jsdocSeparateReturnsFromParam     | Boolean | false     | Add an space between last @param and @returns                                             |
-| jsdocSeparateTagGroups            | Boolean | false     | Add an space between tag groups                                                           |
-| jsdocPreferCodeFences             | Boolean | false     | Always fence code blocks (surround them by triple backticks)                              |
+| jsdocSeparateReturnsFromParam     | Boolean | false     | Add an space between last @param and @returns                                              |
+| jsdocSeparateTagGroups            | Boolean | false     | Add an space between tag groups                                                            |
+| jsdocPreferCodeFences             | Boolean | false     | Always fence code blocks (surround them by triple backticks)                               |
 | tsdoc                             | Boolean | false     |
-| jsdocPrintWidth                   | Number  | undefined | If You don't set value to jsdocPrintWidth, the printWidth will be use as jsdocPrintWidth. |
+| jsdocPrintWidth                   | Number  | undefined | If You don't set value to jsdocPrintWidth, the printWidth will be use as jsdocPrintWidth.  |
+| jsdocLineWrappingStyle            | String  | "greedy"  | "greedy": Lines wrap as soon as they reach the print width                                 |
 
 Full up to date list and description of options can be found in Prettier help. First install plugin then run Prettier with "--help" option.
 
