@@ -4,186 +4,153 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.4.2](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.38...v0.4.2) (2022-08-24)
 
+### Bug Fixes
+
+- ignore esm module in rollup external ([9fa0474](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/9fa047447d44789a3d9e9c845d19d0128a61fe50)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/173#issuecomment-1222503231](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/173/issues/issuecomment-1222503231)
+
+### [0.4.1](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.38...v0.4.1) (2022-08-24)
 
 ### Features
 
-* add option for wrapping strategy ([#172](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/172)) ([3181f69](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/3181f69d6affa6f4aee3b605305cf2c9b67a38ea))
-
-
-### Bug Fixes
-
-* ignore esm module in rollup external ([9fa0474](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/9fa047447d44789a3d9e9c845d19d0128a61fe50)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/173#issuecomment-1222503231](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/173/issues/issuecomment-1222503231)
-
-### [0.3.39](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.38...v0.3.39) (2022-08-24)
-
-
-### Features
-
-* add option for wrapping strategy ([#172](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/172)) ([3181f69](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/3181f69d6affa6f4aee3b605305cf2c9b67a38ea))
-
-
-### Bug Fixes
-
-* ignore esm module in rollup external ([9fa0474](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/9fa047447d44789a3d9e9c845d19d0128a61fe50)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/173#issuecomment-1222503231](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/173/issues/issuecomment-1222503231)
+- add option for wrapping strategy ([#172](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/172)) ([3181f69](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/3181f69d6affa6f4aee3b605305cf2c9b67a38ea))
 
 ### [0.3.37](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.36...v0.3.37) (2022-04-11)
 
-
 ### Bug Fixes
 
-* default tag type bug ([#160](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/160)) ([11ef0c5](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/11ef0c52aa257214ba20b6320cbfc7e48bd13a28)), closes [#159](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/159) [#159](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/159) [#159](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/159)
+- default tag type bug ([#160](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/160)) ([11ef0c5](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/11ef0c52aa257214ba20b6320cbfc7e48bd13a28)), closes [#159](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/159) [#159](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/159) [#159](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/159)
 
 ### [0.3.36](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.35...v0.3.36) (2022-04-01)
 
-
 ### Bug Fixes
 
-* link definition ([de27bd7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/de27bd74313f7d855762a45ae961913d78deb31c)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/158#issuecomment-1085504308](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/158/issues/issuecomment-1085504308)
+- link definition ([de27bd7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/de27bd74313f7d855762a45ae961913d78deb31c)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/158#issuecomment-1085504308](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/158/issues/issuecomment-1085504308)
 
 ### [0.3.35](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.34...v0.3.35) (2022-03-31)
 
-
 ### Bug Fixes
 
-* link reference ([dd08855](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dd0885536c8523ac78b2cfabde9fe81d6c57074a))
-* use esm module ([28ac56e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/28ac56e0eeaaf9d5f6e6170f8d8979c0d758840b))
+- link reference ([dd08855](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dd0885536c8523ac78b2cfabde9fe81d6c57074a))
+- use esm module ([28ac56e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/28ac56e0eeaaf9d5f6e6170f8d8979c0d758840b))
 
 ### [0.3.34](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.33...v0.3.34) (2022-03-30)
 
-
 ### Bug Fixes
 
-* jsdocParser option ([3c2df88](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/3c2df88e6d21bbc33ebd60ade7b23492fbac4f2a))
+- jsdocParser option ([3c2df88](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/3c2df88e6d21bbc33ebd60ade7b23492fbac4f2a))
 
 ### [0.3.33](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.31...v0.3.33) (2022-03-25)
 
-
 ### Features
 
-* add rollup script for compile to mjs ([8783637](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/8783637eb3da7abd6fedc5c4c032028f82f30670))
-* support block quote ([db0b07e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/db0b07ecfeb862b9b6510e8dd1896c638ca1aaef))
-
+- add rollup script for compile to mjs ([8783637](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/8783637eb3da7abd6fedc5c4c032028f82f30670))
+- support block quote ([db0b07e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/db0b07ecfeb862b9b6510e8dd1896c638ca1aaef))
 
 ### Bug Fixes
 
-* not capitalizing pre formated tags ([b5beeb7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b5beeb7e2a3db9290e1b4d77ab4866824b25347f))
-* optional type without name ([b14397c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b14397c6e0a2e310172f12b7bc8f0efbbdf8ebdd))
-* tag [@file](https://github.com/file) capitalization ([dc76b72](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dc76b72a8e2f8b9c5e1c71d7f614563fa107de11)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/143#issuecomment-1014096745](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/143/issues/issuecomment-1014096745)
+- not capitalizing pre formated tags ([b5beeb7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b5beeb7e2a3db9290e1b4d77ab4866824b25347f))
+- optional type without name ([b14397c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b14397c6e0a2e310172f12b7bc8f0efbbdf8ebdd))
+- tag [@file](https://github.com/file) capitalization ([dc76b72](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dc76b72a8e2f8b9c5e1c71d7f614563fa107de11)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/143#issuecomment-1014096745](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/143/issues/issuecomment-1014096745)
 
 ### [0.3.32](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.31...v0.3.32) (2022-03-24)
 
-
 ### Features
 
-* add rollup script for compile to mjs ([8783637](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/8783637eb3da7abd6fedc5c4c032028f82f30670))
-* support block quote ([db0b07e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/db0b07ecfeb862b9b6510e8dd1896c638ca1aaef))
-
+- add rollup script for compile to mjs ([8783637](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/8783637eb3da7abd6fedc5c4c032028f82f30670))
+- support block quote ([db0b07e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/db0b07ecfeb862b9b6510e8dd1896c638ca1aaef))
 
 ### Bug Fixes
 
-* optional type without name ([b14397c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b14397c6e0a2e310172f12b7bc8f0efbbdf8ebdd))
-* tag [@file](https://github.com/file) capitalization ([dc76b72](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dc76b72a8e2f8b9c5e1c71d7f614563fa107de11)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/143#issuecomment-1014096745](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/143/issues/issuecomment-1014096745)
+- optional type without name ([b14397c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b14397c6e0a2e310172f12b7bc8f0efbbdf8ebdd))
+- tag [@file](https://github.com/file) capitalization ([dc76b72](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dc76b72a8e2f8b9c5e1c71d7f614563fa107de11)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/143#issuecomment-1014096745](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/143/issues/issuecomment-1014096745)
 
 ### [0.3.31](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.30...v0.3.31) (2022-03-12)
 
-
 ### Bug Fixes
 
-* add a package description ([#141](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/141)) ([b2f142f](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b2f142f52e2950080e746e0a4d5302020cd1a8f7))
-* add jsdocPreferCodeFences documentation to README. ([#146](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/146)) ([06ac97e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/06ac97e0e2f285f17209c8c90d4c07690a4313d1))
-* clean published files ([#140](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/140)) ([a77e0f7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/a77e0f77b8c45f7b1cf2e779807d2e1557b10832))
-* do not try to format tables found in code blocks ([#145](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/145)) ([dd9e1dc](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dd9e1dc5c1b0ac06a4399e36e6d6af6304edcb1b))
-* ensure formatting matches Prettier markdown formatter ([#147](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/147)) ([f735b18](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/f735b186cb3cc5ace18965b813beac9744811d5d))
-* line breaks inside jsdoc link synonyms ([#149](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/149)) ([092f409](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/092f409097465746a8c2eb549c958c1837c94a8f))
+- add a package description ([#141](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/141)) ([b2f142f](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/b2f142f52e2950080e746e0a4d5302020cd1a8f7))
+- add jsdocPreferCodeFences documentation to README. ([#146](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/146)) ([06ac97e](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/06ac97e0e2f285f17209c8c90d4c07690a4313d1))
+- clean published files ([#140](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/140)) ([a77e0f7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/a77e0f77b8c45f7b1cf2e779807d2e1557b10832))
+- do not try to format tables found in code blocks ([#145](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/145)) ([dd9e1dc](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/dd9e1dc5c1b0ac06a4399e36e6d6af6304edcb1b))
+- ensure formatting matches Prettier markdown formatter ([#147](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/147)) ([f735b18](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/f735b186cb3cc5ace18965b813beac9744811d5d))
+- line breaks inside jsdoc link synonyms ([#149](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/149)) ([092f409](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/092f409097465746a8c2eb549c958c1837c94a8f))
 
 ### [0.3.30](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.29...v0.3.30) (2021-11-07)
 
-
 ### Bug Fixes
 
-* support being called as a built-in parser ([#138](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/138)) ([5bb0cd8](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/5bb0cd81b08ff9791df4a7f47acc611a3da841fe))
+- support being called as a built-in parser ([#138](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/138)) ([5bb0cd8](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/5bb0cd81b08ff9791df4a7f47acc611a3da841fe))
 
 ### [0.3.29](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.28...v0.3.29) (2021-11-05)
 
-
 ### Features
 
-* add jsdocAddDefaultToDescription ([c3fb168](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/c3fb1680d9fd20678d4fb4069395e14fc0440e19))
+- add jsdocAddDefaultToDescription ([c3fb168](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/c3fb1680d9fd20678d4fb4069395e14fc0440e19))
 
 ### [0.3.28](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.27...v0.3.28) (2021-11-05)
 
-
 ### Features
 
-* add jsdocSeparateTagGroups ([d46e7f9](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/d46e7f9552d98e1f3b6efba2a5515487b7c1e80a))
+- add jsdocSeparateTagGroups ([d46e7f9](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/d46e7f9552d98e1f3b6efba2a5515487b7c1e80a))
 
 ### [0.3.27](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.26...v0.3.27) (2021-11-05)
 
-
 ### Features
 
-* add jsx tsx css less sass html yaml to markdown support ([ef00318](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/ef00318939239d65f9b18dd4f79e86f9c25a9a43))
+- add jsx tsx css less sass html yaml to markdown support ([ef00318](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/ef00318939239d65f9b18dd4f79e86f9c25a9a43))
 
 ### [0.3.26](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.25...v0.3.26) (2021-11-05)
 
-
 ### Bug Fixes
 
-* markdown image link ([bf2da59](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/bf2da596142a4aec0efa141ce121b9ec6717afda))
+- markdown image link ([bf2da59](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/bf2da596142a4aec0efa141ce121b9ec6717afda))
 
 ### [0.3.25](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.24...v0.3.25) (2021-11-05)
 
-
 ### Features
 
-* add option to turn off capitalization ([#127](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/127)) ([03e74ab](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/03e74ab2e00316b0a4c61e1daeb24cdb1333fa6a))
-
+- add option to turn off capitalization ([#127](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/127)) ([03e74ab](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/03e74ab2e00316b0a4c61e1daeb24cdb1333fa6a))
 
 ### Bug Fixes
 
-* new prettier bug ([5f70c1c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/5f70c1c50161ccb790145d6198df7d6666192392))
-* typo in readme ([#129](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/129)) ([170c56c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/170c56cb1a209bb66fb264e25ebd57de64a77333))
+- new prettier bug ([5f70c1c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/5f70c1c50161ccb790145d6198df7d6666192392))
+- typo in readme ([#129](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/129)) ([170c56c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/170c56cb1a209bb66fb264e25ebd57de64a77333))
 
 ### [0.3.24](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.23...v0.3.24) (2021-09-02)
 
-
 ### Bug Fixes
 
-* don't replace defaultvalue because of tsdoc ([6eabd15](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6eabd150b1ae100b826bd2d4c2cb84f923bb1cc9))
+- don't replace defaultvalue because of tsdoc ([6eabd15](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6eabd150b1ae100b826bd2d4c2cb84f923bb1cc9))
 
 ### [0.3.23](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.22...v0.3.23) (2021-06-10)
 
-
 ### Features
 
-* add jsdocSeparateReturnsFromParam ([1b3eb01](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/1b3eb01c6f33de26361e989113c4dec0e06a1587))
+- add jsdocSeparateReturnsFromParam ([1b3eb01](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/1b3eb01c6f33de26361e989113c4dec0e06a1587))
 
 ### [0.3.22](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.21...v0.3.22) (2021-05-01)
 
-
 ### Bug Fixes
 
-* don't replace nonwhitespace characters ([033ce15](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/033ce15a0547c821f36f5e672efe9ee03940fbfa))
+- don't replace nonwhitespace characters ([033ce15](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/033ce15a0547c821f36f5e672efe9ee03940fbfa))
 
 ### [0.3.21](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.17...v0.3.21) (2021-04-27)
 
-
 ### Features
 
-* add jsdocPrintWidth to options ([6fb1897](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6fb1897fea12b187afd31a9a1d224a931e903b9b))
-* add support break by backslash ([4f4cd07](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/4f4cd07c0d273736135589d549160d57c9430f00))
-
+- add jsdocPrintWidth to options ([6fb1897](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6fb1897fea12b187afd31a9a1d224a931e903b9b))
+- add support break by backslash ([4f4cd07](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/4f4cd07c0d273736135589d549160d57c9430f00))
 
 ### Bug Fixes
 
-* **example:** unexpected new line ([11267c7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/11267c7781f9c8f11109471687b8461355ce6502))
-* Add empty line after list ([74c1b65](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/74c1b65fbec4ef4fd961ecef60a7114498e4b421))
-* compatibility with other plugins ([bfc9c39](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/bfc9c3901e6a0d702b740e9297dea6d5606f3623))
-* jsdocParser option is deprecated ([17b5fbf](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/17b5fbfc1e9198bff04e0c88758179dc0675dc27)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/10#issuecomment-815148264](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/10/issues/issuecomment-815148264)
-* line breaks inside jsdoc link ([86bb75c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/86bb75c55f6894b2387f4f6b0de7207df86004ef))
-* remark tsdoc format ([4e46c4f](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/4e46c4f3b4a9ad4aa3ff2bd0a4f89790457d5f11))
-* remove blank space before of backtick ([6dd64e4](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6dd64e449c5c0d5e2e9d029fb6db19c1a61f4532)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/107#issuecomment-825267537](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/107/issues/issuecomment-825267537)
-* resolve  parser of plugins ([bd9be19](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/bd9be192c8f562cbb625e0bfdda06825435f5fc9))
+- **example:** unexpected new line ([11267c7](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/11267c7781f9c8f11109471687b8461355ce6502))
+- Add empty line after list ([74c1b65](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/74c1b65fbec4ef4fd961ecef60a7114498e4b421))
+- compatibility with other plugins ([bfc9c39](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/bfc9c3901e6a0d702b740e9297dea6d5606f3623))
+- jsdocParser option is deprecated ([17b5fbf](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/17b5fbfc1e9198bff04e0c88758179dc0675dc27)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/10#issuecomment-815148264](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/10/issues/issuecomment-815148264)
+- line breaks inside jsdoc link ([86bb75c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/86bb75c55f6894b2387f4f6b0de7207df86004ef))
+- remark tsdoc format ([4e46c4f](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/4e46c4f3b4a9ad4aa3ff2bd0a4f89790457d5f11))
+- remove blank space before of backtick ([6dd64e4](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/6dd64e449c5c0d5e2e9d029fb6db19c1a61f4532)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/107#issuecomment-825267537](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/107/issues/issuecomment-825267537)
+- resolve parser of plugins ([bd9be19](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/bd9be192c8f562cbb625e0bfdda06825435f5fc9))
 
 ### [0.3.20](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.17...v0.3.20) (2021-04-23)
 
