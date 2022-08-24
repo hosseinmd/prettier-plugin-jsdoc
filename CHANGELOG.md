@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.2](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.38...v0.4.2) (2022-08-24)
+
+
+### Features
+
+* add option for wrapping strategy ([#172](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/172)) ([3181f69](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/3181f69d6affa6f4aee3b605305cf2c9b67a38ea))
+
+
+### Bug Fixes
+
+* ignore esm module in rollup external ([9fa0474](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/9fa047447d44789a3d9e9c845d19d0128a61fe50)), closes [/github.com/hosseinmd/prettier-plugin-jsdoc/issues/173#issuecomment-1222503231](https://github.com/hosseinmd//github.com/hosseinmd/prettier-plugin-jsdoc/issues/173/issues/issuecomment-1222503231)
+
 ### [0.3.39](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v0.3.38...v0.3.39) (2022-08-24)
 
 
