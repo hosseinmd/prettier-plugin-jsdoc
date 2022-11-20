@@ -246,7 +246,3 @@ This project extended from @gum3n worked project on GitLab.
 [JSDoc](https://jsdoc.app)
 
 ## Support
-
-[![Donate with Bitcoin](https://en.cryptobadges.io/badge/big/3APtLaZxL9Dk4enQmSY4qWBo5TctWuvW5T)](https://en.cryptobadges.io/donate/3APtLaZxL9Dk4enQmSY4qWBo5TctWuvW5T)
-
-[![Donate with Ethereum](https://en.cryptobadges.io/badge/big/0x90a68640d77c8a03d1a5b55f49a5175c756cc3a3)](https://en.cryptobadges.io/donate/0x90a68640d77c8a03d1a5b55f49a5175c756cc3a3)
