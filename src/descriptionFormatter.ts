@@ -69,7 +69,7 @@ function formatDescription(
 ): string {
   if (!text) return text;
 
-  const { printWidth } = options;
+  const { printWidth, tsdoc } = options;
   const { tagStringLength = 0, beginningSpace } = formatOptions;
 
   /**
@@ -287,6 +287,7 @@ function formatDescription(
                   _paragraph,
                   printWidth,
                   intention,
+                  tsdoc,
                 );
 
                 // Replace links
@@ -361,6 +362,7 @@ function breakDescriptionToLines(
   desContent: string,
   maxWidth: number,
   beginningSpace: string,
+  doNotBreakInlineCode = false,
 ): string {
   let str = desContent.trim();
 
@@ -374,6 +376,14 @@ function breakDescriptionToLines(
       " ",
       str.startsWith("\n") ? maxWidth + 1 : maxWidth,
     );
+    // do not break inline code blocks (`)
+    if (
+      doNotBreakInlineCode &&
+      str.slice(0, sliceIndex).split("`").length % 2 === 0
+    ) {
+      sliceIndex += str.slice(sliceIndex).indexOf("`") + 1;
+    }
+
     /**
      * When a str is a long word lastIndexOf will gives 4 every time loop
      * running unlimited time

@@ -105,3 +105,8 @@ export function add(x: number, y: number): number {
      */
     modal?: boolean;
   }
+
+/**
+ * tsdoc doesn't support backticks spanning multiple lines \`this should not break the line like never ever, ever, ever, ever, ever, ever, ever, ever, ever, ever\` and then even more \`of these\` 
+ */
+function noop() {}

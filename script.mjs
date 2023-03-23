@@ -1,17 +1,17 @@
-import { execSync } from "child_process";
 import { default as chalk } from "chalk";
+import { execSync } from "child_process";
 
 const __TEST__ = process.argv.includes("--test");
 
 function $(commands) {
   if (typeof commands === "string") {
     console.log(chalk.gray("$", commands));
-    return execSync(commands).toString();
+    return execSync(commands, { stdio: "inherit" });
   }
 
   return commands.map((command) => {
     console.log(chalk.gray("$", commands));
-    execSync(command).toString();
+    execSync(command, { stdio: "inherit" });
   });
 }
 
