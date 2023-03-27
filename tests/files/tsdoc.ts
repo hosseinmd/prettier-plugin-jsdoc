@@ -107,6 +107,6 @@ export function add(x: number, y: number): number {
   }
 
 /**
- * tsdoc doesn't support backticks spanning multiple lines \`this should not break the line like never ever, ever, ever, ever, ever, ever, ever, ever, ever, ever\` and then even more \`of these\` 
+ * tsdoc doesn't support backticks spanning multiple lines \`this should not break the line like never ever, ever, ever, ever, ever, ever, ever, ever, ever, ever\`, and then even more \`of these\` 
  */
 function noop() {}

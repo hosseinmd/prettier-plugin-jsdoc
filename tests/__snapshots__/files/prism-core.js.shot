@@ -513,8 +513,8 @@ var Prism = (function (_self) {
 		 *   [disabled by default](https://prismjs.com/faq.html#why-is-asynchronous-highlighting-disabled-by-default).
 		 *
 		 *   Note: All language definitions required to highlight the code must be included in the main \`prism.js\` file for
-		 *   asynchronous highlighting to work. You can build your own bundle on the [Download
-		 *   page](https://prismjs.com/download.html). Default is \`false\`
+		 *   asynchronous highlighting to work. You can build your own bundle on the
+		 *   [Download page](https://prismjs.com/download.html). Default is \`false\`
 		 * @param {HighlightCallback} [callback] An optional callback to be invoked after the highlighting is done. Mostly
 		 *   useful when \`async\` is \`true\`, since in that case, the highlighting is done asynchronously.
 		 * @public

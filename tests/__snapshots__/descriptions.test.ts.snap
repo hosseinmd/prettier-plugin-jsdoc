@@ -363,7 +363,7 @@ exports[`New Lines with star 2`] = `
 `;
 
 exports[`New line with \\ 1`] = `
-"/** A short description, * A long description. */
+"/** A short description, \\\\* A long description. */
 "
 `;
 
@@ -372,8 +372,8 @@ exports[`Non-english description with dot 1`] = `
  * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu
  * groß.
  *
- * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu
- * 3434.
+ * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind
+ * zu 3434.
  *
  * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu
  * groß.
@@ -401,7 +401,9 @@ exports[`Non-english description with dot 1`] = `
  */
 
 /**
- * Unicode（ユニコード）は、符号化文字集合や文字符号化方式などを定めた、文字コードの業界規格。文字集合（文字セット）が単一の大規模文字セットであること（「Uni」という名はそれに由来する）などが特徴である.
+ * Unicode（ユニコード）は、符号化文字集合や文字符号化方式などを定めた、文字コー
+ * ドの業界規格。文字集合（文字セット）が単一の大規模文字セットであること（
+ * 「Uni」という名はそれに由来する）などが特徴である.
  *
  * @see https://ja.wikipedia.org/wiki/Unicode
  */
@@ -509,9 +511,9 @@ exports[`code in description 1`] = `
  * \`\`\`
  *
  * - Choose the rendered component who's touches should start the interactive
- *   sequence. On that rendered node, forward all \`Touchable\` responder
- *   handlers. You can choose any rendered node you like. Choose a node whose
- *   hit target you'd like to instigate the interaction sequence:
+ *   sequence. On that rendered node, forward all \`Touchable\` responder handlers.
+ *   You can choose any rendered node you like. Choose a node whose hit target
+ *   you'd like to instigate the interaction sequence:
  *
  * \`\`\`js
  * // In render function:
@@ -688,10 +690,9 @@ exports[`description new line with dash 1`] = `
  * - Stop a scroll mid-bounce at the top, continue pulling to have the outer
  *   view dismiss.
  * - However, without catching the scroll view mid-bounce (while it is
- *   motionless), if you drag far enough for the scroll view to become
- *   responder (and therefore drag the scroll view a bit), any backswipe
- *   navigation of a swipe gesture higher in the view hierarchy, should be
- *   rejected.
+ *   motionless), if you drag far enough for the scroll view to become responder
+ *   (and therefore drag the scroll view a bit), any backswipe navigation of a
+ *   swipe gesture higher in the view hierarchy, should be rejected.
  */
 function scrollResponderHandleTerminationRequest() {
   return !this.state.observedScrollSinceBecomingResponder;
@@ -883,14 +884,13 @@ exports[`numbers and code in description 3`] = `
  * used:
  *
  * 1. A keydown event occurred lorem ipsum dolor sit amet, consectetur adipiscing
- *    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
- *    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+ *    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+ *    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
  *    aliqimmediately before a focus event;
  * 2. A focus evenlorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
- *    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
- *    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqt
- *    happened on an element which requires keyboard interaction (e.g., a text
- *    field);
+ *    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+ *    veniam, quis nostrud exercitation ullamco laboris nisi ut aliqt happened on
+ *    an element which requires keyboard interaction (e.g., a text field);
  *
  * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
  * tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -910,19 +910,18 @@ exports[`numbers and code in description 4`] = `
  * mollis sed, nonummy id, metus.
  *
  * 1. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
- *    ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
- *    dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
- *    nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+ *    ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
+ *    parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
+ *    pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
  * 2. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
- *    justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
- *    felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus
- *    elementum semper nisi. Aenean vulputate eleifend tellus.
+ *    justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
+ *    eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum
+ *    semper nisi. Aenean vulputate eleifend tellus.
  *
  *    Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam
  *    lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra
  *    nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
- *    ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget
- *    dui.
+ *    ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.
  *
  * @public
  */
@@ -933,13 +932,11 @@ exports[`printWidth 1`] = `
 "/**
  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
  *
  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
  * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
  */
 "
 `;

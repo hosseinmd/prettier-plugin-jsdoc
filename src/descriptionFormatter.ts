@@ -269,7 +269,7 @@ function formatDescription(
                   (_, tag: string, link: string) => {
                     links.push(link);
 
-                    return `{@${tag}${"_".repeat(link.length)}}`;
+                    return `{@${tag}${"<".repeat(link.length)}}`;
                   },
                 );
 
@@ -287,12 +287,11 @@ function formatDescription(
                   _paragraph,
                   printWidth,
                   intention,
-                  tsdoc,
                 );
 
                 // Replace links
                 result = result.replace(
-                  /{@(link|linkcode|linkplain)([_]+)}/g,
+                  /{@(link|linkcode|linkplain)([<]+)}/g,
                   (original: string, tag: string, underline: string) => {
                     const link = links[0];
 
@@ -362,48 +361,20 @@ function breakDescriptionToLines(
   desContent: string,
   maxWidth: number,
   beginningSpace: string,
-  doNotBreakInlineCode = false,
 ): string {
-  let str = desContent.trim();
+  const formatted = format(desContent, {
+    printWidth: maxWidth,
+    parser: "markdown",
+    proseWrap: "always",
+  });
 
-  if (!str) {
-    return str;
-  }
+  const output = formatted
+    .split("\n")
+    .map((l) => beginningSpace + l)
+    .join("\n")
+    .trimEnd();
 
-  let result = "";
-  while (str.length > maxWidth) {
-    let sliceIndex = str.lastIndexOf(
-      " ",
-      str.startsWith("\n") ? maxWidth + 1 : maxWidth,
-    );
-    // do not break inline code blocks (`)
-    if (
-      doNotBreakInlineCode &&
-      str.slice(0, sliceIndex).split("`").length % 2 === 0
-    ) {
-      sliceIndex += str.slice(sliceIndex).indexOf("`") + 1;
-    }
-
-    /**
-     * When a str is a long word lastIndexOf will gives 4 every time loop
-     * running unlimited time
-     */
-    if (sliceIndex <= beginningSpace.length)
-      sliceIndex = str.indexOf(" ", beginningSpace.length + 1);
-
-    if (sliceIndex === -1) sliceIndex = str.length;
-
-    result += str.substring(0, sliceIndex);
-    str = str.substring(sliceIndex + 1);
-    if (str) {
-      str = `${beginningSpace}${str}`;
-      str = `\n${str}`;
-    }
-  }
-
-  result += str;
-
-  return `${beginningSpace}${result}`;
+  return output;
 }
 
 export { descriptionEndLine, FormatOptions, formatDescription };
