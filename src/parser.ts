@@ -8,7 +8,14 @@ import {
   findPluginByParser,
   isDefaultTag,
 } from "./utils";
-import { DESCRIPTION, PARAM, RETURNS, DEFAULT, DEFAULT_VALUE } from "./tags";
+import {
+  DESCRIPTION,
+  PARAM,
+  RETURNS,
+  DEFAULT,
+  DEFAULT_VALUE,
+  EXAMPLE,
+} from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP_HEAD,
@@ -28,7 +35,7 @@ const {
   name: nameTokenizer,
   tag: tagTokenizer,
   type: typeTokenizer,
-  description: descriptionTokenizer
+  description: descriptionTokenizer,
 } = tokenizers;
 
 /** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
@@ -86,11 +93,11 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
               return spec;
             }
 
-            return typeTokenizer('preserve')(spec);
+            return typeTokenizer("preserve")(spec);
           },
           nameTokenizer(),
-          descriptionTokenizer('preserve')
-        ]
+          descriptionTokenizer("preserve"),
+        ],
       })[0];
 
       comment.value = "";
@@ -191,8 +198,8 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
           const prevTag = tags[index - 1];
           if (
             prevTag &&
-            !prevTag.description?.includes("\n") &&
             prevTag.tag !== DESCRIPTION &&
+            prevTag.tag !== EXAMPLE &&
             prevTag.tag !== SPACE_TAG_DATA.tag &&
             tag.tag !== SPACE_TAG_DATA.tag &&
             prevTag.tag !== tag.tag
@@ -562,18 +569,20 @@ function assignOptionalAndDefaultToName({
   description,
   ...rest
 }: Spec): Spec {
-
   if (isDefaultTag(tag)) {
-    const usefulSourceLine = source.find(x => x.source.includes(`@${tag}`))?.source || ''
+    const usefulSourceLine =
+      source.find((x) => x.source.includes(`@${tag}`))?.source || "";
 
-    const tagMatch = usefulSourceLine.match(/@default(Value)? (\[.*]|{.*}|\(.*\)|'.*'|".*"|`.*`|[A-z0-9_]+)( (.+))?/)
-    const tagValue = tagMatch?.[2] || ''
-    const tagDescription = tagMatch?.[4] || ''
+    const tagMatch = usefulSourceLine.match(
+      /@default(Value)? (\[.*]|{.*}|\(.*\)|'.*'|".*"|`.*`|[A-z0-9_]+)( (.+))?/,
+    );
+    const tagValue = tagMatch?.[2] || "";
+    const tagDescription = tagMatch?.[4] || "";
 
     if (tagMatch) {
-      type = tagValue
-      name = ''
-      description = tagDescription
+      type = tagValue;
+      name = "";
+      description = tagDescription;
     }
   } else if (optional) {
     if (name) {

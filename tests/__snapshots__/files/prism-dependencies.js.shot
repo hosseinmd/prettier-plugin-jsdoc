@@ -367,6 +367,7 @@ var getLoader = (function () {
 	 *
 	 *   If a component is in this list, then all of its requirements will also be assumed to be in the list. Default is
 	 *   \`[]\`
+	 *
 	 * @returns {Loader}
 	 *
 	 *
