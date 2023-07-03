@@ -26,6 +26,7 @@ const MEMBER = "member";
 const MEMBEROF = "memberof";
 const MODULE = "module";
 const NAMESPACE = "namespace";
+const OVERLOAD = "overload";
 const OVERRIDE = "override";
 const PARAM = "param";
 const PRIVATE = "private";
@@ -82,6 +83,7 @@ export {
   MEMBEROF,
   MODULE,
   NAMESPACE,
+  OVERLOAD,
   OVERRIDE,
   PARAM,
   PRIVATE_REMARKS,
