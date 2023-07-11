@@ -1,17 +1,17 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
     parser: "typescript",
-    plugins: ["prettier-plugin-fake", "prettier-plugin-jsdoc"],
+    plugins: ["./prettier-plugin-fake/index.js", "prettier-plugin-jsdoc"],
     jsdocSpaces: 1,
     ...options,
   } as AllOptions);
 }
 
-test("Should format regular jsDoc", () => {
-  const result = subject(`
+test("Should format regular jsDoc", async () => {
+  const result = await subject(`
   import b from "b"
   import {k} from "k"
   import a from "a"
@@ -41,11 +41,11 @@ const testFunction = (text, defaultValue, optionalNumber) => true
 `);
 
   expect(result).toMatchSnapshot();
-  expect(subject(result)).toMatchSnapshot();
+  expect(await subject(result)).toMatchSnapshot();
 });
 
-test("Should format jsDoc default values", () => {
-  const result = subject(`
+test("Should format jsDoc default values", async () => {
+  const result = await subject(`
 /**
 * @param {String} [arg1="defaultTest"] foo
 * @param {number} [arg2=123] the width of the rectangle
@@ -56,17 +56,17 @@ test("Should format jsDoc default values", () => {
 `);
 
   expect(result).toMatchSnapshot();
-  expect(subject(result)).toMatchSnapshot();
+  expect(await subject(result)).toMatchSnapshot();
 });
 
-test("Should convert to single line if necessary", () => {
-  const Result1 = subject(`/** single line description*/`);
-  const Result2 = subject(`/**
+test("Should convert to single line if necessary", async () => {
+  const Result1 = await subject(`/** single line description*/`);
+  const Result2 = await subject(`/**
  * single line description
  * @example
  */`);
 
-  const Result3 = subject(`/**
+  const Result3 = await subject(`/**
  * single line description
  * @return {Boolean} Always true
  * @example

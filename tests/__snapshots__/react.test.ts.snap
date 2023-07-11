@@ -43,7 +43,7 @@ const XAxis = memo(
     scale = d3Scale.scaleLinear,
     formatLabel = (value) => value,
     ...svg
-  }) => {}
+  }) => {},
 );
 "
 `;

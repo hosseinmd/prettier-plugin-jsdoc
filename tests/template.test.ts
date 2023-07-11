@@ -1,9 +1,9 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
-    plugins: ["."],
+    plugins: ["prettier-plugin-jsdoc"],
     jsdocSpaces: 1,
     parser: "babel-flow",
     jsdocSeparateReturnsFromParam: true,
@@ -11,8 +11,8 @@ function subject(code: string, options: Partial<AllOptions> = {}) {
   } as AllOptions);
 }
 
-test("template for callback", () => {
-  const result = subject(`
+test("template for callback", async () => {
+  const result = await subject(`
 /**
  * @template T
  * @callback CallbackName
@@ -23,7 +23,7 @@ test("template for callback", () => {
 
   expect(result).toMatchSnapshot();
 
-  const result2 = subject(`
+  const result2 = await subject(`
   /**
    * @template T
    * @param {GetStyles<T>} getStyles
@@ -38,8 +38,8 @@ test("template for callback", () => {
   expect(result2).toMatchSnapshot();
 });
 
-test("extends", () => {
-  const result = subject(`
+test("extends", async () => {
+  const result = await subject(`
  /**
   * The bread crumbs indicate the navigate path and trigger the active page.
   * @class
@@ -53,8 +53,8 @@ test("extends", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("typeParam for callback", () => {
-  const result = subject(`
+test("typeParam for callback", async () => {
+  const result = await subject(`
 /**
  * @typeParam T
  * @callback CallbackName

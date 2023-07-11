@@ -1,18 +1,17 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
-import { TAGS_DEFAULT } from "../src/roles";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
     parser: "babel",
-    plugins: ["."],
+    plugins: ["prettier-plugin-jsdoc"],
     jsdocSpaces: 1,
     ...options,
   } as AllOptions);
 }
 
-test("default string with description", () => {
-  const result = subject(`
+test("default string with description", async () => {
+  const result = await subject(`
   /**
    * The summary
    *
@@ -23,8 +22,8 @@ test("default string with description", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("convert double quote @default to single quote", () => {
-  const result = subject(`
+test("convert double quote @default to single quote", async () => {
+  const result = await subject(`
   /**
    * The summary
    *
@@ -35,8 +34,8 @@ test("convert double quote @default to single quote", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("convert single quote @default to double quote", () => {
-  const result = subject(`
+test("convert single quote @default to double quote", async () => {
+  const result = await subject(`
   /**
    * The summary
    *
@@ -47,8 +46,8 @@ test("convert single quote @default to double quote", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Can't convert double quote @default if a single quote character is in the string", () => {
-  const result = subject(`
+test("Can't convert double quote @default if a single quote character is in the string", async () => {
+  const result = await subject(`
   /**
    * The summary
    *
@@ -59,7 +58,7 @@ test("Can't convert double quote @default if a single quote character is in the 
   expect(result).toMatchSnapshot();
 });
 
-test("default empty array", () => {
+test("default empty array", async () => {
   const input = `
   /**
    * The summary
@@ -67,12 +66,12 @@ test("default empty array", () => {
    * @default []
    */
 `
-  const result = subject(input);
+  const result = await subject(input);
 
   expect(result).toMatchSnapshot();
 });
 
-test("default empty object", () => {
+test("default empty object", async () => {
   const input = `
   /**
    * The summary
@@ -80,12 +79,12 @@ test("default empty object", () => {
    * @default {}
    */
 `
-  const result = subject(input);
+  const result = await subject(input);
 
   expect(result).toMatchSnapshot();
 });
 
-test("empty default tag", () => {
+test("empty default tag", async () => {
   const input = `
   /**
    * The summary
@@ -93,13 +92,13 @@ test("empty default tag", () => {
    * @default
    */
 `
-  const result = subject(input);
+  const result = await subject(input);
 
   expect(result).toMatchSnapshot();
 });
 
-TAGS_DEFAULT.forEach((tag: string) => {
-  test(`@${tag} filled array`, () => {
+['default', 'defaultValue'].forEach((tag: string) => {
+  test(`@${tag} filled array`, async () => {
     const input = `
     /**
      * The summary
@@ -107,12 +106,12 @@ TAGS_DEFAULT.forEach((tag: string) => {
      * @${tag} [1,'two',{three:true},['four']]
      */
   `
-    const result = subject(input);
+    const result = await subject(input);
 
     expect(result).toMatchSnapshot();
   });
 
-  test(`@${tag} filled object`, () => {
+  test(`@${tag} filled object`, async () => {
     const input = `
     /**
      * The summary
@@ -120,13 +119,13 @@ TAGS_DEFAULT.forEach((tag: string) => {
      * @${tag} {object:'value',nestingTest:{obj:'nested'}}
      */
   `
-    const result = subject(input);
+    const result = await subject(input);
 
     expect(result).toMatchSnapshot();
   });
 })
 
-test("double default one", () => {
+test("double default one", async () => {
   const input = `
   /**
    * The summary
@@ -135,12 +134,12 @@ test("double default one", () => {
    * @default {}
    */
 `
-  const result = subject(input);
+  const result = await subject(input);
 
   expect(result).toMatchSnapshot();
 });
 
-test("double default two", () => {
+test("double default two", async () => {
   const input = `
   /**
    * The summary
@@ -149,7 +148,7 @@ test("double default two", () => {
    * @default "something"
    */
 `
-  const result = subject(input);
+  const result = await subject(input);
 
   expect(result).toMatchSnapshot();
 });

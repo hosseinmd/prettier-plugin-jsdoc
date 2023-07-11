@@ -1,17 +1,17 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
-    plugins: ["."],
+    plugins: ["prettier-plugin-jsdoc"],
     parser: "typescript",
     jsdocSpaces: 1,
     ...options,
   } as AllOptions);
 }
 
-test("convert array to modern type", () => {
-  const result = subject(`
+test("convert array to modern type", async () => {
+  const result = await subject(`
   /**
    * @typedef {import("react-native-reanimated").default.Adaptable<number>} Adaptable
    * @param {Adaptable} animNode

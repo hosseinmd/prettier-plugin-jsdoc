@@ -1,15 +1,16 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
-    plugins: ["."],
+    parser: "babel",
+    plugins: ["prettier-plugin-jsdoc"],
     ...options,
   } as AllOptions);
 }
 
-test("Tag group", () => {
-  const result = subject(
+test("Tag group", async () => {
+  const result = await subject(
     `
   /**
    * Aliquip ex proident tempor eiusmod aliquip amet. Labore commodo nulla tempor

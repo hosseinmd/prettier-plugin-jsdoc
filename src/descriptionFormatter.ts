@@ -61,12 +61,12 @@ interface FormatOptions {
  *
  * @private
  */
-function formatDescription(
+async function formatDescription(
   tag: string,
   text: string,
   options: AllOptions,
   formatOptions: FormatOptions,
-): string {
+): Promise<string> {
   if (!text) return text;
 
   const { printWidth } = options;
@@ -125,7 +125,7 @@ function formatDescription(
 
   const rootAst = fromMarkdown(text);
 
-  function stringifyASTWithoutChildren(
+  async function stringifyASTWithoutChildren(
     mdAst: Content | Root,
     intention: string,
     parent: Content | Root | null,
@@ -146,20 +146,20 @@ function formatDescription(
             ? options.parser
             : supportParsers?.[0] || mdAst.lang;
 
-          result = formatCode(result, intention, {
+          result = await formatCode(result, intention, {
             ...options,
             parser,
             jsdocKeepUnParseAbleExampleIndent: true,
           });
         } else if (options.jsdocPreferCodeFences || false) {
-          result = formatCode(result, _intention, {
+          result = await formatCode(result, _intention, {
             ...options,
             jsdocKeepUnParseAbleExampleIndent: true,
           });
         } else {
           _intention = intention + " ".repeat(4);
 
-          result = formatCode(result, _intention, {
+          result = await formatCode(result, _intention, {
             ...options,
             jsdocKeepUnParseAbleExampleIndent: true,
           });
@@ -183,10 +183,10 @@ function formatDescription(
         let result = tables?.[tableIndex] || "";
         tableIndex++;
         if (result) {
-          result = format(result, {
+          result = (await format(result, {
             ...options,
             parser: "markdown",
-          }).trim();
+          })).trim();
         }
         return `${
           result
@@ -206,17 +206,17 @@ function formatDescription(
       "") as string;
   }
 
-  function stringyfy(
+  async function stringyfy(
     mdAst: Content | Root,
     intention: string,
     parent: Content | Root | null,
-  ): string {
+  ): Promise<string> {
     if (!Array.isArray((mdAst as Root).children)) {
       return stringifyASTWithoutChildren(mdAst, intention, parent);
     }
 
-    return ((mdAst as Root).children as Content[])
-      .map((ast, index) => {
+    return (await Promise.all(((mdAst as Root).children as Content[])
+      .map(async (ast, index) => {
         switch (ast.type) {
           case "listItem": {
             let _listCount = `\n${intention}- `;
@@ -228,7 +228,7 @@ function formatDescription(
 
             const _intention = intention + " ".repeat(_listCount.length - 1);
 
-            const result = stringyfy(ast, _intention, mdAst).trim();
+            const result = (await stringyfy(ast, _intention, mdAst)).trim();
 
             return `${_listCount}${result}`;
           }
@@ -246,11 +246,11 @@ function formatDescription(
             ) {
               end = "\n";
             }
-            return `\n${stringyfy(ast, intention, mdAst)}${end}`;
+            return `\n${await stringyfy(ast, intention, mdAst)}${end}`;
           }
 
           case "paragraph": {
-            const paragraph = stringyfy(ast, intention, parent);
+            const paragraph = await stringyfy(ast, intention, parent);
             if ((ast as any).costumeType === TABLE) {
               return paragraph;
             }
@@ -310,15 +310,15 @@ function formatDescription(
           }
 
           case "strong": {
-            return `**${stringyfy(ast, intention, mdAst)}**`;
+            return `**${await stringyfy(ast, intention, mdAst)}**`;
           }
 
           case "emphasis": {
-            return `_${stringyfy(ast, intention, mdAst)}_`;
+            return `_${await stringyfy(ast, intention, mdAst)}_`;
           }
 
           case "heading": {
-            return `\n\n${intention}${"#".repeat(ast.depth)} ${stringyfy(
+            return `\n\n${intention}${"#".repeat(ast.depth)} ${await stringyfy(
               ast,
               intention,
               mdAst,
@@ -327,29 +327,29 @@ function formatDescription(
 
           case "link":
           case "image": {
-            return `[${stringyfy(ast, intention, mdAst)}](${ast.url})`;
+            return `[${await stringyfy(ast, intention, mdAst)}](${ast.url})`;
           }
 
           case "linkReference": {
-            return `[${stringyfy(ast, intention, mdAst)}][${ast.label}]`;
+            return `[${await stringyfy(ast, intention, mdAst)}][${ast.label}]`;
           }
           case "definition": {
             return `\n\n[${ast.label}]: ${ast.url}`;
           }
 
           case "blockquote": {
-            const paragraph = stringyfy(ast, "", mdAst);
+            const paragraph = await stringyfy(ast, "", mdAst);
             return `${intention}> ${paragraph
               .trim()
               .replace(/(\n+)/g, `$1${intention}> `)}`;
           }
         }
         return stringyfy(ast, intention, mdAst);
-      })
-      .join("");
+      }),
+    )).join("");
   }
 
-  let result = stringyfy(rootAst, beginningSpace, null);
+  let result = await stringyfy(rootAst, beginningSpace, null);
 
   result = result.replace(/^[\s\n]+/g, "");
   result = result.replace(/^([!]+\?)/g, "");

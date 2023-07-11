@@ -13,9 +13,9 @@ import {
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles";
 import { AllOptions } from "./types";
-import { formatCode, formatType, isDefaultTag } from "./utils";
+import { formatCode, isDefaultTag } from "./utils";
 
-const stringify = (
+const stringify = async (
   { name, description, type, tag }: Spec,
   tagIndex: number,
   finalTagsArray: Spec[],
@@ -23,7 +23,7 @@ const stringify = (
   maxTagTitleLength: number,
   maxTagTypeNameLength: number,
   maxTagNameLength: number,
-): string => {
+): Promise<string> => {
   let tagString = "\n";
 
   if (tag === SPACE_TAG_DATA.tag) {
@@ -97,7 +97,7 @@ const stringify = (
     }
 
     const beginningSpace = useTabs ? "\t" : " ".repeat(tabWidth);
-    const formattedExample = formatCode(description, beginningSpace, options);
+    const formattedExample = await formatCode(description, beginningSpace, options);
 
     tagString += formattedExample
       .replace(
@@ -137,10 +137,10 @@ const stringify = (
         // the tag is already longer than we are allowed to, so let's start at a new line
         tagString +=
           `\n${beginningSpace}` +
-          formatDescription(tag, description, options, { beginningSpace });
+          await formatDescription(tag, description, options, { beginningSpace });
       } else {
         // append the description to the tag
-        tagString += formatDescription(tag, description, options, {
+        tagString += await formatDescription(tag, description, options, {
           // 1 is `\n` which added to tagString
           tagStringLength: tagString.length - 1,
           beginningSpace,

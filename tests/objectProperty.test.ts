@@ -1,17 +1,17 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
     parser: "babel-flow",
-    plugins: ["."],
+    plugins: ["prettier-plugin-jsdoc"],
     jsdocSpaces: 1,
     ...options,
   } as AllOptions);
 }
 
-test("object property", () => {
-  const result = subject(`
+test("object property", async () => {
+  const result = await subject(`
 
 /**	
  * Copyright (c) 2015-present, Facebook, Inc.	

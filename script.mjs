@@ -18,8 +18,6 @@ function $(commands) {
 const lint = "npm run clean && npm run lint && tsc --project tsconfig.json";
 
 const bundleEsm = "rollup --config rollup.config.js";
-const bundleEsmMin =
-  "terser --ecma 6 --compress --mangle --module -o dist/index.min.mjs -- dist/index.js && gzip -9 -c dist/index.min.mjs > dist/index.min.mjs.gz";
 const bundleUmd =
   "rollup dist/index.js --file dist/index.umd.js --format umd --name sayHello";
 const bundleUmdMin =
@@ -30,7 +28,6 @@ const buildStats =
 $(`${lint}`);
 $(`${bundleEsm}`);
 if (!__TEST__) {
-  $(`${bundleEsmMin}`);
   $(`${bundleUmd}`);
   $(`${bundleUmdMin}`);
   $(`${buildStats}`);

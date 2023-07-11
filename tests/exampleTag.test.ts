@@ -1,17 +1,17 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
     parser: "babel",
-    plugins: ["."],
+    plugins: ["prettier-plugin-jsdoc"],
     jsdocSpaces: 1,
     ...options,
   } as AllOptions);
 }
 
-test("Example javascript code", () => {
-  const result = subject(`
+test("Example javascript code", async () => {
+  const result = await subject(`
 /**
 * @examples
 *   var one = 5
@@ -30,16 +30,16 @@ const testFunction = (text, defaultValue, optionalNumber) => true
 `);
 
   expect(result).toMatchSnapshot();
-  expect(subject(result)).toMatchSnapshot();
+  expect(await subject(result)).toMatchSnapshot();
 });
 
-test("empty example", () => {
-  const Result2 = subject(`/**
+test("empty example", async () => {
+  const Result2 = await subject(`/**
  * single line description
  * @example
  */`);
 
-  const Result3 = subject(`/**
+  const Result3 = await subject(`/**
  * single line description
  * @return {Boolean} Always true
  * @example
@@ -49,11 +49,11 @@ test("empty example", () => {
   expect(Result3).toMatchSnapshot();
 });
 
-test("examples Json", () => {
+test("examples Json", async () => {
   const options = {
     jsdocKeepUnParseAbleExampleIndent: true,
   };
-  const Result1 = subject(
+  const Result1 = await subject(
     `/**
  * @example 
  * {testArr: [
@@ -65,7 +65,7 @@ test("examples Json", () => {
     options,
   );
 
-  const Result2 = subject(
+  const Result2 = await subject(
     `/**
  * @example
  * 
@@ -84,8 +84,8 @@ test("examples Json", () => {
   expect(Result2).toMatchSnapshot();
 });
 
-test("Example start by xml tag", () => {
-  const result = subject(`
+test("Example start by xml tag", async () => {
+  const result = await subject(`
   /**
    * @example <caption>TradingViewChart</caption>;
    * 
@@ -95,7 +95,7 @@ test("Example start by xml tag", () => {
 
   expect(result).toMatchSnapshot();
 
-  const result1 = subject(`
+  const result1 = await subject(`
   /**
    * @example <caption>TradingViewChart</caption>
    *
@@ -109,8 +109,8 @@ test("Example start by xml tag", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("example json ", () => {
-  const result = subject(`
+test("example json ", async () => {
+  const result = await subject(`
   /**
    * @example {
    *   '0%': '#afc163',
@@ -131,8 +131,8 @@ test("example json ", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("example should be same after few time format ", () => {
-  const result = subject(`
+test("example should be same after few time format ", async () => {
+  const result = await subject(`
   /**
    * @example <caption>with selector</caption>
    *   const $ = ccashio.test(\`
@@ -144,15 +144,15 @@ test("example should be same after few time format ", () => {
   */
 `);
 
-  const result2 = subject(result);
-  const result3 = subject(result2);
+  const result2 = await subject(result);
+  const result3 = await subject(result2);
 
   expect(result).toEqual(result2);
   expect(result).toEqual(result3);
 });
 
-test("example unParseAble", () => {
-  const result = subject(
+test("example unParseAble", async () => {
+  const result = await subject(
     `/**
 * @example
 * Prism.languages['css-with-colors'] = Prism.languages.extend('css', {
@@ -169,10 +169,10 @@ test("example unParseAble", () => {
   );
 
   expect(result).toMatchSnapshot();
-  const result2 = subject(result, {
+  const result2 = await subject(result, {
     jsdocKeepUnParseAbleExampleIndent: true,
   });
 
   expect(result2).toEqual(result);
-  expect(subject(result)).not.toEqual(result);
+  expect(await subject(result)).not.toEqual(result);
 });

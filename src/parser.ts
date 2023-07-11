@@ -40,17 +40,16 @@ const {
 
 /** @link https://prettier.io/docs/en/api.html#custom-parser-api} */
 export const getParser = (originalParse: Parser["parse"], parserName: string) =>
-  function jsdocParser(
+  async function jsdocParser(
     text: string,
     parsersOrOptions: Parameters<Parser["parse"]>[1],
     maybeOptions?: AllOptions,
-  ): AST {
-    const parsers = parsersOrOptions;
+  ): Promise<AST> {
     let options = (maybeOptions ?? parsersOrOptions) as AllOptions;
     const prettierParse =
       findPluginByParser(parserName, options)?.parse || originalParse;
 
-    const ast = prettierParse(text, parsers, options) as AST;
+    const ast = prettierParse(text, options) as AST;
 
     // jsdocParser is deprecated,this is backward compatible will be remove
     if ((options as any).jsdocParser === false) {
@@ -65,7 +64,7 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
       options.endOfLine === "auto" ? detectEndOfLine(text) : options.endOfLine;
     options = { ...options, endOfLine: "lf" };
 
-    ast.comments.forEach((comment) => {
+    await Promise.all(ast.comments.map(async (comment) => {
       if (!isBlockComment(comment)) return;
       const tokenIndex = findTokenIndex(ast.tokens, comment);
       const paramsOrder = getParamsOrders(ast, tokenIndex);
@@ -159,11 +158,11 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
         tags = tags.map(addDefaultValueToDescription);
       }
 
-      tags = tags
+      tags = await Promise.all(tags
         .map(assignOptionalAndDefaultToName)
-        .map(({ type, ...rest }) => {
+        .map(async ({ type, ...rest }) => {
           if (type) {
-            type = formatType(type, {
+            type = await formatType(type, {
               ...options,
               printWidth: commentContentPrintWidth,
             });
@@ -173,8 +172,9 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
             ...rest,
             type,
           } as Spec;
-        })
-        .map(({ type, name, description, tag, ...rest }) => {
+        }),
+      ).then((formattedTags) =>
+        formattedTags.map(({ type, name, description, tag, ...rest }) => {
           const isVerticallyAlignAbleTags =
             TAGS_VERTICALLY_ALIGN_ABLE.includes(tag);
 
@@ -191,7 +191,8 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
             tag,
             ...rest,
           };
-        });
+        }),
+      );
 
       if (options.jsdocSeparateTagGroups) {
         tags = tags.flatMap((tag, index) => {
@@ -211,25 +212,26 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
         });
       }
 
-      tags
-        .filter(({ description, tag }) => {
-          if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
-            return false;
-          }
-          return true;
-        })
-        // Create final jsDoc string
-        .forEach((tagData, tagIndex, finalTagsArray) => {
-          comment.value += stringify(
-            tagData,
-            tagIndex,
-            finalTagsArray,
-            { ...options, printWidth: commentContentPrintWidth },
-            maxTagTitleLength,
-            maxTagTypeLength,
-            maxTagNameLength,
-          );
-        });
+      const filteredTags = tags.filter(({ description, tag }) => {
+        if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
+          return false;
+        }
+        return true;
+      });
+
+      // Create final jsDoc string
+      for (const [tagIndex, tagData] of filteredTags.entries()) {
+        const formattedTag = await stringify(
+          tagData,
+          tagIndex,
+          filteredTags,
+          { ...options, printWidth: commentContentPrintWidth },
+          maxTagTitleLength,
+          maxTagTypeLength,
+          maxTagNameLength,
+        );
+        comment.value += formattedTag;
+      }
 
       comment.value = comment.value.trimEnd();
 
@@ -245,7 +247,7 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
       } else if (eol === "crlf") {
         comment.value = comment.value.replace(/\n/g, "\r\n");
       }
-    });
+    }));
 
     ast.comments = ast.comments.filter(
       (comment) => !(isBlockComment(comment) && !comment.value),

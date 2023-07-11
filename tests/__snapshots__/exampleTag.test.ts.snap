@@ -10,7 +10,7 @@ exports[`Example javascript code 1`] = `
  *     tag,
  *     description,
  *     tagString,
- *     a
+ *     a,
  *   );
  *
  *   if (one > 2) {
@@ -34,7 +34,7 @@ exports[`Example javascript code 2`] = `
  *     tag,
  *     description,
  *     tagString,
- *     a
+ *     a,
  *   );
  *
  *   if (one > 2) {

@@ -1,4 +1,4 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
@@ -10,8 +10,8 @@ function subject(code: string, options: Partial<AllOptions> = {}) {
   } as AllOptions);
 }
 
-test("template for callback", () => {
-  const result = subject(`
+test("template for callback", async () => {
+  const result = await subject(`
 /**
  * @template T
  *      @callback CallbackName
@@ -23,8 +23,8 @@ test("template for callback", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("disabled complex object typedef ", () => {
-  const result = subject(`
+test("disabled complex object typedef ", async () => {
+  const result = await subject(`
  /**
   * The bread crumbs indicate the navigate path and trigger the active page.
   * @class
@@ -37,7 +37,7 @@ test("disabled complex object typedef ", () => {
 
   expect(result).toMatchSnapshot();
 
-  const result2 = subject(
+  const result2 = await subject(
     `
   /**
    * The bread crumbs indicate the navigate path and trigger the active page.

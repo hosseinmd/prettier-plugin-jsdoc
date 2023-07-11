@@ -1,19 +1,18 @@
-import prettier from "prettier";
-import { readFileSync } from "fs";
-import { resolve } from "path";
+import * as prettier from "prettier";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { AllOptions } from "../src/types";
 
-// eslint-disable-next-line no-undef
-require("jest-specific-snapshot");
+import "jest-specific-snapshot";
 
 function subjectFiles(relativePath: string, options: Partial<AllOptions> = {}) {
-  const filepath = resolve(__dirname, relativePath);
+  const filepath = resolve(process.cwd(), 'tests', relativePath);
 
   try {
     const code = readFileSync(filepath).toString();
 
     return prettier.format(code, {
-      plugins: ["."],
+      plugins: ["prettier-plugin-jsdoc"],
       jsdocSpaces: 1,
       trailingComma: "all",
       filepath,
@@ -74,8 +73,8 @@ const files: {
 
 for (let i = 0; i < files.length; i++) {
   const { name, options } = files[i];
-  test(`File: ${name}`, () => {
-    const result = subjectFiles("./files/" + name, options);
+  test(`File: ${name}`, async () => {
+    const result = await subjectFiles("./files/" + name, options);
     (expect(result) as any).toMatchSpecificSnapshot(
       `./__snapshots__/files/${name}.shot`,
     );

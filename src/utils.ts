@@ -73,7 +73,7 @@ function withoutStrings(type: string, mapFn: (type: string) => string): string {
   return modifiedType.replace(/String\$(\d+)\$/g, (_, index) => strings[index]);
 }
 
-function formatType(type: string, options?: Options): string {
+async function formatType(type: string, options?: Options): Promise<string> {
   try {
     const TYPE_START = "type name = ";
 
@@ -101,7 +101,7 @@ function formatType(type: string, options?: Options): string {
       pretty = `(${pretty.slice(3)})[]`;
     }
 
-    pretty = format(`${TYPE_START}${pretty}`, {
+    pretty = await format(`${TYPE_START}${pretty}`, {
       ...options,
       parser: "typescript",
       plugins: [],
@@ -212,11 +212,11 @@ function findTokenIndex(tokens: Token[], token: Token): number {
   });
 }
 
-function formatCode(
+async function formatCode(
   result: string,
   beginningSpace: string,
   options: AllOptions,
-): string {
+): Promise<string> {
   const { printWidth, jsdocKeepUnParseAbleExampleIndent } = options;
 
   if (
@@ -237,13 +237,13 @@ function formatCode(
 
     // If example is a json
     if (result.trim().startsWith("{")) {
-      formattedExample = format(result || "", {
+      formattedExample = await format(result || "", {
         ...options,
         parser: "json",
         printWidth: examplePrintWith,
       });
     } else {
-      formattedExample = format(result || "", {
+      formattedExample = await format(result || "", {
         ...options,
         printWidth: examplePrintWith,
       });

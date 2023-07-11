@@ -1,16 +1,16 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
-    plugins: ["."],
+    plugins: ["prettier-plugin-jsdoc"],
     parser: "babel-ts",
     ...options,
   } as AllOptions);
 }
 
-test("description contain paragraph", () => {
-  const result = subject(`
+test("description contain paragraph", async () => {
+  const result = await subject(`
 /**
  * Does the following things:
  * 
@@ -24,7 +24,7 @@ test("description contain paragraph", () => {
 
   expect(result).toMatchSnapshot();
 
-  const result2 = subject(`
+  const result2 = await subject(`
   /**
    * Does the following things:
    * 
@@ -36,7 +36,7 @@ test("description contain paragraph", () => {
 
   expect(result2).toMatchSnapshot();
 
-  const result3 = subject(`
+  const result3 = await subject(`
   class test {
     /**
      * Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -52,7 +52,7 @@ test("description contain paragraph", () => {
   `);
   expect(result3).toMatchSnapshot();
 
-  const result4 = subject(`
+  const result4 = await subject(`
   /**
    * Transforms data
    *
@@ -89,8 +89,8 @@ test("description contain paragraph", () => {
   expect(result4).toMatchSnapshot();
 });
 
-test("description new line with dash", () => {
-  const result1 = subject(`
+test("description new line with dash", async () => {
+  const result1 = await subject(`
   /**
    * We will allow the scroll view to give up its lock iff it acquired the lock
    * during an - animation. This is a very useful default that happens to satisfy
@@ -133,7 +133,7 @@ test("description new line with dash", () => {
   `);
   expect(result1).toMatchSnapshot();
 
-  const result2 = subject(`
+  const result2 = await subject(`
   /**
    * Measures the \`HitRect\` node on activation. The Bounding rectangle is with
    * respect to viewport - not page, so adding the \`pageXOffset/pageYOffset\`
@@ -151,7 +151,7 @@ test("description new line with dash", () => {
 
   expect(result2).toMatchSnapshot();
 
-  const result3 = subject(`
+  const result3 = await subject(`
   /**
    * Handles parsing of a test case file.
    *
@@ -184,8 +184,8 @@ test("description new line with dash", () => {
   expect(result3).toMatchSnapshot();
 });
 
-test("numbers and code in description", () => {
-  const result1 = subject(`
+test("numbers and code in description", async () => {
+  const result1 = await subject(`
 /**
  * ========================== PressResponder Tutorial ==========================
  *
@@ -232,11 +232,11 @@ test("numbers and code in description", () => {
  */
   `);
 
-  expect(subject(subject(result1))).toEqual(result1);
+  expect(await subject(await subject(result1))).toEqual(result1);
 
-  expect(subject(subject(result1))).toMatchSnapshot();
+  expect(await subject(await subject(result1))).toMatchSnapshot();
 
-  const result2 = subject(`
+  const result2 = await subject(`
   /**
    * 1-    a keydown event occurred immediately before a focus event
    * 2- a focus event happened on an element which requires keyboard interaction (e.g., a text field);
@@ -245,7 +245,7 @@ test("numbers and code in description", () => {
 `);
   expect(result2).toMatchSnapshot();
 
-  const result3 = subject(
+  const result3 = await subject(
     `
 /**
 * The script uses two heuristics to determine whether the keyboard is being used:
@@ -266,14 +266,14 @@ test("numbers and code in description", () => {
   );
 
   expect(
-    subject(result3, {
+    await subject(result3, {
       jsdocDescriptionWithDot: true,
     }),
   ).toEqual(result3);
 
   expect(result3).toMatchSnapshot();
 
-  const result4 = subject(`
+  const result4 = await subject(`
 /**
  * Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.
  *
@@ -288,8 +288,8 @@ test("numbers and code in description", () => {
   expect(result4).toMatchSnapshot();
 });
 
-test("Nested list", () => {
-  const result1 = subject(
+test("Nested list", async () => {
+  const result1 = await subject(
     `
 /**
  * 1.  Foo
@@ -309,8 +309,8 @@ test("Nested list", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("New line with \\", () => {
-  const result1 = subject(
+test("New line with \\", async () => {
+  const result1 = await subject(
     `
 /**
  * A short description,\
@@ -320,11 +320,11 @@ test("New line with \\", () => {
   );
 
   expect(result1).toMatchSnapshot();
-  expect(subject(result1)).toEqual(result1);
+  expect(await subject(result1)).toEqual(result1);
 });
 
-test("List in tags", () => {
-  const result1 = subject(
+test("List in tags", async () => {
+  const result1 = await subject(
     `
 /**
  * @param {any} var An example list:
@@ -348,8 +348,8 @@ test("List in tags", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("code in description", () => {
-  const result1 = subject(`
+test("code in description", async () => {
+  const result1 = await subject(`
 /**
  * \`Touchable\`: Taps done right.
  *
@@ -441,8 +441,8 @@ test("code in description", () => {
 
   expect(result1).toMatchSnapshot();
 
-  const result2 = subject(
-    subject(`
+  const result2 = await subject(
+    await subject(`
     /**
      * Utility type for getting the values for specific style keys.
      * # test:
@@ -462,13 +462,13 @@ test("code in description", () => {
 `),
   );
 
-  expect(subject(subject(result2))).toEqual(result2);
+  expect(await subject(await subject(result2))).toEqual(result2);
 
   expect(result2).toMatchSnapshot();
 });
 
-test("printWidth", () => {
-  const result1 = subject(
+test("printWidth", async () => {
+  const result1 = await subject(
     `/**
   * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
   * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
@@ -483,13 +483,13 @@ test("printWidth", () => {
     },
   );
 
-  expect(subject(subject(result1))).toEqual(result1);
+  expect(await subject(await subject(result1))).toEqual(result1);
 
   expect(result1).toMatchSnapshot();
 });
 
-test("matches prettier markdown format", () => {
-  const result1 = subject(
+test("matches prettier markdown format", async () => {
+  const result1 = await subject(
     `/**
  * Header
  * ======
@@ -527,8 +527,8 @@ test("matches prettier markdown format", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("description start underscores", () => {
-  const result1 = subject(
+test("description start underscores", async () => {
+  const result1 = await subject(
     `/**
  * @param {string} a __very__ important!
  * @param {string} b _less_ important...
@@ -538,8 +538,8 @@ test("description start underscores", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("`#` in text", () => {
-  const result1 = subject(
+test("`#` in text", async () => {
+  const result1 = await subject(
     `/**
 * JS: \`console.log("foo # bar");\`
 *
@@ -552,8 +552,8 @@ test("`#` in text", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("empty lines", () => {
-  const result1 = subject(
+test("empty lines", async () => {
+  const result1 = await subject(
     `/**
 * Foo
 *
@@ -573,8 +573,8 @@ test("empty lines", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("Non-english description with dot", () => {
-  const result = subject(
+test("Non-english description with dot", async () => {
+  const result = await subject(
     `/**
 
 * Wir brauchen hier eine effizientere Lösung. Die generierten Dateien sind zu groß
@@ -618,8 +618,8 @@ test("Non-english description with dot", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("New Lines with star", () => {
-  const result1 = subject(
+test("New Lines with star", async () => {
+  const result1 = await subject(
     `/**
  * Simplifies the token stream to ease the matching with the expected token stream.
  *
@@ -635,7 +635,7 @@ test("New Lines with star", () => {
 
   expect(result1).toMatchSnapshot();
 
-  const result2 = subject(
+  const result2 = await subject(
     `/**
     * Some comment text.
     *
@@ -647,8 +647,8 @@ test("New Lines with star", () => {
   expect(result2).toMatchSnapshot();
 });
 
-test("# in block code", () => {
-  const result1 = subject(
+test("# in block code", async () => {
+  const result1 = await subject(
     `/**
 * \`\`\`py
 * # This program adds two numbers
@@ -669,8 +669,8 @@ test("# in block code", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("Long words", () => {
-  const result2 = subject(
+test("Long words", async () => {
+  const result2 = await subject(
     `
 /**
  * 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567
@@ -684,8 +684,8 @@ test("Long words", () => {
   expect(result2).toMatchSnapshot();
 });
 
-test("Markdown Table", () => {
-  const result1 = subject(
+test("Markdown Table", async () => {
+  const result1 = await subject(
     `
 /**
  * description 
@@ -707,7 +707,7 @@ test("Markdown Table", () => {
 
   expect(result1).toMatchSnapshot();
 
-  const result2 = subject(
+  const result2 = await subject(
     `
 /**
  * | A| B |C |
@@ -720,7 +720,7 @@ test("Markdown Table", () => {
 
   expect(result2).toMatchSnapshot();
 
-  const result3 = subject(
+  const result3 = await subject(
     `
 /**
  * @param {string} a description
@@ -734,7 +734,7 @@ test("Markdown Table", () => {
 
   expect(result3).toMatchSnapshot();
 
-  const result4 = subject(
+  const result4 = await subject(
     `
 /**
  * description
@@ -758,7 +758,7 @@ test("Markdown Table", () => {
 
   expect(result4).toMatchSnapshot();
 
-  const result5 = subject(
+  const result5 = await subject(
     `
 /**
  * description
@@ -776,8 +776,8 @@ test("Markdown Table", () => {
   expect(result5).toMatchSnapshot();
 });
 
-test("Jsdoc link in description", () => {
-  const result1 = subject(`
+test("Jsdoc link in description", async () => {
+  const result1 = await subject(`
 /**
  * Calculate the 
  * {@link https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement difference}
@@ -806,8 +806,8 @@ test("Jsdoc link in description", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("Jsdoc link synonyms in description", () => {
-  const result1 = subject(`
+test("Jsdoc link synonyms in description", async () => {
+  const result1 = await subject(`
 /**
  * Calculate the 
  * {@linkcode https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement difference}
@@ -861,8 +861,8 @@ test("Jsdoc link synonyms in description", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("Markdown link", () => {
-  const result1 = subject(`
+test("Markdown link", async () => {
+  const result1 = await subject(`
 /**
  @param {string} [dir] [Next.js](https://nextjs.org) project directory path.
  */
@@ -871,8 +871,8 @@ test("Markdown link", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("Jsx tsx css ", () => {
-  const result1 = subject(`
+test("Jsx tsx css ", async () => {
+  const result1 = await subject(`
  /**
   * \`\`\`js
   * let   a
@@ -896,7 +896,7 @@ test("Jsx tsx css ", () => {
   expect(result1).toMatchSnapshot();
 });
 
-test("Not Capitalizing", () => {
+test("Not Capitalizing", async () => {
   const comment = `/**
 
   * simplifies the token stream to ease the matching with the expected token stream.
@@ -911,20 +911,20 @@ test("Not Capitalizing", () => {
   * @returns {SimplifiedTokenStream} description
   */
  `;
-  const result1 = subject(comment, {
+  const result1 = await subject(comment, {
     jsdocCapitalizeDescription: false,
   });
 
   expect(result1).toMatchSnapshot();
 
-  const result2 = subject(comment, {
+  const result2 = await subject(comment, {
     jsdocCapitalizeDescription: true,
   });
 
   expect(result2).toMatchSnapshot();
 });
 
-test("Code in description", () => {
+test("Code in description", async () => {
   const comment = `
   /**
    * Inspired from react-native View
@@ -969,29 +969,29 @@ test("Code in description", () => {
  */
 `;
 
-  const result1 = subject(comment);
+  const result1 = await subject(comment);
 
   expect(result1).toMatchSnapshot();
 
-  const result2 = subject(indented);
+  const result2 = await subject(indented);
 
   expect(result2).toMatchSnapshot();
 
-  const result3 = subject(indented, { jsdocPreferCodeFences: true });
+  const result3 = await subject(indented, { jsdocPreferCodeFences: true });
 
   expect(result3).toMatchSnapshot();
 
-  const result4 = subject(fenced);
+  const result4 = await subject(fenced);
 
   expect(result4).toMatchSnapshot();
 
-  const result5 = subject(fenced, { jsdocPreferCodeFences: true });
+  const result5 = await subject(fenced, { jsdocPreferCodeFences: true });
 
   expect(result5).toMatchSnapshot();
 });
 
-test("Link ", () => {
-  const result = subject(`
+test("Link ", async () => {
+  const result = await subject(`
   /**
    * Name of something.
    *
@@ -1005,8 +1005,8 @@ test("Link ", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Reference-style Links ", () => {
-  const result = subject(`
+test("Reference-style Links ", async () => {
+  const result = await subject(`
   /**
    * Name of something.
    *
@@ -1018,7 +1018,7 @@ test("Reference-style Links ", () => {
 
   expect(result).toMatchSnapshot();
 
-  const result2 = subject(`
+  const result2 = await subject(`
   /**
    * This is a [link][1] test.
    *
