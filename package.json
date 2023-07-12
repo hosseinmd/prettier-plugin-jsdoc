@@ -68,7 +68,7 @@
     "typescript": "^4.4.4"
   },
   "peerDependencies": {
-    "prettier": ">=3.0.0"
+    "prettier": "^3.0.0"
   },
   "dependencies": {
     "binary-searching": "^2.0.5",
