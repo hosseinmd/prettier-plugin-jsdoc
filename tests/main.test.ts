@@ -1,17 +1,17 @@
-import prettier from "prettier";
+import {format} from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
-  return prettier.format(code, {
+  return format(code, {
     parser: "babel",
-    plugins: ["."],
+    plugins: ["prettier-plugin-jsdoc"],
     jsdocSpaces: 1,
     ...options,
   } as AllOptions);
 }
 
-test("JS code should be formatted as usuall", () => {
-  const result = subject(`
+test("JS code should be formatted as usuall", async () => {
+  const result = await subject(`
 const variable1 = 1             // No semicolon
 const stringVar = "text"        // Wrong quotes
   const indented = 2            // Wrong indentation
@@ -22,8 +22,8 @@ const someLongList = ['private', 'memberof', 'description', 'example', 'param', 
   expect(result).toMatchSnapshot();
 });
 
-test("Should format regular jsDoc", () => {
-  const result = subject(`
+test("Should format regular jsDoc", async () => {
+  const result = await subject(`
 /**
 * function example description that was wrapped by hand
 * so it have more then one line and don't end with a dot
@@ -49,11 +49,11 @@ const testFunction = (text, defaultValue, optionalNumber) => true
 `);
 
   expect(result).toMatchSnapshot();
-  expect(subject(result)).toMatchSnapshot();
+  expect(await subject(result)).toMatchSnapshot();
 });
 
-test("Should format jsDoc default values", () => {
-  const result = subject(`
+test("Should format jsDoc default values", async () => {
+  const result = await subject(`
 /**
 * @param {String} [arg1="defaultTest"] foo
 * @param {number} [arg2=123] the width of the rectangle
@@ -64,9 +64,9 @@ test("Should format jsDoc default values", () => {
 `);
 
   expect(result).toMatchSnapshot();
-  expect(subject(result)).toMatchSnapshot();
+  expect(await subject(result)).toMatchSnapshot();
 
-  const result2 = subject(
+  const result2 = await subject(
     `
 /**
 * @param {String} [arg1="defaultTest"] foo
@@ -84,14 +84,14 @@ test("Should format jsDoc default values", () => {
   expect(result2).toMatchSnapshot();
 });
 
-test("Should convert to single line if necessary", () => {
-  const Result1 = subject(`/** single line description*/`);
-  const Result2 = subject(`/**
+test("Should convert to single line if necessary", async () => {
+  const Result1 = await subject(`/** single line description*/`);
+  const Result2 = await subject(`/**
  * single line description
  * @example
  */`);
 
-  const Result3 = subject(`/**
+  const Result3 = await subject(`/**
  * single line description
  * @return {Boolean} Always true
  * @example
@@ -102,12 +102,12 @@ test("Should convert to single line if necessary", () => {
   expect(Result3).toMatchSnapshot();
 });
 
-test("Should convert to single multiLine", () => {
-  const Result1 = subject(`/** single line description*/`, {
+test("Should convert to single multiLine", async () => {
+  const Result1 = await subject(`/** single line description*/`, {
     jsdocSingleLineComment: false,
   });
-  const Result2 = subject(
-    subject(`/**
+  const Result2 = await subject(
+    await subject(`/**
  * single line description
  * @example
  */`),
@@ -116,7 +116,7 @@ test("Should convert to single multiLine", () => {
     },
   );
 
-  const Result3 = subject(
+  const Result3 = await subject(
     `/**
  * single line description
  * @return {Boolean} Always true
@@ -132,16 +132,16 @@ test("Should convert to single multiLine", () => {
   expect(Result3).toMatchSnapshot();
 });
 
-test(" undefined|null|void type", () => {
-  const Result1 = subject(`/**
+test(" undefined|null|void type", async () => {
+  const Result1 = await subject(`/**
  * @return {undefined}
  */`);
 
-  const Result2 = subject(`/**
+  const Result2 = await subject(`/**
  * @return {null}
  */`);
 
-  const Result3 = subject(`/**
+  const Result3 = await subject(`/**
  * @returns { void }${" "}
  */`);
 
@@ -150,24 +150,24 @@ test(" undefined|null|void type", () => {
   expect(Result3).toMatchSnapshot();
 });
 
-test("Should keep defined inner types", () => {
-  const Result1 = subject(`/**
+test("Should keep defined inner types", async () => {
+  const Result1 = await subject(`/**
  * @param {Array.<String>} test test param
  */`);
 
-  const Result2 = subject(`/**
+  const Result2 = await subject(`/**
  * @param {String[]} test Test param
  */`);
 
-  const Result3 = subject(`/**
+  const Result3 = await subject(`/**
  * @param {(String|Object)[]} test Test param
  */`);
 
-  const Result4 = subject(`/**
+  const Result4 = await subject(`/**
  * @returns {Promise<Number|String|undefined>} test promise
  */`);
 
-  const Result5 = subject(`/**
+  const Result5 = await subject(`/**
  * @returns {Object<Number|String|undefined>} test object
  */`);
 
@@ -178,8 +178,8 @@ test("Should keep defined inner types", () => {
   expect(Result5).toMatchSnapshot();
 });
 
-test("Sould keep params ordering when more than 10 tags are present", () => {
-  const Result1 = subject(`/**
+test("Sould keep params ordering when more than 10 tags are present", async () => {
+  const Result1 = await subject(`/**
  * description
  * @param {Number} test1 Test param
  * @param {Number} test2 Test param
@@ -199,8 +199,8 @@ test("Sould keep params ordering when more than 10 tags are present", () => {
   expect(Result1).toMatchSnapshot();
 });
 
-test("Sould keep complex inner types", () => {
-  const Result1 = subject(`/**
+test("Sould keep complex inner types", async () => {
+  const Result1 = await subject(`/**
  * @param {Array<(String|Number)>} test test param
  * @param {Array<Object.<String, Number>>} test test param
  * @param {...Number} test Test param
@@ -214,7 +214,7 @@ test("Sould keep complex inner types", () => {
  * @param {*} test Test param
  */`);
 
-  const Result2 = subject(`/**
+  const Result2 = await subject(`/**
  * @returns {Promise<Object<string, number|undefined>>} test return
  */`);
 
@@ -222,11 +222,11 @@ test("Sould keep complex inner types", () => {
   expect(Result2).toMatchSnapshot();
 });
 
-test("Should align vertically param|property|returns|yields|throws if option set to true", () => {
+test("Should align vertically param|property|returns|yields|throws if option set to true", async () => {
   const options = {
     jsdocVerticalAlignment: true,
   };
-  const Result1 = subject(
+  const Result1 = await subject(
     `/**
  * @property {Object} unalginedProp unaligned property descriptin
  * @param {String} unalginedParam unaligned param description
@@ -243,7 +243,7 @@ test("Should align vertically param|property|returns|yields|throws if option set
  */
 `;
 
-  const Result2 = subject(
+  const Result2 = await subject(
     `/**
  * @throws {CustomExceptio} unaligned throws description
  * @yields {Number} yields description
@@ -262,7 +262,7 @@ test("Should align vertically param|property|returns|yields|throws if option set
   expect(Result2).toEqual(Expected2);
 });
 
-test("Should align vertically param|property|returns|yields|throws if option set to true, and amount of spaces is different than default", () => {
+test("Should align vertically param|property|returns|yields|throws if option set to true, and amount of spaces is different than default", async () => {
   const options1 = {
     jsdocVerticalAlignment: true,
     jsdocSpaces: 2,
@@ -274,13 +274,13 @@ test("Should align vertically param|property|returns|yields|throws if option set
  * @yields {Number} yields description
  * @returns {undefined}
  */`;
-  const Result1 = subject(unformattedJsdoc, options1);
+  const Result1 = await subject(unformattedJsdoc, options1);
 
   const options2 = {
     jsdocVerticalAlignment: true,
     jsdocSpaces: 4,
   };
-  const Result2 = subject(
+  const Result2 = await subject(
     `/**
  * @property {Object} unalginedProp unaligned property descriptin
  * @param {String} unalginedParam unaligned param description
@@ -295,11 +295,11 @@ test("Should align vertically param|property|returns|yields|throws if option set
   expect(Result2).toMatchSnapshot();
 });
 
-test("Should insert proper amount of spaces based on option", () => {
+test("Should insert proper amount of spaces based on option", async () => {
   const options1 = {
     jsdocSpaces: 2,
   };
-  const Result1 = subject(
+  const Result1 = await subject(
     `/**
  * @param {Object} paramName param description that goes on and on and on utill it will need to be wrapped
  * @returns {Number} return description
@@ -310,7 +310,7 @@ test("Should insert proper amount of spaces based on option", () => {
   const options2 = {
     jsdocSpaces: 3,
   };
-  const Result2 = subject(
+  const Result2 = await subject(
     `/**
  * @param {Object} paramName param description that goes on and on and on utill it will need to be wrapped
  * @returns {Number} return description
@@ -322,39 +322,39 @@ test("Should insert proper amount of spaces based on option", () => {
   expect(Result2).toMatchSnapshot();
 });
 
-test("yields should work like returns tag", () => {
+test("yields should work like returns tag", async () => {
   const options = {
     jsdocSpaces: 3,
   };
-  const Result1 = subject(
+  const Result1 = await subject(
     `/**
  * @yields {Number} yields description
  */`,
     options,
   );
 
-  const Result2 = subject(
+  const Result2 = await subject(
     `/**
  * @yield {Number} yields description
  */`,
     options,
   );
 
-  const Result3 = subject(
+  const Result3 = await subject(
     `/**
  * @yield {Number}
  */`,
     options,
   );
 
-  const Result4 = subject(
+  const Result4 = await subject(
     `/**
  * @yield yelds description
  */`,
     options,
   );
 
-  const Result5 = subject(
+  const Result5 = await subject(
     `/**
  * @yield
  */`,
@@ -367,8 +367,8 @@ test("yields should work like returns tag", () => {
   expect(Result4).toMatchSnapshot();
   expect(Result5).toMatchSnapshot();
 });
-test("Big single word", () => {
-  const result = subject(
+test("Big single word", async () => {
+  const result = await subject(
     `/**
     * Simple Single Word
     * https://github.com/babel/babel/pull/7934/files#diff-a739835084910b0ee3ea649df5a4d223R67
@@ -378,8 +378,8 @@ test("Big single word", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Hyphen at the start of description", () => {
-  const result = subject(`
+test("Hyphen at the start of description", async () => {
+  const result = await subject(`
 /**
  * Assign the project to an employee.
  * @param {Object} employee - The employee who is responsible for the project.
@@ -391,8 +391,8 @@ test("Hyphen at the start of description", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Bad defined name", () => {
-  const result = subject(`
+test("Bad defined name", async () => {
+  const result = await subject(`
   /** @type{import('@jest/types/build/Config').InitialOptions} */
   /** @type{{foo:string}} */
 
@@ -402,8 +402,8 @@ test("Bad defined name", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Long description memory leak", () => {
-  const result = subject(`
+test("Long description memory leak", async () => {
+  const result = await subject(`
   /** Configures custom logging for the {@link @microsoft/signalr.HubConnection}.
    *
    * https://example.com
@@ -416,8 +416,8 @@ test("Long description memory leak", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("since ", () => {
-  const result = subject(`
+test("since ", async () => {
+  const result = await subject(`
   /**
    * @since 3.16.0
    */
@@ -426,15 +426,15 @@ test("since ", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Incorrect comment", () => {
-  const result = subject(`
+test("Incorrect comment", async () => {
+  const result = await subject(`
   /***
    * Some comment
    */
   export class Dummy {}
   `);
 
-  const result2 = subject(`
+  const result2 = await subject(`
   /**
    *
    */
@@ -445,8 +445,8 @@ test("Incorrect comment", () => {
   expect(result2).toMatchSnapshot();
 });
 
-test("Empty comment", () => {
-  const result = subject(`
+test("Empty comment", async () => {
+  const result = await subject(`
   // Line Comment
   //
   `);
@@ -454,8 +454,8 @@ test("Empty comment", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Optional parameters", () => {
-  const result = subject(`
+test("Optional parameters", async () => {
+  const result = await subject(`
   /**
    * @param {number=} arg1
    * @param {number} [arg2]
@@ -466,8 +466,8 @@ test("Optional parameters", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Non-jsdoc comment", () => {
-  const result = subject(`
+test("Non-jsdoc comment", async () => {
+  const result = await subject(`
   // @type   { something  }
   /* @type   { something  }  */
   /* /** @type   { something  }  */
@@ -476,8 +476,8 @@ test("Non-jsdoc comment", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Format rest parameters properly", () => {
-  const result = subject(`
+test("Format rest parameters properly", async () => {
+  const result = await subject(`
   /**
    * @param {... *} arg1
    * @param {... number} arg2
@@ -491,7 +491,7 @@ test("Format rest parameters properly", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Line ends", () => {
+test("Line ends", async () => {
   const text = `
   /**
    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -514,18 +514,18 @@ function a() {}
   const formatted_crlf = formatted.replace(/\n/g, "\r\n");
   const formatted_lf = formatted;
 
-  expect(subject(text_lf, { endOfLine: "crlf" })).toEqual(formatted_crlf);
-  expect(subject(text_lf, { endOfLine: "lf" })).toEqual(formatted_lf);
+  expect(await subject(text_lf, { endOfLine: "crlf" })).toEqual(formatted_crlf);
+  expect(await subject(text_lf, { endOfLine: "lf" })).toEqual(formatted_lf);
 
-  expect(subject(text_crlf, { endOfLine: "crlf" })).toEqual(formatted_crlf);
-  expect(subject(text_crlf, { endOfLine: "lf" })).toEqual(formatted_lf);
+  expect(await subject(text_crlf, { endOfLine: "crlf" })).toEqual(formatted_crlf);
+  expect(await subject(text_crlf, { endOfLine: "lf" })).toEqual(formatted_lf);
 
-  expect(subject(text_lf, { endOfLine: "auto" })).toEqual(formatted_lf);
-  expect(subject(text_crlf, { endOfLine: "auto" })).toEqual(formatted_crlf);
+  expect(await subject(text_lf, { endOfLine: "auto" })).toEqual(formatted_lf);
+  expect(await subject(text_crlf, { endOfLine: "auto" })).toEqual(formatted_crlf);
 });
 
-test("param order", () => {
-  const result = subject(`
+test("param order", async () => {
+  const result = await subject(`
   /**
 * @param {  string   }    param0 description
 * @param {  number   }    param2 description
@@ -542,13 +542,6 @@ export const SubDomain = {
 async subDomain(subDomainAddress2,subDomainAddress) {
 },
 };
-
-/**
- * @param {  string   }    param0 description
- * @param {  number   }    param2 description
- * @param {  object   }    param1 description
-    */
- function fun(param0:string, param1:{}, param2:()=>{}){}
  
 
 /**
@@ -559,22 +552,12 @@ async subDomain(subDomainAddress2,subDomainAddress) {
  const fun=(param0, param1, param2)=>{
    console.log('')
  }
-
-
- /**
- * @param {  string   }    param0 description
- * @param {  number   }    param2 description
- * @param {  object   }    param1 description
-    */
- const fun=((param0: ()=>{}, param1:number, param2)=>{
-   console.log('')
- })
   
 `);
 
   expect(result).toMatchSnapshot();
 
-  const result2 = subject(
+  const result2 = await subject(
     `
  /**
  * @param {object} c      - Options.
@@ -596,10 +579,35 @@ foo('a', { b: 'b' });
   );
 
   expect(result2).toMatchSnapshot();
+
+  const result3 = await subject(
+    `
+ /**
+ * @param {  string   }    param0 description
+ * @param {  number   }    param2 description
+ * @param {  object   }    param1 description
+    */
+ const fun=((param0: ()=>{}, param1:number, param2)=>{
+   console.log('')
+ })
+
+/**
+ * @param {  string   }    param0 description
+ * @param {  number   }    param2 description
+ * @param {  object   }    param1 description
+    */
+ function fun(param0:string, param1:{}, param2:()=>{}){}
+ `, 
+ {
+   parser: 'babel-ts'
+ })
+
+ expect(result3).toMatchSnapshot()
+
 });
 
-test("jsdoc tags", () => {
-  const result2 = subject(
+test("jsdoc tags", async () => {
+  const result2 = await subject(
     `/**
     * @namespace
     * @borrows trstr as trim
@@ -616,7 +624,7 @@ test("jsdoc tags", () => {
 
   expect(result2).toMatchSnapshot();
 
-  const result3 = subject(
+  const result3 = await subject(
     `
 /**
  * @default 'i am a value' i am the description
@@ -627,8 +635,8 @@ test("jsdoc tags", () => {
   expect(result3).toMatchSnapshot();
 });
 
-test("example ", () => {
-  const result2 = subject(
+test("example ", async () => {
+  const result2 = await subject(
     `
 /**
  * ABCCCC
@@ -651,11 +659,11 @@ test("example ", () => {
 `,
   );
 
-  expect(subject(subject(result2))).toMatchSnapshot();
+  expect(await subject(await subject(result2))).toMatchSnapshot();
 });
 
-test("example with tab intention", () => {
-  const result2 = subject(
+test("example with tab intention", async () => {
+  const result2 = await subject(
     `
 /**
  * @example
@@ -671,8 +679,8 @@ test("example with tab intention", () => {
   );
 
   expect(
-    subject(
-      subject(result2, {
+    await subject(
+      await subject(result2, {
         useTabs: true,
       }),
       {
@@ -682,8 +690,8 @@ test("example with tab intention", () => {
   ).toMatchSnapshot();
 });
 
-test("Optional params", () => {
-  const result = subject(`
+test("Optional params", async () => {
+  const result = await subject(`
 /**
  * @param {string=} p2 - An optional param (Google Closure syntax)
  * @param {string} [p3] - Another optional param (JSDoc syntax).
@@ -694,8 +702,8 @@ test("Optional params", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("non-escapable character", () => {
-  const result = subject(`
+test("non-escapable character", async () => {
+  const result = await subject(`
   /**
    * \\\\
    * 
@@ -706,7 +714,7 @@ test("non-escapable character", () => {
 
   expect(result).toMatchSnapshot();
 
-  const result2 = subject(`
+  const result2 = await subject(`
   /**
    * \\\\
    */
@@ -715,22 +723,22 @@ test("non-escapable character", () => {
   expect(result2).toMatchSnapshot();
 });
 
-test("@file", () => {
-  const result = subject(`
+test("@file", async () => {
+  const result = await subject(`
   /** @file A file description */
 `);
 
   expect(result).toMatchSnapshot();
 });
 
-test("Block quote", () => {
-  const result = subject(`
+test("Block quote", async () => {
+  const result = await subject(`
   /** > A block quote */
 `);
 
   expect(result).toMatchSnapshot();
 
-  const result2 = subject(`
+  const result2 = await subject(`
   /**
    *  > \`\`\`js
    *  > > A block quote
@@ -750,8 +758,8 @@ test("Block quote", () => {
   expect(result2).toMatchSnapshot();
 });
 
-test("File with just an import", () => {
-  const result = subject(
+test("File with just an import", async () => {
+  const result = await subject(
     `
 import { something } from './index';
 `,
@@ -764,5 +772,5 @@ import { something } from './index';
     },
   );
 
-  expect(subject(subject(result))).toMatchSnapshot();
+  expect(await subject(await subject(result))).toMatchSnapshot();
 });

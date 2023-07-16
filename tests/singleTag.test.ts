@@ -1,17 +1,17 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
-    plugins: ["."],
+    plugins: ["prettier-plugin-jsdoc"],
     jsdocSpaces: 1,
     parser: "babel",
     ...options,
   } as AllOptions);
 }
 
-test("single tag", () => {
-  const result = subject(`
+test("single tag", async () => {
+  const result = await subject(`
   /**
 * @param {  string   }    param0 description
    */

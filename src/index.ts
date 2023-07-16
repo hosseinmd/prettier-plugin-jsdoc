@@ -1,14 +1,13 @@
 import { getParser } from "./parser";
-import parserBabel from "prettier/parser-babel";
-import parserFlow from "prettier/parser-flow";
-import parserTypescript from "prettier/parser-typescript";
+import parserBabel from "prettier/plugins/babel";
+import parserFlow from "prettier/plugins/flow";
+import parserTypescript from "prettier/plugins/typescript";
 import prettier, { SupportOption } from "prettier";
 import { JsdocOptions } from "./types";
 import { findPluginByParser } from "./utils";
 
 const options: Record<keyof JsdocOptions, SupportOption> = {
   jsdocParser: {
-    since: "0.3.34",
     name: "jsdocParser",
     type: "boolean",
     category: "jsdoc",
@@ -16,7 +15,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Enable/Disable jsdoc parser",
   },
   jsdocSpaces: {
-    since: "0.3.24",
     name: "jsdocSpaces",
     type: "int",
     category: "jsdoc",
@@ -24,7 +22,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "How many spaces will be used to separate tag elements.",
   },
   jsdocDescriptionWithDot: {
-    since: "0.3.24",
     name: "jsdocDescriptionWithDot",
     type: "boolean",
     category: "jsdoc",
@@ -32,7 +29,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should dot be inserted at the end of description",
   },
   jsdocDescriptionTag: {
-    since: "0.3.24",
     name: "jsdocDescriptionTag",
     type: "boolean",
     category: "jsdoc",
@@ -40,7 +36,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should description tag be used",
   },
   jsdocVerticalAlignment: {
-    since: "0.3.24",
     name: "jsdocVerticalAlignment",
     type: "boolean",
     category: "jsdoc",
@@ -48,7 +43,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should tags, types, names and description be aligned",
   },
   jsdocKeepUnParseAbleExampleIndent: {
-    since: "0.3.24",
     name: "jsdocKeepUnParseAbleExampleIndent",
     type: "boolean",
     category: "jsdoc",
@@ -57,7 +51,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
       "Should unParseAble example (pseudo code or no js code) keep its indentation",
   },
   jsdocSingleLineComment: {
-    since: "0.3.24",
     name: "jsdocSingleLineComment",
     type: "boolean",
     category: "jsdoc",
@@ -65,7 +58,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should compact single line comment",
   },
   jsdocSeparateReturnsFromParam: {
-    since: "0.3.24",
     name: "jsdocSeparateReturnsFromParam",
     type: "boolean",
     category: "jsdoc",
@@ -73,7 +65,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Add an space between last @param and @returns",
   },
   jsdocSeparateTagGroups: {
-    since: "0.3.27",
     name: "jsdocSeparateTagGroups",
     type: "boolean",
     category: "jsdoc",
@@ -81,7 +72,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Add an space between tag groups",
   },
   jsdocCapitalizeDescription: {
-    since: "0.3.24",
     name: "jsdocCapitalizeDescription",
     type: "boolean",
     category: "jsdoc",
@@ -89,7 +79,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should capitalize first letter of description",
   },
   tsdoc: {
-    since: "0.3.24",
     name: "tsdoc",
     type: "boolean",
     category: "jsdoc",
@@ -97,7 +86,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Should format as tsdoc",
   },
   jsdocPrintWidth: {
-    since: "0.3.24",
     name: "jsdocPrintWidth",
     type: "int",
     category: "jsdoc",
@@ -106,7 +94,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
       "If You don't set value to jsdocPrintWidth, the printWidth will be use as jsdocPrintWidth.",
   },
   jsdocAddDefaultToDescription: {
-    since: "0.3.29",
     name: "jsdocAddDefaultToDescription",
     type: "boolean",
     category: "jsdoc",
@@ -114,7 +101,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: "Add Default value of a param to end description",
   },
   jsdocPreferCodeFences: {
-    since: "0.3.31",
     name: "jsdocPreferCodeFences",
     type: "boolean",
     category: "jsdoc",
@@ -122,7 +108,6 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     description: `Prefer to render code blocks using "fences" (triple backticks). If not set, blocks without a language tag will be rendered with a four space indentation.`,
   },
   jsdocLineWrappingStyle: {
-    since: "0.3.39",
     name: "jsdocLineWrappingStyle",
     type: "choice",
     choices: [
@@ -131,7 +116,7 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     category: "jsdoc",
     default: "greedy",
     description: `Strategy for wrapping lines for the given print width. More options may be added in the future.`,
-  }
+  },
 };
 
 const defaultOptions: JsdocOptions = {
@@ -155,20 +140,6 @@ const defaultOptions: JsdocOptions = {
   tsdoc: options.tsdoc.default as boolean,
   jsdocLineWrappingStyle: options.jsdocLineWrappingStyle.default as "greedy",
 };
-
-const languages = prettier
-  .getSupportInfo()
-  .languages.filter(({ name }) =>
-    [
-      "JavaScript",
-      "Flow",
-      "JSX",
-      "TSX",
-      "TypeScript",
-      "Markdown",
-      "MDX",
-    ].includes(name),
-  );
 
 const parsers = {
   // JS - Babel
@@ -237,4 +208,4 @@ function mergeParsers(originalParser: prettier.Parser, parserName: string) {
   return parser;
 }
 
-export { languages, options, parsers, defaultOptions };
+export { options, parsers, defaultOptions };

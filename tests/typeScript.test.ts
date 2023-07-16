@@ -1,17 +1,17 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
     parser: "typescript",
-    plugins: ["."],
+    plugins: ["prettier-plugin-jsdoc"],
     jsdocSpaces: 1,
     ...options,
   } as AllOptions);
 }
 
-test("JS code should be formatted as usuall", () => {
-  const result = subject(`
+test("JS code should be formatted as usuall", async () => {
+  const result = await subject(`
   /**
  @typedef {
     {
@@ -65,8 +65,8 @@ test("JS code should be formatted as usuall", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("hoisted object", () => {
-  const result = subject(`
+test("hoisted object", async () => {
+  const result = await subject(`
   /**
  @typedef {
     {
@@ -88,8 +88,8 @@ test("hoisted object", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("max width challenge", () => {
-  const result = subject(
+test("max width challenge", async () => {
+  const result = await subject(
     `
 class test {
   /**
@@ -136,8 +136,8 @@ class test {
   expect(result).toMatchSnapshot();
 });
 
-test("description in interface", () => {
-  const result = subject(
+test("description in interface", async () => {
+  const result = await subject(
     `
 export interface FetchCallbackResponseArray<T, V> {
   resource: Resource<T>;
@@ -153,11 +153,11 @@ export interface FetchCallbackResponseArray<T, V> {
 `,
   );
 
-  expect(subject(subject(result))).toMatchSnapshot();
+  expect(await subject(await subject(result))).toMatchSnapshot();
 });
 
-test("Default export", () => {
-  const result = subject(`
+test("Default export", async () => {
+  const result = await subject(`
 /**
  * @typedef {import("Foo")} Foo
  */
@@ -166,8 +166,8 @@ test("Default export", () => {
   expect(result).toMatchSnapshot();
 });
 
-test("Union types", () => {
-  const result = subject(`
+test("Union types", async () => {
+  const result = await subject(`
 /**
  * @typedef {{ foo: string } | { bar: string; manyMoreLongArguments: object } | { baz: string }} Foo
  */

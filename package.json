@@ -3,23 +3,25 @@
   "version": "0.4.2",
   "description": "A Prettier plugin to format JSDoc comments.",
   "private": false,
-  "workspaces": {
-    "prettier-plugin-fake": "./prettier-plugin-fake"
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "default": "./dist/index.js"
+    }
   },
-  "main": "dist/index.js",
-  "module": "dist/index.min.mjs",
+  "browser": "dist/index.umd.min.js",
   "unpkg": "dist/index.umd.min.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/index.js",
-    "dist/index.min.mjs",
     "dist/index.umd.min.js",
     "dist/index.d.ts"
   ],
   "scripts": {
     "prepare": "yarn build",
     "lint": "eslint --ext '.ts' ./src",
-    "test": "yarn build --test && jest",
+    "test": "yarn build --test && NODE_OPTIONS=\"--loader ts-node/esm\" jest",
     "release": "standard-version && yarn publish && git push --follow-tags origin master",
     "prettierAll": "prettier --write \"**/*.ts\"",
     "clean": "rm -fr dist",
@@ -42,8 +44,6 @@
     "url": "git+https://github.com/hosseinmd/prettier-plugin-jsdoc.git"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.5",
-    "@babel/preset-env": "^7.18.2",
     "@commitlint/config-conventional": "^14.1.0",
     "@rollup/plugin-commonjs": "^21.0.3",
     "@rollup/plugin-json": "^4.1.0",
@@ -52,23 +52,23 @@
     "@types/mdast": "^3.0.10",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
-    "babel-jest": "^28.1.1",
     "commitlint": "^14.1.0",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
+    "jest-light-runner": "^0.5.0",
     "jest-specific-snapshot": "^5.0.0",
-    "prettier": "^2.6.1",
+    "prettier": "^3.0.0",
     "rollup": "^2.70.1",
     "standard-version": "^9.3.2",
     "terser": "^5.12.1",
-    "ts-jest": "^27.1.4",
+    "ts-node": "^10.9.1",
     "typescript": "^4.4.4"
   },
   "peerDependencies": {
-    "prettier": ">=2.1.2"
+    "prettier": "^3.0.0"
   },
   "dependencies": {
     "binary-searching": "^2.0.5",
@@ -76,6 +76,6 @@
     "mdast-util-from-markdown": "^1.2.0"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.13.1 || >=16.0.0"
   }
 }

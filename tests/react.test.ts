@@ -1,17 +1,17 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
-    plugins: ["."],
+    plugins: ["prettier-plugin-jsdoc"],
     jsdocSpaces: 1,
     parser: "babel",
     ...options,
   } as AllOptions);
 }
 
-test("JS code should be formatted as usuall", () => {
-  const result = subject(`
+test("JS code should be formatted as usuall", async () => {
+  const result = await subject(`
   import React, { memo } from "react";
   import { Text, View, StyleSheet } from "react-native";
   import * as d3Scale from "d3-scale";

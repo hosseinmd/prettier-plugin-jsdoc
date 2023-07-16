@@ -1,4 +1,4 @@
-const { parsers: typescriptParsers } = require("prettier/parser-typescript");
+import { parsers as typescriptParsers } from "prettier/plugins/typescript";
 
 /**
  *
@@ -8,14 +8,14 @@ const { parsers: typescriptParsers } = require("prettier/parser-typescript");
  */
 const preprocess = (text, options) => {
   if (
-    options.plugins.find((plugin) => plugin.name === "prettier-plugin-fake")
+    options.plugins.find((plugin) => plugin.name?.includes("prettier-plugin-fake"))
   ) {
     return `//prettier-plugin-fake\n${text}`;
   }
   return text;
 };
 
-exports.parsers = {
+export const parsers = {
   typescript: {
     ...typescriptParsers.typescript,
     preprocess: typescriptParsers.typescript.preprocess
@@ -25,8 +25,8 @@ exports.parsers = {
             options,
           )
       : preprocess,
-    parse: (text, parsers, options) => {
-      const ast = typescriptParsers.typescript.parse(text, parsers, options);
+    parse: (text, options) => {
+      const ast = typescriptParsers.typescript.parse(text, options);
       if (ast.comments) {
         ast.comments[0].value = "PRETTIER-PLUGIN-FAKE";
       }
