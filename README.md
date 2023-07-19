@@ -245,4 +245,9 @@ This project extended from @gum3n worked project on GitLab.
 
 [JSDoc](https://jsdoc.app)
 
-## Support
+## Supported prettier version
+
+| version | prettier version |
+| ------- | -----------------|
+| 1.0.0+  | 3.0.0+           |
+| 0.4.2   | 2.x+             |
