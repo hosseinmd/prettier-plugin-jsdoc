@@ -123,6 +123,11 @@ async function formatDescription(
 
   let tableIndex = 0;
 
+  text = text.replace(
+    new RegExp("\\n" + "\\s".repeat(beginningSpace.length), "g"),
+    "\n",
+  );
+
   const rootAst = fromMarkdown(text);
 
   async function stringifyASTWithoutChildren(

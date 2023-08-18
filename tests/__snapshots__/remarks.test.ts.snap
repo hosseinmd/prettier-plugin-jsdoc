@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Description start with markdown 1`] = `
+"/**
+ * Just a simple test
+ *
+ * @remarks
+ * - Remark 1
+ * - Remark 2
+ * - Remark 3
+ */
+"
+`;
+
+exports[`Description start with markdown 2`] = `
+"/**
+ * Just a simple test
+ *
+ * @remarks
+ *   - Remark 1
+ *   - Remark 2
+ *   - Remark 3
+ */
+"
+`;
+
+exports[`JS code should be formatted as usuall 1`] = `
+"/**
+ * Just a simple test
+ *
+ * @remarks
+ * - Remark 1
+ * - Remark 2
+ * - Remark 3
+ */
+"
+`;

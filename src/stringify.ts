@@ -117,13 +117,14 @@ const stringify = async (
       .trimEnd();
   } // Add description (complicated because of text wrap)
   else if (description) {
+    let descriptionString = "";
     if (useTagTitle) tagString += gap + " ".repeat(descGapAdj);
     if (
       TAGS_PEV_FORMATE_DESCRIPTION.includes(tag) ||
       !TAGS_ORDER.includes(tag)
     ) {
       // Avoid wrapping
-      tagString += description;
+      descriptionString = description;
     } else {
       const [, firstWord] = /^\s*(\S+)/.exec(description) || ["", ""];
 
@@ -141,20 +142,24 @@ const stringify = async (
         [REMARKS, PRIVATE_REMARKS].includes(tag)
       ) {
         // the tag is already longer than we are allowed to, so let's start at a new line
-        tagString +=
+        descriptionString =
           `\n${beginningSpace}` +
           (await formatDescription(tag, description, options, {
             beginningSpace,
           }));
       } else {
         // append the description to the tag
-        tagString += await formatDescription(tag, description, options, {
+        descriptionString = await formatDescription(tag, description, options, {
           // 1 is `\n` which added to tagString
           tagStringLength: tagString.length - 1,
           beginningSpace,
         });
       }
     }
+
+    tagString += descriptionString.startsWith("\n")
+      ? descriptionString.replace(/^\n[\s]+\n/g, "\n")
+      : descriptionString.trimStart();
   }
 
   // Add empty line after some tags if there is something below

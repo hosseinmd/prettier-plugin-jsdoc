@@ -189,7 +189,7 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
             return {
               type,
               name,
-              description: description.trim(),
+              description,
               tag,
               ...rest,
             };
@@ -407,8 +407,6 @@ function normalizeTags(parsed: Block): void {
         description = `{${type}} ${description}`;
         type = "";
       }
-
-      description = description.trim();
 
       return {
         tag,

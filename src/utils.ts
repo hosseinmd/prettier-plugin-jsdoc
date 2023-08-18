@@ -260,6 +260,8 @@ async function formatCode(
           }`,
       )
       .join("\n")}\n`;
+
+    result = result.replace(/^\n[\s]+\n/g, "\n");
   }
 
   return result;

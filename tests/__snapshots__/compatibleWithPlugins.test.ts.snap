@@ -67,6 +67,7 @@ import a from \\"a\\";
  * @memberof test
  * @example
  *   //prettier-plugin-fake
+ *
  *   var one = 5;
  *   var two = 10;
  *
@@ -105,7 +106,9 @@ import a from \\"a\\";
  * @memberof test
  * @example
  *   //prettier-plugin-fake
+ *
  *   //prettier-plugin-fake
+ *
  *   var one = 5;
  *   var two = 10;
  *
