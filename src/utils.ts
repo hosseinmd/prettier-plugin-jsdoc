@@ -255,7 +255,8 @@ async function formatCode(
       .split("\n")
       .map(
         (l) =>
-          `${beginningSpace}${jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
+          `${beginningSpace}${
+            jsdocKeepUnParseAbleExampleIndent ? l : l.trim()
           }`,
       )
       .join("\n")}\n`;
@@ -283,7 +284,7 @@ const findPluginByParser = (parserName: string, options: ParserOptions) => {
     : tsPlugin.parsers?.[parserName];
 };
 
-const isDefaultTag = (tag: string): boolean => TAGS_DEFAULT.includes(tag)
+const isDefaultTag = (tag: string): boolean => TAGS_DEFAULT.includes(tag);
 
 export {
   convertToModernType,

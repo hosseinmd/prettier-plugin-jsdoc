@@ -64,190 +64,193 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
       options.endOfLine === "auto" ? detectEndOfLine(text) : options.endOfLine;
     options = { ...options, endOfLine: "lf" };
 
-    await Promise.all(ast.comments.map(async (comment) => {
-      if (!isBlockComment(comment)) return;
-      const tokenIndex = findTokenIndex(ast.tokens, comment);
-      const paramsOrder = getParamsOrders(ast, tokenIndex);
+    await Promise.all(
+      ast.comments.map(async (comment) => {
+        if (!isBlockComment(comment)) return;
+        const tokenIndex = findTokenIndex(ast.tokens, comment);
+        const paramsOrder = getParamsOrders(ast, tokenIndex);
 
-      /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
-      comment.value = comment.value.replace(/^([*]+)/g, "*");
+        /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
+        comment.value = comment.value.replace(/^([*]+)/g, "*");
 
-      // Create the full comment string with line ends normalized to \n
-      // This means that all following code can assume \n and should only use
-      // \n.
-      const commentString = `/*${comment.value.replace(/\r\n?/g, "\n")}*/`;
+        // Create the full comment string with line ends normalized to \n
+        // This means that all following code can assume \n and should only use
+        // \n.
+        const commentString = `/*${comment.value.replace(/\r\n?/g, "\n")}*/`;
 
-      /**
-       * Check if this comment block is a JSDoc. Based on:
-       * https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
-       */
-      if (!/^\/\*\*[\s\S]+?\*\/$/.test(commentString)) return;
+        /**
+         * Check if this comment block is a JSDoc. Based on:
+         * https://github.com/jsdoc/jsdoc/blob/master/packages/jsdoc/plugins/commentsOnly.js
+         */
+        if (!/^\/\*\*[\s\S]+?\*\/$/.test(commentString)) return;
 
-      const parsed = parse(commentString, {
-        spacing: "preserve",
-        tokenizers: [
-          tagTokenizer(),
-          (spec) => {
-            if ([DEFAULT, DEFAULT_VALUE].includes(spec.tag)) {
-              return spec;
-            }
+        const parsed = parse(commentString, {
+          spacing: "preserve",
+          tokenizers: [
+            tagTokenizer(),
+            (spec) => {
+              if ([DEFAULT, DEFAULT_VALUE].includes(spec.tag)) {
+                return spec;
+              }
 
-            return typeTokenizer("preserve")(spec);
-          },
-          nameTokenizer(),
-          descriptionTokenizer("preserve"),
-        ],
-      })[0];
+              return typeTokenizer("preserve")(spec);
+            },
+            nameTokenizer(),
+            descriptionTokenizer("preserve"),
+          ],
+        })[0];
 
-      comment.value = "";
+        comment.value = "";
 
-      if (!parsed) {
-        // Error on commentParser
-        return;
-      }
-
-      normalizeTags(parsed);
-      convertCommentDescToDescTag(parsed);
-
-      const commentContentPrintWidth = getIndentationWidth(
-        comment,
-        text,
-        options,
-      );
-
-      let maxTagTitleLength = 0;
-      let maxTagTypeLength = 0;
-      let maxTagNameLength = 0;
-
-      let tags = parsed.tags
-        // Prepare tags data
-        .map(({ type, optional, ...rest }) => {
-          if (type) {
-            /**
-             * Convert optional to standard
-             * https://jsdoc.app/tags-type.html#:~:text=Optional%20parameter
-             */
-            type = type.replace(/[=]$/, () => {
-              optional = true;
-              return "";
-            });
-
-            type = convertToModernType(type);
-          }
-
-          return {
-            ...rest,
-            type,
-            optional,
-          } as Spec;
-        });
-
-      // Group tags
-      tags = sortTags(tags, paramsOrder, options);
-
-      if (options.jsdocSeparateReturnsFromParam) {
-        tags = tags.flatMap((tag, index) => {
-          if (tag.tag === RETURNS && tags[index - 1]?.tag === PARAM) {
-            return [SPACE_TAG_DATA, tag];
-          }
-
-          return [tag];
-        });
-      }
-      if (options.jsdocAddDefaultToDescription) {
-        tags = tags.map(addDefaultValueToDescription);
-      }
-
-      tags = await Promise.all(tags
-        .map(assignOptionalAndDefaultToName)
-        .map(async ({ type, ...rest }) => {
-          if (type) {
-            type = await formatType(type, {
-              ...options,
-              printWidth: commentContentPrintWidth,
-            });
-          }
-
-          return {
-            ...rest,
-            type,
-          } as Spec;
-        }),
-      ).then((formattedTags) =>
-        formattedTags.map(({ type, name, description, tag, ...rest }) => {
-          const isVerticallyAlignAbleTags =
-            TAGS_VERTICALLY_ALIGN_ABLE.includes(tag);
-
-          if (isVerticallyAlignAbleTags) {
-            maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
-            maxTagTypeLength = Math.max(maxTagTypeLength, type.length);
-            maxTagNameLength = Math.max(maxTagNameLength, name.length);
-          }
-
-          return {
-            type,
-            name,
-            description: description.trim(),
-            tag,
-            ...rest,
-          };
-        }),
-      );
-
-      if (options.jsdocSeparateTagGroups) {
-        tags = tags.flatMap((tag, index) => {
-          const prevTag = tags[index - 1];
-          if (
-            prevTag &&
-            prevTag.tag !== DESCRIPTION &&
-            prevTag.tag !== EXAMPLE &&
-            prevTag.tag !== SPACE_TAG_DATA.tag &&
-            tag.tag !== SPACE_TAG_DATA.tag &&
-            prevTag.tag !== tag.tag
-          ) {
-            return [SPACE_TAG_DATA, tag];
-          }
-
-          return [tag];
-        });
-      }
-
-      const filteredTags = tags.filter(({ description, tag }) => {
-        if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
-          return false;
+        if (!parsed) {
+          // Error on commentParser
+          return;
         }
-        return true;
-      });
 
-      // Create final jsDoc string
-      for (const [tagIndex, tagData] of filteredTags.entries()) {
-        const formattedTag = await stringify(
-          tagData,
-          tagIndex,
-          filteredTags,
-          { ...options, printWidth: commentContentPrintWidth },
-          maxTagTitleLength,
-          maxTagTypeLength,
-          maxTagNameLength,
-        );
-        comment.value += formattedTag;
-      }
+        normalizeTags(parsed);
+        convertCommentDescToDescTag(parsed);
 
-      comment.value = comment.value.trimEnd();
-
-      if (comment.value) {
-        comment.value = addStarsToTheBeginningOfTheLines(
-          comment.value,
+        const commentContentPrintWidth = getIndentationWidth(
+          comment,
+          text,
           options,
         );
-      }
 
-      if (eol === "cr") {
-        comment.value = comment.value.replace(/\n/g, "\r");
-      } else if (eol === "crlf") {
-        comment.value = comment.value.replace(/\n/g, "\r\n");
-      }
-    }));
+        let maxTagTitleLength = 0;
+        let maxTagTypeLength = 0;
+        let maxTagNameLength = 0;
+
+        let tags = parsed.tags
+          // Prepare tags data
+          .map(({ type, optional, ...rest }) => {
+            if (type) {
+              /**
+               * Convert optional to standard
+               * https://jsdoc.app/tags-type.html#:~:text=Optional%20parameter
+               */
+              type = type.replace(/[=]$/, () => {
+                optional = true;
+                return "";
+              });
+
+              type = convertToModernType(type);
+            }
+
+            return {
+              ...rest,
+              type,
+              optional,
+            } as Spec;
+          });
+
+        // Group tags
+        tags = sortTags(tags, paramsOrder, options);
+
+        if (options.jsdocSeparateReturnsFromParam) {
+          tags = tags.flatMap((tag, index) => {
+            if (tag.tag === RETURNS && tags[index - 1]?.tag === PARAM) {
+              return [SPACE_TAG_DATA, tag];
+            }
+
+            return [tag];
+          });
+        }
+        if (options.jsdocAddDefaultToDescription) {
+          tags = tags.map(addDefaultValueToDescription);
+        }
+
+        tags = await Promise.all(
+          tags
+            .map(assignOptionalAndDefaultToName)
+            .map(async ({ type, ...rest }) => {
+              if (type) {
+                type = await formatType(type, {
+                  ...options,
+                  printWidth: commentContentPrintWidth,
+                });
+              }
+
+              return {
+                ...rest,
+                type,
+              } as Spec;
+            }),
+        ).then((formattedTags) =>
+          formattedTags.map(({ type, name, description, tag, ...rest }) => {
+            const isVerticallyAlignAbleTags =
+              TAGS_VERTICALLY_ALIGN_ABLE.includes(tag);
+
+            if (isVerticallyAlignAbleTags) {
+              maxTagTitleLength = Math.max(maxTagTitleLength, tag.length);
+              maxTagTypeLength = Math.max(maxTagTypeLength, type.length);
+              maxTagNameLength = Math.max(maxTagNameLength, name.length);
+            }
+
+            return {
+              type,
+              name,
+              description: description.trim(),
+              tag,
+              ...rest,
+            };
+          }),
+        );
+
+        if (options.jsdocSeparateTagGroups) {
+          tags = tags.flatMap((tag, index) => {
+            const prevTag = tags[index - 1];
+            if (
+              prevTag &&
+              prevTag.tag !== DESCRIPTION &&
+              prevTag.tag !== EXAMPLE &&
+              prevTag.tag !== SPACE_TAG_DATA.tag &&
+              tag.tag !== SPACE_TAG_DATA.tag &&
+              prevTag.tag !== tag.tag
+            ) {
+              return [SPACE_TAG_DATA, tag];
+            }
+
+            return [tag];
+          });
+        }
+
+        const filteredTags = tags.filter(({ description, tag }) => {
+          if (!description && TAGS_DESCRIPTION_NEEDED.includes(tag)) {
+            return false;
+          }
+          return true;
+        });
+
+        // Create final jsDoc string
+        for (const [tagIndex, tagData] of filteredTags.entries()) {
+          const formattedTag = await stringify(
+            tagData,
+            tagIndex,
+            filteredTags,
+            { ...options, printWidth: commentContentPrintWidth },
+            maxTagTitleLength,
+            maxTagTypeLength,
+            maxTagNameLength,
+          );
+          comment.value += formattedTag;
+        }
+
+        comment.value = comment.value.trimEnd();
+
+        if (comment.value) {
+          comment.value = addStarsToTheBeginningOfTheLines(
+            comment.value,
+            options,
+          );
+        }
+
+        if (eol === "cr") {
+          comment.value = comment.value.replace(/\n/g, "\r");
+        } else if (eol === "crlf") {
+          comment.value = comment.value.replace(/\n/g, "\r\n");
+        }
+      }),
+    );
 
     ast.comments = ast.comments.filter(
       (comment) => !(isBlockComment(comment) && !comment.value),

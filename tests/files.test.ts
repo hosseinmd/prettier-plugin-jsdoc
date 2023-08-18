@@ -6,7 +6,7 @@ import { AllOptions } from "../src/types";
 import "jest-specific-snapshot";
 
 function subjectFiles(relativePath: string, options: Partial<AllOptions> = {}) {
-  const filepath = resolve(process.cwd(), 'tests', relativePath);
+  const filepath = resolve(process.cwd(), "tests", relativePath);
 
   try {
     const code = readFileSync(filepath).toString();

@@ -111,7 +111,11 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     name: "jsdocLineWrappingStyle",
     type: "choice",
     choices: [
-      { since: "0.3.39", value: "greedy", description: `Lines wrap as soon as they reach the print width` },
+      {
+        since: "0.3.39",
+        value: "greedy",
+        description: `Lines wrap as soon as they reach the print width`,
+      },
     ],
     category: "jsdoc",
     default: "greedy",

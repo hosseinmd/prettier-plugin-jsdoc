@@ -114,10 +114,7 @@ const TAGS_TYPELESS = [
   FILE,
 ];
 
-const TAGS_DEFAULT = [
-  DEFAULT,
-  DEFAULT_VALUE,
-]
+const TAGS_DEFAULT = [DEFAULT, DEFAULT_VALUE];
 
 const TAGS_PEV_FORMATE_DESCRIPTION = [
   /** @todo should be formate like jsdoc standard saw https://jsdoc.app/tags-borrows.html  */

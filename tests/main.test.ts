@@ -1,4 +1,4 @@
-import {format} from "prettier";
+import { format } from "prettier";
 import { AllOptions } from "../src/types";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
@@ -517,11 +517,15 @@ function a() {}
   expect(await subject(text_lf, { endOfLine: "crlf" })).toEqual(formatted_crlf);
   expect(await subject(text_lf, { endOfLine: "lf" })).toEqual(formatted_lf);
 
-  expect(await subject(text_crlf, { endOfLine: "crlf" })).toEqual(formatted_crlf);
+  expect(await subject(text_crlf, { endOfLine: "crlf" })).toEqual(
+    formatted_crlf,
+  );
   expect(await subject(text_crlf, { endOfLine: "lf" })).toEqual(formatted_lf);
 
   expect(await subject(text_lf, { endOfLine: "auto" })).toEqual(formatted_lf);
-  expect(await subject(text_crlf, { endOfLine: "auto" })).toEqual(formatted_crlf);
+  expect(await subject(text_crlf, { endOfLine: "auto" })).toEqual(
+    formatted_crlf,
+  );
 });
 
 test("param order", async () => {
@@ -597,13 +601,13 @@ foo('a', { b: 'b' });
  * @param {  object   }    param1 description
     */
  function fun(param0:string, param1:{}, param2:()=>{}){}
- `, 
- {
-   parser: 'babel-ts'
- })
+ `,
+    {
+      parser: "babel-ts",
+    },
+  );
 
- expect(result3).toMatchSnapshot()
-
+  expect(result3).toMatchSnapshot();
 });
 
 test("jsdoc tags", async () => {

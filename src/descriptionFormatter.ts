@@ -183,10 +183,12 @@ async function formatDescription(
         let result = tables?.[tableIndex] || "";
         tableIndex++;
         if (result) {
-          result = (await format(result, {
-            ...options,
-            parser: "markdown",
-          })).trim();
+          result = (
+            await format(result, {
+              ...options,
+              parser: "markdown",
+            })
+          ).trim();
         }
         return `${
           result
@@ -215,138 +217,140 @@ async function formatDescription(
       return stringifyASTWithoutChildren(mdAst, intention, parent);
     }
 
-    return (await Promise.all(((mdAst as Root).children as Content[])
-      .map(async (ast, index) => {
-        switch (ast.type) {
-          case "listItem": {
-            let _listCount = `\n${intention}- `;
-            // .replace(/((?!(^))\n)/g, "\n" + _intention);
-            if (typeof (mdAst as List).start === "number") {
-              const count = index + (((mdAst as List).start as number) ?? 1);
-              _listCount = `\n${intention}${count}. `;
+    return (
+      await Promise.all(
+        ((mdAst as Root).children as Content[]).map(async (ast, index) => {
+          switch (ast.type) {
+            case "listItem": {
+              let _listCount = `\n${intention}- `;
+              // .replace(/((?!(^))\n)/g, "\n" + _intention);
+              if (typeof (mdAst as List).start === "number") {
+                const count = index + (((mdAst as List).start as number) ?? 1);
+                _listCount = `\n${intention}${count}. `;
+              }
+
+              const _intention = intention + " ".repeat(_listCount.length - 1);
+
+              const result = (await stringyfy(ast, _intention, mdAst)).trim();
+
+              return `${_listCount}${result}`;
             }
 
-            const _intention = intention + " ".repeat(_listCount.length - 1);
-
-            const result = (await stringyfy(ast, _intention, mdAst)).trim();
-
-            return `${_listCount}${result}`;
-          }
-
-          case "list": {
-            let end = "";
-            /**
-             * Add empty line after list if that is end of description
-             * issue: {@link https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/98}
-             */
-            if (
-              tag !== DESCRIPTION &&
-              mdAst.type === "root" &&
-              index === mdAst.children.length - 1
-            ) {
-              end = "\n";
-            }
-            return `\n${await stringyfy(ast, intention, mdAst)}${end}`;
-          }
-
-          case "paragraph": {
-            const paragraph = await stringyfy(ast, intention, parent);
-            if ((ast as any).costumeType === TABLE) {
-              return paragraph;
-            }
-
-            return `\n\n${paragraph
+            case "list": {
+              let end = "";
               /**
-               * Break by backslash\
-               * issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/102
+               * Add empty line after list if that is end of description
+               * issue: {@link https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/98}
                */
-              .split("\\\n")
-              .map((_paragraph) => {
-                const links: string[] = [];
-                // Find jsdoc links and remove spaces
-                _paragraph = _paragraph.replace(
-                  /{@(link|linkcode|linkplain)[\s](([^{}])*)}/g,
-                  (_, tag: string, link: string) => {
-                    links.push(link);
+              if (
+                tag !== DESCRIPTION &&
+                mdAst.type === "root" &&
+                index === mdAst.children.length - 1
+              ) {
+                end = "\n";
+              }
+              return `\n${await stringyfy(ast, intention, mdAst)}${end}`;
+            }
 
-                    return `{@${tag}${"_".repeat(link.length)}}`;
-                  },
-                );
+            case "paragraph": {
+              const paragraph = await stringyfy(ast, intention, parent);
+              if ((ast as any).costumeType === TABLE) {
+                return paragraph;
+              }
 
-                _paragraph = _paragraph.replace(/\s+/g, " "); // Make single line
+              return `\n\n${paragraph
+                /**
+                 * Break by backslash\
+                 * issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/102
+                 */
+                .split("\\\n")
+                .map((_paragraph) => {
+                  const links: string[] = [];
+                  // Find jsdoc links and remove spaces
+                  _paragraph = _paragraph.replace(
+                    /{@(link|linkcode|linkplain)[\s](([^{}])*)}/g,
+                    (_, tag: string, link: string) => {
+                      links.push(link);
 
-                if (
-                  options.jsdocCapitalizeDescription &&
-                  !TAGS_PEV_FORMATE_DESCRIPTION.includes(tag)
-                )
-                  _paragraph = capitalizer(_paragraph);
-                if (options.jsdocDescriptionWithDot)
-                  _paragraph = _paragraph.replace(/([\w\p{L}])$/u, "$1."); // Insert dot if needed
+                      return `{@${tag}${"_".repeat(link.length)}}`;
+                    },
+                  );
 
-                let result = breakDescriptionToLines(
-                  _paragraph,
-                  printWidth,
-                  intention,
-                );
+                  _paragraph = _paragraph.replace(/\s+/g, " "); // Make single line
 
-                // Replace links
-                result = result.replace(
-                  /{@(link|linkcode|linkplain)([_]+)}/g,
-                  (original: string, tag: string, underline: string) => {
-                    const link = links[0];
+                  if (
+                    options.jsdocCapitalizeDescription &&
+                    !TAGS_PEV_FORMATE_DESCRIPTION.includes(tag)
+                  )
+                    _paragraph = capitalizer(_paragraph);
+                  if (options.jsdocDescriptionWithDot)
+                    _paragraph = _paragraph.replace(/([\w\p{L}])$/u, "$1."); // Insert dot if needed
 
-                    if (link.length === underline.length) {
-                      links.shift();
-                      return `{@${tag} ${link}}`;
-                    }
+                  let result = breakDescriptionToLines(
+                    _paragraph,
+                    printWidth,
+                    intention,
+                  );
 
-                    return original;
-                  },
-                );
+                  // Replace links
+                  result = result.replace(
+                    /{@(link|linkcode|linkplain)([_]+)}/g,
+                    (original: string, tag: string, underline: string) => {
+                      const link = links[0];
 
-                return result;
-              })
-              .join("\\\n")}`;
+                      if (link.length === underline.length) {
+                        links.shift();
+                        return `{@${tag} ${link}}`;
+                      }
+
+                      return original;
+                    },
+                  );
+
+                  return result;
+                })
+                .join("\\\n")}`;
+            }
+
+            case "strong": {
+              return `**${await stringyfy(ast, intention, mdAst)}**`;
+            }
+
+            case "emphasis": {
+              return `_${await stringyfy(ast, intention, mdAst)}_`;
+            }
+
+            case "heading": {
+              return `\n\n${intention}${"#".repeat(
+                ast.depth,
+              )} ${await stringyfy(ast, intention, mdAst)}`;
+            }
+
+            case "link":
+            case "image": {
+              return `[${await stringyfy(ast, intention, mdAst)}](${ast.url})`;
+            }
+
+            case "linkReference": {
+              return `[${await stringyfy(ast, intention, mdAst)}][${
+                ast.label
+              }]`;
+            }
+            case "definition": {
+              return `\n\n[${ast.label}]: ${ast.url}`;
+            }
+
+            case "blockquote": {
+              const paragraph = await stringyfy(ast, "", mdAst);
+              return `${intention}> ${paragraph
+                .trim()
+                .replace(/(\n+)/g, `$1${intention}> `)}`;
+            }
           }
-
-          case "strong": {
-            return `**${await stringyfy(ast, intention, mdAst)}**`;
-          }
-
-          case "emphasis": {
-            return `_${await stringyfy(ast, intention, mdAst)}_`;
-          }
-
-          case "heading": {
-            return `\n\n${intention}${"#".repeat(ast.depth)} ${await stringyfy(
-              ast,
-              intention,
-              mdAst,
-            )}`;
-          }
-
-          case "link":
-          case "image": {
-            return `[${await stringyfy(ast, intention, mdAst)}](${ast.url})`;
-          }
-
-          case "linkReference": {
-            return `[${await stringyfy(ast, intention, mdAst)}][${ast.label}]`;
-          }
-          case "definition": {
-            return `\n\n[${ast.label}]: ${ast.url}`;
-          }
-
-          case "blockquote": {
-            const paragraph = await stringyfy(ast, "", mdAst);
-            return `${intention}> ${paragraph
-              .trim()
-              .replace(/(\n+)/g, `$1${intention}> `)}`;
-          }
-        }
-        return stringyfy(ast, intention, mdAst);
-      }),
-    )).join("");
+          return stringyfy(ast, intention, mdAst);
+        }),
+      )
+    ).join("");
   }
 
   let result = await stringyfy(rootAst, beginningSpace, null);

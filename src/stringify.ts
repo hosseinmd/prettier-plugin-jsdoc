@@ -66,23 +66,25 @@ const stringify = async (
   if (type) {
     const getUpdatedType = () => {
       if (!isDefaultTag(tag)) {
-        return `{${type}}`
+        return `{${type}}`;
       }
 
       // The space is to improve readability in non-monospace fonts
-      if (type === '[]') return '[ ]'
-      if (type === '{}') return '{ }'
+      if (type === "[]") return "[ ]";
+      if (type === "{}") return "{ }";
 
-      const isAnObject = (value: string): boolean => /^{.*[A-z0-9_]+ ?:.*}$/.test(value)
-      const fixObjectCommas = (objWithBrokenCommas: string): string => objWithBrokenCommas.replace(/; ([A-z0-9_])/g, ', $1')
+      const isAnObject = (value: string): boolean =>
+        /^{.*[A-z0-9_]+ ?:.*}$/.test(value);
+      const fixObjectCommas = (objWithBrokenCommas: string): string =>
+        objWithBrokenCommas.replace(/; ([A-z0-9_])/g, ", $1");
 
       if (isAnObject(type)) {
-        return fixObjectCommas(type)
+        return fixObjectCommas(type);
       }
 
-      return type
-    }
-    const updatedType = getUpdatedType()
+      return type;
+    };
+    const updatedType = getUpdatedType();
     tagString += gap + updatedType + " ".repeat(tagTypeGapAdj);
   }
   if (name) tagString += `${gap}${name}${" ".repeat(tagNameGapAdj)}`;
@@ -97,7 +99,11 @@ const stringify = async (
     }
 
     const beginningSpace = useTabs ? "\t" : " ".repeat(tabWidth);
-    const formattedExample = await formatCode(description, beginningSpace, options);
+    const formattedExample = await formatCode(
+      description,
+      beginningSpace,
+      options,
+    );
 
     tagString += formattedExample
       .replace(
@@ -124,7 +130,7 @@ const stringify = async (
       // Wrap tag description
       const beginningSpace =
         tag === DESCRIPTION ||
-          ([EXAMPLE, REMARKS, PRIVATE_REMARKS].includes(tag) && tsdoc)
+        ([EXAMPLE, REMARKS, PRIVATE_REMARKS].includes(tag) && tsdoc)
           ? ""
           : "  "; // google style guide space
 
@@ -137,7 +143,9 @@ const stringify = async (
         // the tag is already longer than we are allowed to, so let's start at a new line
         tagString +=
           `\n${beginningSpace}` +
-          await formatDescription(tag, description, options, { beginningSpace });
+          (await formatDescription(tag, description, options, {
+            beginningSpace,
+          }));
       } else {
         // append the description to the tag
         tagString += await formatDescription(tag, description, options, {
