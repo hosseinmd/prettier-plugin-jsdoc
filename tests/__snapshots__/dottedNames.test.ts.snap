@@ -10,7 +10,7 @@ exports[`dotted names function param 1`] = `
  * @property {string} token
  * @property {number} expires
  * @property {boolean} mustChangePassword
- * @returns {import(\\"axios\\").AxiosResponse<LoginResponse>}
+ * @returns {import("axios").AxiosResponse<LoginResponse>}
  */
 function a() {}
 "

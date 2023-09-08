@@ -8,8 +8,8 @@ exports[`Tag group 1`] = `
  *
  * @example
  *   const foo = 0;
- *   const a = \\"\\";
- *   const b = \\"\\";
+ *   const a = "";
+ *   const b = "";
  *
  * @param id A test id.
  *

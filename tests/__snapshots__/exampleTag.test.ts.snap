@@ -89,11 +89,11 @@ exports[`example json  1`] = `
  *
  * @example
  *   {
- *     \\"0%\\": \\"#afc163\\",
- *     \\"25%\\": \\"#66FF00\\",
- *     \\"50%\\": \\"#00CC00\\", // ====>  linear-gradient(to right, #afc163 0%, #66FF00 25%,
- *     \\"75%\\": \\"#009900\\", //         #00CC00 50%, #009900 75%, #ffffff 100%)
- *     \\"100%\\": \\"#ffffff\\"
+ *     "0%": "#afc163",
+ *     "25%": "#66FF00",
+ *     "50%": "#00CC00", // ====>  linear-gradient(to right, #afc163 0%, #66FF00 25%,
+ *     "75%": "#009900", //         #00CC00 50%, #009900 75%, #ffffff 100%)
+ *     "100%": "#ffffff"
  *   }
  */
 "
@@ -116,7 +116,7 @@ exports[`example unParseAble 1`] = `
 exports[`examples Json 1`] = `
 "/**
  * @example
- *   { \\"testArr\\": [1, 2] }
+ *   { "testArr": [1, 2] }
  */
 "
 `;

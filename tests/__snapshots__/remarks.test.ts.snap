@@ -23,15 +23,3 @@ exports[`Description start with markdown 2`] = `
  */
 "
 `;
-
-exports[`JS code should be formatted as usuall 1`] = `
-"/**
- * Just a simple test
- *
- * @remarks
- * - Remark 1
- * - Remark 2
- * - Remark 3
- */
-"
-`;

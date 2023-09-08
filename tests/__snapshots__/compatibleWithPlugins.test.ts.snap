@@ -26,7 +26,7 @@ exports[`Should format jsDoc default values 1`] = `
 "//prettier-plugin-fake
 
 /**
- * @param {String} [arg1=\\"defaultTest\\"] Foo. Default is \`\\"defaultTest\\"\`
+ * @param {String} [arg1="defaultTest"] Foo. Default is \`"defaultTest"\`
  * @param {number} [arg2=123] The width of the rectangle. Default is \`123\`
  * @param {number} [arg3=123] Default is \`123\`
  * @param {number} [arg4=Foo.bar.baz] Default is \`Foo.bar.baz\`
@@ -40,7 +40,7 @@ exports[`Should format jsDoc default values 2`] = `
 //prettier-plugin-fake
 
 /**
- * @param {String} [arg1=\\"defaultTest\\"] Foo. Default is \`\\"defaultTest\\"\`
+ * @param {String} [arg1="defaultTest"] Foo. Default is \`"defaultTest"\`
  * @param {number} [arg2=123] The width of the rectangle. Default is \`123\`
  * @param {number} [arg3=123] Default is \`123\`
  * @param {number} [arg4=Foo.bar.baz] Default is \`Foo.bar.baz\`
@@ -52,9 +52,9 @@ exports[`Should format jsDoc default values 2`] = `
 exports[`Should format regular jsDoc 1`] = `
 "//prettier-plugin-fake
 
-import b from \\"b\\";
-import { k } from \\"k\\";
-import a from \\"a\\";
+import b from "b";
+import { k } from "k";
+import a from "a";
 
 /**
  * Function example description that was wrapped by hand so it have more then
@@ -77,7 +77,7 @@ import a from \\"a\\";
  *
  * @param {String | Number} text - Some text description that is very long and
  *   needs to be wrapped
- * @param {String} [defaultValue=\\"defaultTest\\"] TODO. Default is \`\\"defaultTest\\"\`
+ * @param {String} [defaultValue="defaultTest"] TODO. Default is \`"defaultTest"\`
  * @param {Number | Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  * @undefiendTag
@@ -91,9 +91,9 @@ exports[`Should format regular jsDoc 2`] = `
 "//prettier-plugin-fake
 //prettier-plugin-fake
 
-import b from \\"b\\";
-import { k } from \\"k\\";
-import a from \\"a\\";
+import b from "b";
+import { k } from "k";
+import a from "a";
 
 /**
  * Function example description that was wrapped by hand so it have more then
@@ -118,7 +118,7 @@ import a from \\"a\\";
  *
  * @param {String | Number} text - Some text description that is very long and
  *   needs to be wrapped
- * @param {String} [defaultValue=\\"defaultTest\\"] TODO. Default is \`\\"defaultTest\\"\`
+ * @param {String} [defaultValue="defaultTest"] TODO. Default is \`"defaultTest"\`
  * @param {Number | Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  * @undefiendTag

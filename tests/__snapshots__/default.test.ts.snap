@@ -4,7 +4,7 @@ exports[`@default filled array 1`] = `
 "/**
  * The summary
  *
- * @default [1, \\"two\\", { three: true }, [\\"four\\"]]
+ * @default [1, "two", { three: true }, ["four"]]
  */
 "
 `;
@@ -13,7 +13,7 @@ exports[`@default filled object 1`] = `
 "/**
  * The summary
  *
- * @default { object: \\"value\\", nestingTest: { obj: \\"nested\\" } }
+ * @default { object: "value", nestingTest: { obj: "nested" } }
  */
 "
 `;
@@ -22,7 +22,7 @@ exports[`@defaultValue filled array 1`] = `
 "/**
  * The summary
  *
- * @defaultValue [1, \\"two\\", { three: true }, [\\"four\\"]]
+ * @defaultValue [1, "two", { three: true }, ["four"]]
  */
 "
 `;
@@ -31,7 +31,7 @@ exports[`@defaultValue filled object 1`] = `
 "/**
  * The summary
  *
- * @defaultValue { object: \\"value\\", nestingTest: { obj: \\"nested\\" } }
+ * @defaultValue { object: "value", nestingTest: { obj: "nested" } }
  */
 "
 `;
@@ -40,7 +40,7 @@ exports[`Can't convert double quote @default if a single quote character is in t
 "/**
  * The summary
  *
- * @default \\"This isn't bad\\"
+ * @default "This isn't bad"
  */
 "
 `;
@@ -58,7 +58,7 @@ exports[`convert single quote @default to double quote 1`] = `
 "/**
  * The summary
  *
- * @default \\"value\\"
+ * @default "value"
  */
 "
 `;
@@ -85,7 +85,7 @@ exports[`default string with description 1`] = `
 "/**
  * The summary
  *
- * @default \\"type\\" description
+ * @default "type" description
  */
 "
 `;
@@ -94,7 +94,7 @@ exports[`double default one 1`] = `
 "/**
  * The summary
  *
- * @default \\"something\\"
+ * @default "something"
  * @default { }
  */
 "
@@ -105,7 +105,7 @@ exports[`double default two 1`] = `
  * The summary
  *
  * @default { }
- * @default \\"something\\"
+ * @default "something"
  */
 "
 `;

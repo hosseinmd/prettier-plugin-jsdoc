@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`JS code should be formatted as usuall 1`] = `
-"import React, { memo } from \\"react\\";
-import { Text, View, StyleSheet } from \\"react-native\\";
-import * as d3Scale from \\"d3-scale\\";
-import * as array from \\"d3-array\\";
-import Svg, { G, Text as SVGText } from \\"react-native-svg\\";
-import { useLayout, useInlineStyle } from \\"./hooks\\";
+"import React, { memo } from "react";
+import { Text, View, StyleSheet } from "react-native";
+import * as d3Scale from "d3-scale";
+import * as array from "d3-array";
+import Svg, { G, Text as SVGText } from "react-native-svg";
+import { useLayout, useInlineStyle } from "./hooks";
 
 /**
  * @typedef {object} XAxisProps
@@ -27,7 +27,7 @@ import { useLayout, useInlineStyle } from \\"./hooks\\";
  * @property {number} [min]
  */
 
-/** @type {React.FC<XAxisProps & import(\\"react-native-svg\\").TextProps>} */
+/** @type {React.FC<XAxisProps & import("react-native-svg").TextProps>} */
 const XAxis = memo(
   ({
     contentInset: { left = 0, right = 0 } = {},

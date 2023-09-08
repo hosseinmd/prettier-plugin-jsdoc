@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Default export 1`] = `
-"/** @typedef {import(\\"Foo\\")} Foo */
+"/** @typedef {import("Foo")} Foo */
 "
 `;
 
@@ -11,7 +11,7 @@ exports[`JS code should be formatted as usuall 1`] = `
  *   userId: string;
  *   title: string;
  *   profileImageLink: string;
- *   identityStatus: \\"None\\";
+ *   identityStatus: "None";
  *   isBusinessUser: boolean;
  *   isResellerUser: boolean;
  *   isSubUser: boolean;
@@ -81,8 +81,8 @@ exports[`hoisted object 1`] = `
  *   userId: {
  *     title: string;
  *     profileImageLink: any;
- *     identityStatus: \\"None\\";
- *     isBusinessUser: \\"isResellerUser\\" | \\"isBoolean\\" | \\"isSubUser\\" | \\"isNot\\";
+ *     identityStatus: "None";
+ *     isBusinessUser: "isResellerUser" | "isBoolean" | "isSubUser" | "isNot";
  *     shareCode: number;
  *     referredBy: any;
  *   };

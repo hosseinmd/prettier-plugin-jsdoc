@@ -20,7 +20,7 @@ exports[`# in block code 1`] = `
 
 exports[`\`#\` in text 1`] = `
 "/**
- * JS: \`console.log(\\"foo # bar\\");\`
+ * JS: \`console.log("foo # bar");\`
  *
  * Some # text
  *
@@ -34,16 +34,16 @@ exports[`Code in description 1`] = `
  * Inspired from react-native View
  *
  * \`\`\`js
- * import { View } from \\"react-native\\";
+ * import { View } from "react-native";
  *
  * function MyComponent() {
  *   return (
- *     <View style={{ alignItems: \\"center\\" }}>
+ *     <View style={{ alignItems: "center" }}>
  *       <View
- *         variant=\\"a\\"
- *         href=\\"/\\"
+ *         variant="a"
+ *         href="/"
  *         onPress={() => {
- *           history.push(\\"/\\");
+ *           history.push("/");
  *         }}
  *         style={{ width: 300, height: 50 }}
  *       >
@@ -195,7 +195,7 @@ exports[`Jsx tsx css  1`] = `
  * \`\`\`
  *
  * \`\`\`html
- * <div class=\\"body\\"></div>
+ * <div class="body"></div>
  * \`\`\`
  */
 "
@@ -477,23 +477,23 @@ exports[`code in description 1`] = `
  * will measure time/geometry and tells you when to give feedback to the user.
  *
  * ====================== Touchable Tutorial =============================== The
- * \`Touchable\` mixin helps you handle the \\"press\\" interaction. It analyzes the
+ * \`Touchable\` mixin helps you handle the "press" interaction. It analyzes the
  * geometry of elements, and observes when another responder (scroll view etc)
  * has stolen the touch lock. It notifies your component when it should give
  * feedback to the user. (bouncing/highlighting/unhighlighting).
  *
  * - When a touch was activated (typically you highlight)
  * - When a touch was deactivated (typically you unhighlight)
- * - When a touch was \\"pressed\\" - a touch ended while still within the geometry of
- *   the element, and no other element (like scroller) has \\"stolen\\" touch lock
- *   (\\"responder\\") (Typically you bounce the element).
+ * - When a touch was "pressed" - a touch ended while still within the geometry of
+ *   the element, and no other element (like scroller) has "stolen" touch lock
+ *   ("responder") (Typically you bounce the element).
  *
  * A good tap interaction isn't as simple as you might think. There should be a
  * slight delay before showing a highlight when starting a touch. If a
  * subsequent touch move exceeds the boundary of the element, it should
  * unhighlight, but if that same touch is brought back within the boundary, it
  * should rehighlight again. A touch can move in and out of that boundary
- * several times, each time toggling highlighting, but a \\"press\\" is only
+ * several times, each time toggling highlighting, but a "press" is only
  * triggered if that touch ends while within the element's boundary and no
  * scroller (or anything else) has stolen the lock on touches.
  *
@@ -582,7 +582,7 @@ exports[`code in description 2`] = `
  *
  * You should use the following instead:
  *
- *     type Props = { position: TypeForStyleKey<\\"position\\"> };
+ *     type Props = { position: TypeForStyleKey<"position"> };
  *
  * This will correctly give you the type 'absolute' | 'relative'
  */
@@ -745,7 +745,7 @@ exports[`description new line with dash 3`] = `
  *
  * The test case file can either consist of two parts:
  *
- *     const a = \\"\\";
+ *     const a = "";
  *     const b = { c: [] };
  *
  * Or of three parts:
@@ -861,7 +861,7 @@ exports[`numbers and code in description 1`] = `
  * # Geometry
  *
  * When the press is released outside the \`HitRect\`, the responder is NOT
- * eligible for a \\"press\\".
+ * eligible for a "press".
  */
 "
 `;

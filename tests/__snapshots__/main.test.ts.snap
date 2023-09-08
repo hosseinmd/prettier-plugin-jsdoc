@@ -21,11 +21,11 @@ exports[`@file 1`] = `
 `;
 
 exports[`Bad defined name 1`] = `
-"/** @type {import(\\"@jest/types/build/Config\\").InitialOptions} */
+"/** @type {import("@jest/types/build/Config").InitialOptions} */
 /** @type {{ foo: string }} */
 
 /**
- * @typedef {import(\\"@jest/types/build/Config\\").InitialOptions} name A
+ * @typedef {import("@jest/types/build/Config").InitialOptions} name A
  *   description
  */
 "
@@ -68,7 +68,7 @@ exports[`Empty comment 1`] = `
 `;
 
 exports[`File with just an import 1`] = `
-"import { something } from \\"./index\\";
+"import { something } from "./index";
 "
 `;
 
@@ -107,18 +107,18 @@ exports[`Incorrect comment 2`] = `
 
 exports[`JS code should be formatted as usuall 1`] = `
 "const variable1 = 1; // No semicolon
-const stringVar = \\"text\\"; // Wrong quotes
+const stringVar = "text"; // Wrong quotes
 const indented = 2; // Wrong indentation
 
 // Longer then 80 characters
 const someLongList = [
-  \\"private\\",
-  \\"memberof\\",
-  \\"description\\",
-  \\"example\\",
-  \\"param\\",
-  \\"returns\\",
-  \\"link\\",
+  "private",
+  "memberof",
+  "description",
+  "example",
+  "param",
+  "returns",
+  "link",
 ];
 "
 `;
@@ -236,7 +236,7 @@ exports[`Should convert to single multiLine 3`] = `
 
 exports[`Should format jsDoc default values 1`] = `
 "/**
- * @param {String} [arg1=\\"defaultTest\\"] Foo. Default is \`\\"defaultTest\\"\`
+ * @param {String} [arg1="defaultTest"] Foo. Default is \`"defaultTest"\`
  * @param {number} [arg2=123] The width of the rectangle. Default is \`123\`
  * @param {number} [arg3=123] Default is \`123\`
  * @param {number} [arg4=Foo.bar.baz] Default is \`Foo.bar.baz\`
@@ -247,7 +247,7 @@ exports[`Should format jsDoc default values 1`] = `
 
 exports[`Should format jsDoc default values 2`] = `
 "/**
- * @param {String} [arg1=\\"defaultTest\\"] Foo. Default is \`\\"defaultTest\\"\`
+ * @param {String} [arg1="defaultTest"] Foo. Default is \`"defaultTest"\`
  * @param {number} [arg2=123] The width of the rectangle. Default is \`123\`
  * @param {number} [arg3=123] Default is \`123\`
  * @param {number} [arg4=Foo.bar.baz] Default is \`Foo.bar.baz\`
@@ -258,11 +258,11 @@ exports[`Should format jsDoc default values 2`] = `
 
 exports[`Should format jsDoc default values 3`] = `
 "/**
- * @param {String} [arg1=\\"defaultTest\\"] Foo
+ * @param {String} [arg1="defaultTest"] Foo
  * @param {number} [arg2=123] The width of the rectangle
  * @param {number} [arg3=123]
  * @param {number} [arg4=Foo.bar.baz]
- * @param {number | string} [arg5=123] Something. Default is \`\\"wrong\\"\`
+ * @param {number | string} [arg5=123] Something. Default is \`"wrong"\`
  */
 "
 `;
@@ -287,7 +287,7 @@ exports[`Should format regular jsDoc 1`] = `
  *
  * @param {String | Number} text - Some text description that is very long and
  *   needs to be wrapped
- * @param {String} [defaultValue=\\"defaultTest\\"] TODO. Default is \`\\"defaultTest\\"\`
+ * @param {String} [defaultValue="defaultTest"] TODO. Default is \`"defaultTest"\`
  * @param {Number | Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  * @undefiendTag
@@ -317,7 +317,7 @@ exports[`Should format regular jsDoc 2`] = `
  *
  * @param {String | Number} text - Some text description that is very long and
  *   needs to be wrapped
- * @param {String} [defaultValue=\\"defaultTest\\"] TODO. Default is \`\\"defaultTest\\"\`
+ * @param {String} [defaultValue="defaultTest"] TODO. Default is \`"defaultTest"\`
  * @param {Number | Null} [optionalNumber]
  * @returns {Boolean} Description for @returns with s
  * @undefiendTag
@@ -402,7 +402,7 @@ exports[`Sould keep params ordering when more than 10 tags are present 1`] = `
  * @param {undefined | null} test4 Test param
  * @param {!undefined} test5 Test param
  * @param {any} test6 Test param
- * @param {\\"*\\"} test6 Test param
+ * @param {"*"} test6 Test param
  * @param {Number | null} test7 Test param
  * @param {...Number} test8 Test param
  * @param {!Number} test9 Test param
@@ -438,7 +438,7 @@ exports[`example with tab intention 1`] = `
 "/**
  * @example
  * 	function Hello() {
- * 		console.log(\\"Hello World\\");
+ * 		console.log("Hello World");
  * 	}
  */
 "
@@ -460,21 +460,21 @@ exports[`jsdoc tags 1`] = `
 `;
 
 exports[`jsdoc tags 2`] = `
-"/** @default \\"i am a value\\" i am the description */
+"/** @default "i am a value" i am the description */
 "
 `;
 
 exports[`non-escapable character 1`] = `
 "/**
- * \\\\
+ * \\
  *
- * \\\\-
+ * \\-
  */
 "
 `;
 
 exports[`non-escapable character 2`] = `
-"/** \\\\ */
+"/** \\ */
 "
 `;
 
@@ -490,7 +490,7 @@ export const SubDomain = {
   /**
    * @param subDomainAddress2
    * @param {any} subDomainAddress
-   * @returns {import(\\"axios\\").AxiosResponse<import(\\"../types\\").SubDomain>}
+   * @returns {import("axios").AxiosResponse<import("../types").SubDomain>}
    */
   async subDomain(subDomainAddress2, subDomainAddress) {},
 };
@@ -501,7 +501,7 @@ export const SubDomain = {
  * @param {number} param2 Description
  */
 const fun = (param0, param1, param2) => {
-  console.log(\\"\\");
+  console.log("");
 };
 "
 `;
@@ -518,7 +518,7 @@ exports[`param order 2`] = `
 const foo = (a, c, { b }, v, opt2) => {
   console.log(a, v, c, b);
 };
-foo(\\"a\\", { b: \\"b\\" });
+foo("a", { b: "b" });
 "
 `;
 
@@ -529,7 +529,7 @@ exports[`param order 3`] = `
  * @param {object} param1 Description
  */
 const fun = (param0: () => {}, param1: number, param2) => {
-  console.log(\\"\\");
+  console.log("");
 };
 
 /**
