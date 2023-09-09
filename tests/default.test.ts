@@ -161,3 +161,38 @@ test("double default two", async () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("Single line codegen", async () => {
+  const result = await subject(
+    `
+    /** @default codegen */
+`,
+  );
+
+  expect(result).toMatchSnapshot();
+});
+
+test("Multi line codegen", async () => {
+  const result = await subject(
+    `
+    /** 
+     * @default codegen 
+     */
+`,
+  );
+
+  expect(result).toMatchSnapshot();
+});
+
+test("code in default", async () => {
+  const result = await subject(
+    `/**
+     * The path to the config file or directory contains the config file.
+     *
+     * @default process.cwd()
+     */
+`,
+  );
+
+  expect(result).toMatchSnapshot();
+});

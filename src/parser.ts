@@ -8,14 +8,7 @@ import {
   findPluginByParser,
   isDefaultTag,
 } from "./utils";
-import {
-  DESCRIPTION,
-  PARAM,
-  RETURNS,
-  DEFAULT,
-  DEFAULT_VALUE,
-  EXAMPLE,
-} from "./tags";
+import { DESCRIPTION, PARAM, RETURNS, EXAMPLE } from "./tags";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP_HEAD,
@@ -89,7 +82,7 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
           tokenizers: [
             tagTokenizer(),
             (spec) => {
-              if ([DEFAULT, DEFAULT_VALUE].includes(spec.tag)) {
+              if (isDefaultTag(spec.tag)) {
                 return spec;
               }
 
@@ -577,12 +570,14 @@ function assignOptionalAndDefaultToName({
       source.find((x) => x.source.includes(`@${tag}`))?.source || "";
 
     const tagMatch = usefulSourceLine.match(
-      /@default(Value)? (\[.*]|{.*}|\(.*\)|'.*'|".*"|`.*`|[A-z0-9_]+)( (.+))?/,
+      /@default(Value)? (\[.*]|{.*}|\(.*\)|'.*'|".*"|`.*`| \w+)( ((?!\*\/).+))?/,
     );
     const tagValue = tagMatch?.[2] || "";
     const tagDescription = tagMatch?.[4] || "";
 
     if (tagMatch) {
+      console.log(tagMatch);
+
       type = tagValue;
       name = "";
       description = tagDescription;

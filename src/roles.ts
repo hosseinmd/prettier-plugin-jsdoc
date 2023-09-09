@@ -73,6 +73,8 @@ const TAGS_SYNONYMS = {
   hidden: IGNORE,
 };
 
+const TAGS_DEFAULT = [DEFAULT, DEFAULT_VALUE];
+
 const TAGS_NAMELESS = [
   BORROWS,
   CATEGORY,
@@ -93,6 +95,7 @@ const TAGS_NAMELESS = [
   TODO,
   YIELDS,
   FILE,
+  ...TAGS_DEFAULT,
 ];
 
 const TAGS_TYPELESS = [
@@ -113,8 +116,6 @@ const TAGS_TYPELESS = [
   TODO,
   FILE,
 ];
-
-const TAGS_DEFAULT = [DEFAULT, DEFAULT_VALUE];
 
 const TAGS_PEV_FORMATE_DESCRIPTION = [
   /** @todo should be formate like jsdoc standard saw https://jsdoc.app/tags-borrows.html  */

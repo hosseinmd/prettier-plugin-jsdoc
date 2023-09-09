@@ -45,6 +45,25 @@ exports[`Can't convert double quote @default if a single quote character is in t
 "
 `;
 
+exports[`Multi line codegen 1`] = `
+"/** @default codegen */
+"
+`;
+
+exports[`Single line codegen 1`] = `
+"/** @default codegen */
+"
+`;
+
+exports[`code in default 1`] = `
+"/**
+ * The path to the config file or directory contains the config file.
+ *
+ * @default process.cwd()
+ */
+"
+`;
+
 exports[`convert double quote @default to single quote 1`] = `
 "/**
  * The summary
