@@ -576,8 +576,6 @@ function assignOptionalAndDefaultToName({
     const tagDescription = tagMatch?.[4] || "";
 
     if (tagMatch) {
-      console.log(tagMatch);
-
       type = tagValue;
       name = "";
       description = tagDescription;

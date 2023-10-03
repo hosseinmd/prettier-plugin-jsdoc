@@ -34,14 +34,3 @@ exports[`space after unknownTag 1`] = `
  */
 "
 `;
-
-exports[`space between note and see 1`] = `
-"/**
- * A description.
- *
- * @notDefinedTag A note.
- *
- * @see http://acme.com
- */
-"
-`;

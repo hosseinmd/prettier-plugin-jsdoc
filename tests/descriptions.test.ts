@@ -1033,3 +1033,26 @@ test("Reference-style Links ", async () => {
 
   expect(result2).toMatchSnapshot();
 });
+
+test("Reference-style Links ", async () => {
+  const result = await subject(
+    `
+  /**
+   * Testing docBlocks.
+   *
+   * @param   ...args Arguments.
+   *
+   * @returns         Something.
+   *
+   *   - Note: here is a list item in markdown.
+   *
+   * @see https://link.example
+   */
+`,
+    {
+      jsdocSeparateTagGroups: true,
+    },
+  );
+
+  expect(result).toMatchSnapshot();
+});

@@ -41,6 +41,7 @@ const stringify = async (
     tsdoc,
     useTabs,
     tabWidth,
+    jsdocSeparateTagGroups,
   } = options;
   const gap = " ".repeat(jsdocSpaces);
 
@@ -126,8 +127,6 @@ const stringify = async (
       TAGS_PEV_FORMATE_DESCRIPTION.includes(tag) ||
       !TAGS_ORDER.includes(tag)
     ) {
-      description = description.trimEnd();
-
       // Avoid wrapping
       descriptionString = description;
     } else {
@@ -160,6 +159,10 @@ const stringify = async (
           beginningSpace,
         });
       }
+    }
+
+    if (jsdocSeparateTagGroups) {
+      descriptionString = descriptionString.trimEnd();
     }
 
     tagString += descriptionString.startsWith("\n")

@@ -469,6 +469,21 @@ function test(value) {
 "
 `;
 
+exports[`Reference-style Links  3`] = `
+"/**
+ * Testing docBlocks.
+ *
+ * @param ...args Arguments.
+ *
+ * @returns Something.
+ *
+ *   - Note: here is a list item in markdown.
+ *
+ * @see https://link.example
+ */
+"
+`;
+
 exports[`code in description 1`] = `
 "/**
  * \`Touchable\`: Taps done right.
