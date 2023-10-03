@@ -7,8 +7,8 @@ import {
   findTokenIndex,
   findPluginByParser,
   isDefaultTag,
-} from "./utils";
-import { DESCRIPTION, PARAM, RETURNS, EXAMPLE } from "./tags";
+} from "./utils.js";
+import { DESCRIPTION, PARAM, RETURNS, EXAMPLE } from "./tags.js";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP_HEAD,
@@ -18,11 +18,11 @@ import {
   TAGS_SYNONYMS,
   TAGS_TYPELESS,
   TAGS_VERTICALLY_ALIGN_ABLE,
-} from "./roles";
-import { AST, AllOptions, PrettierComment, Token } from "./types";
-import { stringify } from "./stringify";
+} from "./roles.js";
+import { AST, AllOptions, PrettierComment, Token } from "./types.js";
+import { stringify } from "./stringify.js";
 import { Parser } from "prettier";
-import { SPACE_TAG_DATA } from "./tags";
+import { SPACE_TAG_DATA } from "./tags.js";
 
 const {
   name: nameTokenizer,

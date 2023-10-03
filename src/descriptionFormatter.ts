@@ -1,9 +1,9 @@
 import { format, BuiltInParserName } from "prettier";
-import { DESCRIPTION, EXAMPLE, TODO } from "./tags";
-import { AllOptions } from "./types";
-import { capitalizer, formatCode } from "./utils";
+import { DESCRIPTION, EXAMPLE, TODO } from "./tags.js";
+import { AllOptions } from "./types.js";
+import { capitalizer, formatCode } from "./utils.js";
 import { Root, Content, Link, Image, Text, List } from "mdast";
-import { TAGS_PEV_FORMATE_DESCRIPTION } from "./roles";
+import { TAGS_PEV_FORMATE_DESCRIPTION } from "./roles.js";
 import { fromMarkdown } from "mdast-util-from-markdown";
 
 const TABLE = "2@^5!~#sdE!_TABLE";

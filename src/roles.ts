@@ -40,11 +40,12 @@ import {
   THROWS,
   TODO,
   TYPE,
+  SATISFIES,
   TYPE_PARAM,
   TYPEDEF,
   VERSION,
   YIELDS,
-} from "./tags";
+} from "./tags.js";
 
 const TAGS_SYNONYMS = {
   // One TAG TYPE can have different titles called SYNONYMS.  We want
@@ -144,6 +145,7 @@ const TAGS_TYPE_NEEDED = [
   RETURNS,
   THROWS,
   TYPE,
+  SATISFIES,
   TYPEDEF,
   YIELDS,
 ];
@@ -155,6 +157,7 @@ const TAGS_VERTICALLY_ALIGN_ABLE = [
   RETURNS,
   THROWS,
   TYPE,
+  SATISFIES,
   TYPEDEF,
   YIELDS,
 ];
@@ -206,6 +209,7 @@ const TAGS_ORDER = [
   MEMBER,
   TYPEDEF,
   TYPE,
+  SATISFIES,
   PROPERTY,
   CALLBACK,
   PARAM,

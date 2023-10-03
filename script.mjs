@@ -17,7 +17,6 @@ function $(commands) {
 
 const lint = "npm run clean && npm run lint && tsc --project tsconfig.json";
 
-const bundleEsm = "rollup --config rollup.config.js";
 const bundleUmd =
   "rollup dist/index.js --file dist/index.umd.js --format umd --name sayHello";
 const bundleUmdMin =
@@ -26,7 +25,6 @@ const buildStats =
   "(echo '\\033[35;3m' ; cd dist && ls -lh index*.js | index*.gz | tail -n +2 | awk '{print $5,$9}')";
 
 $(`${lint}`);
-$(`${bundleEsm}`);
 if (!__TEST__) {
   $(`${bundleUmd}`);
   $(`${bundleUmdMin}`);

@@ -1,19 +1,19 @@
 import { Spec } from "comment-parser";
-import { formatDescription, descriptionEndLine } from "./descriptionFormatter";
+import { formatDescription, descriptionEndLine } from "./descriptionFormatter.js";
 import {
   DESCRIPTION,
   EXAMPLE,
   PRIVATE_REMARKS,
   REMARKS,
   SPACE_TAG_DATA,
-} from "./tags";
+} from "./tags.js";
 import {
   TAGS_ORDER,
   TAGS_PEV_FORMATE_DESCRIPTION,
   TAGS_VERTICALLY_ALIGN_ABLE,
-} from "./roles";
-import { AllOptions } from "./types";
-import { formatCode, isDefaultTag } from "./utils";
+} from "./roles.js";
+import { AllOptions } from "./types.js";
+import { formatCode, isDefaultTag } from "./utils.js";
 
 const stringify = async (
   { name, description, type, tag }: Spec,

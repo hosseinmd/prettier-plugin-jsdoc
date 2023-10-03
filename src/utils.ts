@@ -1,7 +1,7 @@
 import { format, Options, ParserOptions, Plugin } from "prettier";
-import { AllOptions, Token } from "./types";
+import { AllOptions, Token } from "./types.js";
 import BSearch from "binary-searching";
-import { TAGS_DEFAULT } from "./roles";
+import { TAGS_DEFAULT } from "./roles.js";
 
 function convertToModernType(oldType: string): string {
   return withoutStrings(oldType, (type) => {

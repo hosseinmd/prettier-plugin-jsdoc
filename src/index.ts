@@ -1,10 +1,10 @@
-import { getParser } from "./parser";
+import { getParser } from "./parser.js";
 import parserBabel from "prettier/plugins/babel";
 import parserFlow from "prettier/plugins/flow";
 import parserTypescript from "prettier/plugins/typescript";
 import prettier, { SupportOption } from "prettier";
-import { JsdocOptions } from "./types";
-import { findPluginByParser } from "./utils";
+import { JsdocOptions } from "./types.js";
+import { findPluginByParser } from "./utils.js";
 
 const options: Record<keyof JsdocOptions, SupportOption> = {
   jsdocParser: {

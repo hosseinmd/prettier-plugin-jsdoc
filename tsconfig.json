@@ -1,27 +1,16 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "lib": [
-      "es6",
-      "dom",
-      "dom.iterable"
-    ],
-    "module": "es6",
+    "lib": ["es2020"],
+    "module": "es2020",
+    "target": "es2020",
     "moduleResolution": "node",
     "removeComments": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es6",
     "outDir": "./dist",
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "tests",
-    "src/custom.d.ts"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules", "tests", "src/custom.d.ts"]
 }

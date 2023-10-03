@@ -43,6 +43,7 @@ const TODO = "todo";
 const TYPE = "type";
 const TYPE_PARAM = "typeParam";
 const TYPEDEF = "typedef";
+const SATISFIES = "satisfies";
 const VERSION = "version";
 const YIELDS = "yields";
 
@@ -100,6 +101,7 @@ export {
   TYPE,
   TYPE_PARAM,
   TYPEDEF,
+  SATISFIES,
   VERSION,
   YIELDS,
   SPACE_TAG_DATA,
