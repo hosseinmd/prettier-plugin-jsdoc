@@ -541,6 +541,28 @@ function fun(param0: string, param1: {}, param2: () => {}) {}
 "
 `;
 
+exports[`satisfies 1`] = `
+"/**
+ * Bounce give a renderContent and show that around children when isVisible is
+ * true
+ *
+ * @example
+ *   <Bounce
+ *     isVisible={isVisible}
+ *     dismiss={() => setVisible(false)}
+ *     renderContent={() => {
+ *       return <InsideOfPopeUp />;
+ *     }}
+ *   >
+ *     <Button />
+ *   </Bounce>;
+ *
+ * @type {React.FC<BounceProps>}
+ * @satisfies {React.FC<BounceProps>}
+ */
+"
+`;
+
 exports[`since  1`] = `
 "/** @since 3.16.0 */
 "
