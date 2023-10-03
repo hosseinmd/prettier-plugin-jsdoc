@@ -23,3 +23,25 @@ exports[`Tag group 1`] = `
  */
 "
 `;
+
+exports[`space after unknownTag 1`] = `
+"/**
+ * A description.
+ *
+ * @unknownTag A note.
+ *
+ * @see http://acme.com
+ */
+"
+`;
+
+exports[`space between note and see 1`] = `
+"/**
+ * A description.
+ *
+ * @notDefinedTag A note.
+ *
+ * @see http://acme.com
+ */
+"
+`;

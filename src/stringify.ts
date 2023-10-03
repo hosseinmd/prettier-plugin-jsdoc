@@ -1,5 +1,8 @@
 import { Spec } from "comment-parser";
-import { formatDescription, descriptionEndLine } from "./descriptionFormatter.js";
+import {
+  formatDescription,
+  descriptionEndLine,
+} from "./descriptionFormatter.js";
 import {
   DESCRIPTION,
   EXAMPLE,
@@ -123,6 +126,8 @@ const stringify = async (
       TAGS_PEV_FORMATE_DESCRIPTION.includes(tag) ||
       !TAGS_ORDER.includes(tag)
     ) {
+      description = description.trimEnd();
+
       // Avoid wrapping
       descriptionString = description;
     } else {
