@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.3](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.0.2...v1.0.3) (2023-10-04)
+
+
+### Bug Fixes
+
+* add new line to unknown tag ([cdbf931](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/cdbf931e2baa43e09d5eb8e5dbacd3ae76c4e399))
+* new line after item list ([98c42fe](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/98c42fed29919d3ae8e9fd22e33882f661aefab5))
+
 ### [1.0.2](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.0.1...v1.0.2) (2023-09-09)
 
 
