@@ -49,9 +49,26 @@ export let User;
 "
 `;
 
+exports[`Long type Union types 1`] = `
+"/**
+ * Gets a configuration object assembled from environment variables and .env
+ * configuration files.
+ *
+ * @memberof Config
+ * @function getEnvConfig
+ * @returns {Config.SomeConfiguration
+ *   | Config.SomeOtherConfiguration
+ *   | Config.AnotherConfiguration
+ *   | Config.YetAnotherConfiguration}
+ *   The environment configuration
+ */
+export default () => configurator.config;
+"
+`;
+
 exports[`Union types 1`] = `
 "/**
- * @typedef {| { foo: string }
+ * @typedef {{ foo: string }
  *   | { bar: string; manyMoreLongArguments: object }
  *   | { baz: string }} Foo
  */

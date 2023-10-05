@@ -108,9 +108,12 @@ async function formatType(type: string, options?: Options): Promise<string> {
       filepath: "file.ts",
     });
     pretty = pretty.slice(TYPE_START.length);
-    pretty = pretty.replace(/^\s*/g, "");
-    pretty = pretty.replace(/[;\n]*$/g, "");
-    pretty = pretty.trim();
+
+    pretty = pretty
+      .replace(/^\s*/g, "")
+      .replace(/[;\n]*$/g, "")
+      .replace(/^\|/g, "")
+      .trim();
 
     if (rest) {
       pretty = "..." + pretty.replace(/\[\s*\]$/, "");
