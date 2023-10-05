@@ -413,6 +413,15 @@ exports[`Sould keep params ordering when more than 10 tags are present 1`] = `
 "
 `;
 
+exports[`default type parameter  1`] = `
+"/**
+ * @template [BAR=({bar:true}&{foo:false}&{buggy:true})] Default is
+ *   \`({bar:true}&{foo:false}&{buggy:true})\`
+ * @typedef {{ foo: BAR }} SomeType
+ */
+"
+`;
+
 exports[`example  1`] = `
 "/**
  * ABCCCC

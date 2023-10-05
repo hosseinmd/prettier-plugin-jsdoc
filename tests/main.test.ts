@@ -802,3 +802,21 @@ test("satisfies", async () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("default type parameter ", async () => {
+  function _subject(str: string) {
+    return subject(str, {
+      jsdocAddDefaultToDescription: true,
+    });
+  }
+  const result = await _subject(
+    `
+    /**
+     * @template [BAR=({bar:true}&{foo:false}&{buggy:true})] 
+     * @typedef {{foo: BAR}} SomeType
+     */
+`,
+  );
+
+  expect(await _subject(await _subject(result))).toMatchSnapshot();
+});
