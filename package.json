@@ -14,9 +14,7 @@
   "unpkg": "dist/index.umd.min.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/index.js",
-    "dist/index.umd.min.js",
-    "dist/index.d.ts"
+    "dist"
   ],
   "scripts": {
     "prepare": "yarn build",
