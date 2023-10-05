@@ -124,7 +124,7 @@ async function formatDescription(
   let tableIndex = 0;
 
   text = text.replace(
-    new RegExp("\\n" + "\\s".repeat(beginningSpace.length), "g"),
+    new RegExp("\\n" + `[\u0020]{${beginningSpace.length}}`, "g"),
     "\n",
   );
 
