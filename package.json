@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-jsdoc",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A Prettier plugin to format JSDoc comments.",
   "private": false,
   "type": "module",

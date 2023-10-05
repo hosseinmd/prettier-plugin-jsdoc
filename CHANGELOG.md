@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.5](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.0.4...v1.0.5) (2023-10-05)
+
+
+### Bug Fixes
+
+* long union type ([4f9ba4c](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/4f9ba4c86089ec12fee6fac9ce014661352ebf28))
+* new line between Default is ([9fbbe53](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/9fbbe530cfe196e736f931893282236e9b16b509))
+* wrong remove intention, make unexpected issue ([de71607](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/de7160780d60baa6412db607888df39c79c31158))
+
 ### [1.0.4](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.0.3...v1.0.4) (2023-10-05)
 
 ### [1.0.3](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.0.2...v1.0.3) (2023-10-04)
