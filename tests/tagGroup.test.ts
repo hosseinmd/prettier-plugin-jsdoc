@@ -71,7 +71,7 @@ test("space after unknownTag", async () => {
       jsdocPrintWidth: 120,
       jsdocSeparateReturnsFromParam: false,
       jsdocSeparateTagGroups: true,
-      jsdocSingleLineComment: false,
+      jsdocCommentLineStrategy: "multiline",
       jsdocSpaces: 1,
       jsdocVerticalAlignment: true,
       tsdoc: false,

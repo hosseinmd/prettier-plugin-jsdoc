@@ -29,3 +29,68 @@ function fun(param0){}
 
   expect(result).toMatchSnapshot();
 });
+
+describe("Comment Line Strategy", () => {
+  test("keep single", async () => {
+    const result = await subject(
+      `
+  /** @type {import('eslint').Linter.Config} should be single line */
+  const config = {
+    // ...
+  };
+`,
+      {
+        jsdocCommentLineStrategy: "keep",
+      },
+    );
+    expect(result).toMatchSnapshot();
+  });
+
+  test("keep multi", async () => {
+    const result1 = await subject(
+      `
+  /** 
+   * @type {import('eslint').Linter.Config} should be multiline
+   */
+  const config = {
+    // ...
+  };
+`,
+      {
+        jsdocCommentLineStrategy: "keep",
+      },
+    );
+
+    expect(result1).toMatchSnapshot();
+  });
+  test("singleLine ", async () => {
+    const result2 = await subject(
+      `
+  /** 
+   * @type {import('eslint').Linter.Config} should be single
+   */
+  const config = {
+    // ...
+  };
+`,
+      {
+        jsdocCommentLineStrategy: "singleLine",
+      },
+    );
+    expect(result2).toMatchSnapshot();
+  });
+  test("multiline ", async () => {
+    const result3 = await subject(
+      `
+  /** @type {import('eslint').Linter.Config} should be multiline */
+  const config = {
+    // ...
+  };
+`,
+      {
+        jsdocCommentLineStrategy: "multiline",
+      },
+    );
+    expect(result3).toMatchSnapshot();
+  });
+});

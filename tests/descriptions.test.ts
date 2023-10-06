@@ -677,7 +677,7 @@ test("Long words", async () => {
  */
 `,
     {
-      jsdocSingleLineComment: false,
+      jsdocCommentLineStrategy: "multiline",
     },
   );
 

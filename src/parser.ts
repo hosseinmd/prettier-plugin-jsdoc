@@ -44,10 +44,6 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
 
     const ast = prettierParse(text, options) as AST;
 
-    // jsdocParser is deprecated,this is backward compatible will be remove
-    if ((options as any).jsdocParser === false) {
-      return ast;
-    }
     options = {
       ...options,
       printWidth: options.jsdocPrintWidth ?? options.printWidth,
@@ -62,10 +58,10 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
         if (!isBlockComment(comment)) return;
         const tokenIndex = findTokenIndex(ast.tokens, comment);
         const paramsOrder = getParamsOrders(ast, tokenIndex);
+        const originalValue = comment.value;
 
         /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
         comment.value = comment.value.replace(/^([*]+)/g, "*");
-
         // Create the full comment string with line ends normalized to \n
         // This means that all following code can assume \n and should only use
         // \n.
@@ -232,6 +228,7 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
 
         if (comment.value) {
           comment.value = addStarsToTheBeginningOfTheLines(
+            originalValue,
             comment.value,
             options,
           );

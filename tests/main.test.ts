@@ -104,7 +104,7 @@ test("Should convert to single line if necessary", async () => {
 
 test("Should convert to single multiLine", async () => {
   const Result1 = await subject(`/** single line description*/`, {
-    jsdocSingleLineComment: false,
+    jsdocCommentLineStrategy: "multiline",
   });
   const Result2 = await subject(
     await subject(`/**
@@ -112,7 +112,7 @@ test("Should convert to single multiLine", async () => {
  * @example
  */`),
     {
-      jsdocSingleLineComment: false,
+      jsdocCommentLineStrategy: "multiline",
     },
   );
 
@@ -769,7 +769,7 @@ import { something } from './index';
 `,
     {
       jsdocDescriptionWithDot: true,
-      jsdocSingleLineComment: false,
+      jsdocCommentLineStrategy: "multiline",
       jsdocSeparateTagGroups: true,
       jsdocPreferCodeFences: true,
       tsdoc: true,

@@ -127,12 +127,15 @@ async function formatType(type: string, options?: Options): Promise<string> {
 }
 
 function addStarsToTheBeginningOfTheLines(
+  originalComment: string,
   comment: string,
   options: AllOptions,
 ): string {
   if (
-    options.jsdocSingleLineComment &&
-    numberOfAStringInString(comment.trim(), "\n") === 0
+    (options.jsdocCommentLineStrategy === "singleLine" &&
+      numberOfAStringInString(comment.trim(), "\n") === 0) ||
+    (options.jsdocCommentLineStrategy === "keep" &&
+      numberOfAStringInString(originalComment, "\n") === 0)
   ) {
     return `* ${comment.trim()} `;
   }

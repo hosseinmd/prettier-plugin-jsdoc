@@ -6,14 +6,7 @@ import prettier, { SupportOption } from "prettier";
 import { JsdocOptions } from "./types.js";
 import { findPluginByParser } from "./utils.js";
 
-const options: Record<keyof JsdocOptions, SupportOption> = {
-  jsdocParser: {
-    name: "jsdocParser",
-    type: "boolean",
-    category: "jsdoc",
-    default: true,
-    description: "Enable/Disable jsdoc parser",
-  },
+const options = {
   jsdocSpaces: {
     name: "jsdocSpaces",
     type: "int",
@@ -54,8 +47,33 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     name: "jsdocSingleLineComment",
     type: "boolean",
     category: "jsdoc",
+    deprecated: "use jsdocCommentLineStrategy instead will be remove on v2",
     default: true,
     description: "Should compact single line comment",
+  },
+  jsdocCommentLineStrategy: {
+    name: "jsdocCommentLineStrategy",
+    type: "choice",
+    choices: [
+      {
+        since: "1.1.0",
+        value: "singleLine",
+        description: `Should compact single line comment, if possible`,
+      },
+      {
+        since: "1.1.0",
+        value: "multiline",
+        description: `Should compact multi line comment`,
+      },
+      {
+        since: "1.1.0",
+        value: "keep",
+        description: `Should keep original line comment`,
+      },
+    ],
+    category: "jsdoc",
+    default: "singleLine",
+    description: "How comments line should be",
   },
   jsdocSeparateReturnsFromParam: {
     name: "jsdocSeparateReturnsFromParam",
@@ -121,10 +139,9 @@ const options: Record<keyof JsdocOptions, SupportOption> = {
     default: "greedy",
     description: `Strategy for wrapping lines for the given print width. More options may be added in the future.`,
   },
-};
+} satisfies Record<keyof JsdocOptions, SupportOption>;
 
 const defaultOptions: JsdocOptions = {
-  jsdocParser: options.jsdocParser.default as boolean,
   jsdocSpaces: options.jsdocSpaces.default as number,
   jsdocPrintWidth: options.jsdocPrintWidth.default as unknown as undefined,
   jsdocDescriptionWithDot: options.jsdocDescriptionWithDot.default as boolean,
@@ -133,6 +150,8 @@ const defaultOptions: JsdocOptions = {
   jsdocKeepUnParseAbleExampleIndent: options.jsdocKeepUnParseAbleExampleIndent
     .default as boolean,
   jsdocSingleLineComment: options.jsdocSingleLineComment.default as boolean,
+  jsdocCommentLineStrategy: options.jsdocCommentLineStrategy
+    .default as "singleLine",
   jsdocSeparateReturnsFromParam: options.jsdocSeparateReturnsFromParam
     .default as boolean,
   jsdocSeparateTagGroups: options.jsdocSeparateTagGroups.default as boolean,
@@ -183,6 +202,7 @@ function mergeParsers(originalParser: prettier.Parser, parserName: string) {
   const jsDocParse = getParser(originalParser.parse, parserName) as any;
 
   const jsDocPreprocess = (text: string, options: prettier.ParserOptions) => {
+    normalizeOptions(options as any);
     const tsPluginParser = findPluginByParser(parserName, options);
 
     if (!tsPluginParser) {
@@ -213,3 +233,14 @@ function mergeParsers(originalParser: prettier.Parser, parserName: string) {
 }
 
 export { options, parsers, defaultOptions };
+
+function normalizeOptions(options: prettier.ParserOptions & JsdocOptions) {
+  if (options.jsdocCommentLineStrategy) {
+    return;
+  }
+  if (options.jsdocSingleLineComment) {
+    options.jsdocCommentLineStrategy = "singleLine";
+  } else {
+    options.jsdocCommentLineStrategy = "multiline";
+  }
+}

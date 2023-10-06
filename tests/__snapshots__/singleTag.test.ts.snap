@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Comment Line Strategy keep multi 1`] = `
+"/**
+ * @type {import("eslint").Linter.Config} should Be multiline
+ */
+const config = {
+  // ...
+};
+"
+`;
+
+exports[`Comment Line Strategy keep single 1`] = `
+"/** @type {import("eslint").Linter.Config} should Be single line */
+const config = {
+  // ...
+};
+"
+`;
+
+exports[`Comment Line Strategy multiline  1`] = `
+"/**
+ * @type {import("eslint").Linter.Config} should Be multiline
+ */
+const config = {
+  // ...
+};
+"
+`;
+
+exports[`Comment Line Strategy singleLine  1`] = `
+"/** @type {import("eslint").Linter.Config} should Be single */
+const config = {
+  // ...
+};
+"
+`;
+
 exports[`single tag 1`] = `
 "/** @param {string} param0 Description */
 function fun(param0) {}

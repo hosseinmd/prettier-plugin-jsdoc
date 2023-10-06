@@ -49,8 +49,7 @@ test("disabled complex object typedef ", async () => {
   export class BreadCrumbs extends PureComponent {}
  `,
     {
-      plugins: ["prettier-plugin-jsdoc"],
-      jsdocParser: false,
+      plugins: [],
     },
   );
 

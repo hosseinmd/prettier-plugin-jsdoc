@@ -1,15 +1,19 @@
 import { ParserOptions } from "prettier";
 
 export interface JsdocOptions {
-  jsdocParser: boolean;
   jsdocSpaces: number;
   jsdocPrintWidth?: number;
   jsdocDescriptionWithDot: boolean;
   jsdocDescriptionTag: boolean;
   jsdocVerticalAlignment: boolean;
   jsdocKeepUnParseAbleExampleIndent: boolean;
-  /** default is true */
+  /**
+   * @deprecated use jsdocCommentLineStrategy instead
+   * @default true
+   */
   jsdocSingleLineComment: boolean;
+  /** @default "singleLine" */
+  jsdocCommentLineStrategy: "singleLine" | "multiline" | "keep";
   jsdocSeparateReturnsFromParam: boolean;
   jsdocSeparateTagGroups: boolean;
   jsdocAddDefaultToDescription: boolean;
