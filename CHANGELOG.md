@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.1.0...v1.1.1) (2023-10-07)
+
+
+### Bug Fixes
+
+* export Options to better assist type checking for .prettierrc.js ([#210](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/210)) ([77cf7af](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/77cf7af56d1170e9bcd848280c4ffaf8ced13f98))
+
 ## [1.1.0](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.0.5...v1.1.0) (2023-10-06)
 
 
