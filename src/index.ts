@@ -233,6 +233,7 @@ function mergeParsers(originalParser: prettier.Parser, parserName: string) {
 }
 
 export { options, parsers, defaultOptions };
+export type Options = Partial<JsdocOptions>;
 
 function normalizeOptions(options: prettier.ParserOptions & JsdocOptions) {
   if (options.jsdocCommentLineStrategy) {
