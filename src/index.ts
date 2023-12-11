@@ -2,7 +2,7 @@ import { getParser } from "./parser.js";
 import parserBabel from "prettier/plugins/babel";
 import parserFlow from "prettier/plugins/flow";
 import parserTypescript from "prettier/plugins/typescript";
-import prettier, { SupportOption } from "prettier";
+import prettier, { ChoiceSupportOption, SupportOption } from "prettier";
 import { JsdocOptions } from "./types.js";
 import { findPluginByParser } from "./utils.js";
 
@@ -107,7 +107,7 @@ const options = {
     name: "jsdocPrintWidth",
     type: "int",
     category: "jsdoc",
-    default: undefined as any,
+    default: undefined,
     description:
       "If You don't set value to jsdocPrintWidth, the printWidth will be use as jsdocPrintWidth.",
   },
@@ -134,34 +134,30 @@ const options = {
         value: "greedy",
         description: `Lines wrap as soon as they reach the print width`,
       },
-    ],
+    ] as ChoiceSupportOption["choices"],
     category: "jsdoc",
     default: "greedy",
     description: `Strategy for wrapping lines for the given print width. More options may be added in the future.`,
   },
-} satisfies Record<keyof JsdocOptions, SupportOption>;
+} as const satisfies Record<keyof JsdocOptions, SupportOption>;
 
 const defaultOptions: JsdocOptions = {
-  jsdocSpaces: options.jsdocSpaces.default as number,
-  jsdocPrintWidth: options.jsdocPrintWidth.default as unknown as undefined,
-  jsdocDescriptionWithDot: options.jsdocDescriptionWithDot.default as boolean,
-  jsdocDescriptionTag: options.jsdocDescriptionTag.default as boolean,
-  jsdocVerticalAlignment: options.jsdocVerticalAlignment.default as boolean,
-  jsdocKeepUnParseAbleExampleIndent: options.jsdocKeepUnParseAbleExampleIndent
-    .default as boolean,
-  jsdocSingleLineComment: options.jsdocSingleLineComment.default as boolean,
-  jsdocCommentLineStrategy: options.jsdocCommentLineStrategy
-    .default as "singleLine",
-  jsdocSeparateReturnsFromParam: options.jsdocSeparateReturnsFromParam
-    .default as boolean,
-  jsdocSeparateTagGroups: options.jsdocSeparateTagGroups.default as boolean,
-  jsdocCapitalizeDescription: options.jsdocCapitalizeDescription
-    .default as boolean,
-  jsdocAddDefaultToDescription: options.jsdocAddDefaultToDescription
-    .default as boolean,
-  jsdocPreferCodeFences: options.jsdocPreferCodeFences.default as boolean,
-  tsdoc: options.tsdoc.default as boolean,
-  jsdocLineWrappingStyle: options.jsdocLineWrappingStyle.default as "greedy",
+  jsdocSpaces: options.jsdocSpaces.default,
+  jsdocPrintWidth: options.jsdocPrintWidth.default,
+  jsdocDescriptionWithDot: options.jsdocDescriptionWithDot.default,
+  jsdocDescriptionTag: options.jsdocDescriptionTag.default,
+  jsdocVerticalAlignment: options.jsdocVerticalAlignment.default,
+  jsdocKeepUnParseAbleExampleIndent:
+    options.jsdocKeepUnParseAbleExampleIndent.default,
+  jsdocSingleLineComment: options.jsdocSingleLineComment.default,
+  jsdocCommentLineStrategy: options.jsdocCommentLineStrategy.default,
+  jsdocSeparateReturnsFromParam: options.jsdocSeparateReturnsFromParam.default,
+  jsdocSeparateTagGroups: options.jsdocSeparateTagGroups.default,
+  jsdocCapitalizeDescription: options.jsdocCapitalizeDescription.default,
+  jsdocAddDefaultToDescription: options.jsdocAddDefaultToDescription.default,
+  jsdocPreferCodeFences: options.jsdocPreferCodeFences.default,
+  tsdoc: options.tsdoc.default,
+  jsdocLineWrappingStyle: options.jsdocLineWrappingStyle.default,
 };
 
 const parsers = {
