@@ -70,7 +70,7 @@ const options = {
         value: "keep",
         description: `Should keep original line comment`,
       },
-    ],
+    ] as ChoiceSupportOption["choices"],
     category: "jsdoc",
     default: "singleLine",
     description: "How comments line should be",
