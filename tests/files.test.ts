@@ -69,6 +69,15 @@ const files: {
       tsdoc: true,
     },
   },
+  {
+    name: "order-custom.jsx",
+    options: {
+      jsdocTagsOrder: '{"example":43, "typedef":0, "returns": 46}' as any,
+      // {
+      //   example: 70,
+      // } as any,
+    },
+  },
 ];
 
 for (let i = 0; i < files.length; i++) {

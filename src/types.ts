@@ -21,6 +21,7 @@ export interface JsdocOptions {
   jsdocPreferCodeFences: boolean;
   tsdoc: boolean;
   jsdocLineWrappingStyle: "greedy";
+  jsdocTagsOrder?: Record<string, number>;
 }
 
 export interface AllOptions extends ParserOptions, JsdocOptions {}

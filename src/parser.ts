@@ -321,8 +321,15 @@ function getTagOrderWeight(tag: string, options: AllOptions): number {
   if (tag === DESCRIPTION && !options.jsdocDescriptionTag) {
     return -1;
   }
-  const index = TAGS_ORDER.indexOf(tag);
-  return index === -1 ? TAGS_ORDER.indexOf("other") : index;
+  let index;
+
+  if (options.jsdocTagsOrder?.[tag] !== undefined) {
+    index = options.jsdocTagsOrder[tag];
+  } else {
+    index = TAGS_ORDER[tag as keyof typeof TAGS_ORDER];
+  }
+
+  return index === undefined ? TAGS_ORDER.other : index;
 }
 
 function isBlockComment(comment: PrettierComment): boolean {
@@ -352,7 +359,7 @@ function getIndentationWidth(
   return options.printWidth - (spaces + tabs * options.tabWidth) - " * ".length;
 }
 
-const TAGS_ORDER_LOWER = TAGS_ORDER.map((tagOrder) => tagOrder.toLowerCase());
+const TAGS_ORDER_ENTRIES = Object.entries(TAGS_ORDER);
 /**
  * This will adjust the casing of tag titles, resolve synonyms, fix
  * incorrectly parsed tags, correct incorrectly assigned names and types, and
@@ -378,9 +385,11 @@ function normalizeTags(parsed: Block): void {
 
       tag = tag.trim();
       const lower = tag.toLowerCase();
-      const tagIndex = TAGS_ORDER_LOWER.indexOf(lower);
+      const tagIndex = TAGS_ORDER_ENTRIES.findIndex(
+        ([key]) => key.toLowerCase() === lower,
+      );
       if (tagIndex >= 0) {
-        tag = TAGS_ORDER[tagIndex];
+        tag = TAGS_ORDER_ENTRIES[tagIndex][0];
       } else if (lower in TAGS_SYNONYMS) {
         // resolve synonyms
         tag = TAGS_SYNONYMS[lower as keyof typeof TAGS_SYNONYMS];

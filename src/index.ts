@@ -139,6 +139,13 @@ const options = {
     default: "greedy",
     description: `Strategy for wrapping lines for the given print width. More options may be added in the future.`,
   },
+  jsdocTagsOrder: {
+    name: "jsdocTagsOrder",
+    type: "string",
+    category: "jsdoc",
+    default: undefined,
+    description: "How many spaces will be used to separate tag elements.",
+  },
 } as const satisfies Record<keyof JsdocOptions, SupportOption>;
 
 const defaultOptions: JsdocOptions = {
@@ -158,6 +165,7 @@ const defaultOptions: JsdocOptions = {
   jsdocPreferCodeFences: options.jsdocPreferCodeFences.default,
   tsdoc: options.tsdoc.default,
   jsdocLineWrappingStyle: options.jsdocLineWrappingStyle.default,
+  jsdocTagsOrder: options.jsdocTagsOrder.default,
 };
 
 const parsers = {
@@ -232,6 +240,10 @@ export { options, parsers, defaultOptions };
 export type Options = Partial<JsdocOptions>;
 
 function normalizeOptions(options: prettier.ParserOptions & JsdocOptions) {
+  if (options.jsdocTagsOrder) {
+    options.jsdocTagsOrder = JSON.parse(options.jsdocTagsOrder as any);
+  }
+
   if (options.jsdocCommentLineStrategy) {
     return;
   }

@@ -197,6 +197,7 @@ Description is formatting as Markdown, so you could use any features of Markdown
 | tsdoc                             | Boolean                           | false       |
 | jsdocPrintWidth                   | Number                            | undefined   | If You don't set value to jsdocPrintWidth, the printWidth will be use as jsdocPrintWidth. |
 | jsdocLineWrappingStyle            | String                            | "greedy"    | "greedy": Lines wrap as soon as they reach the print width                                |
+| jsdocTagsOrder                    | String (object)                   | "undefined" | [Custom Tags Order](doc/CUSTOM_TAGS_ORDER.md)                                             |
 
 Full up to date list and description of options can be found in Prettier help. First install plugin then run Prettier with "--help" option.
 
