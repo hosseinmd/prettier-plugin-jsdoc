@@ -539,7 +539,7 @@ function addDefaultValueToDescription(tag: Spec): Spec {
     let { description } = tag;
 
     // remove old note
-    description = description.replace(/[\s]*Default[\s]*is[\s]*`.*`\.?$/, "");
+    description = description.replace(/(?:\s*Default\s+is\s+`.*?`\.?)+/g, "");
 
     // add a `.` at the end of previous sentences
     if (description && !/[.\n]$/.test(description)) {
