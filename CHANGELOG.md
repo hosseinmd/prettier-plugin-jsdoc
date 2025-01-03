@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.3.0...v1.3.1) (2025-01-03)
+
+
+### Bug Fixes
+
+* add package manager ([ffafd40](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/ffafd40cde8c8becee16ae1bc7a5cbe2cd2e42c8))
+* provide correct types path in conditional exports ([#222](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/222)) ([7a884b6](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/7a884b6d51c0aea75d0c8b4c7faf642d925367ac))
+
 ## [1.2.0](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.1.1...v1.2.0) (2023-12-22)
 
 
