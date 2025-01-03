@@ -760,6 +760,10 @@ test("Block quote", async () => {
 `);
 
   expect(result2).toMatchSnapshot();
+
+  const result3 = await subject(result2);
+
+  expect(result3).toMatch(result2);
 });
 
 test("File with just an import", async () => {

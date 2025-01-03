@@ -347,7 +347,7 @@ async function formatDescription(
 
             case "blockquote": {
               const paragraph = await stringyfy(ast, "", mdAst);
-              return `${intention}> ${paragraph
+              return `\n\n> ${paragraph
                 .trim()
                 .replace(/(\n+)/g, `$1${intention}> `)}`;
             }
