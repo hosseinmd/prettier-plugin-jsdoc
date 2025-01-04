@@ -83,7 +83,7 @@ To prevent Prettier from formatting, use `/* */` or `//` instead of /\*\* \*/, o
 
 ```js
 /**
- * @param {  string   }    param0 Description
+ * @param {  string   }    param0 description
  */
 function fun(param0) {}
 ```
