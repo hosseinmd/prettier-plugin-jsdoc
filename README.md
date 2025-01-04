@@ -1,80 +1,81 @@
 [![NPM](https://nodei.co/npm/prettier-plugin-jsdoc.png)](https://nodei.co/npm/prettier-plugin-jsdoc/)
 
-[![install size](https://packagephobia.now.sh/badge?p=prettier-plugin-jsdoc)](https://packagephobia.now.sh/result?p=prettier-plugin-jsdoc)
-[![dependencies](https://david-dm.org/hosseinmd/prettier-plugin-jsdoc.svg)](https://david-dm.org/hosseinmd/prettier-plugin-jsdoc.svg)
-
-![Prettier Banner](https://raw.githubusercontent.com/prettier/prettier-logo/master/images/prettier-banner-light.png)
+[![Installation size](https://packagephobia.now.sh/badge?p=prettier-plugin-jsdoc)](https://packagephobia.now.sh/result?p=prettier-plugin-jsdoc)
 
 # prettier-plugin-jsdoc
 
-Prettier plugin for format comment blocks and convert to standard
-Match with Visual studio and other IDE which support jsdoc and comments as markdown.
+Prettier plugin for formatting comment blocks and converting to a standard.
+Match with Visual Studio Code and other IDEs that support JSDoc and comments as Markdown.
 
-Many good examples of how this plugin work, are in tests directory.
-Compare tests and their snapshot
+Many good examples of how this plugin works are in the [`/tests`](/tests) directory.
+Compare tests and their [snapshots](/tests//__snapshots__).
 
-Configured with best practices of jsDoc style guides.
+Configured with best practices of JSDoc style guides.
 
-## TOC
+## Contents
 
-- [Installation](#Installation)
-- [Examples](#Examples)
-- [Links](#Links)
-- [Options](#Options)
-- [Support](#Support)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Ignore](#ignore)
+- [Examples](#examples)
+- [Options](#options)
+- [Supported Prettier versions](#supported-prettier-versions)
+- [Contributing](#contributing)
+- [Links](#links)
+- [Acknowledge](#acknowledge)
 
 ## Installation
 
-1. Install and configure Prettier as usual
-2. Install prettier-plugin-jsdoc
+1. [Install](https://prettier.io/docs/en/install.html) and [configure](https://prettier.io/docs/en/configuration) Prettier
+2. Install `prettier-plugin-jsdoc`:
 
-```npm
-npm i prettier-plugin-jsdoc --save
+```sh
+npm install prettier-plugin-jsdoc --save-dev
 ```
 
-```yarn
-yarn add prettier-plugin-jsdoc
+```sh
+yarn add prettier-plugin-jsdoc --dev
 ```
 
-## Config
+## Configuration
 
-Set `prettier-plugin-jsdoc` to your plugins list.
+Add `prettier-plugin-jsdoc` to your `plugins` list.
 
-.prettierrc
+`.prettierrc`:
+
+```json
+{
+  "plugins": ["prettier-plugin-jsdoc"]
+}
+```
+
+`prettier.config.js`:
+
+```js
+export default {
+  plugins: ["prettier-plugin-jsdoc"],
+}
+```
+
+If you want to ignore some types of files, use `overrides` with an empty `plugins`:
 
 ```json
 {
   "plugins": ["prettier-plugin-jsdoc"],
-};
-```
-
-Prettier v3
-
-```json
-{
-  "plugins": ["./node_modules/prettier-plugin-jsdoc/dist/index.js"]
-};
-```
-
-If you want ignore some type of files remove "prettier-plugin-jsdoc" from plugins or add empty plugins
-
-```.prettierrc.js
-module.exports = {
-  "plugins": ["prettier-plugin-jsdoc"]
-  overrides: [
+  "overrides": [
     {
-      files: '*.tsx',
-      options: {
+      "files": "*.tsx",
+      "options": {
         "plugins": []
-      },
-    },
-  ],
-};
+      }
+    }
+  ]
+}
 ```
 
 ## Ignore
 
-To ignore prettier use `/* */` or `//` instead of /\*\* \*/
+To prevent Prettier from formatting, use `/* */` or `//` instead of /\*\* \*/, or see [Ignoring Code](https://prettier.io/docs/en/ignore#javascript).
 
 ## Examples
 
@@ -82,19 +83,19 @@ To ignore prettier use `/* */` or `//` instead of /\*\* \*/
 
 ```js
 /**
- * @param {  string   }    param0 description
+ * @param {  string   }    param0 Description
  */
 function fun(param0) {}
 ```
 
-Format to
+Formats to:
 
 ```js
 /** @param {string} param0 Description */
 function fun(param0) {}
 ```
 
-#### React Component
+#### React component
 
 ```js
 /**
@@ -105,7 +106,7 @@ const Component = memo(({ message }) => {
 });
 ```
 
-Format to
+Formats to:
 
 ```js
 /** @type {React.FC<{message: string}>} */
@@ -114,7 +115,7 @@ const Component = memo(({ message }) => {
 });
 ```
 
-#### Typescript Objects
+#### TypeScript objects
 
 ```js
 /**
@@ -132,7 +133,7 @@ const Component = memo(({ message }) => {
      */
 ```
 
-Format to
+Format to:
 
 ```js
 /**
@@ -150,7 +151,7 @@ Format to
 
 #### Example
 
-Add code to example tag
+Add code to `@examples` tag.
 
 ```js
 /**
@@ -162,7 +163,7 @@ Add code to example tag
  */
 ```
 
-to
+Formats to:
 
 ```js
 /**
@@ -178,85 +179,69 @@ to
 
 #### Description
 
-Description is formatting as Markdown, so you could use any features of Markdown on that. Like code tags ("```js"), header tags like "# AHeader" or other markdown features.
+`@description` is formatted as Markdown so that you can use any features of Markdown on that.
+Like code tags (` ```js `), header tags like `# Header`, or other Markdown features.
 
 ## Options
 
-| Key                               | type                              | Default     | description                                                                               |
-| :-------------------------------- | :-------------------------------- | :---------- | ----------------------------------------------------------------------------------------- |
-| jsdocSpaces                       | Number                            | 1           |
-| jsdocDescriptionWithDot           | Boolean                           | false       |
-| jsdocDescriptionTag               | Boolean                           | false       |
-| jsdocVerticalAlignment            | Boolean                           | false       |
-| jsdocKeepUnParseAbleExampleIndent | Boolean                           | false       |
-| jsdocCommentLineStrategy          | ("singleLine","multiline","keep") | "singleLine |
-| jsdocCapitalizeDescription        | Boolean                           | true        |
-| jsdocSeparateReturnsFromParam     | Boolean                           | false       | Add an space between last @param and @returns                                             |
-| jsdocSeparateTagGroups            | Boolean                           | false       | Add an space between tag groups                                                           |
-| jsdocPreferCodeFences             | Boolean                           | false       | Always fence code blocks (surround them by triple backticks)                              |
-| tsdoc                             | Boolean                           | false       |
-| jsdocPrintWidth                   | Number                            | undefined   | If You don't set value to jsdocPrintWidth, the printWidth will be use as jsdocPrintWidth. |
-| jsdocLineWrappingStyle            | String                            | "greedy"    | "greedy": Lines wrap as soon as they reach the print width                                |
-| jsdocTagsOrder                    | String (object)                   | "undefined" | [Custom Tags Order](doc/CUSTOM_TAGS_ORDER.md)                                             |
+| Key                                 | Type                              | Default      | Description                                                                                     |
+| :---------------------------------- | :-------------------------------- | :----------- | ----------------------------------------------------------------------------------------------- |
+| `jsdocSpaces`                       | Number                            | 1            |
+| `jsdocDescriptionWithDot`           | Boolean                           | false        |
+| `jsdocDescriptionTag`               | Boolean                           | false        |
+| `jsdocVerticalAlignment`            | Boolean                           | false        |
+| `jsdocKeepUnParseAbleExampleIndent` | Boolean                           | false        |
+| `jsdocCommentLineStrategy`          | ("singleLine","multiline","keep") | "singleLine" |
+| `jsdocCapitalizeDescription`        | Boolean                           | true         |
+| `jsdocSeparateReturnsFromParam`     | Boolean                           | false        | Adds a space between last `@param` and `@returns`                                               |
+| `jsdocSeparateTagGroups`            | Boolean                           | false        | Adds a space between tag groups                                                                 |
+| `jsdocPreferCodeFences`             | Boolean                           | false        | Always fence code blocks (surround them by triple backticks)                                    |
+| `tsdoc`                             | Boolean                           | false        | See [TSDoc](#tsdoc)                                                                           |
+| `jsdocPrintWidth`                   | Number                            | undefined    | If you don't set the value to `jsdocPrintWidth`, `printWidth` will be used as `jsdocPrintWidth` |
+| `jsdocLineWrappingStyle`            | String                            | "greedy"     | "greedy": lines wrap as soon as they reach `printWidth`                                         |
+| `jsdocTagsOrder`                    | String (object)                   | undefined    | See [Custom Tags Order](doc/CUSTOM_TAGS_ORDER.md)                                               |
 
-Full up to date list and description of options can be found in Prettier help. First install plugin then run Prettier with "--help" option.
+### TSDoc
 
-`$ prettier --help` # global installation
+We hope to support the whole [TSDoc](https://tsdoc.org/).
+If we missed something, please [create an issue](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/new).
 
-`$ ./node_modules/.bin/prettier --help` # local installation
-
-## ESLint
-
-Install [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier)
-
-```
-$ yarn add eslint eslint-plugin-prettier
-```
-
-Then, in your .eslintrc.json:
-
-```json
-{
-  "plugins": ["prettier"],
-  "rules": {
-    "prettier/prettier": "error"
-  }
-}
-```
-
-## Tsdoc
-
-We hope to support whole tsdoc, if we missed somethings please create an issue.
+To enable, add:
 
 ```json
 {
   "tsdoc": true
-};
+}
 ```
 
-## Contribute
+## Supported Prettier versions
 
-1- Get a clone/fork of repo
+| Plugin version | Prettier version |
+| -------------- | ---------------- |
+| 1.0.0+         | 3.0.0+           |
+| 0.4.2          | 2.x+             |
 
-2- Install yarn
+## Contributing
 
-3- Add your changes
-
-4- Add a test to your change if needed
-
-5- Create PR
-
-This project extended from @gum3n worked project on GitLab.
+1. Fork and clone the repository
+2. [Install Yarn](https://yarnpkg.com/getting-started/install)
+3. Install project dependencies:
+   
+   ```sh
+   yarn install
+   ```
+4. Make changes and make sure that tests pass:
+   ```js
+   yarn run test
+   ```
+5. Update or add tests to your changes if needed
+6. Create PR
 
 ## Links
 
-[Prettier](https://prettier.io)
+- [Prettier](https://prettier.io)
+- [JSDoc](https://jsdoc.app)
 
-[JSDoc](https://jsdoc.app)
+## Acknowledge
 
-## Supported prettier version
-
-| version | prettier version |
-| ------- | ---------------- |
-| 1.0.0+  | 3.0.0+           |
-| 0.4.2   | 2.x+             |
+This project extended from the @gum3n worked project on GitLab.
