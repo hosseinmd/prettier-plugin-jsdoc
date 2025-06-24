@@ -56,7 +56,9 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
     await Promise.all(
       ast.comments.map(async (comment) => {
         if (!isBlockComment(comment)) return;
-        const tokenIndex = findTokenIndex(ast.tokens, comment);
+        const tokenIndex = ast.tokens
+          ? findTokenIndex(ast.tokens, comment)
+          : -1;
         const paramsOrder = getParamsOrders(ast, tokenIndex);
         const originalValue = comment.value;
 
@@ -460,6 +462,10 @@ function getParamsOrders(ast: AST, tokenIndex: number): string[] | undefined {
   let params: Token[] | undefined;
 
   try {
+    if (tokenIndex === -1 || !Array.isArray(ast.tokens)) {
+      return undefined;
+    }
+
     // next token
     const nextTokenType = ast.tokens[tokenIndex + 1]?.type;
     if (typeof nextTokenType !== "object") {

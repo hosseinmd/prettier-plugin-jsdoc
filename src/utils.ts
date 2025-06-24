@@ -209,6 +209,9 @@ function detectEndOfLine(text: string): "cr" | "crlf" | "lf" {
  * @param token
  */
 function findTokenIndex(tokens: Token[], token: Token): number {
+  if (!Array.isArray(tokens) || tokens.length === 0) {
+    return -1;
+  }
   return BSearch.eq(tokens, token, (a, b) => {
     if (a.loc.start.line === b.loc.start.line) {
       return a.loc.start.column - b.loc.start.column;
