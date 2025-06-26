@@ -56,17 +56,14 @@ const options = {
     type: "choice",
     choices: [
       {
-        since: "1.1.0",
         value: "singleLine",
         description: `Should compact single line comment, if possible`,
       },
       {
-        since: "1.1.0",
         value: "multiline",
         description: `Should compact multi line comment`,
       },
       {
-        since: "1.1.0",
         value: "keep",
         description: `Should keep original line comment`,
       },
@@ -130,7 +127,6 @@ const options = {
     type: "choice",
     choices: [
       {
-        since: "0.3.39",
         value: "greedy",
         description: `Lines wrap as soon as they reach the print width`,
       },

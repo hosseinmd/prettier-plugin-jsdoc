@@ -280,10 +280,12 @@ const findPluginByParser = (parserName: string, options: ParserOptions) => {
   const tsPlugin = options.plugins.find((plugin) => {
     return (
       typeof plugin === "object" &&
+      plugin !== null &&
+      !(plugin instanceof URL) &&
       (plugin as any).name &&
-      plugin.parsers &&
+      (plugin as any).parsers &&
       // eslint-disable-next-line no-prototype-builtins
-      plugin.parsers.hasOwnProperty(parserName)
+      (plugin as any).parsers.hasOwnProperty(parserName)
     );
   }) as Plugin | undefined;
 
