@@ -4,7 +4,6 @@ import {
   convertToModernType,
   formatType,
   detectEndOfLine,
-  findTokenIndex,
   findPluginByParser,
   isDefaultTag,
 } from "./utils.js";
@@ -19,7 +18,7 @@ import {
   TAGS_TYPELESS,
   TAGS_VERTICALLY_ALIGN_ABLE,
 } from "./roles.js";
-import { AST, AllOptions, PrettierComment, Token } from "./types.js";
+import { AST, AllOptions, PrettierComment } from "./types.js";
 import { stringify } from "./stringify.js";
 import { Parser } from "prettier";
 import { SPACE_TAG_DATA } from "./tags.js";
@@ -56,8 +55,8 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
     await Promise.all(
       ast.comments.map(async (comment) => {
         if (!isBlockComment(comment)) return;
-        const tokenIndex = findTokenIndex(ast.tokens, comment);
-        const paramsOrder = getParamsOrders(ast, tokenIndex);
+
+        const paramsOrder = getParamsOrders(text, comment);
         const originalValue = comment.value;
 
         /** Issue: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/18 */
@@ -454,77 +453,83 @@ function convertCommentDescToDescTag(parsed: Block): void {
 }
 
 /**
- * This is for find params of function name in code as strings of array
+ * This is for find params of function name in code as strings of array. Since
+ * tokens are not available in newer Prettier versions, we'll parse the text
+ * directly.
  */
-function getParamsOrders(ast: AST, tokenIndex: number): string[] | undefined {
-  let params: Token[] | undefined;
-
+function getParamsOrders(
+  text: string,
+  comment: PrettierComment,
+): string[] | undefined {
   try {
-    // next token
-    const nextTokenType = ast.tokens[tokenIndex + 1]?.type;
-    if (typeof nextTokenType !== "object") {
-      return undefined;
+    const lines = text.split("\n");
+    let commentEnd = 0;
+    for (let i = 0; i < comment.loc.end.line - 1; i++) {
+      commentEnd += lines[i].length + 1;
     }
-    // Recognize function
-    if (nextTokenType.label === "function") {
-      let openedParenthesesCount = 1;
-      const tokensAfterComment = ast.tokens.slice(tokenIndex + 4);
+    commentEnd += comment.loc.end.column;
 
-      const endIndex = tokensAfterComment.findIndex(({ type }) => {
-        if (typeof type === "string") {
-          return false;
-        } else if (type.label === "(") {
-          openedParenthesesCount++;
-        } else if (type.label === ")") {
-          openedParenthesesCount--;
-        }
+    const textAfterComment = text.slice(commentEnd);
 
-        return openedParenthesesCount === 0;
-      });
+    const functionMatch = textAfterComment.match(
+      /^\s*function\s+\w*\s*\(([^)]*)\)/,
+    );
+    if (functionMatch) {
+      const paramsString = functionMatch[1];
+      const params = paramsString
+        .split(",")
+        .map((param) => {
+          const trimmed = param.trim();
+          const colonIndex = trimmed.indexOf(":");
+          const paramName =
+            colonIndex > -1 ? trimmed.slice(0, colonIndex) : trimmed;
+          return paramName.split(/\s+/)[0].replace(/[{}[\]]/g, "");
+        })
+        .filter((param) => param && param !== "...");
 
-      params = tokensAfterComment.slice(0, endIndex + 1);
-    }
-
-    // Recognize arrow function
-    if (nextTokenType.label === "const") {
-      let openedParenthesesCount = 1;
-      let tokensAfterComment = ast.tokens.slice(tokenIndex + 1);
-      const firstParenthesesIndex = tokensAfterComment.findIndex(
-        ({ type }) => typeof type === "object" && type.label === "(",
-      );
-
-      tokensAfterComment = tokensAfterComment.slice(firstParenthesesIndex + 1);
-
-      const endIndex = tokensAfterComment.findIndex(({ type }) => {
-        if (typeof type === "string") {
-          return false;
-        } else if (type.label === "(") {
-          openedParenthesesCount++;
-        } else if (type.label === ")") {
-          openedParenthesesCount--;
-        }
-
-        return openedParenthesesCount === 0;
-      });
-
-      const arrowItem: Token | undefined = tokensAfterComment[endIndex + 1];
-
-      if (
-        typeof arrowItem?.type === "object" &&
-        arrowItem.type.label === "=>"
-      ) {
-        params = tokensAfterComment.slice(0, endIndex + 1);
-      }
+      return params;
     }
 
-    return params
-      ?.filter(({ type }) => typeof type === "object" && type.label === "name")
-      .map(({ value }) => value);
-  } catch {
-    //
+    const arrowMatch = textAfterComment.match(
+      /^\s*(?:const|let|var)\s+\w+\s*=\s*\(([^)]*)\)\s*=>/,
+    );
+    if (arrowMatch) {
+      const paramsString = arrowMatch[1];
+      const params = paramsString
+        .split(",")
+        .map((param) => {
+          const trimmed = param.trim();
+          const colonIndex = trimmed.indexOf(":");
+          const paramName =
+            colonIndex > -1 ? trimmed.slice(0, colonIndex) : trimmed;
+          return paramName.split(/\s+/)[0].replace(/[{}[\]]/g, "");
+        })
+        .filter((param) => param && param !== "...");
+
+      return params;
+    }
+
+    const methodMatch = textAfterComment.match(/^\s*(\w+)\s*\(([^)]*)\)/);
+    if (methodMatch) {
+      const paramsString = methodMatch[2];
+      const params = paramsString
+        .split(",")
+        .map((param) => {
+          const trimmed = param.trim();
+          const colonIndex = trimmed.indexOf(":");
+          const paramName =
+            colonIndex > -1 ? trimmed.slice(0, colonIndex) : trimmed;
+          return paramName.split(/\s+/)[0].replace(/[{}[\]]/g, "");
+        })
+        .filter((param) => param && param !== "...");
+
+      return params;
+    }
+
+    return undefined;
+  } catch (error) {
+    return undefined;
   }
-
-  return;
 }
 
 /**
