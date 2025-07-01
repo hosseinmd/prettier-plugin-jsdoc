@@ -26,7 +26,7 @@ jobs:
         run: npm i -g yarn
       - name: Install project dependencies
         run: yarn install
-      - name: Install specific yarn version
+      - name: Install specific prettier version
         run: yarn add prettier@${{ matrix.prettier }} && yarn list --depth=0 --pattern "prettier"
       - name: Run tests
         run: yarn test
