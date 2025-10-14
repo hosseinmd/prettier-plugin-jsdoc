@@ -21,6 +21,7 @@ const FIRES = "fires";
 const FLOW = "flow";
 const FUNCTION = "function";
 const IGNORE = "ignore";
+const IMPORT = "import";
 const LICENSE = "license";
 const MEMBER = "member";
 const MEMBEROF = "memberof";
@@ -79,6 +80,7 @@ export {
   FLOW,
   FUNCTION,
   IGNORE,
+  IMPORT,
   LICENSE,
   MEMBER,
   MEMBEROF,

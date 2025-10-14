@@ -82,7 +82,7 @@ test("hoisted object", async () => {
       }
      } User
      */
- 
+
     `);
 
   expect(result).toMatchSnapshot();
@@ -122,10 +122,10 @@ class test {
      * @returns {StarkStringType & NativeString}
      */
         testFunction(){
-  
+
         }
       }
-  
+
     this._value = this._value.replace(searchValue, replaceValue);
     return this;
   }
@@ -187,6 +187,26 @@ test("Long type Union types", async () => {
    */
   export default () => configurator.config;
 `);
+
+  expect(result).toMatchSnapshot();
+});
+
+test("type imports", async () => {
+  const result = await subject(
+    `
+/**
+ * @typedef {Object} Foo
+ * @import {A} from 'modulea'
+ * @import BM, { B as B1,
+ * B2   , B4 } from 'moduleb'
+ * @import BMain, {B3  } from "moduleb"
+ */
+/**
+ * @import BDefault, {        B5 } from   'moduleb'
+ * @import C    from    "modulec"
+ */
+    `,
+  );
 
   expect(result).toMatchSnapshot();
 });

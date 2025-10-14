@@ -20,6 +20,7 @@ import {
   FLOW,
   FUNCTION,
   IGNORE,
+  IMPORT,
   LICENSE,
   MEMBER,
   MEMBEROF,
@@ -84,6 +85,7 @@ const TAGS_NAMELESS = [
   EXAMPLE,
   EXTENDS,
   LICENSE,
+  IMPORT,
   MODULE,
   NAMESPACE,
   OVERLOAD,
@@ -106,6 +108,7 @@ const TAGS_TYPELESS = [
   DESCRIPTION,
   EXAMPLE,
   IGNORE,
+  IMPORT,
   LICENSE,
   MODULE,
   NAMESPACE,
@@ -122,6 +125,7 @@ const TAGS_PEV_FORMATE_DESCRIPTION = [
   /** @todo should be formate like jsdoc standard saw https://jsdoc.app/tags-borrows.html  */
   BORROWS,
   ...TAGS_DEFAULT,
+  IMPORT,
   MEMBEROF,
   MODULE,
   SEE,
@@ -132,6 +136,7 @@ const TAGS_DESCRIPTION_NEEDED = [
   CATEGORY,
   DESCRIPTION,
   EXAMPLE,
+  IMPORT,
   PRIVATE_REMARKS,
   REMARKS,
   SINCE,
@@ -174,6 +179,7 @@ const TAGS_GROUP_CONDITION = [
 ];
 
 const TAGS_ORDER = {
+  [IMPORT]: 0,
   [REMARKS]: 1,
   [PRIVATE_REMARKS]: 2,
   [PROVIDES_MODULE]: 3,

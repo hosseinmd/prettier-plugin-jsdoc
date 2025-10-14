@@ -158,3 +158,21 @@ exports[`max width challenge 1`] = `
 }
 "
 `;
+
+exports[`type imports 1`] = `
+"/**
+ * @import {A} from "modulea"
+ * @import BMain, {
+ *   B as B1,
+ *   B2,
+ *   B3,
+ *   B4
+ * } from "moduleb"
+ * @typedef {Object} Foo
+ */
+/**
+ * @import BDefault, {B5} from "moduleb"
+ * @import C from "modulec"
+ */
+"
+`;
