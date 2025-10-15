@@ -171,8 +171,8 @@ exports[`type imports 1`] = `
  * @typedef {Object} Foo
  */
 /**
- * @import BDefault, {B5} from "moduleb"
  * @import C from "modulec"
+ * @import BDefault, {B5} from "./moduleb"
  */
 "
 `;

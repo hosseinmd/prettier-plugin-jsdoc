@@ -202,7 +202,7 @@ test("type imports", async () => {
  * @import {A} from 'modulea'
  */
 /**
- * @import BDefault, {        B5 } from   'moduleb'
+ * @import BDefault, {        B5 } from   './moduleb'
  * @import C    from    "modulec"
  */
     `,

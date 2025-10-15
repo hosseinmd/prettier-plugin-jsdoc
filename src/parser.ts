@@ -352,7 +352,10 @@ function sortTags(
       if (a.tag === IMPORT && b.tag === IMPORT) {
         const aSrc = importSourceByDescription[a.description] ?? a.description;
         const bSrc = importSourceByDescription[b.description] ?? a.description;
-        return aSrc.localeCompare(bSrc);
+        const aVal = aSrc.startsWith(".") ? 1 : 0;
+        const bVal = bSrc.startsWith(".") ? 1 : 0;
+        if (aVal === bVal) return aSrc.localeCompare(bSrc);
+        return aVal - bVal;
       }
 
       return (
