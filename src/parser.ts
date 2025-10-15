@@ -256,6 +256,7 @@ function sortTags(
   let canGroupNextTags = false;
   let shouldSortAgain = false;
   const importDetailsBySource: { [tag: string]: ImportDetails[] } = {};
+  const importSourceByDescription: { [description: string]: string } = {};
 
   const tagGroups = tags.reduce<Spec[][]>((tagGroups, cur) => {
     if (
@@ -327,6 +328,7 @@ function sortTags(
       importClauses.push(namedImportClause);
     }
     firstImpSpec.description = `${importClauses.join(", ")} from "${src}"`;
+    importSourceByDescription[firstImpSpec.description] = src;
   });
 
   tags = tagGroups.flatMap((tagGroup, index, array) => {
@@ -346,6 +348,13 @@ function sortTags(
         }
         return 0;
       }
+
+      if (a.tag === IMPORT && b.tag === IMPORT) {
+        const aSrc = importSourceByDescription[a.description] ?? a.description;
+        const bSrc = importSourceByDescription[b.description] ?? a.description;
+        return aSrc.localeCompare(bSrc);
+      }
+
       return (
         getTagOrderWeight(a.tag, options) - getTagOrderWeight(b.tag, options)
       );

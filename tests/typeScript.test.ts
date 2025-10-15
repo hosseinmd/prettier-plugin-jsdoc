@@ -195,11 +195,11 @@ test("type imports", async () => {
   const result = await subject(
     `
 /**
- * @typedef {Object} Foo
- * @import {A} from 'modulea'
  * @import BM, { B as B1,
  * B2   , B4 } from 'moduleb'
+ * @typedef {Object} Foo
  * @import BMain, {B3  } from "moduleb"
+ * @import {A} from 'modulea'
  */
 /**
  * @import BDefault, {        B5 } from   'moduleb'
