@@ -22,6 +22,7 @@ export interface JsdocOptions {
   tsdoc: boolean;
   jsdocLineWrappingStyle: "greedy";
   jsdocTagsOrder?: Record<string, number>;
+  jsdocFormatImports: boolean;
   jsdocNamedImportPadding: boolean;
   jsdocMergeImports: boolean;
   jsdocNamedImportLineSplitting: boolean;

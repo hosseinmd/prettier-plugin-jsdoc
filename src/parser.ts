@@ -271,7 +271,7 @@ function sortTags(
       canGroupNextTags = true;
     }
 
-    if (cur.tag === IMPORT) {
+    if (options.jsdocFormatImports && cur.tag === IMPORT) {
       const importDetails = getImportDetails(cur);
       if (importDetails) {
         if (options.jsdocMergeImports) {
@@ -296,7 +296,7 @@ function sortTags(
   }, []);
 
   // Merge the import details for a given src into a printable tag description
-  if (options.jsdocMergeImports) {
+  if (options.jsdocFormatImports && options.jsdocMergeImports) {
     Object.keys(importDetailsBySource).forEach((src) => {
       const importDetails = importDetailsBySource[src];
       // the first spec is the only one added to tagGroups
@@ -340,7 +340,8 @@ function sortTags(
         return 0;
       }
 
-      if (a.tag === IMPORT && b.tag === IMPORT) {
+      // sorts imports by source and places third party modes at the top
+      if (options.jsdocFormatImports && a.tag === IMPORT && b.tag === IMPORT) {
         const aSrc = importSourceByDescription[a.description] ?? a.description;
         const bSrc = importSourceByDescription[b.description] ?? a.description;
         const aVal = aSrc.startsWith(".") ? 1 : 0;

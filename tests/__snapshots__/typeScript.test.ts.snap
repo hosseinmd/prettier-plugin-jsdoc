@@ -225,3 +225,18 @@ exports[`type imports with named import padding 1`] = `
  */
 "
 `;
+
+exports[`type imports with no import formatting 1`] = `
+"/**
+ * @import BM, { B as B1,
+ * B2   , B4 } from 'moduleb'
+ * @import BMain, {B3  } from "moduleb"
+ * @import {A} from 'modulea'
+ * @typedef {Object} Foo
+ */
+/**
+ * @import BDefault, {        B5 } from   './moduleb'
+ * @import C from    "modulec"
+ */
+"
+`;
