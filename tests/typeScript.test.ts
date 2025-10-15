@@ -294,3 +294,4 @@ test("type imports with no import formatting", async () => {
 
   expect(result).toMatchSnapshot();
 });
+
