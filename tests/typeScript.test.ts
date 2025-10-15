@@ -82,7 +82,7 @@ test("hoisted object", async () => {
       }
      } User
      */
-
+ 
     `);
 
   expect(result).toMatchSnapshot();
@@ -122,10 +122,10 @@ class test {
      * @returns {StarkStringType & NativeString}
      */
         testFunction(){
-
+  
         }
       }
-
+  
     this._value = this._value.replace(searchValue, replaceValue);
     return this;
   }
