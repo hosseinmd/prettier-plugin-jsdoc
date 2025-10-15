@@ -231,3 +231,24 @@ test("type imports with named import padding", async () => {
 
   expect(result).toMatchSnapshot();
 });
+
+test("type imports with import merging turned off", async () => {
+  const result = await subject(
+    `
+/**
+ * @import BM, { B as B1,
+ * B2   , B4 } from 'moduleb'
+ * @typedef {Object} Foo
+ * @import BMain, {B3  } from "moduleb"
+ * @import {A} from 'modulea'
+ */
+/**
+ * @import BDefault, {        B5 } from   './moduleb'
+ * @import C    from    "modulec"
+ */
+    `,
+    { jsdocMergeImports: false },
+  );
+
+  expect(result).toMatchSnapshot();
+});

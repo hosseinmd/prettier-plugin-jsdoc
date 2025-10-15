@@ -142,6 +142,14 @@ const options = {
     default: undefined,
     description: "How many spaces will be used to separate tag elements.",
   },
+  jsdocMergeImports: {
+    name: "jsdocMergeImports",
+    type: "boolean",
+    category: "jsdoc",
+    default: true,
+    description:
+      "Merge all imports tags in the same block from the same source into one tag",
+  },
   jsdocNamedImportPadding: {
     name: "jsdocNamedImportPadding",
     type: "boolean",
@@ -170,6 +178,7 @@ const defaultOptions: JsdocOptions = {
   jsdocLineWrappingStyle: options.jsdocLineWrappingStyle.default,
   jsdocTagsOrder: options.jsdocTagsOrder.default,
   jsdocNamedImportPadding: options.jsdocNamedImportPadding.default,
+  jsdocMergeImports: options.jsdocMergeImports.default,
 };
 
 const parsers = {

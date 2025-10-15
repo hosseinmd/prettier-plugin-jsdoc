@@ -23,6 +23,7 @@ export interface JsdocOptions {
   jsdocLineWrappingStyle: "greedy";
   jsdocTagsOrder?: Record<string, number>;
   jsdocNamedImportPadding: boolean;
+  jsdocMergeImports: boolean;
 }
 
 export interface AllOptions extends ParserOptions, JsdocOptions {}

@@ -274,13 +274,19 @@ function sortTags(
     if (cur.tag === IMPORT) {
       const importDetails = getImportDetails(cur);
       if (importDetails) {
-        const existingImport = importDetailsBySource[importDetails.src];
-        if (existingImport) {
-          importDetailsBySource[importDetails.src].push(importDetails);
-          // do not add duplicate import tags to tagGroups
-          return tagGroups;
+        if (options.jsdocMergeImports) {
+          const existingImport = importDetailsBySource[importDetails.src];
+          if (existingImport) {
+            importDetailsBySource[importDetails.src].push(importDetails);
+            // do not add duplicate import tags to tagGroups
+            return tagGroups;
+          }
+          importDetailsBySource[importDetails.src] = [importDetails];
+        } else {
+          writeImportDetailsToSpec(importDetails, options);
+          importSourceByDescription[importDetails.spec.description] =
+            importDetails.src;
         }
-        importDetailsBySource[importDetails.src] = [importDetails];
       }
     }
 
@@ -290,48 +296,31 @@ function sortTags(
   }, []);
 
   // Merge the import details for a given src into a printable tag description
-  Object.keys(importDetailsBySource).forEach((src) => {
-    const importDetails = importDetailsBySource[src];
-    // the first spec is the only one added to tagGroups
-    const firstImpSpec = importDetails[0].spec;
-    const { defaultImport, namedImports } = importDetails.reduce(
-      (prev, curr) => {
-        prev.namedImports.push(...curr.namedImports);
-        // NB: the last default import encountered will be the one used
-        if (curr.defaultImport) prev.defaultImport = curr.defaultImport;
-        return prev;
-      },
-      { namedImports: [], defaultImport: undefined } as Pick<
-        ImportDetails,
-        "defaultImport" | "namedImports"
-      >,
-    );
-    // sort the import details
-    namedImports.sort((a, b) =>
-      (a.alias ?? a.name).localeCompare(b.alias ?? b.name),
-    );
+  if (options.jsdocMergeImports) {
+    Object.keys(importDetailsBySource).forEach((src) => {
+      const importDetails = importDetailsBySource[src];
+      // the first spec is the only one added to tagGroups
+      const firstImpSpec = importDetails[0].spec;
+      const { defaultImport, namedImports } = importDetails.reduce(
+        (prev, curr) => {
+          prev.namedImports.push(...curr.namedImports);
+          // NB: the last default import encountered will be the one used
+          if (curr.defaultImport) prev.defaultImport = curr.defaultImport;
+          return prev;
+        },
+        { namedImports: [], defaultImport: undefined } as Pick<
+          ImportDetails,
+          "defaultImport" | "namedImports"
+        >,
+      );
 
-    // write the merged import details to the spec description
-    const importClauses = [];
-    if (defaultImport) importClauses.push(defaultImport);
-    if (namedImports.length > 0) {
-      const makeMultiLine = namedImports.length > 1;
-      const typeString = namedImports
-        .map((t) => {
-          const val = t.alias ? `${t.name} as ${t.alias}` : `${t.name}`;
-          return makeMultiLine ? `  ${val}` : val;
-        })
-        .join(",\n");
-      const namedImportClause = makeMultiLine
-        ? `{\n${typeString}\n}`
-        : options.jsdocNamedImportPadding
-          ? `{ ${typeString} }`
-          : `{${typeString}}`;
-      importClauses.push(namedImportClause);
-    }
-    firstImpSpec.description = `${importClauses.join(", ")} from "${src}"`;
-    importSourceByDescription[firstImpSpec.description] = src;
-  });
+      writeImportDetailsToSpec(
+        { src, defaultImport, namedImports, spec: firstImpSpec },
+        options,
+      );
+      importSourceByDescription[firstImpSpec.description] = src;
+    });
+  }
 
   tags = tagGroups.flatMap((tagGroup, index, array) => {
     // sort tags within groups
@@ -700,6 +689,41 @@ type ImportDetails = {
     alias?: string;
   }[];
 };
+
+/**
+ * Writes the import details given to the description field of the spec
+ */
+function writeImportDetailsToSpec(
+  importDetails: ImportDetails,
+  options: AllOptions,
+) {
+  const { defaultImport, namedImports, src, spec } = importDetails;
+
+  // sort the import details
+  namedImports.sort((a, b) =>
+    (a.alias ?? a.name).localeCompare(b.alias ?? b.name),
+  );
+
+  // write the merged import details to the spec description
+  const importClauses = [];
+  if (defaultImport) importClauses.push(defaultImport);
+  if (namedImports.length > 0) {
+    const makeMultiLine = namedImports.length > 1;
+    const typeString = namedImports
+      .map((t) => {
+        const val = t.alias ? `${t.name} as ${t.alias}` : `${t.name}`;
+        return makeMultiLine ? `  ${val}` : val;
+      })
+      .join(",\n");
+    const namedImportClause = makeMultiLine
+      ? `{\n${typeString}\n}`
+      : options.jsdocNamedImportPadding
+        ? `{ ${typeString} }`
+        : `{${typeString}}`;
+    importClauses.push(namedImportClause);
+  }
+  spec.description = `${importClauses.join(", ")} from "${src}"`;
+}
 
 /**
  * Extracts the defaultImports, namedImports, and src associated with a given import tag.
