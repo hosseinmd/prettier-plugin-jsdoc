@@ -157,6 +157,14 @@ const options = {
     default: false,
     description: "Whether or not to pad brackets for single line named imports",
   },
+  jsdocNamedImportLineSplitting: {
+    name: "jsdocNamedImportLineSplitting",
+    type: "boolean",
+    category: "jsdoc",
+    default: true,
+    description:
+      "Split import tags with multiple named imports into multiple lines",
+  },
 } as const satisfies Record<keyof JsdocOptions, SupportOption>;
 
 const defaultOptions: JsdocOptions = {
@@ -179,6 +187,7 @@ const defaultOptions: JsdocOptions = {
   jsdocTagsOrder: options.jsdocTagsOrder.default,
   jsdocNamedImportPadding: options.jsdocNamedImportPadding.default,
   jsdocMergeImports: options.jsdocMergeImports.default,
+  jsdocNamedImportLineSplitting: options.jsdocNamedImportLineSplitting.default,
 };
 
 const parsers = {

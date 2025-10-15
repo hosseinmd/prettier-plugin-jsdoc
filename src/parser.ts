@@ -708,13 +708,14 @@ function writeImportDetailsToSpec(
   const importClauses = [];
   if (defaultImport) importClauses.push(defaultImport);
   if (namedImports.length > 0) {
-    const makeMultiLine = namedImports.length > 1;
+    const makeMultiLine =
+      options.jsdocNamedImportLineSplitting && namedImports.length > 1;
     const typeString = namedImports
       .map((t) => {
         const val = t.alias ? `${t.name} as ${t.alias}` : `${t.name}`;
         return makeMultiLine ? `  ${val}` : val;
       })
-      .join(",\n");
+      .join(makeMultiLine ? ",\n" : ", ");
     const namedImportClause = makeMultiLine
       ? `{\n${typeString}\n}`
       : options.jsdocNamedImportPadding

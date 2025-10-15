@@ -24,6 +24,7 @@ export interface JsdocOptions {
   jsdocTagsOrder?: Record<string, number>;
   jsdocNamedImportPadding: boolean;
   jsdocMergeImports: boolean;
+  jsdocNamedImportLineSplitting: boolean;
 }
 
 export interface AllOptions extends ParserOptions, JsdocOptions {}
