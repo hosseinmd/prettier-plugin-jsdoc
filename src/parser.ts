@@ -324,7 +324,9 @@ function sortTags(
         .join(",\n");
       const namedImportClause = makeMultiLine
         ? `{\n${typeString}\n}`
-        : `{${typeString}}`;
+        : options.jsdocNamedImportPadding
+          ? `{ ${typeString} }`
+          : `{${typeString}}`;
       importClauses.push(namedImportClause);
     }
     firstImpSpec.description = `${importClauses.join(", ")} from "${src}"`;

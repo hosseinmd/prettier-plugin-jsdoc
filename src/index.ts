@@ -142,6 +142,13 @@ const options = {
     default: undefined,
     description: "How many spaces will be used to separate tag elements.",
   },
+  jsdocNamedImportPadding: {
+    name: "jsdocNamedImportPadding",
+    type: "boolean",
+    category: "jsdoc",
+    default: false,
+    description: "Whether or not to pad brackets for single line named imports",
+  },
 } as const satisfies Record<keyof JsdocOptions, SupportOption>;
 
 const defaultOptions: JsdocOptions = {
@@ -162,6 +169,7 @@ const defaultOptions: JsdocOptions = {
   tsdoc: options.tsdoc.default,
   jsdocLineWrappingStyle: options.jsdocLineWrappingStyle.default,
   jsdocTagsOrder: options.jsdocTagsOrder.default,
+  jsdocNamedImportPadding: options.jsdocNamedImportPadding.default,
 };
 
 const parsers = {
