@@ -7,7 +7,7 @@ import {
   findPluginByParser,
   isDefaultTag,
 } from "./utils.js";
-import { DESCRIPTION, PARAM, RETURNS, EXAMPLE } from "./tags.js";
+import { DESCRIPTION, PARAM, RETURNS, EXAMPLE, IMPORT } from "./tags.js";
 import {
   TAGS_DESCRIPTION_NEEDED,
   TAGS_GROUP_HEAD,
@@ -255,60 +255,121 @@ function sortTags(
 ): Spec[] {
   let canGroupNextTags = false;
   let shouldSortAgain = false;
+  const importDetailsBySource: { [tag: string]: ImportDetails[] } = {};
+  const importSourceByDescription: { [description: string]: string } = {};
 
-  tags = tags
-    .reduce<Spec[][]>((tagGroups, cur) => {
-      if (
-        tagGroups.length === 0 ||
-        (TAGS_GROUP_HEAD.includes(cur.tag) && canGroupNextTags)
-      ) {
-        canGroupNextTags = false;
-        tagGroups.push([]);
-      }
-      if (TAGS_GROUP_CONDITION.includes(cur.tag)) {
-        canGroupNextTags = true;
-      }
-      tagGroups[tagGroups.length - 1].push(cur);
+  const tagGroups = tags.reduce<Spec[][]>((tagGroups, cur) => {
+    if (
+      tagGroups.length === 0 ||
+      (TAGS_GROUP_HEAD.includes(cur.tag) && canGroupNextTags)
+    ) {
+      canGroupNextTags = false;
+      tagGroups.push([]);
+    }
 
-      return tagGroups;
-    }, [])
-    .flatMap((tagGroup, index, array) => {
-      // sort tags within groups
-      tagGroup.sort((a, b) => {
-        if (
-          paramsOrder &&
-          paramsOrder.length > 1 &&
-          a.tag === PARAM &&
-          b.tag === PARAM
-        ) {
-          const aIndex = paramsOrder.indexOf(a.name);
-          const bIndex = paramsOrder.indexOf(b.name);
-          if (aIndex > -1 && bIndex > -1) {
-            //sort params
-            return aIndex - bIndex;
+    if (TAGS_GROUP_CONDITION.includes(cur.tag)) {
+      canGroupNextTags = true;
+    }
+
+    if (options.jsdocFormatImports && cur.tag === IMPORT) {
+      const importDetails = getImportDetails(cur);
+      if (importDetails) {
+        if (options.jsdocMergeImports) {
+          const existingImport = importDetailsBySource[importDetails.src];
+          if (existingImport) {
+            importDetailsBySource[importDetails.src].push(importDetails);
+            // do not add duplicate import tags to tagGroups
+            return tagGroups;
           }
-          return 0;
+          importDetailsBySource[importDetails.src] = [importDetails];
+        } else {
+          writeImportDetailsToSpec(importDetails, options);
+          importSourceByDescription[importDetails.spec.description] =
+            importDetails.src;
         }
-        return (
-          getTagOrderWeight(a.tag, options) - getTagOrderWeight(b.tag, options)
-        );
-      });
-
-      // add an empty line between groups
-      if (array.length - 1 !== index) {
-        tagGroup.push(SPACE_TAG_DATA);
       }
+    }
 
-      if (
-        index > 0 &&
-        tagGroup[0]?.tag &&
-        !TAGS_GROUP_HEAD.includes(tagGroup[0].tag)
-      ) {
-        shouldSortAgain = true;
-      }
+    tagGroups[tagGroups.length - 1].push(cur);
 
-      return tagGroup;
+    return tagGroups;
+  }, []);
+
+  // Merge the import details for a given src into a printable tag description
+  if (options.jsdocFormatImports && options.jsdocMergeImports) {
+    Object.keys(importDetailsBySource).forEach((src) => {
+      const importDetails = importDetailsBySource[src];
+      // the first spec is the only one added to tagGroups
+      const firstImpSpec = importDetails[0].spec;
+      const { defaultImport, namedImports } = importDetails.reduce(
+        (prev, curr) => {
+          prev.namedImports.push(...curr.namedImports);
+          // NB: the last default import encountered will be the one used
+          if (curr.defaultImport) prev.defaultImport = curr.defaultImport;
+          return prev;
+        },
+        { namedImports: [], defaultImport: undefined } as Pick<
+          ImportDetails,
+          "defaultImport" | "namedImports"
+        >,
+      );
+
+      writeImportDetailsToSpec(
+        { src, defaultImport, namedImports, spec: firstImpSpec },
+        options,
+      );
+      importSourceByDescription[firstImpSpec.description] = src;
     });
+  }
+
+  tags = tagGroups.flatMap((tagGroup, index, array) => {
+    // sort tags within groups
+    tagGroup.sort((a, b) => {
+      if (
+        paramsOrder &&
+        paramsOrder.length > 1 &&
+        a.tag === PARAM &&
+        b.tag === PARAM
+      ) {
+        const aIndex = paramsOrder.indexOf(a.name);
+        const bIndex = paramsOrder.indexOf(b.name);
+        if (aIndex > -1 && bIndex > -1) {
+          //sort params
+          return aIndex - bIndex;
+        }
+        return 0;
+      }
+
+      // sorts imports by source and places third party modes at the top
+      if (options.jsdocFormatImports && a.tag === IMPORT && b.tag === IMPORT) {
+        const aSrc = importSourceByDescription[a.description] ?? a.description;
+        const bSrc = importSourceByDescription[b.description] ?? a.description;
+        const aVal = aSrc.startsWith(".") ? 1 : 0;
+        const bVal = bSrc.startsWith(".") ? 1 : 0;
+        if (aVal === bVal) return aSrc.localeCompare(bSrc);
+        return aVal - bVal;
+      }
+
+      return (
+        getTagOrderWeight(a.tag, options) - getTagOrderWeight(b.tag, options)
+      );
+    });
+
+    // add an empty line between groups
+    if (array.length - 1 !== index) {
+      tagGroup.push(SPACE_TAG_DATA);
+    }
+
+    if (
+      index > 0 &&
+      tagGroup[0]?.tag &&
+      !TAGS_GROUP_HEAD.includes(tagGroup[0].tag)
+    ) {
+      shouldSortAgain = true;
+    }
+
+    return tagGroup;
+  });
 
   return shouldSortAgain ? sortTags(tags, paramsOrder, options) : tags;
 }
@@ -614,4 +675,81 @@ function assignOptionalAndDefaultToName({
     source,
     default: default_,
   };
+}
+
+type ImportDetails = {
+  /** the spec associated with this import tag */
+  spec: Spec;
+  /** the source of the module that types were imported from */
+  src: string;
+  defaultImport?: string;
+  /** the types that were imported */
+  namedImports: {
+    name: string;
+    /** the alias assigned to the type (EX: alias of "B as B0" is "B0") */
+    alias?: string;
+  }[];
+};
+
+/**
+ * Writes the import details given to the description field of the spec
+ */
+function writeImportDetailsToSpec(
+  importDetails: ImportDetails,
+  options: AllOptions,
+) {
+  const { defaultImport, namedImports, src, spec } = importDetails;
+
+  // sort the import details
+  namedImports.sort((a, b) =>
+    (a.alias ?? a.name).localeCompare(b.alias ?? b.name),
+  );
+
+  // write the merged import details to the spec description
+  const importClauses = [];
+  if (defaultImport) importClauses.push(defaultImport);
+  if (namedImports.length > 0) {
+    const makeMultiLine =
+      options.jsdocNamedImportLineSplitting && namedImports.length > 1;
+    const typeString = namedImports
+      .map((t) => {
+        const val = t.alias ? `${t.name} as ${t.alias}` : `${t.name}`;
+        return makeMultiLine ? `  ${val}` : val;
+      })
+      .join(makeMultiLine ? ",\n" : ", ");
+    const namedImportClause = makeMultiLine
+      ? `{\n${typeString}\n}`
+      : options.jsdocNamedImportPadding
+        ? `{ ${typeString} }`
+        : `{${typeString}}`;
+    importClauses.push(namedImportClause);
+  }
+  spec.description = `${importClauses.join(", ")} from "${src}"`;
+}
+
+/**
+ * Extracts the defaultImports, namedImports, and src associated with a given import tag.
+ */
+function getImportDetails(spec: Spec): ImportDetails | null {
+  // step 1: capture the default import, named import clause, and src
+  const match = spec.description.match(
+    /([^\s\\,\\{\\}]+)?(?:[^\\{\\}]*)\{?([^\\{\\}]*)?\}?(?:\s+from\s+)[\\'\\"](\S+)[\\'\\"]/s,
+  );
+  if (!match) return null;
+
+  const defaultImport = match[1] || "";
+  const namedImportsClause = match[2] || "";
+  const src = match[3] || "";
+
+  // step 2: get all named imports from the named import section
+  const typeMatches = namedImportsClause.matchAll(
+    /([^\s\\,\\{\\}]+)(?:\s+as\s+)?([^\s\\,\\{\\}]+)?/g,
+  );
+
+  const namedImports = [];
+  for (const typeMatch of typeMatches) {
+    namedImports.push({ name: typeMatch[1], alias: typeMatch[2] });
+  }
+
+  return { spec, src, namedImports, defaultImport };
 }

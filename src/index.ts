@@ -142,6 +142,36 @@ const options = {
     default: undefined,
     description: "How many spaces will be used to separate tag elements.",
   },
+  jsdocMergeImports: {
+    name: "jsdocMergeImports",
+    type: "boolean",
+    category: "jsdoc",
+    default: true,
+    description:
+      "Merge all imports tags in the same block from the same source into one tag",
+  },
+  jsdocNamedImportPadding: {
+    name: "jsdocNamedImportPadding",
+    type: "boolean",
+    category: "jsdoc",
+    default: false,
+    description: "Whether or not to pad brackets for single line named imports",
+  },
+  jsdocNamedImportLineSplitting: {
+    name: "jsdocNamedImportLineSplitting",
+    type: "boolean",
+    category: "jsdoc",
+    default: true,
+    description:
+      "Split import tags with multiple named imports into multiple lines",
+  },
+  jsdocFormatImports: {
+    name: "jsdocFormatImports",
+    type: "boolean",
+    category: "jsdoc",
+    default: true,
+    description: "Format import tags",
+  },
 } as const satisfies Record<keyof JsdocOptions, SupportOption>;
 
 const defaultOptions: JsdocOptions = {
@@ -162,6 +192,10 @@ const defaultOptions: JsdocOptions = {
   tsdoc: options.tsdoc.default,
   jsdocLineWrappingStyle: options.jsdocLineWrappingStyle.default,
   jsdocTagsOrder: options.jsdocTagsOrder.default,
+  jsdocFormatImports: options.jsdocFormatImports.default,
+  jsdocNamedImportPadding: options.jsdocNamedImportPadding.default,
+  jsdocMergeImports: options.jsdocMergeImports.default,
+  jsdocNamedImportLineSplitting: options.jsdocNamedImportLineSplitting.default,
 };
 
 const parsers = {

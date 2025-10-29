@@ -125,7 +125,7 @@ const stringify = async (
     if (useTagTitle) tagString += gap + " ".repeat(descGapAdj);
     if (
       TAGS_PEV_FORMATE_DESCRIPTION.includes(tag) ||
-      !TAGS_ORDER[tag as keyof typeof TAGS_ORDER]
+      TAGS_ORDER[tag as keyof typeof TAGS_ORDER] === undefined
     ) {
       // Avoid wrapping
       descriptionString = description;
