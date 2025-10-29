@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.3.3...v1.4.0) (2025-10-29)
+
+
+### Features
+
+* add support for import tags ([#252](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/252)) ([ab5c488](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/ab5c488b2d92d9706c01aaca08f410b16cd6a7da))
+
 ### [1.3.3](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.3.2...v1.3.3) (2025-07-01)
 
 
