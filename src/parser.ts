@@ -46,6 +46,7 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
     options = {
       ...options,
       printWidth: options.jsdocPrintWidth ?? options.printWidth,
+      jsdocEmptyCommentStrategy: options.jsdocEmptyCommentStrategy ?? "remove",
     };
 
     const eol =
@@ -241,9 +242,11 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
       }),
     );
 
-    ast.comments = ast.comments.filter(
-      (comment) => !(isBlockComment(comment) && !comment.value),
-    );
+    if (options.jsdocEmptyCommentStrategy === "remove") {
+      ast.comments = ast.comments.filter(
+        (comment) => !(isBlockComment(comment) && !comment.value),
+      );
+    }
 
     return ast;
   };

@@ -26,6 +26,7 @@ export interface JsdocOptions {
   jsdocNamedImportPadding: boolean;
   jsdocMergeImports: boolean;
   jsdocNamedImportLineSplitting: boolean;
+  jsdocEmptyCommentStrategy: "remove" | "keep";
 }
 
 export interface AllOptions extends ParserOptions, JsdocOptions {}

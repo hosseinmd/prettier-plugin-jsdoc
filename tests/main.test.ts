@@ -454,6 +454,74 @@ test("Empty comment", async () => {
   expect(result).toMatchSnapshot();
 });
 
+test("Empty JSDoc comment - default behavior (should remove)", async () => {
+  const result = await subject(`
+/**
+ */
+function test() {}
+
+/** */
+const value = 1;
+
+/**
+ *
+ */
+class MyClass {}
+  `);
+
+  expect(result).toMatchSnapshot();
+});
+
+test("Empty JSDoc comment - with jsdocEmptyCommentStrategy keep", async () => {
+  const result = await subject(
+    `
+/**
+ */
+function test() {}
+
+/** */
+const value = 1;
+
+/**
+ *
+ */
+class MyClass {}
+  `,
+    { jsdocEmptyCommentStrategy: "keep" },
+  );
+
+  expect(result).toMatchSnapshot();
+});
+
+test("Mixed empty and non-empty JSDoc comments - with jsdocEmptyCommentStrategy keep", async () => {
+  const result = await subject(
+    `
+/**
+ */
+function emptyDoc() {}
+
+/**
+ * This has content
+ * @param {string} name
+ */
+function withContent(name) {}
+
+/** */
+const emptyValue = 1;
+
+/**
+ * @returns {number}
+ */
+function withReturn() {
+  return 42;
+}
+  `,
+    { jsdocEmptyCommentStrategy: "keep" },
+  );
+
+  expect(result).toMatchSnapshot();
+});
+
 test("Optional parameters", async () => {
   const result = await subject(`
   /**

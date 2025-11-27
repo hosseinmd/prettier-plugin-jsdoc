@@ -176,6 +176,23 @@ const options = {
     default: true,
     description: "Format import tags",
   },
+  jsdocEmptyCommentStrategy: {
+    name: "jsdocEmptyCommentStrategy",
+    type: "choice",
+    choices: [
+      {
+        value: "remove",
+        description: "Remove empty JSDoc comment blocks",
+      },
+      {
+        value: "keep",
+        description: "Keep empty JSDoc comment blocks",
+      },
+    ] as ChoiceSupportOption["choices"],
+    category: "jsdoc",
+    default: "remove",
+    description: "How to handle empty JSDoc comment blocks",
+  },
 } as const satisfies Record<keyof JsdocOptions, SupportOption>;
 
 const defaultOptions: JsdocOptions = {
@@ -200,6 +217,7 @@ const defaultOptions: JsdocOptions = {
   jsdocNamedImportPadding: options.jsdocNamedImportPadding.default,
   jsdocMergeImports: options.jsdocMergeImports.default,
   jsdocNamedImportLineSplitting: options.jsdocNamedImportLineSplitting.default,
+  jsdocEmptyCommentStrategy: options.jsdocEmptyCommentStrategy.default,
 };
 
 const parsers = {

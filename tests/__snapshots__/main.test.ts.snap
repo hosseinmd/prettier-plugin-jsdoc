@@ -61,6 +61,27 @@ exports[`Block quote 2`] = `
 "
 `;
 
+exports[`Empty JSDoc comment - default behavior (should remove) 1`] = `
+"function test() {}
+
+const value = 1;
+
+class MyClass {}
+"
+`;
+
+exports[`Empty JSDoc comment - with jsdocEmptyCommentStrategy keep 1`] = `
+"/**/
+function test() {}
+
+/**/
+const value = 1;
+
+/**/
+class MyClass {}
+"
+`;
+
 exports[`Empty comment 1`] = `
 "// Line Comment
 //
@@ -138,6 +159,27 @@ exports[`Long description memory leak 1`] = `
  * @returns The {@link @microsoft/signalr.HubConnectionBuilder} instance, for
  *   chaining.
  */
+"
+`;
+
+exports[`Mixed empty and non-empty JSDoc comments - with jsdocEmptyCommentStrategy keep 1`] = `
+"/**/
+function emptyDoc() {}
+
+/**
+ * This has content
+ *
+ * @param {string} name
+ */
+function withContent(name) {}
+
+/**/
+const emptyValue = 1;
+
+/** @returns {number} */
+function withReturn() {
+  return 42;
+}
 "
 `;
 
