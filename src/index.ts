@@ -130,6 +130,10 @@ const options = {
         value: "greedy",
         description: `Lines wrap as soon as they reach the print width`,
       },
+      {
+        value: "balance",
+        description: `Preserve existing line breaks if lines are shorter than print width, otherwise use greedy wrapping`,
+      },
     ] as ChoiceSupportOption["choices"],
     category: "jsdoc",
     default: "greedy",

@@ -54,7 +54,7 @@ Add `prettier-plugin-jsdoc` to your `plugins` list.
 ```js
 export default {
   plugins: ["prettier-plugin-jsdoc"],
-}
+};
 ```
 
 If you want to ignore some types of files, use `overrides` with an empty `plugins`:
@@ -184,8 +184,8 @@ Like code tags (` ```js `), header tags like `# Header`, or other Markdown featu
 
 ## Options
 
-| Key                                 | Type                              | Default      | Description                                                                                     |
-| :---------------------------------- | :-------------------------------- | :----------- | ----------------------------------------------------------------------------------------------- |
+| Key                                 | Type                              | Default      | Description                                                                                                                                                             |
+| :---------------------------------- | :-------------------------------- | :----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `jsdocSpaces`                       | Number                            | 1            |
 | `jsdocDescriptionWithDot`           | Boolean                           | false        |
 | `jsdocDescriptionTag`               | Boolean                           | false        |
@@ -193,13 +193,13 @@ Like code tags (` ```js `), header tags like `# Header`, or other Markdown featu
 | `jsdocKeepUnParseAbleExampleIndent` | Boolean                           | false        |
 | `jsdocCommentLineStrategy`          | ("singleLine","multiline","keep") | "singleLine" |
 | `jsdocCapitalizeDescription`        | Boolean                           | true         |
-| `jsdocSeparateReturnsFromParam`     | Boolean                           | false        | Adds a space between last `@param` and `@returns`                                               |
-| `jsdocSeparateTagGroups`            | Boolean                           | false        | Adds a space between tag groups                                                                 |
-| `jsdocPreferCodeFences`             | Boolean                           | false        | Always fence code blocks (surround them by triple backticks)                                    |
-| `tsdoc`                             | Boolean                           | false        | See [TSDoc](#tsdoc)                                                                           |
-| `jsdocPrintWidth`                   | Number                            | undefined    | If you don't set the value to `jsdocPrintWidth`, `printWidth` will be used as `jsdocPrintWidth` |
-| `jsdocLineWrappingStyle`            | String                            | "greedy"     | "greedy": lines wrap as soon as they reach `printWidth`                                         |
-| `jsdocTagsOrder`                    | String (object)                   | undefined    | See [Custom Tags Order](doc/CUSTOM_TAGS_ORDER.md)                                               |
+| `jsdocSeparateReturnsFromParam`     | Boolean                           | false        | Adds a space between last `@param` and `@returns`                                                                                                                       |
+| `jsdocSeparateTagGroups`            | Boolean                           | false        | Adds a space between tag groups                                                                                                                                         |
+| `jsdocPreferCodeFences`             | Boolean                           | false        | Always fence code blocks (surround them by triple backticks)                                                                                                            |
+| `tsdoc`                             | Boolean                           | false        | See [TSDoc](#tsdoc)                                                                                                                                                     |
+| `jsdocPrintWidth`                   | Number                            | undefined    | If you don't set the value to `jsdocPrintWidth`, `printWidth` will be used as `jsdocPrintWidth`                                                                         |
+| `jsdocLineWrappingStyle`            | String                            | "greedy"     | "greedy": lines wrap as soon as they reach `printWidth`. "balance": preserve existing line breaks if lines are shorter than `printWidth`, otherwise use greedy wrapping |
+| `jsdocTagsOrder`                    | String (object)                   | undefined    | See [Custom Tags Order](doc/CUSTOM_TAGS_ORDER.md)                                                                                                                       |
 
 ### TSDoc
 
@@ -226,10 +226,11 @@ To enable, add:
 1. Fork and clone the repository
 2. [Install Yarn](https://yarnpkg.com/getting-started/install)
 3. Install project dependencies:
-   
+
    ```sh
    yarn install
    ```
+
 4. Make changes and make sure that tests pass:
    ```js
    yarn run test

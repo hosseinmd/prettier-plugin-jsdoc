@@ -71,6 +71,7 @@ async function formatDescription(
 
   const { printWidth } = options;
   const { tagStringLength = 0, beginningSpace } = formatOptions;
+  const originalText = text; // Save original text for nowrap mode
 
   /**
    * change list with dash to dot for example:
@@ -281,21 +282,102 @@ async function formatDescription(
                     },
                   );
 
-                  _paragraph = _paragraph.replace(/\s+/g, " "); // Make single line
+                  // In balance mode, check if we should preserve original line breaks
+                  // Helper: Apply capitalization to first character if needed
+                  const applyCapitalization = (text: string): string => {
+                    const shouldCapitalize =
+                      options.jsdocCapitalizeDescription &&
+                      !TAGS_PEV_FORMATE_DESCRIPTION.includes(tag);
+                    return shouldCapitalize ? capitalizer(text) : text;
+                  };
 
-                  if (
-                    options.jsdocCapitalizeDescription &&
-                    !TAGS_PEV_FORMATE_DESCRIPTION.includes(tag)
-                  )
-                    _paragraph = capitalizer(_paragraph);
-                  if (options.jsdocDescriptionWithDot)
-                    _paragraph = _paragraph.replace(/([\w\p{L}])$/u, "$1."); // Insert dot if needed
+                  // Helper: Add trailing dot if needed
+                  const applyTrailingDot = (text: string): string => {
+                    return options.jsdocDescriptionWithDot
+                      ? text.replace(/([\w\p{L}])$/u, "$1.")
+                      : text;
+                  };
 
-                  let result = breakDescriptionToLines(
-                    _paragraph,
-                    printWidth,
-                    intention,
-                  );
+                  // Helper: Format text with standard transformations
+                  const applyStandardFormatting = (text: string): string => {
+                    return applyTrailingDot(applyCapitalization(text));
+                  };
+
+                  // Helper: Join lines with proper indentation
+                  const joinWithIndentation = (lines: string[]): string => {
+                    const indentedLines = lines.map(
+                      (line) => `${intention}${line}`,
+                    );
+                    return indentedLines.join("\n");
+                  };
+
+                  // Helper: Apply greedy wrapping
+                  const applyGreedyWrapping = (text: string): string => {
+                    const singleLine = text.replace(/\s+/g, " ");
+                    const formatted = applyStandardFormatting(singleLine);
+                    const jsdocPrintWidth =
+                      options.jsdocPrintWidth ?? printWidth;
+                    return breakDescriptionToLines(
+                      formatted,
+                      jsdocPrintWidth,
+                      intention,
+                    );
+                  };
+
+                  // Main logic: Determine wrapping strategy
+                  const isBalanceMode =
+                    options.jsdocLineWrappingStyle === "balance";
+                  const originalHasLineBreaks = originalText.includes("\n");
+                  const shouldTryBalanceMode =
+                    isBalanceMode && originalHasLineBreaks;
+
+                  let result: string;
+
+                  if (shouldTryBalanceMode) {
+                    const originalLines = originalText
+                      .split("\n")
+                      .map((line) => line.trim())
+                      .filter((line) => line.length > 0);
+
+                    const jsdocPrintWidth =
+                      options.jsdocPrintWidth ?? printWidth;
+                    const effectiveMaxWidth =
+                      tag === DESCRIPTION && tagStringLength > 0
+                        ? jsdocPrintWidth - tagStringLength
+                        : jsdocPrintWidth - intention.length;
+
+                    const allLinesFit = originalLines.every(
+                      (line) => line.length <= effectiveMaxWidth,
+                    );
+                    const hasMultipleLines = originalLines.length > 1;
+
+                    if (allLinesFit && hasMultipleLines) {
+                      // Preserve original line breaks
+                      const formattedLines = originalLines.map(
+                        (line, index) => {
+                          const isFirstLine = index === 0;
+                          const isLastLine = index === originalLines.length - 1;
+
+                          let formatted = line;
+                          if (isFirstLine) {
+                            formatted = applyCapitalization(formatted);
+                          }
+                          if (isLastLine) {
+                            formatted = applyTrailingDot(formatted);
+                          }
+                          return formatted;
+                        },
+                      );
+
+                      result = joinWithIndentation(formattedLines);
+                    } else {
+                      // Fall back to greedy wrapping
+                      result = applyGreedyWrapping(_paragraph);
+                    }
+                  } else {
+                    // Default greedy wrapping mode
+                    result = applyGreedyWrapping(_paragraph);
+                  }
 
                   // Replace links
                   result = result.replace(

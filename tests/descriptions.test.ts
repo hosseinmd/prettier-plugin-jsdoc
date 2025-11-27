@@ -468,7 +468,12 @@ test("code in description", async () => {
 });
 
 test("printWidth", async () => {
-  const result1 = await subject(
+  const _subject = (content: string) =>
+    subject(content, {
+      jsdocPrintWidth: 80,
+    });
+
+  const result1 = await _subject(
     `/**
   * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
   * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
@@ -478,12 +483,9 @@ test("printWidth", async () => {
   * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
   * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
   */`,
-    {
-      jsdocPrintWidth: 80,
-    },
   );
 
-  expect(await subject(await subject(result1))).toEqual(result1);
+  expect(await _subject(await _subject(result1))).toEqual(result1);
 
   expect(result1).toMatchSnapshot();
 });
@@ -1083,4 +1085,120 @@ test("Markdown table replaced ", async () => {
   );
 
   expect(result).toMatchSnapshot();
+});
+
+test("jsdocLineWrappingStyle balance", async () => {
+  // Test that balance mode preserves existing line breaks when lines are shorter than printWidth
+  const result1 = await subject(
+    `/**
+ * This is a carefully formatted description
+ * with multiple lines that are balanced
+ * to avoid runts and improve readability.
+ *
+ * @param {string} name - The name parameter
+ * @returns {boolean} Returns true if successful
+ */`,
+    {
+      jsdocLineWrappingStyle: "balance",
+      printWidth: 80,
+    },
+  );
+
+  expect(result1).toMatchSnapshot();
+
+  // Test that balance mode falls back to greedy wrapping when lines exceed printWidth
+  const result2 = await subject(
+    `/**
+ * This is a very long line that exceeds the print width limit and should be wrapped using greedy wrapping even in balance mode because it's too long to preserve as is.
+ *
+ * @param {string} name - The name parameter
+ * @returns {boolean} Returns true if successful
+ */`,
+    {
+      jsdocLineWrappingStyle: "balance",
+      printWidth: 40,
+    },
+  );
+
+  expect(result2).toMatchSnapshot();
+
+  // Test that greedy mode (default) wraps lines greedily regardless of original formatting
+  const result3 = await subject(
+    `/**
+ * This is a carefully formatted description
+ * with multiple lines that are balanced
+ * to avoid runts and improve readability.
+ *
+ * @param {string} name - The name parameter
+ * @returns {boolean} Returns true if successful
+ */`,
+    {
+      jsdocLineWrappingStyle: "greedy",
+      printWidth: 80,
+    },
+  );
+
+  expect(result3).toMatchSnapshot();
+
+  // Test balance mode with @param descriptions
+  const result4 = await subject(
+    `/**
+ * @param {string} name - This is a carefully formatted
+ *   parameter description with balanced lines
+ *   that should be preserved in balance mode
+ * @param {number} age - Another parameter with
+ *   balanced formatting
+ * @returns {boolean} Returns true
+ */`,
+    {
+      jsdocLineWrappingStyle: "balance",
+      printWidth: 80,
+    },
+  );
+
+  expect(result4).toMatchSnapshot();
+});
+
+test("jsdocLineWrappingStyle balance with link in description", async () => {
+  const result4 = await subject(
+    `/**
+ * @param {string} name - This is a carefully formatted
+ *   parameter description with balanced lines
+ *   that should be preserved in balance mode
+ *   issue: {@link https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/98?prettier-plugin-jsdocprettier-plugin-jsdocprettier-plugin-jsdoc}
+ * @param {number} age - Another parameter with
+ *   balanced formatting
+ * @returns {boolean} Returns true
+ */`,
+    {
+      jsdocLineWrappingStyle: "balance",
+      printWidth: 80,
+    },
+  );
+
+  expect(result4).toMatchSnapshot();
+});
+
+test("jsdocLineWrappingStyle balance with paraghraph in description", async () => {
+  const result4 = await subject(
+    `/**
+ * This is a carefully formatted that should be preserved in balance mode that should be preserved in balance mode
+ *
+ * 
+ * paragraph description with balanced lines
+ *
+ * 
+ * 
+ * 
+ * that should be preserved in balance mode that should be preserved in balance mode that should be preserved in balance mode
+ * 
+ *   
+ */`,
+    {
+      jsdocLineWrappingStyle: "balance",
+      printWidth: 80,
+    },
+  );
+
+  expect(result4).toMatchSnapshot();
 });

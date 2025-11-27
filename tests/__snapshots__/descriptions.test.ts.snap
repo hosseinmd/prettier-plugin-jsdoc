@@ -821,6 +821,82 @@ exports[`empty lines 1`] = `
 "
 `;
 
+exports[`jsdocLineWrappingStyle balance 1`] = `
+"/**
+ * This is a carefully formatted description
+ * with multiple lines that are balanced
+ * to avoid runts and improve readability.
+ *
+ * @param {string} name - The name parameter
+ * @returns {boolean} Returns true if successful
+ */
+"
+`;
+
+exports[`jsdocLineWrappingStyle balance 2`] = `
+"/**
+ * This is a very long line that exceeds
+ * the print width limit and should be
+ * wrapped using greedy wrapping even in
+ * balance mode because it's too long to
+ * preserve as is.
+ *
+ * @param {string} name - The name
+ *   parameter
+ * @returns {boolean} Returns true if
+ *   successful
+ */
+"
+`;
+
+exports[`jsdocLineWrappingStyle balance 3`] = `
+"/**
+ * This is a carefully formatted description with multiple lines that are
+ * balanced to avoid runts and improve readability.
+ *
+ * @param {string} name - The name parameter
+ * @returns {boolean} Returns true if successful
+ */
+"
+`;
+
+exports[`jsdocLineWrappingStyle balance 4`] = `
+"/**
+ * @param {string} name - This is a carefully formatted
+ *   parameter description with balanced lines
+ *   that should be preserved in balance mode
+ * @param {number} age - Another parameter with
+ *   balanced formatting
+ * @returns {boolean} Returns true
+ */
+"
+`;
+
+exports[`jsdocLineWrappingStyle balance with link in description 1`] = `
+"/**
+ * @param {string} name - This is a carefully formatted parameter description
+ *   with balanced lines that should be preserved in balance mode issue:
+ *   {@link https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/98?prettier-plugin-jsdocprettier-plugin-jsdocprettier-plugin-jsdoc}
+ * @param {number} age - Another parameter with
+ *   balanced formatting
+ * @returns {boolean} Returns true
+ */
+"
+`;
+
+exports[`jsdocLineWrappingStyle balance with paraghraph in description 1`] = `
+"/**
+ * This is a carefully formatted that should be preserved in balance mode that
+ * should be preserved in balance mode
+ *
+ * Paragraph description with balanced lines
+ *
+ * That should be preserved in balance mode that should be preserved in balance
+ * mode that should be preserved in balance mode
+ */
+"
+`;
+
 exports[`matches prettier markdown format 1`] = `
 "/**
  * # Header
@@ -970,15 +1046,13 @@ exports[`numbers and code in description 4`] = `
 
 exports[`printWidth 1`] = `
 "/**
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
  *
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
  */
 "
 `;

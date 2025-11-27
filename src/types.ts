@@ -20,7 +20,7 @@ export interface JsdocOptions {
   jsdocCapitalizeDescription: boolean;
   jsdocPreferCodeFences: boolean;
   tsdoc: boolean;
-  jsdocLineWrappingStyle: "greedy";
+  jsdocLineWrappingStyle: "greedy" | "balance";
   jsdocTagsOrder?: Record<string, number>;
   jsdocFormatImports: boolean;
   jsdocNamedImportPadding: boolean;
