@@ -176,3 +176,61 @@ test("example unParseAble", async () => {
   expect(result2).toEqual(result);
   expect(await subject(result)).not.toEqual(result);
 });
+
+test("example with @this tag preserves indentation", async () => {
+  const code = `/**
+ * @example
+ *   import { createServer } from "node:http";
+ *   import extendedResponse from "extended-response";
+ *
+ *   async function* messages() {
+ *     for (let i = 1; i <= 5; i++) {
+ *       yield \`Message \${i}\\r\\n\`;
+ *       await new Promise((resolve) => setTimeout(resolve, 1000));
+ *     }
+ *   }
+ *
+ *   const server = createServer(async (req, res) => {
+ *     if (
+ *       req.method === "GET" &&
+ *       new URL(req.url || "").pathname === "/stream5"
+ *     ) {
+ *       await extendedResponse.call(res, {
+ *         messages,
+ *       });
+ *     }
+ *   });
+ *
+ *   server.listen(port, () => {
+ *     console.log(\`Server running on http://localhost:\${port}\`);
+ *   });
+ *
+ * @param {object} params Extended Response Parameters
+ * @param {AsyncIterable<message>} params.messages Async messages to be sent
+ *   response stream will be closed
+ * @returns {Promise<void>}
+ *
+ * @this {ServerResponse}
+ * A Node.js HTTP
+ * {@link https://nodejs.org/api/http.html#class-httpserverresponse|ServerResponse}
+ * instance.
+ */`;
+
+  const result = await subject(code, {
+    jsdocTagsOrder: '{"this":39.9}' as any,
+    jsdocKeepUnParseAbleExampleIndent: true,
+  });
+
+  expect(result).toMatchSnapshot();
+
+  // Format again to ensure it's stable
+  const result2 = await subject(result, {
+    jsdocTagsOrder: '{"this":39.9}' as any,
+    jsdocKeepUnParseAbleExampleIndent: true,
+  });
+
+  // The example should preserve its indentation
+  expect(result2).toMatchSnapshot();
+  expect(result2).toContain("  import { createServer }");
+  expect(result2).toContain("    for (let i = 1; i <= 5; i++)");
+});

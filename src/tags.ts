@@ -39,6 +39,7 @@ const RETURNS = "returns";
 const SEE = "see";
 const SINCE = "since";
 const TEMPLATE = "template";
+const THIS = "this";
 const THROWS = "throws";
 const TODO = "todo";
 const TYPE = "type";
@@ -98,6 +99,7 @@ export {
   SEE,
   SINCE,
   TEMPLATE,
+  THIS,
   THROWS,
   TODO,
   TYPE,

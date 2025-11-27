@@ -113,6 +113,84 @@ exports[`example unParseAble 1`] = `
 "
 `;
 
+exports[`example with @this tag preserves indentation 1`] = `
+"/**
+ * @example
+ *   import { createServer } from "node:http";
+ *   import extendedResponse from "extended-response";
+ *
+ *   async function* messages() {
+ *     for (let i = 1; i <= 5; i++) {
+ *       yield \`Message \${i}\\r\\n\`;
+ *       await new Promise((resolve) => setTimeout(resolve, 1000));
+ *     }
+ *   }
+ *
+ *   const server = createServer(async (req, res) => {
+ *     if (
+ *       req.method === "GET" &&
+ *       new URL(req.url || "").pathname === "/stream5"
+ *     ) {
+ *       await extendedResponse.call(res, {
+ *         messages,
+ *       });
+ *     }
+ *   });
+ *
+ *   server.listen(port, () => {
+ *     console.log(\`Server running on http://localhost:\${port}\`);
+ *   });
+ *
+ * @this {ServerResponse} A Node.js HTTP
+ *   {@link https://nodejs.org/api/http.html#class-httpserverresponse|ServerResponse}
+ *   instance.
+ * @param {object} params Extended Response Parameters
+ * @param {AsyncIterable<message>} params.messages Async messages to be sent
+ *   response stream will be closed
+ * @returns {Promise<void>}
+ */
+"
+`;
+
+exports[`example with @this tag preserves indentation 2`] = `
+"/**
+ * @example
+ *   import { createServer } from "node:http";
+ *   import extendedResponse from "extended-response";
+ *
+ *   async function* messages() {
+ *     for (let i = 1; i <= 5; i++) {
+ *       yield \`Message \${i}\\r\\n\`;
+ *       await new Promise((resolve) => setTimeout(resolve, 1000));
+ *     }
+ *   }
+ *
+ *   const server = createServer(async (req, res) => {
+ *     if (
+ *       req.method === "GET" &&
+ *       new URL(req.url || "").pathname === "/stream5"
+ *     ) {
+ *       await extendedResponse.call(res, {
+ *         messages,
+ *       });
+ *     }
+ *   });
+ *
+ *   server.listen(port, () => {
+ *     console.log(\`Server running on http://localhost:\${port}\`);
+ *   });
+ *
+ * @this {ServerResponse} A Node.js HTTP
+ *   {@link https://nodejs.org/api/http.html#class-httpserverresponse|ServerResponse}
+ *   instance.
+ * @param {object} params Extended Response Parameters
+ * @param {AsyncIterable<message>} params.messages Async messages to be sent
+ *   response stream will be closed
+ * @returns {Promise<void>}
+ */
+"
+`;
+
 exports[`examples Json 1`] = `
 "/**
  * @example
