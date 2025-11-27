@@ -315,11 +315,9 @@ async function formatDescription(
                   const applyGreedyWrapping = (text: string): string => {
                     const singleLine = text.replace(/\s+/g, " ");
                     const formatted = applyStandardFormatting(singleLine);
-                    const jsdocPrintWidth =
-                      options.jsdocPrintWidth ?? printWidth;
                     return breakDescriptionToLines(
                       formatted,
-                      jsdocPrintWidth,
+                      printWidth,
                       intention,
                     );
                   };
@@ -339,12 +337,10 @@ async function formatDescription(
                       .map((line) => line.trim())
                       .filter((line) => line.length > 0);
 
-                    const jsdocPrintWidth =
-                      options.jsdocPrintWidth ?? printWidth;
                     const effectiveMaxWidth =
                       tag === DESCRIPTION && tagStringLength > 0
-                        ? jsdocPrintWidth - tagStringLength
-                        : jsdocPrintWidth - intention.length;
+                        ? printWidth - tagStringLength
+                        : printWidth - intention.length;
 
                     const allLinesFit = originalLines.every(
                       (line) => line.length <= effectiveMaxWidth,

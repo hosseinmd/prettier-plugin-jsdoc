@@ -1046,13 +1046,15 @@ exports[`numbers and code in description 4`] = `
 
 exports[`printWidth 1`] = `
 "/**
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A
  *
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
- * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A
+ * A
  */
 "
 `;
