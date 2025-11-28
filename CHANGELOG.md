@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.5.0...v1.6.0) (2025-11-28)
+
+
+### Features
+
+* add balance to jsdocLineWrappingStyle ([7fd5182](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/7fd51824abcc3d37cff47a2084459d1b9220c7a0))
+* add jsdocEmptyCommentStrategy option to handle empty JSDoc comments ("keep"| "remove") "remove" is default ([86e7ebb](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/86e7ebb11f320fc8195ffe4544b26203efb126f8))
+
+
+### Bug Fixes
+
+* async plugin like tailwind ([48d56aa](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/48d56aaa647e627e7b6981621457aba6aba41bf5))
+* printWidth ([d84dcc5](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/d84dcc596d6409f53a7d7e82b5c8b8db7fbc3d5e))
+* support [@this](https://github.com/this) tag ([6663384](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/666338444c400a3f88cdbf84bf0b85128017cebe))
+
 ## [1.4.0](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.3.3...v1.4.0) (2025-10-29)
 
 
