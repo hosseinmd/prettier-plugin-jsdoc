@@ -283,18 +283,15 @@ const findPluginByParser = (parserName: string, options: ParserOptions) => {
       plugin !== null &&
       !(plugin instanceof URL) &&
       (plugin as any).name &&
+      (plugin as any).name !== "prettier-plugin-jsdoc" &&
       (plugin as any).parsers &&
+      !("jsdoc-parser" in (plugin as any).parsers) &&
       // eslint-disable-next-line no-prototype-builtins
       (plugin as any).parsers.hasOwnProperty(parserName)
     );
   }) as Plugin | undefined;
 
-  return !tsPlugin ||
-    (tsPlugin as any).name === "prettier-plugin-jsdoc" ||
-    // eslint-disable-next-line no-prototype-builtins
-    tsPlugin.parsers?.hasOwnProperty("jsdoc-parser")
-    ? undefined
-    : tsPlugin.parsers?.[parserName];
+  return !tsPlugin ? undefined : tsPlugin.parsers?.[parserName];
 };
 
 const isDefaultTag = (tag: string): boolean => TAGS_DEFAULT.includes(tag);

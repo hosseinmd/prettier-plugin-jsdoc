@@ -41,7 +41,7 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
     const prettierParse =
       findPluginByParser(parserName, options)?.parse || originalParse;
 
-    const ast = prettierParse(text, options) as AST;
+    const ast = (await prettierParse(text, options)) as AST;
 
     options = {
       ...options,
@@ -52,6 +52,11 @@ export const getParser = (originalParse: Parser["parse"], parserName: string) =>
     const eol =
       options.endOfLine === "auto" ? detectEndOfLine(text) : options.endOfLine;
     options = { ...options, endOfLine: "lf" };
+
+    // Ensure comments array exists (some plugins might not provide it)
+    if (!ast.comments) {
+      ast.comments = [];
+    }
 
     await Promise.all(
       ast.comments.map(async (comment) => {

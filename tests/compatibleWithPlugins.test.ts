@@ -10,8 +10,17 @@ function subject(code: string, options: Partial<AllOptions> = {}) {
   } as AllOptions);
 }
 
+function subjectTailwindcss(code: string, options: Partial<AllOptions> = {}) {
+  return prettier.format(code, {
+    parser: "typescript",
+    plugins: ["prettier-plugin-tailwindcss", "prettier-plugin-jsdoc"],
+    jsdocSpaces: 1,
+    ...options,
+  } as AllOptions);
+}
+
 test("Should format regular jsDoc", async () => {
-  const result = await subject(`
+  const code = `
   import b from "b"
   import {k} from "k"
   import a from "a"
@@ -38,7 +47,8 @@ test("Should format regular jsDoc", async () => {
 * @undefiendTag {number} name des
 */
 const testFunction = (text, defaultValue, optionalNumber) => true
-`);
+`;
+  const result = await subject(code);
 
   expect(result).toMatchSnapshot();
   expect(await subject(result)).toMatchSnapshot();
@@ -75,4 +85,19 @@ test("Should convert to single line if necessary", async () => {
   expect(Result1).toMatchSnapshot();
   expect(Result2).toMatchSnapshot();
   expect(Result3).toMatchSnapshot();
+});
+
+test("Should compatible with tailwindcss", async () => {
+  const code = `
+/**
+* @param {String} [arg1="defaultTest"] foo
+* @param {number} [arg2=123] the width of the rectangle
+* @param {number} [arg3= 123 ]
+* @param {number} [arg4= Foo.bar.baz ]
+* @param {number|string} [arg5=123] Something. Default is \`"wrong"\`
+*/
+  `;
+  const result = await subjectTailwindcss(code);
+
+  expect(result).toMatchSnapshot();
 });

@@ -8,7 +8,9 @@ import { parsers as typescriptParsers } from "prettier/plugins/typescript";
  */
 const preprocess = (text, options) => {
   if (
-    options.plugins.find((plugin) => plugin.name?.includes("prettier-plugin-fake"))
+    options.plugins.find((plugin) =>
+      plugin.name?.includes("prettier-plugin-fake"),
+    )
   ) {
     return `//prettier-plugin-fake\n${text}`;
   }

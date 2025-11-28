@@ -71,7 +71,8 @@
   "dependencies": {
     "binary-searching": "^2.0.5",
     "comment-parser": "^1.4.0",
-    "mdast-util-from-markdown": "^2.0.0"
+    "mdast-util-from-markdown": "^2.0.0",
+    "prettier-plugin-tailwindcss": "^0.7.1"
   },
   "engines": {
     "node": ">=14.13.1 || >=16.0.0"

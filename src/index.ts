@@ -288,7 +288,8 @@ function mergeParsers(originalParser: prettier.Parser, parserName: string) {
   return parser;
 }
 
-export { options, parsers, defaultOptions };
+const name = "prettier-plugin-jsdoc";
+export { name, options, parsers, defaultOptions };
 export type Options = Partial<JsdocOptions>;
 
 function normalizeOptions(options: prettier.ParserOptions & JsdocOptions) {
