@@ -41,11 +41,21 @@ yarn add prettier-plugin-jsdoc --dev
 
 Add `prettier-plugin-jsdoc` to your `plugins` list.
 
+**Important:** When using multiple plugins, add `prettier-plugin-jsdoc` to the **end** of the plugins list.
+
 `.prettierrc`:
 
 ```json
 {
   "plugins": ["prettier-plugin-jsdoc"]
+}
+```
+
+With other plugins:
+
+```json
+{
+  "plugins": [..., "prettier-plugin-jsdoc"]
 }
 ```
 
