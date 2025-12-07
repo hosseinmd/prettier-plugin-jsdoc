@@ -256,27 +256,32 @@ const parsers = {
 
 function mergeParsers(originalParser: prettier.Parser, parserName: string) {
   const jsDocParse = getParser(originalParser.parse, parserName) as any;
+  let hasPreprocessed = false;
 
   const jsDocPreprocess = (text: string, options: prettier.ParserOptions) => {
     normalizeOptions(options as any);
-    const tsPluginParser = findPluginByParser(parserName, options);
 
-    if (!tsPluginParser) {
-      return originalParser.preprocess
-        ? originalParser.preprocess(text, options)
-        : text;
+    // Prevent infinite recursion by checking if we've already preprocessed
+    if (hasPreprocessed) {
+      return text;
     }
 
-    const preprocess = tsPluginParser.preprocess || originalParser.preprocess;
+    hasPreprocessed = true;
+    try {
+      const tsPluginParser = findPluginByParser(parserName, options);
 
-    Object.assign(parser, {
-      ...parser,
-      ...tsPluginParser,
-      preprocess: jsDocPreprocess,
-      parse: jsDocParse,
-    });
+      if (!tsPluginParser) {
+        return originalParser.preprocess
+          ? originalParser.preprocess(text, options)
+          : text;
+      }
 
-    return preprocess ? preprocess(text, options) : text;
+      const preprocess =
+        tsPluginParser?.preprocess || originalParser.preprocess;
+      return preprocess ? preprocess(text, options) : text;
+    } finally {
+      hasPreprocessed = false;
+    }
   };
 
   const parser = {

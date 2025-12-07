@@ -1,5 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`CLI Compatibility Should format via CLI with --write flag 1`] = `
+"/**
+ * @param {number} [arg1=123] The width
+ *
+ *   Default is \`123\`
+ * @returns {void}
+ */
+function myFunc(arg1) {}
+"
+`;
+
+exports[`CLI Compatibility Should format with tailwindcss plugin via CLI without infinite recursion 1`] = `
+"/**
+ * @param {String | Number} text - Some text description
+ * @param {String} [defaultValue="defaultTest"] TODO. Default is \`"defaultTest"\`
+ * @returns {Boolean} Description for returns
+ */
+const testFunction = (text, defaultValue) => true
+"
+`;
+
+exports[`CLI Compatibility Should work with plugins in different orders via CLI 1`] = `
+"/**
+ * @param {string} name
+
+
+
+
+ * @returns {Promise<void>}
+ */
+async function example(name: string): Promise<void> {}
+"
+`;
+
+exports[`CLI Compatibility Should work with plugins in different orders via CLI 2`] = `
+"/**
+ * @param {string} name
+ * @returns {Promise<void>}
+ */
+async function example(name: string): Promise<void> {}
+"
+`;
+
 exports[`Should compatible with tailwindcss 1`] = `
 "/**
  * @param {String} [arg1="defaultTest"] Foo. Default is \`"defaultTest"\`

@@ -1,5 +1,8 @@
 import * as prettier from "prettier";
 import { AllOptions } from "../src/types";
+import { execSync } from "child_process";
+import { mkdirSync, writeFileSync, readFileSync, rmSync } from "fs";
+import { join } from "path";
 
 function subject(code: string, options: Partial<AllOptions> = {}) {
   return prettier.format(code, {
@@ -90,7 +93,7 @@ test("Should convert to single line if necessary", async () => {
 test("Should compatible with tailwindcss", async () => {
   const code = `
 /**
-* @param {String} [arg1="defaultTest"] foo
+* @param {String} [arg1="defaultTest"]        foo
 * @param {number} [arg2=123] the width of the rectangle
 * @param {number} [arg3= 123 ]
 * @param {number} [arg4= Foo.bar.baz ]
@@ -100,4 +103,135 @@ test("Should compatible with tailwindcss", async () => {
   const result = await subjectTailwindcss(code);
 
   expect(result).toMatchSnapshot();
+});
+
+describe("CLI Compatibility", () => {
+  // CLI-based tests
+  const testDir = join(process.cwd(), ".test-cli-temp");
+
+  beforeAll(() => {
+    try {
+      mkdirSync(testDir, { recursive: true });
+    } catch (err) {
+      // Directory might already exist
+    }
+  });
+
+  afterAll(() => {
+    try {
+      rmSync(testDir, { recursive: true, force: true });
+    } catch (err) {
+      // Ignore cleanup errors
+    }
+  });
+
+  function runCommand(command: string): string {
+    return execSync(`cd ${testDir} && ${command}`, {
+      timeout: 10000,
+      encoding: "utf8",
+      cwd: process.cwd(),
+    });
+  }
+
+  test("Should format with tailwindcss plugin via CLI without infinite recursion", () => {
+    const testFile = join(testDir, "test-cli-tailwind.js");
+    const configFile = join(testDir, ".prettierrc.json");
+
+    const code = `/**
+* @param {String|Number} text - some text description
+
+
+
+* @param {String} [defaultValue="defaultTest"] TODO
+* @returns {Boolean} Description for returns
+*/
+const testFunction = (text, defaultValue) => true;
+`;
+
+    const prettierConfig = {
+      semi: false,
+      tabWidth: 2,
+      printWidth: 100,
+      singleQuote: true,
+      plugins: ["prettier-plugin-tailwindcss", "prettier-plugin-jsdoc"],
+    };
+
+    writeFileSync(testFile, code);
+    writeFileSync(configFile, JSON.stringify(prettierConfig, null, 2));
+
+    const output = runCommand(
+      `npx prettier --config ".prettierrc.json" "test-cli-tailwind.js"`,
+    );
+
+    expect(output).toBeDefined();
+    expect(output).toMatchSnapshot();
+  });
+
+  test("Should format via CLI with --write flag", () => {
+    const testFile = join(testDir, "test-cli-write.js");
+    const configFile = join(testDir, ".prettierrc.json");
+
+    const code = `/**
+* @param {number} [arg1=123] the width
+
+
+
+* @returns {void}
+*/
+function myFunc(arg1) {}
+`;
+
+    const prettierConfig = {
+      semi: false,
+      plugins: ["prettier-plugin-tailwindcss", "prettier-plugin-jsdoc"],
+    };
+
+    writeFileSync(testFile, code);
+    writeFileSync(configFile, JSON.stringify(prettierConfig, null, 2));
+
+    runCommand(
+      `npx prettier --config ".prettierrc.json" --write "test-cli-write.js"`,
+    );
+
+    const formatted = readFileSync(testFile, "utf8");
+    expect(formatted).toMatchSnapshot();
+  });
+
+  test("Should work with plugins in different orders via CLI", () => {
+    const testFile = join(testDir, "test-cli-order.ts");
+    const configFile = join(testDir, ".prettierrc.json");
+
+    const code = `/**
+ * @param {string} name
+
+
+
+
+ * @returns {Promise<void>}
+ */
+async function example(name: string): Promise<void> {}
+`;
+
+    const configs = [
+      ["prettier-plugin-jsdoc", "prettier-plugin-tailwindcss"],
+      ["prettier-plugin-tailwindcss", "prettier-plugin-jsdoc"],
+    ];
+
+    configs.forEach((plugins) => {
+      const prettierConfig = {
+        parser: "typescript",
+        plugins,
+      };
+
+      writeFileSync(testFile, code);
+      writeFileSync(configFile, JSON.stringify(prettierConfig, null, 2));
+
+      const output = runCommand(
+        `npx prettier --config ".prettierrc.json" "test-cli-order.ts"`,
+      );
+
+      expect(output).toBeDefined();
+      expect(output).toMatchSnapshot();
+    });
+  });
 });
