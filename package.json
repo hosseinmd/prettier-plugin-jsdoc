@@ -42,6 +42,7 @@
     "url": "git+https://github.com/hosseinmd/prettier-plugin-jsdoc.git"
   },
   "devDependencies": {
+    "prettier-plugin-tailwindcss": "^0.7.1",
     "@commitlint/config-conventional": "^14.1.0",
     "@rollup/plugin-commonjs": "^21.0.3",
     "@rollup/plugin-json": "^4.1.0",
@@ -71,8 +72,7 @@
   "dependencies": {
     "binary-searching": "^2.0.5",
     "comment-parser": "^1.4.0",
-    "mdast-util-from-markdown": "^2.0.0",
-    "prettier-plugin-tailwindcss": "^0.7.1"
+    "mdast-util-from-markdown": "^2.0.0"
   },
   "engines": {
     "node": ">=14.13.1 || >=16.0.0"
