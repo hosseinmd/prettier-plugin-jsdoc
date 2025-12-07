@@ -892,3 +892,43 @@ test("default type parameter ", async () => {
 
   expect(await _subject(await _subject(result))).toMatchSnapshot();
 });
+
+test("Should respect jsdocBracketSpacing option (true)", async () => {
+  const result = await subject(
+    `
+/**
+ * Function with type annotations
+ * @param {string} name - The name parameter
+ * @param {number} age - The age parameter
+ * @returns {object} The result object
+ */
+function example(name, age) {}
+`,
+    { jsdocBracketSpacing: true },
+  );
+
+  expect(result).toContain("{ string }");
+  expect(result).toContain("{ number }");
+  expect(result).toContain("{ object }");
+  expect(result).toMatchSnapshot();
+});
+
+test("Should respect jsdocBracketSpacing option (false - default)", async () => {
+  const result = await subject(
+    `
+/**
+ * Function with type annotations
+ * @param {string} name - The name parameter
+ * @param {number} age - The age parameter
+ * @returns {object} The result object
+ */
+function example(name, age) {}
+`,
+    { jsdocBracketSpacing: false },
+  );
+
+  expect(result).toContain("{string}");
+  expect(result).toContain("{number}");
+  expect(result).toContain("{object}");
+  expect(result).toMatchSnapshot();
+});

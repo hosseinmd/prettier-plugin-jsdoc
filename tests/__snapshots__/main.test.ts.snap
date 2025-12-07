@@ -412,6 +412,30 @@ exports[`Should keep defined inner types 5`] = `
 "
 `;
 
+exports[`Should respect jsdocBracketSpacing option (false - default) 1`] = `
+"/**
+ * Function with type annotations
+ *
+ * @param {string} name - The name parameter
+ * @param {number} age - The age parameter
+ * @returns {object} The result object
+ */
+function example(name, age) {}
+"
+`;
+
+exports[`Should respect jsdocBracketSpacing option (true) 1`] = `
+"/**
+ * Function with type annotations
+ *
+ * @param { string } name - The name parameter
+ * @param { number } age - The age parameter
+ * @returns { object } The result object
+ */
+function example(name, age) {}
+"
+`;
+
 exports[`Sould keep complex inner types 1`] = `
 "/**
  * @param {(String | Number)[]} test Test param

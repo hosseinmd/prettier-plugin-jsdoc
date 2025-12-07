@@ -42,6 +42,7 @@ const stringify = async (
     useTabs,
     tabWidth,
     jsdocSeparateTagGroups,
+    jsdocBracketSpacing,
   } = options;
   const gap = " ".repeat(jsdocSpaces);
 
@@ -69,13 +70,17 @@ const stringify = async (
   }
   if (type) {
     const getUpdatedType = () => {
+      const wrapType = (innerType: string) => {
+        return jsdocBracketSpacing ? `{ ${innerType} }` : `{${innerType}}`;
+      };
+
       if (!isDefaultTag(tag)) {
-        return `{${type}}`;
+        return wrapType(type);
       }
 
       // The space is to improve readability in non-monospace fonts
       if (type === "[]") return "[ ]";
-      if (type === "{}") return "{ }";
+      if (type === "{}") return jsdocBracketSpacing ? "{ }" : "{}";
 
       const isAnObject = (value: string): boolean =>
         /^{.*[A-z0-9_]+ ?:.*}$/.test(value);

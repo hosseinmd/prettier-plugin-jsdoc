@@ -193,6 +193,13 @@ const options = {
     default: "remove",
     description: "How to handle empty JSDoc comment blocks",
   },
+  jsdocBracketSpacing: {
+    name: "jsdocBracketSpacing",
+    type: "boolean",
+    category: "jsdoc",
+    default: false,
+    description: "Whether to add spaces inside JSDoc type brackets.",
+  },
 } as const satisfies Record<keyof JsdocOptions, SupportOption>;
 
 const defaultOptions: JsdocOptions = {
@@ -218,6 +225,7 @@ const defaultOptions: JsdocOptions = {
   jsdocMergeImports: options.jsdocMergeImports.default,
   jsdocNamedImportLineSplitting: options.jsdocNamedImportLineSplitting.default,
   jsdocEmptyCommentStrategy: options.jsdocEmptyCommentStrategy.default,
+  jsdocBracketSpacing: options.jsdocBracketSpacing.default,
 };
 
 const parsers = {
