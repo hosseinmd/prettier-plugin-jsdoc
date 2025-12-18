@@ -277,7 +277,25 @@ async function formatCode(
 }
 
 const findPluginByParser = (parserName: string, options: ParserOptions) => {
-  const tsPlugin = options.plugins.find((plugin) => {
+  const plugins = options.plugins ?? [];
+
+  // Only consider plugins that appear *before* prettier-plugin-jsdoc.
+  // Plugins that appear after us typically wrap our parser; delegating to them
+  // from our parse/preprocess hooks can create infinite recursion.
+  const jsdocIndex = plugins.findIndex((plugin) => {
+    return (
+      typeof plugin === "object" &&
+      plugin !== null &&
+      !(plugin instanceof URL) &&
+      (plugin as any).name &&
+      (plugin as any).name === "prettier-plugin-jsdoc"
+    );
+  });
+
+  const searchPlugins =
+    jsdocIndex === -1 ? plugins : plugins.slice(0, jsdocIndex);
+
+  const tsPlugin = searchPlugins.find((plugin) => {
     return (
       typeof plugin === "object" &&
       plugin !== null &&
