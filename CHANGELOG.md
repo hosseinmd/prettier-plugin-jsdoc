@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.8.0...v1.8.1) (2026-05-26)
+
+
+### Bug Fixes
+
+* handle parser re-entry from chaining plugins ([#262](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/262)) ([a8b84fe](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/a8b84fe3a9e94d6655c8e4c288e1d925244e3644)), closes [#254](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/254)
+* improve plugin search logic to prevent infinite recursion ([#255](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/255)) ([7699758](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/7699758e78e6d9ecf7ca8eca9385b97cd717c01e))
+* respecting quote style in type imports ([#257](https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/257)) ([c930e0d](https://github.com/hosseinmd/prettier-plugin-jsdoc/commit/c930e0dbca86c3bae9e535b2721ae8b34b7c5084))
+
 ## [1.8.0](https://github.com/hosseinmd/prettier-plugin-jsdoc/compare/v1.7.1...v1.8.0) (2025-12-07)
 
 
